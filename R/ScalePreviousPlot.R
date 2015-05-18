@@ -2,6 +2,7 @@
 #' @title Return the scale of the previous plot
 #' @author Marc Girondot
 #' @return A list with xlim and ylim
+#' @family plot and barplot functions
 #' @description Return a list with the limits of the previous plot, the center, the range, and the position of label on this axe. 
 #' @examples
 #' par(xaxs="i", yaxs="i")

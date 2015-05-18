@@ -4,7 +4,6 @@
 #' @return A mcmcComposite object with all characteristics of the model and mcmc run
 #' @param n.iter Number of iterations for each chain
 #' @param parameters A data.frame with priors; see description and examples
-#' @param data The original data to fit
 #' @param likelihood The function that returns -ln likelihood using data and parameters
 #' @param n.chains Number of chains
 #' @param n.adapt Number of iteration to stabilize likelihood
@@ -12,10 +11,11 @@
 #' @param trace Or FALSE or period to show progress
 #' @param intermediate Or NULL of period to save intermediate result
 #' @param filename Name of file in which intermediate results are saved
-#' @param previous Name of file in which intermediate results are saved
-#' @description The parameters should be a dataframe with a named row for each parameter with the following columns:\cr
+#' @param previous The content of the file in which intermediate results are saved
+#' @param ... Informations to be transmitted to likelihood function
+#' @description The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
 #' \itemize{
-#'   \item Density. The density function name, example \code{dnorm}, \code{dlnorm}
+#'   \item Density. The density function name, example \code{dnorm}, \code{dlnorm}, \code{dunif}
 #'   \item Prior1. The first parameter to send to the \code{Density} function
 #'   \item Prior2. The second parameter to send to the \code{Density} function
 #'   \item SDProp. The standard error from new proposition value of this parameter
@@ -23,7 +23,7 @@
 #'   \item Max. The maximum value for this parameter
 #'   \item Init. The initial value for this parameter
 #' }
-#' This script has been deeply modified from a MCMC script by Olivier Martin (INRA, Paris-Grignon).
+#' This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).
 #' @family mcmcComposite functions
 #' @examples
 #' \dontrun{
@@ -35,7 +35,7 @@
 #' Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(0.35, 0.2), 
 #' Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
 #' row.names=c('mean', 'sd'))
-#' mcmc_run <- MHalgoGen(n.iter=10000, parameters=parameters_mcmc, data=x, 
+#' mcmc_run <- MHalgoGen(n.iter=10000, parameters=parameters_mcmc, x=x, 
 #' likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
 #' plot(mcmc_run, xlim=c(0, 20))
 #' plot(mcmc_run, xlim=c(0, 10), parameters="sd")
@@ -56,12 +56,12 @@
 #' # The n.adapt set to 1 is used to not record the first set of parameters
 #' # then it is not duplicated (as it is also the last one for 
 #' # the object mcmc_run)
-#' mcmc_run2 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x, 
+#' mcmc_run2 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, 
 #' likelihood=dnormx, n.chains=1, n.adapt=1, thin=1, trace=1)
 #' mcmc_run3 <- merge(mcmc_run, mcmc_run2)
 #' ####### no adaptation, n.adapt must be 0
 #' parameters_mcmc[,"Init"] <- c(mean(x), sd(x))
-#' mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x, 
+#' mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, 
 #' likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
 #' }
 #' @export
@@ -69,15 +69,18 @@
 # Algo Metropolis-Hastings
 # ------------------------
 
-MHalgoGen<-function(n.iter=10000, parameters=NULL, data=NULL, likelihood=NULL, 
-n.chains = 1, n.adapt = 100, thin=30, trace=FALSE, 
-intermediate=NULL, filename="intermediate.Rdata",
-previous=NULL)
+MHalgoGen<-function(likelihood=stop("A likelihood function is mandatory"), 
+                    parameters=stop("Priors are mandatory"), ..., 
+                    n.iter=10000, n.chains = 1, n.adapt = 100, thin=30, trace=FALSE, 
+                    intermediate=NULL, filename="intermediate.Rdata",
+                    previous=NULL)
+
 {
   
+  ptx <- list(...)
+  
   if (!requireNamespace("coda", quietly = TRUE)) {
-    warning("coda package is necessary for this function")
-    return()
+    stop("coda package is necessary for this function")
   }
   
 # n.iter=10000; parameters=NULL; data=NULL; likelihood=NULL; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
@@ -85,8 +88,8 @@ previous=NULL)
 
 
   
-    if (is.null(previous)) {
-	nbvar <- dim(parameters)[1]
+  if (is.null(previous)) {
+    nbvar <- dim(parameters)[1]
     deb_kk <- 1
     deb_i <- 2
     res <- as.list(NULL)
@@ -94,18 +97,17 @@ previous=NULL)
     deb_varp<-matrix(rep(NA, (nbvar+1)*(n.adapt+n.iter+2)), ncol=nbvar+1)
     colnames(deb_varp)<-c(rownames(parameters), "Ln L")
     colnames(deb_varp2)<-c(rownames(parameters), "Ln L")
-    
   } else {
-	n.iter <- previous$n.iter
-	parameters <- previous$parameters
-	data <- previous$data
-	likelihood <- previous$likelihood
-	n.chains <- previous$n.chains
-	n.adapt <- previous$n.adapt
-	thin <- previous$thin
-	trace <- previous$trace
-	intermediate <- previous$intermediate
-	filename <- previous$filename
+    n.iter <- previous$n.iter
+    parameters <- previous$parameters
+    data <- previous$data
+    likelihood <- previous$likelihood
+    n.chains <- previous$n.chains
+    n.adapt <- previous$n.adapt
+    thin <- previous$thin
+    trace <- previous$trace
+    intermediate <- previous$intermediate
+    filename <- previous$filename
     deb_kk <- previous$chain
     deb_i <- previous$iter
     res <- previous$res
@@ -118,20 +120,20 @@ previous=NULL)
     MaxL <- previous$MaxL
   }
   
-t <- as.character(trace)
-pt <- NULL
-if (t=="TRUE") {pt <- 1;tf <- TRUE}
-if (t=="FALSE") {pt <- 0;tf <- FALSE}
-if (is.null(pt)) {
-  tf <- TRUE
-  pt <- floor((n.adapt+n.iter)/trace)
-}
+  t <- as.character(trace)
+  pt <- NULL
+  if (t=="TRUE") {pt <- 1;tf <- TRUE}
+  if (t=="FALSE") {pt <- 0;tf <- FALSE}
+  if (is.null(pt)) {
+    tf <- TRUE
+    pt <- floor((n.adapt+n.iter)/trace)
+  }
+  
+  cpt_trace <- 0
+  
 
-cpt_trace <- 0
-
-
-res<-as.list(NULL)
-resL<-as.list(NULL)
+  res<-as.list(NULL)
+  resL<-as.list(NULL)
 
 for (kk in deb_kk:n.chains) {
 
@@ -152,7 +154,7 @@ colnames(deb_varp2)<-c(rownames(parameters), "Ln L")
 
 varp[1, 1:nbvar]<-as.numeric(parameters[1:nbvar, 'Init'])
 
-varp[1, "Ln L"]<- (-likelihood(data, varp[1, 1:nbvar]))
+varp[1, "Ln L"]<- -do.call(likelihood, c(ptx, list(varp[1, 1:nbvar])))
 cpt<-1
 varp2[cpt, 1:nbvar]<-varp[1, 1:nbvar]
 varp2[cpt, "Ln L"]<-varp[1, "Ln L"]
@@ -174,7 +176,7 @@ sdg=NULL
 # for(i in 1:nbvar) sdg<-c(sdg, as.numeric(parameters[i, 'SDProp']))
 sdg<-c(sdg, as.numeric(parameters[1:nbvar, 'SDProp']))
 
-previous <- NULL
+# previous <- NULL
 }
 
 
@@ -225,7 +227,7 @@ for (i in deb_i:(n.adapt+n.iter))
 		if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) 
 			{
 			logratio<-(get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=T)+
-					-likelihood(data, propvarp)-
+					-do.call(likelihood, c(ptx, list(propvarp)))-
 		        	(get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=T)+varp[i-1, "Ln L"]))
 			alpha<-min(c(1,exp(logratio)))
 			# 15/2/2015 Pour éviter des erreurs
@@ -234,8 +236,8 @@ for (i in deb_i:(n.adapt+n.iter))
 			}
 	}		
 	varp[i, 1:nbvar]<-newvarp
-	varp[i, "Ln L"]<-(-likelihood(data, newvarp))
-	
+	varp[i, "Ln L"] <- -do.call(likelihood, c(ptx, list(newvarp)))
+
 	if (MaxL["Ln L"]<varp[i, "Ln L"]) {MaxL<-varp[i,]}
   
 

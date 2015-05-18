@@ -1,7 +1,8 @@
 #' barplot_errbar plot a barplot with error bar on y
 #' @title Plot a barplot graph with error bar on y
 #' @author Marc Girondot
-#' @return Nothing
+#' @return A numeric vector (or matrix, when beside = TRUE), say mp, giving the coordinates of all the bar midpoints drawn, useful for adding to the graph.\cr
+#' If beside is true, use colMeans(mp) for the midpoints of each group of bars, see example.
 #' @param ... Parameters for barplot() such as main= or ylim=
 #' @param errbar.y The length of error bars for y. Recycled if necessary.
 #' @param errbar.y.plus The length of positive error bars for y. Recycled if necessary.
@@ -13,6 +14,7 @@
 #' @param errbar.lty Error bar line type, see par("lwd")
 #' @param errbar.col Error bar line color, see par("col")
 #' @param add If true, add the graph to the previous one.
+#' @family plot and barplot functions
 #' @description To plot data, just use it as a normal barplot but add the errbar.y 
 #' values or errbar.y.minus, errbar.y.plus if bars for y axis are 
 #' asymetric. Use y.plus and y.minus to set absolut limits for
@@ -82,4 +84,5 @@ barplot_errbar <- function(...,
              col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
   }
 
+  return(invisible(essai))
 }

@@ -2,9 +2,18 @@ THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
 Please note that only the most significant changes are reported here.
 
+            CHANGES IN VERSION 1.1    (2015-05-17)
+            
+* barplot_errbar() returns a data.frame with the centers of the bars
+* MGalgoGen() better send parameters to likelihood function
+* The lastest version can always been installed using:
+    install.packages("http://www.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
+    repos=NULL, type="source")
+
+
             CHANGES IN VERSION 1    (2015-04-07)
             
-* First version. All the functions were included before in embryogrowth or phenology packages. Changes reported for version 1 are as compared with version included in previous packages.
+* First version. All the functions were included before in embryogrowth or phenology packages. Changes reported for version 1 are as compared to versions included in previous packages.
 * New examples for mcmcComposite objects
 * Better managment of n.adapt for MHalgoGen() and this function is no more hidden
 * Add a progressbar for functions managing daily patterns of temperatures

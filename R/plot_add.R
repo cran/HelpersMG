@@ -3,6 +3,7 @@
 #' @author Marc Girondot
 #' @return Nothing
 #' @param ... Parameters for plot()
+#' @family plot and barplot functions
 #' @description To plot data, just add use it as a normal plot. It will plot 
 #' the new data without axes, or labels for axes.\cr
 #' This function is complementary to matlines() and matpoints() from package graphics.

@@ -20,6 +20,7 @@
 #' @param errbar.y.polygon If true, the errors are shown as a filed polygon.
 #' @param errbar.y.polygon.list List of parameters to be used for polygon.
 #' @param add If true, add the graph to the previous one.
+#' @family plot and barplot functions
 #' @seealso \code{barplot.errorbar}
 #' @description To plot data, just use it as a normal plot but add the errbar.x 
 #' and errbar.y values or errbar.x.minus, errbar.x.plus if bars for x axis are 
