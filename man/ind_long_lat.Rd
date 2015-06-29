@@ -9,11 +9,11 @@ ind_long_lat(ncdf = stop("The ncdf data must be supplied"), long = NA,
   name.lat = "lat")
 }
 \arguments{
-\item{ncdf}{an object read from package ncdf4, ncdf or RNetCDF}
+\item{ncdf}{An object read from package ncdf4, ncdf or RNetCDF}
 
-\item{long}{longitude in decimal format}
+\item{long}{Longitude in decimal format}
 
-\item{lat}{latitude in decimal format}
+\item{lat}{Latitude in decimal format}
 
 \item{indice.long}{Index of longitude}
 
@@ -27,7 +27,7 @@ ind_long_lat(ncdf = stop("The ncdf data must be supplied"), long = NA,
 Or the index in ncdf object from lat/longitude or inverse
 }
 \description{
-Return or the index in ncdf object from lat/longitude or inverse.
+Return or the index in ncdf object from lat/longitude or reverse.
 }
 \details{
 ind_long_lat is used to manage ncdf information

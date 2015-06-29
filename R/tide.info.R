@@ -1,37 +1,37 @@
-#' getTide gets the annual tide calendar for one particular location.
+#' tide.info gets the annual tide calendar for one particular location.
 #' @title Annual tide calendar for one particular location
 #' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
 #' @return Return a data.frame with tide calendar:\cr
 #' Level is the tide level, Tide is the High or Low Tide information and Date.Time is
 #' the date/time in POSIXlt format.
-#' @param file An html file from the site http://tides.mobilegeographics.com/
-#' @param location Code based on http://tides.mobilegeographics.com/
+#' @param file An html file from the site \code{http://tides.mobilegeographics.com/}
+#' @param location Code based on \code{http://tides.mobilegeographics.com/}
 #' @param year Year to get the calendar
 #' @param latitude The latitude of the tide information
 #' @param longitude The longitude of the tide information
 #' @param tz Timezone
-#' @description The script extract tide information from 
-#' http://tides.mobilegeographics.com/ into a data.frame.
-#' The presence of XLM package is necessary for this function.
+#' @family Periodic patterns of indices
+#' @description The script extracts tide information from \cr
+#' \code{http://tides.mobilegeographics.com/} into a data.frame.\cr
+#' The presence of XLM package is mandatory for this function.\cr
 #' @keywords Tide
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")
 #' lat <- 5.74
 #' long <- -54
-#' Awala2004 <- getTide(year=2004, longitude=long, latitude=lat, tz="America/Cayenne")
+#' Awala2004 <- tide.info(year=2004, longitude=long, latitude=lat, tz="America/Cayenne")
 #' with(Awala2004, plot(Date.Time, Level, bty="n", las=1, type="l", 
 #' xlab=paste("Year", as.POSIXlt(Date.Time[1])$year+1900), 
 #' ylab="Tide level in m"))
 #' }
 #' @export
 
-getTide <- function(file=NULL, year=as.POSIXlt(Sys.time())$year+1900, 
+tide.info <- function(file=NULL, year=as.POSIXlt(Sys.time())$year+1900, 
 	location=0, latitude=NA, longitude=NA, tz="") {
         
   if (!requireNamespace("XML", quietly = TRUE)) {
-    warning("XML package is necessary for this function")
-    return()
+    stop("XML package is necessary for this function")
   }
   
   # file=NULL; year=as.POSIXlt(Sys.time())$year+1900;location=0;latitude=NA;longitude=NA;tz=""

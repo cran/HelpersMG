@@ -2,14 +2,14 @@
 #' @title Return or the index in ncdf object from lat/longitude or inverse
 #' @author Marc Girondot
 #' @return Or the index in ncdf object from lat/longitude or inverse
-#' @param ncdf an object read from package ncdf4, ncdf or RNetCDF
-#' @param long longitude in decimal format
-#' @param lat	latitude in decimal format
+#' @param ncdf An object read from package ncdf4, ncdf or RNetCDF
+#' @param long Longitude in decimal format
+#' @param lat	Latitude in decimal format
 #' @param indice.long	Index of longitude
 #' @param indice.lat	Index of latitude
 #' @param name.lon Name of argument for longitude, default is lon
 #' @param name.lat Name of argument for latitude, default is lat
-#' @description Return or the index in ncdf object from lat/longitude or inverse.
+#' @description Return or the index in ncdf object from lat/longitude or reverse.
 #' @examples
 #' \dontrun{
 #' url <- "ftp://ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2.highres/"

@@ -1,13 +1,14 @@
 #' daily.length estimate the daily length according to latitude and date
 #' @title Estimate the time of sun rise and set according to longitude, latitude and date
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
 #' @return A vector with daily time length
 #' @param latitude The latitude at which estimate the time
 #' @param longitude The longitude at which estimate the time
 #' @param date  A vector with the time at which temperatures are recorded
-#' @description Estimate the daily length according to latitude and date\cr
+#' @family Periodic patterns of indices
+#' @description Estimate the daily length according to latitude and date.\cr
 #' Based on Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics Journal 34(4):317-321.\cr
-#' Can be compared with the function sunrise.set() of package StreamMetabolism
+#' Can be compared with the function \code{sunrise.set()} of package \code{StreamMetabolism}.
 #' @examples
 #' \dontrun{
 #' # Generate a timeserie of time

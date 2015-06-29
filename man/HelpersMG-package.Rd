@@ -15,7 +15,8 @@ show scales and wind rose in plot with change of color of text, \cr
 Metropolis-Hastings algorithm for Bayesian MCMC analysis, \cr
 plot graphs or boxplot with error bars, \cr
 search files in disk by there names or their content, \cr
-read the contents of all files from a folder at one time.\cr
+read the contents of all files from a folder at one time, \cr
+calculate IC50 for ecotoxicological studies.\cr
 The lastest version can always been installed using:\cr
 install.packages("http://www.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz",
 repos=NULL, type="source")
@@ -26,8 +27,8 @@ Helpers functions for several packages
 \tabular{ll}{
  Package: \tab HelpersMG\cr
  Type: \tab Package\cr
- Version: \tab 1.1 build 17\cr
- Date: \tab 2015-05-17\cr
+ Version: \tab 1.2 build 22\cr
+ Date: \tab 2015-06-29\cr
  License: \tab GPL (>= 2)\cr
  LazyLoad: \tab yes\cr
  }

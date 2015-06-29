@@ -17,9 +17,9 @@ sun.info(date, latitude, longitude)
 A vector with daily time length
 }
 \description{
-Estimate the daily length according to latitude and date\cr
+Estimate the daily length according to latitude and date.\cr
 Based on Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics Journal 34(4):317-321.\cr
-Can be compared with the function sunrise.set() of package StreamMetabolism
+Can be compared with the function \code{sunrise.set()} of package \code{StreamMetabolism}.
 }
 \details{
 daily.length estimate the daily length according to latitude and date
@@ -35,6 +35,11 @@ plot(date, sun.info(date, latitude=23, longitude=0)$sunrise, bty="n",
 }
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@u-psud.fr}
+}
+\seealso{
+Other Periodic patterns of indices: \code{\link{index.periodic}};
+  \code{\link{minmax.periodic}}; \code{\link{moon.info}};
+  \code{\link{tide.info}}
 }
 

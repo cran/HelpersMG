@@ -7,8 +7,9 @@
 #' @description This function is used to compares the AIC of several outputs obtained with the same data but with different set of parameters.\cr
 #' The parameters must be lists with $aic or $AIC or $value and $par elements or if AIC(element) is defined.\cr
 #' if \code{$value} and \code{$par} are present in the object, the AIC is calculated as \code{2*factor.value*value+2*length(par)}. If \code{$value} is -log(likeihood), then factor.value must be 1 and if \code{$value} is log(likeihood), then factor.value must be -1.\cr
-#' If several objects are within the same list, there AIC is summed.\cr
-#' For example, compare_AIC(g1=list(group), g2=list(separe1, separe2)) can be used to compare a single model onto two different sets of data against each set of data fited with its own set of parameters.
+#' If several objects are within the same list, their AIC are summed.\cr
+#' For example, compare_AIC(g1=list(group), g2=list(separe1, separe2)) can be used to compare a single model onto two different sets of data against each set of data fited with its own set of parameters.\cr
+#' Take a look at \code{ICtab} in package \code{bbmle} which is similar.
 #' @examples
 #' library("HelpersMG")
 #' # Here two different models are fitted

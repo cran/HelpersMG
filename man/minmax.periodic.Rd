@@ -2,25 +2,34 @@
 % Please edit documentation in R/minmax.periodic.R
 \name{minmax.periodic}
 \alias{minmax.periodic}
-\title{Search for minimum and maximum temperatures in periodic timeseries}
+\title{Search for minimum and maximum indices in periodic timeseries}
 \usage{
 minmax.periodic(time.minmax.daily = NULL, time.minmax = NULL,
-  progressbar = FALSE,
-  observed = stop("data.frame with observed temperatures"), period = 24)
+  progressbar = FALSE, observed = stop("data.frame with observed indices"),
+  period = 24, colname.time = "time", colname.index = "index",
+  colname.SD = "SD", plot = FALSE)
 }
 \arguments{
-\item{time.minmax.daily}{A named vector with Min and Max being the time in the day with minimum and maximum temperatures}
+\item{time.minmax.daily}{A named vector with Min and Max being the time in the day with minimum and maximum indices (temperature or level)}
 
-\item{time.minmax}{A name vector daily time in the day with minimum and maximum temperatures}
+\item{time.minmax}{A named vector daily with time in the day at which minimum and maximum indices are observed}
 
-\item{progressbar}{Does a progression bar must be shown}
+\item{progressbar}{Tell if a progression bar must be shown}
 
-\item{observed}{A dataframe with at least two columns: time and temperatures. A third column SD can indicate the know error in temperature}
+\item{observed}{A dataframe with at least two columns: time and temperatures. A third column SD can indicate the know error in index}
 
 \item{period}{The unit of day period (24 for hours, 24*60 for minutes)}
+
+\item{colname.time}{The name of the column for time in observed}
+
+\item{colname.index}{The name of the column for indices in observed}
+
+\item{colname.SD}{The name of the column for SD in observed}
+
+\item{plot}{If TRUE, show a plot with the different estimates}
 }
 \value{
-A data.frame with a column time, a column temperature and a column SD
+A data.frame with a column time, a column index and a column SD
 }
 \description{
 Search for minimum and maximum for periodic timeseries when only intermediate values are known.\cr
@@ -29,13 +38,16 @@ the sinusoid function, it is possible to estimate a minimum and maximum
 values using analytical algebra.\cr
 Then the average and standard deviations of all minima and maxima are evaluated.\cr
 It should be noted that any extremum can be estimated at least twice, one by
-increasing segment and one by decreasing segment. Both are used here to produce SD.
+increasing segment and one by decreasing segment. Both are used here to produce SD.\cr
+\code{time.minmax.daily} should be used when the time at which maximum and minimum indices are regular and
+\code{time.minmax} permits to define this time day by day.
 }
 \details{
-minmax.periodic search for minimum and maximum temperatures in periodic timeseries
+minmax.periodic search for minimum and maximum indices (temperatures or levels) in periodic timeseries
 }
 \examples{
 \dontrun{
+library("HelpersMG")
 # Generate a timeserie of time
 time.obs <- NULL
 for (i in 0:9) time.obs <- c(time.obs, c(0, 6, 12, 18)+i*24)
@@ -51,24 +63,28 @@ for (i in 1:(length(time.obs)-1))
 observed <- data.frame(time=time.obs, temperature=temp.obs)
 # Search for the minimum and maximum values
 r <- minmax.periodic(time.minmax.daily=c(Min=2, Max=15),
-observed=observed, period=24)
+observed=observed, period=24, colname.index="temperature")
 
 # Estimate all the temperatures for these values
-t <- temperature.periodic(minmax=r)
+t <- index.periodic(minmax=r)
 
-plot_errbar(x=t[,"time"], y=t[,"temperature"],
+plot_errbar(x=t[,"time"], y=t[,"index"],
 errbar.y=ifelse(is.na(t[,"sd"]), 0, 2*t[,"sd"]),
 type="l", las=1, bty="n", errbar.y.polygon = TRUE,
 xlab="hours", ylab="Temperatures", ylim=c(0, 35),
 errbar.y.polygon.list = list(col="grey"))
 
-plot_add(x=t[,"time"], y=t[,"temperature"], type="l")
+plot_add(x=t[,"time"], y=t[,"index"], type="l")
+
+plot_add(observed$time, observed$temperature, pch=19, cex=0.5)
 }
 }
 \author{
 Marc Girondot
 }
 \seealso{
-Other Daily patterns of temperature: \code{\link{temperature.periodic}}
+Other Periodic patterns of indices: \code{\link{index.periodic}};
+  \code{\link{moon.info}}; \code{\link{sun.info}};
+  \code{\link{tide.info}}
 }
 

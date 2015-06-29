@@ -226,7 +226,7 @@ for (i in deb_i:(n.adapt+n.iter))
 
 		if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) 
 			{
-			logratio<-(get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=T)+
+			logratio <- (get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=T)+
 					-do.call(likelihood, c(ptx, list(propvarp)))-
 		        	(get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=T)+varp[i-1, "Ln L"]))
 			alpha<-min(c(1,exp(logratio)))

@@ -2,9 +2,18 @@ THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
 Please note that only the most significant changes are reported here.
 
+            CHANGES IN VERSION 1.2    (2015-06-29)
+
+* New LD50(), predict.LD50(), logLik.LD50() and plot.LD50() functions
+* Better description for Periodic patterns of indices functions
+* plot=TRUE shows the fit using by minmax.periodic()
+* temperature.periodic() renamed index.periodic() because it can be used with tide.info()
+* moon_phase() is renamed moon.info() to be consistent with sun.info()
+* getTide() is renamed tide.info() to be consistent with sun.info()
+
             CHANGES IN VERSION 1.1    (2015-05-17)
             
-* barplot_errbar() returns a data.frame with the centers of the bars
+* barplot_errbar() returns a data.frame with the centers of the bars as barplot does
 * MGalgoGen() better send parameters to likelihood function
 * The lastest version can always been installed using:
     install.packages("http://www.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
