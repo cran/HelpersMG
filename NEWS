@@ -2,6 +2,13 @@ THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
 Please note that only the most significant changes are reported here.
 
+            CHANGES IN VERSION 1.2.1-1.2.3    (2015-10-08)
+
+* Correct a bug for LD50 fit of initial parameters
+* Correct vignette for sun.info()
+* New function wget to download a file using ftp
+* correct a bug in MHalgoGen() output
+
             CHANGES IN VERSION 1.2    (2015-06-29)
 
 * New LD50(), predict.LD50(), logLik.LD50() and plot.LD50() functions

@@ -1,12 +1,12 @@
-#' daily.length estimate the daily length according to latitude and date
-#' @title Estimate the time of sun rise and set according to longitude, latitude and date
+#' sun.info estimate the time of sunrise and sunset according to longitude, latitude and date
+#' @title Estimate the time of sunrise and sunset according to longitude, latitude and date
 #' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
-#' @return A vector with daily time length
-#' @param latitude The latitude at which estimate the time
-#' @param longitude The longitude at which estimate the time
-#' @param date  A vector with the time at which temperatures are recorded
+#' @return A data.frame with information about daily sun
+#' @param latitude The latitude at which estimate the sun fates
+#' @param longitude The longitude at which estimate the sun fates
+#' @param date  A vector with the time at which sun fates are needed
 #' @family Periodic patterns of indices
-#' @description Estimate the daily length according to latitude and date.\cr
+#' @description Estimate the sun fates according to latitude and date.\cr
 #' Based on Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics Journal 34(4):317-321.\cr
 #' Can be compared with the function \code{sunrise.set()} of package \code{StreamMetabolism}.
 #' @examples
@@ -39,7 +39,7 @@ sun.info <- function(date, latitude, longitude){
   ## with a mean of 2.4 minutes error.
   
   ## Function to convert degrees to radians
-  rad<-function(x) pi*x/180
+  rad <- function(x) pi*x/180
   
   ##Radius of the earth (km)
   R=6378
@@ -92,8 +92,6 @@ sun.info <- function(date, latitude, longitude){
   sunset.UTC.dec <- sunset.UTC$hour + sunset.UTC$min/60 + sunset.UTC$sec/3600
   df <- cbind(df, date.time.sunrise.UTC=sunrise.UTC, date.time.sunset.UTC=sunset.UTC, 
               time.sunrise.UTC=sunrise.UTC.dec, time.sunset.UTC=sunset.UTC.dec)
-  
-  
   
   return(df)
 }

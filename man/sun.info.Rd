@@ -2,27 +2,27 @@
 % Please edit documentation in R/sun.info.R
 \name{sun.info}
 \alias{sun.info}
-\title{Estimate the time of sun rise and set according to longitude, latitude and date}
+\title{Estimate the time of sunrise and sunset according to longitude, latitude and date}
 \usage{
 sun.info(date, latitude, longitude)
 }
 \arguments{
-\item{date}{A vector with the time at which temperatures are recorded}
+\item{date}{A vector with the time at which sun fates are needed}
 
-\item{latitude}{The latitude at which estimate the time}
+\item{latitude}{The latitude at which estimate the sun fates}
 
-\item{longitude}{The longitude at which estimate the time}
+\item{longitude}{The longitude at which estimate the sun fates}
 }
 \value{
-A vector with daily time length
+A data.frame with information about daily sun
 }
 \description{
-Estimate the daily length according to latitude and date.\cr
+Estimate the sun fates according to latitude and date.\cr
 Based on Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics Journal 34(4):317-321.\cr
 Can be compared with the function \code{sunrise.set()} of package \code{StreamMetabolism}.
 }
 \details{
-daily.length estimate the daily length according to latitude and date
+sun.info estimate the time of sunrise and sunset according to longitude, latitude and date
 }
 \examples{
 \dontrun{

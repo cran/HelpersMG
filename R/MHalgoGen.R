@@ -85,7 +85,8 @@ MHalgoGen<-function(likelihood=stop("A likelihood function is mandatory"),
   
 # n.iter=10000; parameters=NULL; data=NULL; likelihood=NULL; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
 # n.iter=1000; parameters=parameters_mcmc; data=x; likelihood=dnormx; n.chains=1; n.adapt=100; thin=1; trace=1
-
+  
+# n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
 
   
   if (is.null(previous)) {
@@ -97,9 +98,15 @@ MHalgoGen<-function(likelihood=stop("A likelihood function is mandatory"),
     deb_varp<-matrix(rep(NA, (nbvar+1)*(n.adapt+n.iter+2)), ncol=nbvar+1)
     colnames(deb_varp)<-c(rownames(parameters), "Ln L")
     colnames(deb_varp2)<-c(rownames(parameters), "Ln L")
+    t <- as.character(trace)
+    cpt_trace <- 0
+    res<-as.list(NULL)
+    resL<-as.list(NULL)
   } else {
     n.iter <- previous$n.iter
     parameters <- previous$parameters
+    # Initialisation
+    nbvar<-dim(parameters)[1]
     data <- previous$data
     likelihood <- previous$likelihood
     n.chains <- previous$n.chains
@@ -120,7 +127,6 @@ MHalgoGen<-function(likelihood=stop("A likelihood function is mandatory"),
     MaxL <- previous$MaxL
   }
   
-  t <- as.character(trace)
   pt <- NULL
   if (t=="TRUE") {pt <- 1;tf <- TRUE}
   if (t=="FALSE") {pt <- 0;tf <- FALSE}
@@ -129,16 +135,9 @@ MHalgoGen<-function(likelihood=stop("A likelihood function is mandatory"),
     pt <- floor((n.adapt+n.iter)/trace)
   }
   
-  cpt_trace <- 0
-  
-
-  res<-as.list(NULL)
-  resL<-as.list(NULL)
 
 for (kk in deb_kk:n.chains) {
 
-# Initialisation
-nbvar<-dim(parameters)[1]
 
 
 varp <- deb_varp
@@ -192,8 +191,7 @@ dfun<-parameters[,"Density"]
 
 
 # Itérations
-for (i in deb_i:(n.adapt+n.iter))
-{
+for (i in deb_i:(n.adapt+n.iter)) {
   
   # est-ce que je sauve où j'en suis
   if (!is.null(intermediate))

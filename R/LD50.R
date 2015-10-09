@@ -133,11 +133,11 @@ LD50 <- function(df=NULL, alive=NULL, dead=NULL, N=NULL,
     
     # Je commence toujours toujours par un glm
     if (equation=="probit") {
-      inter <- glm(cbind(dead, alive) ~ doses, family=binomial(link=probit))
+      inter <- glm(cbind(dead, alive) ~ doses, family=binomial(link="probit"))
       par["P"] <- unname(inter$coefficients["(Intercept)"])
       par["S"] <- unname(inter$coefficients["doses"])
     } else {
-      inter <- glm(cbind(dead, alive) ~ doses, family=binomial(link=logit))
+      inter <- glm(cbind(dead, alive) ~ doses, family=binomial(link="logit"))
       if (equation=="logit") {
         par["P"] <- unname(inter$coefficients["(Intercept)"])
         par["S"] <- unname(inter$coefficients["doses"])
