@@ -1,4 +1,4 @@
-#' map.scale2 Add Scale to Existing Unprojected Map
+#' newmap.scale Add Scale to Existing Unprojected Map
 #' @title Add Scale to Existing Unprojected Map
 #' @author See map.scale {maps}
 #' @return The exact calculated scale is returned.
@@ -16,12 +16,12 @@
 #' library("maps")
 #' library("HelpersMG")
 #' map("world", "China")
-#' map.scale2(col.line = "red", col="blue")
+#' newmap.scale(col.line = "red", col="blue")
 #' }
 #' @export
 
 
-map.scale2 <- function (x, y, relwidth = 0.15, metric = TRUE, ratio = TRUE, 
+newmap.scale <- function (x, y, relwidth = 0.15, metric = TRUE, ratio = TRUE, 
                         col.line = "black", ...) 
 {
   format.pretty <- function(x, digits = 2) {

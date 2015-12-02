@@ -127,10 +127,13 @@ if (Parameters[variable, "Density"]=="dunif") {
   
   br <- seq(from=decalage+shift, to=mx+shift, by=interval)
   
+  # tpt <- list(las=1, xlim=c(0,30), breaks=c(0, 1.00095, 2.0009, 3.00085, 4.0008, 5.00075, 6.0007, 7.00065, 8.0006, 9.00055, 10.0005, 11.00045, 12.0004, 13.00035, 14.0003, 15.00025, 16.0002, 17.00015, 18.0001, 19.00005, 20))
+  tpt <- list(...)
+  
 	L <- modifyList(list(ylab="Density", xlab=rownames(Parameters)[[variable]], main="", freq=FALSE, 
-	xlim=xl, breaks=br), list(x=x, ...)) 
+	xlim=xl, breaks=br), modifyList(list(x=x), tpt)) 
 } else {
-	L <- modifyList(list(ylab="Density", xlab=rownames(Parameters)[[variable]], main="", freq=FALSE), list(x=x, ...)) 
+	L <- modifyList(list(ylab="Density", xlab=rownames(Parameters)[[variable]], main="", freq=FALSE), modifyList(list(x=x), tpt)) 
 }
 
 	do.call(hist, L) 

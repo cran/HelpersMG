@@ -12,7 +12,7 @@
 #' @param intermediate Or NULL of period to save intermediate result
 #' @param filename Name of file in which intermediate results are saved
 #' @param previous The content of the file in which intermediate results are saved
-#' @param ... Informations to be transmitted to likelihood function
+#' @param ... Parameters to be transmitted to likelihood function
 #' @description The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
 #' \itemize{
 #'   \item Density. The density function name, example \code{dnorm}, \code{dlnorm}, \code{dunif}
@@ -77,17 +77,12 @@ MHalgoGen<-function(likelihood=stop("A likelihood function is mandatory"),
 
 {
   
-  ptx <- list(...)
-  
   if (!requireNamespace("coda", quietly = TRUE)) {
     stop("coda package is necessary for this function")
   }
   
-# n.iter=10000; parameters=NULL; data=NULL; likelihood=NULL; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
-# n.iter=1000; parameters=parameters_mcmc; data=x; likelihood=dnormx; n.chains=1; n.adapt=100; thin=1; trace=1
-  
-# n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
-
+# likelihood=NULL; parameters=NULL; n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
+# datax <- list()
   
   if (is.null(previous)) {
     nbvar <- dim(parameters)[1]
@@ -102,12 +97,13 @@ MHalgoGen<-function(likelihood=stop("A likelihood function is mandatory"),
     cpt_trace <- 0
     res<-as.list(NULL)
     resL<-as.list(NULL)
+    datax <- list(...)
   } else {
     n.iter <- previous$n.iter
     parameters <- previous$parameters
     # Initialisation
     nbvar<-dim(parameters)[1]
-    data <- previous$data
+    datax <- previous$datax
     likelihood <- previous$likelihood
     n.chains <- previous$n.chains
     n.adapt <- previous$n.adapt
@@ -125,6 +121,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function is mandatory"),
     resL <- previous$resL
     sdg <- previous$sdg
     MaxL <- previous$MaxL
+    t <- as.character(previous$trace)
   }
   
   pt <- NULL
@@ -153,7 +150,7 @@ colnames(deb_varp2)<-c(rownames(parameters), "Ln L")
 
 varp[1, 1:nbvar]<-as.numeric(parameters[1:nbvar, 'Init'])
 
-varp[1, "Ln L"]<- -do.call(likelihood, c(ptx, list(varp[1, 1:nbvar])))
+varp[1, "Ln L"]<- -do.call(likelihood, list(data=datax, x=varp[1, 1:nbvar]))
 cpt<-1
 varp2[cpt, 1:nbvar]<-varp[1, 1:nbvar]
 varp2[cpt, "Ln L"]<-varp[1, "Ln L"]
@@ -199,7 +196,7 @@ for (i in deb_i:(n.adapt+n.iter)) {
       itr <- list(chain=kk, iter=i, varp2=varp2, res=res, 
                   n.iter=n.iter,
                   parameters=parameters,
-                  data=data,
+                  datax=datax,
                   likelihood=likelihood,
                   n.chains=n.chains,
                   n.adapt=n.adapt,
@@ -215,6 +212,8 @@ for (i in deb_i:(n.adapt+n.iter)) {
       save(itr, file=filename)
     }
   
+  
+  ###### Pas clair si previous
     deb_i <- 2
 	newvarp<-varp[i-1, 1:nbvar]
 	for (j in 1:nbvar) {	
@@ -224,9 +223,9 @@ for (i in deb_i:(n.adapt+n.iter)) {
 
 		if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) 
 			{
-			logratio <- (get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=T)+
-					-do.call(likelihood, c(ptx, list(propvarp)))-
-		        	(get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=T)+varp[i-1, "Ln L"]))
+			logratio <- get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=T)+
+					-do.call(likelihood, list(data=datax, x=propvarp))-
+		        	(get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=T)+varp[i-1, "Ln L"])
 			alpha<-min(c(1,exp(logratio)))
 			# 15/2/2015 Pour éviter des erreurs
 			if (!is.finite(alpha)) alpha <- -1
@@ -234,7 +233,7 @@ for (i in deb_i:(n.adapt+n.iter)) {
 			}
 	}		
 	varp[i, 1:nbvar]<-newvarp
-	varp[i, "Ln L"] <- -do.call(likelihood, c(ptx, list(newvarp)))
+	varp[i, "Ln L"] <- -do.call(likelihood, list(data=datax, x=newvarp))
 
 	if (MaxL["Ln L"]<varp[i, "Ln L"]) {MaxL<-varp[i,]}
   

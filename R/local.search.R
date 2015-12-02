@@ -9,7 +9,7 @@
 #' @param ignore.stdout a logical (not NA) indicating whether messages written to 'stdout' should be ignored  (see system()).
 #' @param ignore.stderr a logical (not NA) indicating whether messages written to 'stderr' should be ignored  (see system()).
 #' @description Return path of file searched for in local disk based on its file name.\cr
-#' It has been tested only with Windows XP and MacOSX.
+#' It has been tested only with Windows XP and MacOSX. In MacOSX, you must have created the locate database first. Use OnyX utilities for this purpose.
 #' @examples
 #' \dontrun{
 #' RnwFiles <- local.search("*.Rnw")

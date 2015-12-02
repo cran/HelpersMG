@@ -1,4 +1,4 @@
-#' compassRose2 Display a compass rose
+#' newcompassRose Display a compass rose
 #' @title Display a compass rose
 #' @author modified from Jim Lemon; See compassRose {sp}
 #' @return none
@@ -10,7 +10,7 @@
 #' @param col.arrows.light The color of lighter lines
 #' @param col.arrows.dark The color of darker lines
 #' @description Displays a basic compass rose, usually to orient a map.\cr
-#' compassRose2 displays a conventional compass rose at the position requested.\cr 
+#' newcompassRose displays a conventional compass rose at the position requested.\cr 
 #' The size of the compass rose is determined by the character expansion, 
 #' as the central "rose" is calculated relative to the character size.\cr
 #' Rotation is in degrees counterclockwise.
@@ -19,12 +19,12 @@
 #' library(HelpersMG)
 #' require("maps")
 #' map("world", "China")
-#' compassRose2(x=110, y=35, col.arrows.light="grey")
+#' newcompassRose(x=110, y=35, col.arrows.light="grey")
 #' }
 #' @export
 
 
-compassRose2 <- function (x, y, rot = 0, cex = 1, col="black", 
+newcompassRose <- function (x, y, rot = 0, cex = 1, col="black", 
 	col.arrows.light="white", col.arrows.dark="black") 
 {
   oldcex <- par(cex = cex)

@@ -24,10 +24,11 @@
 #' # dta2012 <- open.nc(dest)
 #' # indices <- ind_long_lat(ncdf=dta2012, lat=5.89, long=-20.56)
 #' # coordinates <- ind_long_lat(ncdf=dta2012, indice.lat=20, indice.long=30)
-#' library("ncdf")
-#' dta2012 <- open.ncdf(dest)
-#' indices <- ind_long_lat(ncdf=dta2012, lat=5.89, long=-20.56)
-#' coordinates <- ind_long_lat(ncdf=dta2012, indice.lat=20, indice.long=30)
+#' # ncdf library is depreciated in CRAN
+#' # library("ncdf")
+#' # dta2012 <- open.ncdf(dest)
+#' # indices <- ind_long_lat(ncdf=dta2012, lat=5.89, long=-20.56)
+#' # coordinates <- ind_long_lat(ncdf=dta2012, indice.lat=20, indice.long=30)
 #' }
 #' @export
 
@@ -36,11 +37,9 @@ ind_long_lat<-function(ncdf=stop("The ncdf data must be supplied"),
                        long=NA, lat=NA, indice.long=NA, indice.lat=NA,
                        name.lon="lon", name.lat="lat") {
   
-  if (!requireNamespace("ncdf", quietly = TRUE) | 
-      !requireNamespace("ncdf4", quietly = TRUE) | 
+  if (!requireNamespace("ncdf4", quietly = TRUE) | 
       !requireNamespace("RNetCDF", quietly = TRUE)) {
-    warning("ncdf, ncdf4 or RNetCDF packages are necessary for this function")
-    return()
+    stop("ncdf4 or RNetCDF packages are necessary for this function")
   }
   
   
@@ -73,18 +72,16 @@ ind_long_lat<-function(ncdf=stop("The ncdf data must be supplied"),
   }
   
   if (class(ncdf)=="NetCDF") {
-        
- 	if (!requireNamespace("RNetCDF", quietly = TRUE)) {
-	  warning("RNetCDF package is necessary for this object")
-	  return()
-	}
-	
-    maxindicelt <- RNetCDF::dim.inq.nc(ncfile=ncdf, name.lat)$length
+    if (!requireNamespace("RNetCDF", quietly = TRUE)) {
+      stop("ncdf4 or RNetCDF packages are necessary for this function")
+    }
+    
+    maxindicelt <- getFromNamespace("dim.inq.nc", ns="RNetCDF")(ncfile=ncdf, name.lat)$length
     lt <- RNetCDF::var.get.nc(ncfile=ncdf, variable=name.lat)
     maxlt <- lt[maxindicelt]
     minlt <- lt[1]
-    maxindicelg <- RNetCDF::dim.inq.nc(ncfile=ncdf, name.lon)$length
-    lg <- RNetCDF::var.get.nc(ncfile=ncdf, variable=name.lon)
+    maxindicelg <- getFromNamespace("dim.inq.nc", ns="RNetCDF")(ncfile=ncdf, name.lon)$length
+    lg <- getFromNamespace("var.get.nc", ns="RNetCDF")(ncfile=ncdf, variable=name.lon)
     maxlg <- lg[maxindicelg]
     minlg <- lg[1]   
   }

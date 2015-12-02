@@ -18,5 +18,5 @@
 
 wget <- function(url=stop("At least one internet adress is required"), ...) {
   for (i in 1:length(url))
-    do.call(download.file, modifyList(list(url=url[i], destfile=basename(url[i])), as.list(c(...))))
+    do.call(download.file, modifyList(list(url=url[i], destfile=basename(url[i])), list(...)))
   }

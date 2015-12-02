@@ -1,18 +1,18 @@
 Package: HelpersMG
 Type: Package
 Title: Tools for Earth Meteorological Analysis
-Version: 1.2.3
-Date: 2015-10-8
+Version: 1.3.2
+Date: 2015-12-02
 Author: Marc Girondot
 Maintainer: Marc Girondot <marc.girondot@u-psud.fr>
 Depends: coda, R (>= 2.14.0)
-Suggests: RNetCDF, ncdf4, ncdf, maps, XML
+Suggests: RNetCDF, ncdf4, maps, XML
 Description: Contains many functions useful for managing 'NetCDF' files (see http://en.wikipedia.org/wiki/NetCDF), get tide levels on any point of the globe, get moon phase and time for sun rise and fall, analyse and reconstruct periodic time series of temperature with irregular sinusoidal pattern, show scales and wind rose in plot with change of color of text, Metropolis-Hastings algorithm for Bayesian MCMC analysis, plot graphs or boxplot with error bars, search files in disk by there names or their content, read the contents of all files from a folder at one time.
 License: GPL-2
 LazyData: yes
 LazyLoad: yes
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2015-10-09 05:10:05 UTC; marc
+Packaged: 2015-12-02 11:02:24 UTC; marc
 Repository: CRAN
-Date/Publication: 2015-10-09 10:28:51
+Date/Publication: 2015-12-02 14:22:18

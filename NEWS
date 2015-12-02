@@ -2,6 +2,12 @@ THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
 Please note that only the most significant changes are reported here.
 
+            CHANGES IN VERSION 1.3-1.3.2    (2015-12-02)
+            
+* Minor change for ... managing in wget() - 1.3
+* Correct a bug for MHalgoGen() when previous is used - 1.3.1
+* compassRose2() and map.scale2() are changed to newcompassRose() and newmap.scale() respectively - 1.3.2
+
             CHANGES IN VERSION 1.2.1-1.2.3    (2015-10-08)
 
 * Correct a bug for LD50 fit of initial parameters
@@ -25,7 +31,6 @@ Please note that only the most significant changes are reported here.
 * The lastest version can always been installed using:
     install.packages("http://www.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
     repos=NULL, type="source")
-
 
             CHANGES IN VERSION 1    (2015-04-07)
             
