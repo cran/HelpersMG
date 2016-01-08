@@ -255,8 +255,8 @@ for (i in deb_i:(n.adapt+n.iter)) {
 		
 }
 
-lp <- as.mcmc(varp2[(n.adapt+1):(cpt-1), 1:nbvar])
-lp <- mcmc(data=lp, start=n.adapt+1, end=n.iter+n.adapt, thin=thin)
+lp <- getFromNamespace("as.mcmc", ns="coda")(varp2[(n.adapt+1):(cpt-1), 1:nbvar])
+lp <- getFromNamespace("mcmc", ns="coda")(data=lp, start=n.adapt+1, end=n.iter+n.adapt, thin=thin)
 
 res<-c(res, list(lp))
 resL <- c(resL, list(varp2[(n.adapt+1):(cpt-1), "Ln L"]))
@@ -265,7 +265,7 @@ resL <- c(resL, list(varp2[(n.adapt+1):(cpt-1), "Ln L"]))
 
 names(res) <- 1:n.chains
 
-res <- as.mcmc.list(res)
+res <- getFromNamespace("as.mcmc.list", ns="coda")(res)
 
 cat("Best likelihood for: \n")
 for (j in 1:nbvar) {cat(paste(names(MaxL[j]), "=", MaxL[j], "\n"))}

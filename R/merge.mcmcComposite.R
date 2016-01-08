@@ -54,8 +54,7 @@
 merge.mcmcComposite <- function(x, y, ...) {
   
   if (!requireNamespace("coda", quietly = TRUE)) {
-    warning("coda package is necessary for this function")
-    return()
+    stop("coda package is necessary for this function")
   }
   
   

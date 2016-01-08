@@ -1,12 +1,17 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-Please note that only the most significant changes are reported here.
+            CHANGES IN VERSION 1.4    (2016-01-08)
 
-            CHANGES IN VERSION 1.3-1.3.2    (2015-12-02)
+* Optimization of dmnbinom() for Density of Multiple Negative Binomial distribution
+
+            CHANGES IN VERSION 1.3-1.3.4    (2016-01-07)
             
 * Minor change for ... managing in wget() - 1.3
-* Correct a bug for MHalgoGen() when previous is used - 1.3.1
+* Correct a bug for MHalgoGen() when previous parameter is used - 1.3.1
 * compassRose2() and map.scale2() are changed to newcompassRose() and newmap.scale() respectively - 1.3.2
+* new function which2D() to search within the matrix or data.frame objects - 1.3.3
+* new function modifyVector() similar to modifyList() for vectors - 1.3.3
+* new function dmnbinom() for Density of Multiple Negative Binomial distribution - 1.3.4
 
             CHANGES IN VERSION 1.2.1-1.2.3    (2015-10-08)
 
@@ -28,11 +33,11 @@ Please note that only the most significant changes are reported here.
             
 * barplot_errbar() returns a data.frame with the centers of the bars as barplot does
 * MGalgoGen() better send parameters to likelihood function
-* The lastest version can always been installed using:
-    install.packages("http://www.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
-    repos=NULL, type="source")
+* The lastest version can always been installed using: 
+  install.packages("http://www.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
+  repos=NULL, type="source")
 
-            CHANGES IN VERSION 1    (2015-04-07)
+            CHANGES IN VERSION 1.0    (2015-04-07)
             
 * First version. All the functions were included before in embryogrowth or phenology packages. Changes reported for version 1 are as compared to versions included in previous packages.
 * New examples for mcmcComposite objects

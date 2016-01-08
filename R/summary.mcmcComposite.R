@@ -47,14 +47,12 @@
 #' likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
 #' }
 #' @method summary mcmcComposite
-#' @import coda
 #' @export
 
 summary.mcmcComposite <- function(object , chain=NULL, ...) {
 
   if (!requireNamespace("coda", quietly = TRUE)) {
-    warning("coda package is necessary for this function")
-    return()
+    stop("coda package is necessary for this function")
   }
   
   

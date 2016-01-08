@@ -46,6 +46,7 @@
 #' likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
 #' }
 #' @method as.mcmc mcmcComposite
+#' @import coda
 #' @export
 
 as.mcmc.mcmcComposite <-
