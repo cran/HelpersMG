@@ -4,8 +4,8 @@
 \alias{MHalgoGen}
 \title{Monte-Carlo Markov-chain with Metropolis-Hastings algorithm}
 \usage{
-MHalgoGen(likelihood = stop("A likelihood function is mandatory"),
-  parameters = stop("Priors are mandatory"), ..., n.iter = 10000,
+MHalgoGen(likelihood = stop("A likelihood function must be supplied"),
+  parameters = stop("Priors  must be supplied"), ..., n.iter = 10000,
   n.chains = 1, n.adapt = 100, thin = 30, trace = FALSE,
   intermediate = NULL, filename = "intermediate.Rdata", previous = NULL)
 }

@@ -25,4 +25,7 @@ asc("ABCD")
 \author{
 Based on this blog: http://datadebrief.blogspot.com/2011/03/ascii-code-table-in-r.html
 }
+\seealso{
+Other Characters: \code{\link{chr}}
+}
 

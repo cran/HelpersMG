@@ -69,8 +69,8 @@
 # Algo Metropolis-Hastings
 # ------------------------
 
-MHalgoGen<-function(likelihood=stop("A likelihood function is mandatory"), 
-                    parameters=stop("Priors are mandatory"), ..., 
+MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"), 
+                    parameters=stop("Priors  must be supplied"), ..., 
                     n.iter=10000, n.chains = 1, n.adapt = 100, thin=30, trace=FALSE, 
                     intermediate=NULL, filename="intermediate.Rdata",
                     previous=NULL)
@@ -148,13 +148,13 @@ colnames(deb_varp)<-c(rownames(parameters), "Ln L")
 colnames(deb_varp2)<-c(rownames(parameters), "Ln L")
 
 
-varp[1, 1:nbvar]<-as.numeric(parameters[1:nbvar, 'Init'])
+varp[1, 1:nbvar] <- as.numeric(parameters[1:nbvar, 'Init'])
 
 varp[1, "Ln L"]<- -do.call(likelihood, list(data=datax, x=varp[1, 1:nbvar]))
 cpt<-1
-varp2[cpt, 1:nbvar]<-varp[1, 1:nbvar]
-varp2[cpt, "Ln L"]<-varp[1, "Ln L"]
-cpt<-2
+varp2[cpt, 1:nbvar] <- varp[1, 1:nbvar]
+varp2[cpt, "Ln L"] <- varp[1, "Ln L"]
+cpt <- 2
 
 
 if (trace) {

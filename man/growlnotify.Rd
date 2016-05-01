@@ -4,12 +4,10 @@
 \alias{growlnotify}
 \title{Send growl notification for MacOs X system.}
 \usage{
-growlnotify(textinfo = "", help = FALSE)
+growlnotify(textinfo = "")
 }
 \arguments{
 \item{textinfo}{Text to display in the growlnotify window}
-
-\item{help}{If TRUE, an help is displayed}
 }
 \value{
 None

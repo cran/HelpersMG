@@ -1,8 +1,24 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 1.4    (2016-01-08)
+            CHANGES IN VERSION 1.5    (2016-05-01)
 
-* Optimization of dmnbinom() for Density of Multiple Negative Binomial distribution
+* Minor update in documentation
+
+            CHANGES IN VERSION 1.4-1.4.10    (2016-03-31)
+
+* Optimization of dmnbinom() for Density of Multiple Negative Binomial distribution - 1.4
+* New function dist.entropic() to quantify complexity of set of objects - 1.4.1
+* Optimization of dmnbinom() for Density of Multiple Negative Binomial distribution when all prob are identical - 1.4.2
+* New functions rmnbinom(), pmnbinom(), qmnbinom() - 1.4.3
+* rmnbinom() works for n=1 - 1.4.4
+* xmnbinom() are renamed as xSnbinom() - 1.4.5
+* which2D() is removed because which() does the same - 1.4.6
+* read_folder() works faster - 1.4.6
+* symmetricize() function from package discontinuited ENA is added - 1.4.7
+* English edition for some vignettes - 1.4.8
+* Better initial tests for parameters of xSnbinom() - 1.4.9
+* New parameter details for dist.entropic() - 1.4.10
+* Correct problem if prob==1 in dSnbinom() - 1.4.10
 
             CHANGES IN VERSION 1.3-1.3.4    (2016-01-07)
             

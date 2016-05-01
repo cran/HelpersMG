@@ -2,37 +2,45 @@
 % Please edit documentation in R/read_folder.R
 \name{read_folder}
 \alias{read_folder}
-\title{Reads all files present in a folder and creates a list with the content of these files}
+\title{Read files present in a folder and creates a list with the content of these files}
 \usage{
-read_folder(folder = try(file.choose(), silent = TRUE), wildcard = "*.*",
-  read = read.delim, ...)
+read_folder(folder = try(file.choose(), silent = TRUE), file = NULL,
+  wildcard = "*.*", read = read.delim, ...)
 }
 \arguments{
 \item{folder}{Where to search for files; can be or a file path or a folder path}
 
-\item{wildcard}{Define which files are to be read (examples: "*.*", "*.xls", "essai*.txt")}
+\item{file}{list of files}
+
+\item{wildcard}{Define which files are to be read (examples: "*.*", "*.xls", "essai*.txt"). It can be also a vector with all filenames.}
 
 \item{read}{Function used to read file. Ex: read.delim or read.xls from gdata package}
 
 \item{...}{Parameters send to the read function}
 }
 \value{
-Return a list of the data in the files of the folder (directory for windows users)
+Return a list with the data in the files of the folder (directory for windows users)
 }
 \description{
 To create a list, the syntax is:\cr
-datalist<-read.folder(folder=".", read=read.delim, header=FALSE)\cr
-It returns NULL with a warning if the folder does not exist or is empty.\cr
+datalist <- read_folder(folder=".", read=read.delim, header=FALSE)\cr
+It returns an error if the folder does not exist.\cr
 The names of the elements of the list are the filenames.\cr
+The parameter file can be used to predefine a list of file. If file is NULL, all the files of the folder/directory are used.
 }
 \details{
-read.folder reads all files present in a folder
+read_folder reads all files present in a folder
 }
 \examples{
 \dontrun{
 library(HelpersMG)
-# Read all the files from a folder/directory
-Gratiot<-read.folder(folder=".", wildcard="*.csv", read=read.csv2)
+# Read all the .csv files from the current folder/directory
+contentaslist <- read_folder(folder=".", wildcard="*.csv", read=read.csv2)
+# Read all the files from the current folder/directory
+contentaslist <- read_folder(folder=".", wildcard="*.*", read=read.csv2)
+# Read two files from the current folder/directory
+files <- c("filename1.csv", "filename2.csv")
+contentaslist <- read_folder(folder=".", wildcard=files, read=read.csv2)
 }
 }
 \author{

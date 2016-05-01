@@ -28,7 +28,7 @@ the date/time in POSIXlt format.
 \description{
 The script extracts tide information from \cr
 \code{http://tides.mobilegeographics.com/} into a data.frame.\cr
-The presence of XLM package is mandatory for this function.\cr
+The presence of XLM package is required for this function.\cr
 }
 \details{
 tide.info gets the annual tide calendar for one particular location.

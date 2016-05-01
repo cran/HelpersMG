@@ -4,10 +4,11 @@
 #' @return A vector with ITF-8 codes of a string
 #' @param x The string to be analyzed
 #' @description Return the codes (in UTF-8) of a string.
+#' @family Characters
 #' @examples
 #' asc("abcd")
 #' asc("ABCD")
 #' @export
 
 
-asc <- function(x) { strtoi(charToRaw(x),16L) }
+asc <- function(x) {strtoi(charToRaw(x),16L) }
