@@ -20,7 +20,10 @@
 #' library(HelpersMG)
 #' require(coda)
 #' x <- rnorm(30, 10, 2)
-#' dnormx <- function(x, par) return(-sum(dnorm(x, mean=par['mean'], sd=par['sd'], log=TRUE)))
+#' dnormx <- function(data, x) {
+#'  data <- unlist(data)
+#'  return(-sum(dnorm(data, mean=x['mean'], sd=x['sd'], log=TRUE)))
+#' }
 #' parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'), 
 #' Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(1, 1), 
 #' Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
@@ -59,6 +62,8 @@
 
 plot.mcmcComposite <- function(x, ... , chain=1, parameters=1, scale.prior=FALSE, legend=TRUE) {
 
+  # chain=1; parameters=1; scale.prior=FALSE; legend=TRUE
+  
 resultMCMC <- x
 
 mcmc <- resultMCMC[["resultMCMC"]]
@@ -107,6 +112,7 @@ vals <- mcmc[[chain]][,variable]
 # vals <- vals[(length(vals)-nitercorrige):length(vals)]
 
 	x <- vals
+	tpt <- list(...)
 
 if (Parameters[variable, "Density"]=="dunif") {
   # 22/8/2014
@@ -128,7 +134,6 @@ if (Parameters[variable, "Density"]=="dunif") {
   br <- seq(from=decalage+shift, to=mx+shift, by=interval)
   
   # tpt <- list(las=1, xlim=c(0,30), breaks=c(0, 1.00095, 2.0009, 3.00085, 4.0008, 5.00075, 6.0007, 7.00065, 8.0006, 9.00055, 10.0005, 11.00045, 12.0004, 13.00035, 14.0003, 15.00025, 16.0002, 17.00015, 18.0001, 19.00005, 20))
-  tpt <- list(...)
   
 	L <- modifyList(list(ylab="Density", xlab=rownames(Parameters)[[variable]], main="", freq=FALSE, 
 	xlim=xl, breaks=br), modifyList(list(x=x), tpt)) 

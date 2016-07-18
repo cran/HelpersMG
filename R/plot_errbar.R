@@ -21,7 +21,7 @@
 #' @param errbar.y.polygon.list List of parameters to be used for polygon.
 #' @param add If true, add the graph to the previous one.
 #' @family plot and barplot functions
-#' @seealso \code{barplot.errorbar}
+#' @seealso \code{barplot_errorbar}
 #' @description To plot data, just use it as a normal plot but add the errbar.x 
 #' and errbar.y values or errbar.x.minus, errbar.x.plus if bars for x axis are 
 #' asymetric and errbar.y.minus, errbar.y.plus if bars for y axis are 
@@ -38,6 +38,11 @@
 #' plot_errbar(x=1:100, rnorm(100, 1, 2), 
 #'                	xlab="axe x", ylab="axe y", bty="n", xlim=c(1,100), 
 #'             		x.minus=x-2, x.plus=x+2)
+#' x <- 1:100
+#' plot_errbar(x=1:100, rnorm(100, 1, 2), 
+#'                	xlab="axe x", ylab="axe y", bty="n", 
+#'                	pch=21, bg="white", 
+#'             		x.minus=x-10, x.plus=x+10)
 #' x <- (1:200)/10
 #' y <- sin(x)
 #' plot_errbar(x=x, y=y, xlab="axe x", ylab="axe y", bty="n", xlim=c(1,20), 
@@ -69,25 +74,26 @@ plot_errbar <- function(...,
   # y.minus=CTE.moins
   # errbar.y.polygon=TRUE
   # errbar.y.polygon.list=list(border=NA, col=rgb(0, 0, 0, 0.5))
-  
+  # par.plot <- list(1:100, rnorm(100, 1, 2),xlab="axe x", ylab="axe y", bty="n", xlim=c(1,100));errbar.x=2; errbar.y=rnorm(100, 1, 0.1)
   
   par.plot <- list(...)
-  if (add) {
-  	s <- ScalePreviousPlot()
-  	par(new=TRUE)
-  	par.plot <- modifyList(par.plot, list(xlim=s$xlim[1:2], ylim=s$ylim[1:2], xlab="", ylab="", main="", axes=FALSE))
-  }
-  do.call(plot, par.plot) 
   
   x <- par.plot[["x"]]
-  if (is.null(x)) x <- par.plot[[1]]
+  if (is.null(x)) {
+    x <- par.plot[[1]]
+    names(par.plot)[1] <- "x"
+  }
+    
   if (is.data.frame(x) | is.matrix(x)) {
     y <- x[,2]
     x <- x[,1]
   } else {
     y <- par.plot[["y"]]
   }
-  if (is.null(y)) y <- par.plot[[2]]
+  if (is.null(y)) {
+    y <- par.plot[[2]]
+    names(par.plot)[2] <- "y"
+  }
   
   if (!is.null(x.plus)) errbar.x.plus <- x.plus-x
   if (!is.null(x.minus)) errbar.x.minus <- x-x.minus
@@ -106,6 +112,23 @@ plot_errbar <- function(...,
   if (is.null(errbar.y.plus) & !is.null(errbar.y)) {
   	errbar.y.plus <- errbar.y
   }
+  
+  if (add) {
+    s <- ScalePreviousPlot()
+    par(new=TRUE)
+    pp <- modifyList(par.plot, list(xlim=s$xlim[1:2], ylim=s$ylim[1:2], xlab="", ylab="", main="", axes=FALSE))
+  } else {
+    pp <- par.plot
+    pp <- modifyList(pp, list(x=c(min(x-ifelse(is.null(errbar.x.minus), 0, errbar.x.minus)), 
+                                        max(x+ifelse(is.null(errbar.x.plus), 0, errbar.x.plus)))
+                                    ))
+      pp <- modifyList(pp, list(y=c(min(y-ifelse(is.null(errbar.y.minus), 0, errbar.y.minus)), 
+                                          max(y+ifelse(is.null(errbar.y.plus), 0, errbar.y.plus)))
+      ))
+    }
+  
+  do.call(plot, modifyList(pp, list(type="n")))
+  
 
 if (errbar.y.polygon) {
 # je dois faire un polygon
@@ -147,5 +170,7 @@ if (errbar.y.polygon) {
              col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
   }
 }
+  
+  do.call(plot_add, par.plot)
 
 }

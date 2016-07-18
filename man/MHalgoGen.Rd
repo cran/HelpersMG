@@ -46,7 +46,8 @@ The parameters must be stored in a data.frame with named rows for each parameter
   \item Max. The maximum value for this parameter
   \item Init. The initial value for this parameter
 }
-This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).
+This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).\cr
+The likelihood function must take x parameters.
 }
 \details{
 MHalgoGen is a function to use mcmc with Metropolis-Hastings algorithm
@@ -55,13 +56,16 @@ MHalgoGen is a function to use mcmc with Metropolis-Hastings algorithm
 \dontrun{
 library(HelpersMG)
 require(coda)
-x <- rnorm(30, 10, 2)
-dnormx <- function(x, par) return(-sum(dnorm(x, mean=par['mean'], sd=par['sd'], log=TRUE)))
+val <- rnorm(30, 10, 2)
+dnormx <- function(data, x) {
+ data <- unlist(data)
+ return(-sum(dnorm(data, mean=x['mean'], sd=x['sd'], log=TRUE)))
+}
 parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'), 
 Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(0.35, 0.2), 
 Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
 row.names=c('mean', 'sd'))
-mcmc_run <- MHalgoGen(n.iter=10000, parameters=parameters_mcmc, x=x, 
+mcmc_run <- MHalgoGen(n.iter=10000, parameters=parameters_mcmc, data=val, 
 likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
 plot(mcmc_run, xlim=c(0, 20))
 plot(mcmc_run, xlim=c(0, 10), parameters="sd")

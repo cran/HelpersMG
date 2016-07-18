@@ -23,19 +23,23 @@
 #'   \item Max. The maximum value for this parameter
 #'   \item Init. The initial value for this parameter
 #' }
-#' This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).
+#' This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).\cr
+#' The likelihood function must take x parameters.
 #' @family mcmcComposite functions
 #' @examples
 #' \dontrun{
 #' library(HelpersMG)
 #' require(coda)
-#' x <- rnorm(30, 10, 2)
-#' dnormx <- function(x, par) return(-sum(dnorm(x, mean=par['mean'], sd=par['sd'], log=TRUE)))
+#' val <- rnorm(30, 10, 2)
+#' dnormx <- function(data, x) {
+#'  data <- unlist(data)
+#'  return(-sum(dnorm(data, mean=x['mean'], sd=x['sd'], log=TRUE)))
+#' }
 #' parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'), 
 #' Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(0.35, 0.2), 
 #' Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
 #' row.names=c('mean', 'sd'))
-#' mcmc_run <- MHalgoGen(n.iter=10000, parameters=parameters_mcmc, x=x, 
+#' mcmc_run <- MHalgoGen(n.iter=10000, parameters=parameters_mcmc, data=val, 
 #' likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
 #' plot(mcmc_run, xlim=c(0, 20))
 #' plot(mcmc_run, xlim=c(0, 10), parameters="sd")
@@ -150,7 +154,7 @@ colnames(deb_varp2)<-c(rownames(parameters), "Ln L")
 
 varp[1, 1:nbvar] <- as.numeric(parameters[1:nbvar, 'Init'])
 
-varp[1, "Ln L"]<- -do.call(likelihood, list(data=datax, x=varp[1, 1:nbvar]))
+varp[1, "Ln L"]<- -do.call(likelihood, modifyList(datax, list(x=varp[1, 1:nbvar])))
 cpt<-1
 varp2[cpt, 1:nbvar] <- varp[1, 1:nbvar]
 varp2[cpt, "Ln L"] <- varp[1, "Ln L"]
@@ -223,17 +227,17 @@ for (i in deb_i:(n.adapt+n.iter)) {
 
 		if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) 
 			{
-			logratio <- get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=T)+
-					-do.call(likelihood, list(data=datax, x=propvarp))-
-		        	(get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=T)+varp[i-1, "Ln L"])
+			logratio <- get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=TRUE)+
+					-do.call(likelihood, modifyList(datax, list(x=propvarp)))-
+		        	(get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=TRUE)+varp[i-1, "Ln L"])
 			alpha<-min(c(1,exp(logratio)))
 			# 15/2/2015 Pour éviter des erreurs
 			if (!is.finite(alpha)) alpha <- -1
-			if (runif(1, min=0, max=1)<=alpha) {newvarp<-propvarp} 
+			if (runif(1, min=0, max=1)<=alpha) {newvarp <- propvarp} 
 			}
 	}		
 	varp[i, 1:nbvar]<-newvarp
-	varp[i, "Ln L"] <- -do.call(likelihood, list(data=datax, x=newvarp))
+	varp[i, "Ln L"] <- -do.call(likelihood, modifyList(datax, list(x=newvarp)))
 
 	if (MaxL["Ln L"]<varp[i, "Ln L"]) {MaxL<-varp[i,]}
   

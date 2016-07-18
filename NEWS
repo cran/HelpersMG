@@ -1,8 +1,18 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 1.5    (2016-05-01)
+            CHANGES IN VERSION 1.6    (2016-07-17)
 
-* Minor update in documentation
+* Minor update in documentation - 1.5.1
+* New functions symbol.Male() and symbol.Female() - 1.5.2
+* Bug correction for plot.mcmcComposite() - 1.5.2
+* Warning when dSnbinom() return-Inf - 1.5.3
+* New function modeled.hist() - 1.5.4
+* Function dist.entropic() renamed DIx() - 1.5.5
+* Correct a bug in MHAlgoGen() that prevented the use of other parameters - 1.5.6
+* plot_errbar() shows the points afer drawing the error bars - 1.5.7
+* The scale for plot_errbar() takes into account the error bars - 1.5.7
+* Modification of DIx() index to better reflect the expectation for this index - 1.5.8
+* Two versions of the DIx() index based on version - 1.6
 
             CHANGES IN VERSION 1.4-1.4.10    (2016-03-31)
 

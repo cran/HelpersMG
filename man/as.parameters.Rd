@@ -27,7 +27,10 @@ If \code{index="last"}, the fuction will return the parameters for the last like
 library(HelpersMG)
 require(coda)
 x <- rnorm(30, 10, 2)
-dnormx <- function(x, par) return(-sum(dnorm(x, mean=par['mean'], sd=par['sd'], log=TRUE)))
+dnormx <- function(data, x) {
+ data <- unlist(data)
+ return(-sum(dnorm(data, mean=x['mean'], sd=x['sd'], log=TRUE)))
+}
 parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'), 
 Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(1, 1), 
 Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 

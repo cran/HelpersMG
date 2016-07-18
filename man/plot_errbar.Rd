@@ -72,6 +72,11 @@ x <- 1:100
 plot_errbar(x=1:100, rnorm(100, 1, 2), 
                	xlab="axe x", ylab="axe y", bty="n", xlim=c(1,100), 
             		x.minus=x-2, x.plus=x+2)
+x <- 1:100
+plot_errbar(x=1:100, rnorm(100, 1, 2), 
+               	xlab="axe x", ylab="axe y", bty="n", 
+               	pch=21, bg="white", 
+            		x.minus=x-10, x.plus=x+10)
 x <- (1:200)/10
 y <- sin(x)
 plot_errbar(x=x, y=y, xlab="axe x", ylab="axe y", bty="n", xlim=c(1,20), 
@@ -83,7 +88,7 @@ plot_errbar(x=x, y=y, xlab="axe x", ylab="axe y", bty="n", xlim=c(1,20),
 Marc Girondot
 }
 \seealso{
-\code{barplot.errorbar}
+\code{barplot_errorbar}
 
 Other plot and barplot functions: \code{\link{ScalePreviousPlot}},
   \code{\link{barplot_errbar}}, \code{\link{plot_add}}

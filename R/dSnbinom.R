@@ -109,7 +109,9 @@ dSnbinom <- function(x=stop("You must provide a x value"),
     p1 <- max(p)
     q1 <- 1-p1
     
-    R <- prod(((q*p1)/(q1*p))^(-alpha))
+    # R <- prod(((q*p1)/(q1*p))^(-alpha))
+    R <- exp(sum(log(((q*p1)/(q1*p))^(-alpha))))
+    if (R == 0) warning("Probability too low to be estimated")
     
     xi <- rep(NA, infinite)
     delta <- c(1, xi)
