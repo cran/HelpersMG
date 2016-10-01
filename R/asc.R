@@ -10,5 +10,5 @@
 #' asc("ABCD")
 #' @export
 
-
 asc <- function(x) {strtoi(charToRaw(x),16L) }
+

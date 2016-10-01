@@ -1,5 +1,14 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
+            CHANGES IN VERSION 1.7    (2016-10-01)
+
+* Change in .radioButtons_withHTML() to pass the check for CRAN - 1.7
+
+            CHANGES IN VERSION 1.6.2    (2016-08-14)
+
+* Minor update in documentation for MHAlgoGen - 1.6.1
+* New hiden function .radioButtons_withHTML() - 1.6.2
+
             CHANGES IN VERSION 1.6    (2016-07-17)
 
 * Minor update in documentation - 1.5.1
@@ -9,10 +18,10 @@ THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 * New function modeled.hist() - 1.5.4
 * Function dist.entropic() renamed DIx() - 1.5.5
 * Correct a bug in MHAlgoGen() that prevented the use of other parameters - 1.5.6
-* plot_errbar() shows the points afer drawing the error bars - 1.5.7
+* plot_errbar() plots the points afer drawing the error bars - 1.5.7
 * The scale for plot_errbar() takes into account the error bars - 1.5.7
 * Modification of DIx() index to better reflect the expectation for this index - 1.5.8
-* Two versions of the DIx() index based on version - 1.6
+* Two versions of the DIx() index based on version parameter - 1.6
 
             CHANGES IN VERSION 1.4-1.4.10    (2016-03-31)
 

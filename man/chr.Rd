@@ -7,7 +7,7 @@
 chr(n)
 }
 \arguments{
-\item{n}{The vector with codes}
+\item{n}{The code to be used to return a character}
 }
 \value{
 A string with characters defined by the codes

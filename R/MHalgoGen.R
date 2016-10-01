@@ -39,10 +39,38 @@
 #' Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(0.35, 0.2), 
 #' Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
 #' row.names=c('mean', 'sd'))
-#' mcmc_run <- MHalgoGen(n.iter=10000, parameters=parameters_mcmc, data=val, 
+#' mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, 
 #' likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
 #' plot(mcmc_run, xlim=c(0, 20))
 #' plot(mcmc_run, xlim=c(0, 10), parameters="sd")
+#' library(graphics)
+#' library(fields)
+#' # show a scatter plot of the result
+#' x <- mcmc_run$resultMCMC[[1]][, 1]
+#' y <- mcmc_run$resultMCMC[[1]][, 2]
+#' marpre <- par(mar=c(4, 4, 2, 6)+0.4)
+#' smoothScatter(x, y)
+#' # show a scale
+#' n <- matrix(0, ncol=128, nrow=128)
+#' xrange <- range(x)
+#' yrange <- range(y)
+#' for (i in 1:length(x)) {
+#'   posx <- 1+floor(127*(x[i]-xrange[1])/(xrange[2]-xrange[1]))
+#'   posy <- 1+floor(127*(y[i]-yrange[1])/(yrange[2]-yrange[1]))
+#'   n[posx, posy] <- n[posx, posy]+1
+#' }
+#' image.plot(legend.only=TRUE, zlim= c(0, max(n)), nlevel=128, 
+#'  col=colorRampPalette(c("white", blues9))(128))
+#' # Compare with a heatmap
+#' x <- seq(from=8, to=12, by=0.2)
+#' y <- seq(from=1, to=4, by=0.2)
+#' df <- expand.grid(mean=x, sd=y)
+#' df <- cbind(df, L=rep(0, length(nrow(df))))
+#' for (i in 1:nrow(df)) df[i, "L"] <- -sum(dnorm(val, df[i, 1], df[i, 2], log = TRUE))
+#' hm <- matrix(df[, "L"], nrow=length(x))
+#' par(mar = marpre)
+#' image.plot(x=x, y=y, z=hm, las=1)
+#' # Diagnostic function from coda library
 #' mcmcforcoda <- as.mcmc(mcmc_run)
 #' #' heidel.diag(mcmcforcoda)
 #' raftery.diag(mcmcforcoda)
