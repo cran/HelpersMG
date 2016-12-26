@@ -15,7 +15,7 @@ compare_AIC(..., factor.value = 1)
 A list with DeltaAIC and Akaike weight for the models.
 }
 \description{
-This function is used to compares the AIC of several outputs obtained with the same data but with different set of parameters.\cr
+This function is used to compare the AIC of several outputs obtained with the same data but with different set of parameters.\cr
 The parameters must be lists with $aic or $AIC or $value and $par elements or if AIC(element) is defined.\cr
 if \code{$value} and \code{$par} are present in the object, the AIC is calculated as \code{2*factor.value*value+2*length(par)}. If \code{$value} is -log(likeihood), then factor.value must be 1 and if \code{$value} is log(likeihood), then factor.value must be -1.\cr
 If several objects are within the same list, their AIC are summed.\cr
@@ -26,6 +26,7 @@ Take a look at \code{ICtab} in package \code{bbmle} which is similar.
 compare_AIC compares the AIC of several outputs obtained with the same data.
 }
 \examples{
+\dontrun{
 library("HelpersMG")
 # Here two different models are fitted
 x <- 1:30
@@ -47,6 +48,7 @@ y_grouped <- c(y, y2)
 d_grouped <- data.frame(x=x_grouped, y=y_grouped)
 m1_grouped <- lm(y ~ x, data=d_grouped)
 compare_AIC(separate=list(m1, m1_2), grouped=m1_grouped)
+}
 }
 \author{
 Marc Girondot

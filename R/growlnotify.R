@@ -5,8 +5,10 @@
 #' @param textinfo Text to display in the growlnotify window
 #' @description This function is used to send a notification to MacOS user.
 #' @examples 
+#' \dontrun{
 #' # If growlnotify is used on a non-mac system, it just quits.
 #' growlnotify("It works if you are on a Mac with GrowlNotify installed!")
+#' }
 #' @export
 
 

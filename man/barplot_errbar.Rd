@@ -47,6 +47,7 @@ errbar.y.minus and errbar.y.plus.
 barplot_errbar plot a barplot with error bar on y
 }
 \examples{
+\dontrun{
 barplot_errbar(rnorm(10, 10, 3), 
 	xlab="axe x", ylab="axe y", bty="n", 
 		errbar.y.plus=rnorm(10, 1, 0.1), col=rainbow(10), 
@@ -55,6 +56,7 @@ y <- rnorm(10, 10, 3)
 barplot_errbar(y, 
                	xlab="axe x", ylab="axe y", bty="n", 
             		y.plus=y+2)
+}
 }
 \author{
 Marc Girondot

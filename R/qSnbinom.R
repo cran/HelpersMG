@@ -12,9 +12,11 @@
 #' @description Quantile function for the sum of random variable with negative binomial distributions.
 #' @family Distribution of sum of random variable with negative binomial distributions
 #' @examples
+#' \dontrun{
 #' alpha <- c(2.1, 2.05, 2)
 #' mu <- c(10, 30, 20)
 #' q <- qSnbinom(p=0.1, size=alpha, mu=mu, lower.tail = TRUE)
+#' }
 #' @export
 
 qSnbinom <- function(p=stop("At least one probability must be provided"), 

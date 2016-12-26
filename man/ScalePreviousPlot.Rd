@@ -16,6 +16,7 @@ Return a list with the limits of the previous plot, the center, the range, and t
 ScalePreviousPlot returns the scale of the previous plot
 }
 \examples{
+\dontrun{
 par(xaxs="i", yaxs="i")
 plot(x=1:100, y=sin(1:100), type="l", bty="n", xlim=c(1,200), xlab="x", ylab="y")
 xlim= ScalePreviousPlot()$xlim[1:2]
@@ -30,6 +31,7 @@ text(x=ScalePreviousPlot()$xlim["label"], y=ScalePreviousPlot()$ylim["center"],
   xpd=TRUE, "Legend for Y axes", pos=3, srt=90)
 text(x=ScalePreviousPlot()$xlim["center"], y=ScalePreviousPlot()$ylim["label"], 
   xpd=TRUE, "Legend for X axes", pos=1)
+}
 }
 \author{
 Marc Girondot

@@ -19,8 +19,10 @@ This function is used to send a notification to MacOS user.
 growlnotify send growl notification for MacOs X systems.
 }
 \examples{
+\dontrun{
 # If growlnotify is used on a non-mac system, it just quits.
 growlnotify("It works if you are on a Mac with GrowlNotify installed!")
+}
 }
 \author{
 Marc Girondot

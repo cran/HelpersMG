@@ -33,9 +33,11 @@ Distribution function for the sum of random variable with negative binomial dist
 pSnbinom returns the distribution function for the sum of random variable with negative binomial distributions
 }
 \examples{
+\dontrun{
 alpha <- c(2.1, 2.05, 2)
 mu <- c(10, 30, 20)
 p <- pSnbinom(q=10, size=alpha, mu=mu, lower.tail = TRUE)
+}
 }
 \author{
 Marc Girondot

@@ -20,6 +20,7 @@ A logical TRUE or FALSE
 Return TRUE only if all elements of x are present and only once in y.\cr
 }
 \examples{
+\dontrun{
 A <- c("A", "B", "C", "D")
 B <- c("A", "B", "C", "D")
 similar(A, B)
@@ -32,6 +33,7 @@ A <- c(x="A", y="B", z="C", k="D")
 B <- c(x="A", z="C", k="D", y="B")
 similar(B, A)
 similar(A, B, test.names=TRUE)
+}
 }
 \author{
 Marc Girondot

@@ -9,6 +9,7 @@
 #' @description Random numbers for the sum of random variable with negative binomial distributions.
 #' @family Distribution of sum of random variable with negative binomial distributions
 #' @examples
+#' \dontrun{
 #' alpha <- c(2.1, 2.05, 2)
 #' mu <- c(10, 30, 20)
 #' rep <- 100000
@@ -22,6 +23,7 @@
 #' plot_add(0:300, tabledistEmpirique, type="l", col="red")
 #' legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
 #'    text.col=c("red", "black"), bty="n")
+#' }
 #' @export
 
 rSnbinom <- function(n=1, 

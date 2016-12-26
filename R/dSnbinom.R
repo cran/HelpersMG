@@ -13,6 +13,7 @@
 #' If all prob values are the same, infinite is automatically set to 0.
 #' @family Distribution of sum of random variable with negative binomial distributions
 #' @examples
+#' \dontrun{
 #' alpha <- c(1, 2, 5, 1, 2)
 #' p <- c(0.1, 0.12, 0.13, 0.14, 0.14)
 #' # Test with lower iterations: 2 or 50 rather than 10 [default]; precision is very good still with 10
@@ -67,10 +68,9 @@
 #' dSnbinomx <- function(x, par) {
 #'   -sum(dSnbinom(x=x[,2], mu=rep(par["mu"], 10), size=par["size"], log=TRUE, 
 #'                 infinite = 1000))
-#' }
-#' 
 #' fit_mu_size <- optim(par = x, fn=dSnbinomx, x=r, method="BFGS", control=c(trace=TRUE))
 #' fit_mu_size$par
+#' }
 #' @export
 
 dSnbinom <- function(x=stop("You must provide a x value"), 

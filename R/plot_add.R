@@ -8,8 +8,10 @@
 #' the new data without axes, or labels for axes.\cr
 #' This function is complementary to matlines() and matpoints() from package graphics.
 #' @examples
+#' \dontrun{
 #' plot(x=1:100, y=sin(1:100), type="l", bty="n", xlim=c(1,200), xlab="x", ylab="y")
 #' plot_add(x=1:200, y=cos(1:200), type="l", bty="n", col="red")
+#' }
 #' @export
 
 

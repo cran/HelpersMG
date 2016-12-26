@@ -25,6 +25,7 @@ Random numbers for the sum of random variable with negative binomial distributio
 rSnbinom returns random numbers for the sum of random variable with negative binomial distributions
 }
 \examples{
+\dontrun{
 alpha <- c(2.1, 2.05, 2)
 mu <- c(10, 30, 20)
 rep <- 100000
@@ -38,6 +39,7 @@ plot(0:300, dSnbinom(0:300, size=alpha, mu=mu, infinite=1000), type="h", bty="n"
 plot_add(0:300, tabledistEmpirique, type="l", col="red")
 legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
    text.col=c("red", "black"), bty="n")
+}
 }
 \author{
 Marc Girondot

@@ -27,6 +27,7 @@ Plot a male symbol in the plotting region.
 symbol.Male plot a male symbol in the plotting region
 }
 \examples{
+\dontrun{
 plot(x=1:2, y=c(10,20), type="n", bty="n", xlab="", ylab="")
 
 rayonx <- 0.01
@@ -49,6 +50,7 @@ centery <- 13
 
 symbol.Male(centerx=centerx, centery = centery, rayonx=rayonx, lwd=4, col="blue")
 symbol.Female(centerx=centerx+0.5, centery = centery, rayonx=rayonx, lwd=4, col="red")
+}
 }
 \author{
 Marc Girondot

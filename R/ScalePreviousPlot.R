@@ -5,6 +5,7 @@
 #' @family plot and barplot functions
 #' @description Return a list with the limits of the previous plot, the center, the range, and the position of label on this axe. 
 #' @examples
+#' \dontrun{
 #' par(xaxs="i", yaxs="i")
 #' plot(x=1:100, y=sin(1:100), type="l", bty="n", xlim=c(1,200), xlab="x", ylab="y")
 #' xlim= ScalePreviousPlot()$xlim[1:2]
@@ -19,6 +20,7 @@
 #'   xpd=TRUE, "Legend for Y axes", pos=3, srt=90)
 #' text(x=ScalePreviousPlot()$xlim["center"], y=ScalePreviousPlot()$ylim["label"], 
 #'   xpd=TRUE, "Legend for X axes", pos=1)
+#' }
 #' @export
 
 

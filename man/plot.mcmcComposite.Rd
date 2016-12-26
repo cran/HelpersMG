@@ -5,7 +5,10 @@
 \title{Plot the result of a mcmcComposite object}
 \usage{
 \method{plot}{mcmcComposite}(x, ..., chain = 1, parameters = 1,
-  scale.prior = FALSE, legend = TRUE)
+  scale.prior = TRUE, legend = TRUE, ylab = "Posterior density",
+  las = 1, col.prior = "red", lty.prior = 1, lwd.prior = 1,
+  col.posterior = "white", lty.posterior = 1, lwd.posterior = 1,
+  ylab.prior = "Prior density")
 }
 \arguments{
 \item{x}{A mcmcComposite object}
@@ -19,6 +22,24 @@
 \item{scale.prior}{If TRUE, the prior is scaled at the same size as posterior}
 
 \item{legend}{If FALSE, the legend is not shown}
+
+\item{ylab}{y-label for posterior}
+
+\item{las}{las parameter (orientation of y-axis graduation)}
+
+\item{col.prior}{Color for prior curve}
+
+\item{lty.prior}{Type of line for prior curve}
+
+\item{lwd.prior}{Width of line for prior curve}
+
+\item{col.posterior}{Color for posterior histogram}
+
+\item{lty.posterior}{Type of line for posterior histogram}
+
+\item{lwd.posterior}{Width of line for posterior histogram}
+
+\item{ylab.prior}{y-label for prior}
 }
 \value{
 None
@@ -30,6 +51,7 @@ The parameters to use can be called by:\cr
 \code{parameters=1:4}\cr
 \code{parameters=c("PAR1", "PAR2", "PAR5")}\cr
 \code{parameters=c(TRUE, TRUE, FALSE, TRUE)}\cr
+If scale.prior is TRUE, another scale is shown at right.
 }
 \details{
 plot.mcmcComposite plots the result of a MCMC search
@@ -47,7 +69,8 @@ parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'),
 Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(1, 1), 
 Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
 row.names=c('mean', 'sd'))
-mcmc_run <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x, 
+mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=x, 
+adaptive = TRUE,
 likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
 plot(mcmc_run, xlim=c(0, 20))
 plot(mcmc_run, xlim=c(0, 10), parameters="sd")
@@ -68,12 +91,14 @@ parameters_mcmc[,"Init"] <- lastp
 # The n.adapt set to 1 is used to not record the first set of parameters
 # then it is not duplicated (as it is also the last one for 
 # the object mcmc_run)
-mcmc_run2 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x, 
+mcmc_run2 <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=x, 
+adaptive = TRUE,
 likelihood=dnormx, n.chains=1, n.adapt=1, thin=1, trace=1)
 mcmc_run3 <- merge(mcmc_run, mcmc_run2)
 ####### no adaptation, n.adapt must be 0
 parameters_mcmc[,"Init"] <- c(mean(x), sd(x))
 mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x, 
+adaptive = TRUE,
 likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
 }
 }

@@ -9,6 +9,7 @@
 #' @description Return the theoretical value for the histogram bar based on
 #' a model of distribution.
 #' @examples
+#' \dontrun{
 #' n <- rnorm(100, mean=10, sd=2)
 #' breaks <- 0:20
 #' hist(n, breaks=breaks)
@@ -25,6 +26,7 @@
 #' 
 #' points(s$x, s$y, pch=19)
 #' lines(s$x, s$y)
+#' }
 #' @export
 
 modeled.hist <- function(breaks, FUN, ..., sum=1) {

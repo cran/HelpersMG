@@ -26,6 +26,7 @@ a model of distribution.
 modeled.hist returns the theoretical value for the histogram bar based on a model of distribution.
 }
 \examples{
+\dontrun{
 n <- rnorm(100, mean=10, sd=2)
 breaks <- 0:20
 hist(n, breaks=breaks)
@@ -42,6 +43,7 @@ s <- modeled.hist(breaks=b$breaks, FUN=plnorm, meanlog=2, sdlog=0.4, sum=100)
 
 points(s$x, s$y, pch=19)
 lines(s$x, s$y)
+}
 }
 \author{
 Marc Girondot

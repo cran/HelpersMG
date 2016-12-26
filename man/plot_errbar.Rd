@@ -65,6 +65,7 @@ The parameter errbar.y.polygon=TRUE permits to define error as an envolop for y 
 plot_errbar plot a xy graph with error bar on x and/or y
 }
 \examples{
+\dontrun{
 plot_errbar(1:100, rnorm(100, 1, 2), 
 	xlab="axe x", ylab="axe y", bty="n", xlim=c(1,100), 
 		errbar.x=2, errbar.y=rnorm(100, 1, 0.1))
@@ -83,6 +84,7 @@ plot_errbar(x=x, y=y, xlab="axe x", ylab="axe y", bty="n", xlim=c(1,20),
      y.minus=y-1, y.plus=y+1, ylim=c(-3, 3), type="l",  
 		errbar.y.polygon=TRUE, 
 		errbar.y.polygon.list=list(border=NA, col=rgb(0, 0, 0, 0.5)))
+		}
 }
 \author{
 Marc Girondot

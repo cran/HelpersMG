@@ -69,7 +69,7 @@ function(x, index="best", chain=1) {
 	
 if (index=="best") {
   pos <- which.max(L)
-  print(paste("The best likelihood has been observed at iteration", pos-tab))
+  message(paste("The best likelihood has been observed at iteration", pos-tab))
 }
 
 if (index=="last") {
@@ -78,8 +78,7 @@ if (index=="last") {
 	}
 	
 	if (is.null(pos)) {
-	  warning("index is not recognized")
-	  return()
+	  stop("index is not recognized")
 	}
 	
 	pml <- as.numeric(p[pos,])

@@ -1,8 +1,23 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 1.7    (2016-10-01)
+            CHANGES IN VERSION 1.8    (2016-12-26)
+
+* New version for CRAN - 1.8
+
+            CHANGES IN VERSION 1.7-1.7.9    (2016-12-25)
 
 * Change in .radioButtons_withHTML() to pass the check for CRAN - 1.7
+* plot.mcmccomposite() accept only one variable - 1.7.1
+* New hidden function .Arrows() - 1.7.2
+* New function r2norm() - 1.7.3
+* Acceleration of MHalgoGen() - 1.7.4
+* adaptive mcmc option for SDProp - 1.7.4
+* SDProp.end element of result list from MHalgoGen() is a named vector - 1.7.5
+* plot.mcmcComposite() shows a second scale if scale.prior is TRUE - 1.7.6
+* New function compare_BIC() - 1.7.7
+* New function table.comparison() and data.comparison() - 1.7.8
+* New shiny function compare() - 1.7.8
+* Minor change for as.parameter() - 1.7.9
 
             CHANGES IN VERSION 1.6.2    (2016-08-14)
 

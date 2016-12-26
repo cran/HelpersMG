@@ -7,7 +7,9 @@
 MHalgoGen(likelihood = stop("A likelihood function must be supplied"),
   parameters = stop("Priors  must be supplied"), ..., n.iter = 10000,
   n.chains = 1, n.adapt = 100, thin = 30, trace = FALSE,
-  intermediate = NULL, filename = "intermediate.Rdata", previous = NULL)
+  adaptive = FALSE, adaptive.lag = 500, adaptive.fun = function(x) {    
+  ifelse(x > 0.234, 1.3, 0.7) }, intermediate = NULL,
+  filename = "intermediate.Rdata", previous = NULL)
 }
 \arguments{
 \item{likelihood}{The function that returns -ln likelihood using data and parameters}
@@ -25,6 +27,12 @@ MHalgoGen(likelihood = stop("A likelihood function must be supplied"),
 \item{thin}{Interval for thinning likelihoods}
 
 \item{trace}{Or FALSE or period to show progress}
+
+\item{adaptive}{Should an adaptive process for SDProp be used}
+
+\item{adaptive.lag}{Lag to analyze the SDProp value in an adaptive context}
+
+\item{adaptive.fun}{Function used to change the SDProp}
 
 \item{intermediate}{Or NULL of period to save intermediate result}
 
@@ -47,7 +55,10 @@ The parameters must be stored in a data.frame with named rows for each parameter
   \item Init. The initial value for this parameter
 }
 This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).\cr
-The likelihood function must take x parameters.
+The likelihood function must take a parameter named x.\cr
+For adaptive mcmc, see:\cr
+Rosenthal, J. S. 2011. Optimal Proposal Distributions and Adaptive MCMC. Pages 93-112 in S. Brooks, A. Gelman, 
+G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.
 }
 \details{
 MHalgoGen is a function to use mcmc with Metropolis-Hastings algorithm
@@ -121,6 +132,18 @@ mcmc_run3 <- merge(mcmc_run, mcmc_run2)
 parameters_mcmc[,"Init"] <- c(mean(x), sd(x))
 mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, 
 likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
+# Here is how to use adaptive mcmc
+mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, adaptive = FALSE, 
+likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
+1-rejectionRate(as.mcmc(mcmc_run))
+mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, adaptive = TRUE,  
+likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
+1-rejectionRate(as.mcmc(mcmc_run))
+# To see the dynamics :
+var <- "mean"
+par(mar=c(4, 4, 1, 1)+0.4)
+plot(1:nrow(mcmc_run$resultMCMC[[1]]), mcmc_run$resultMCMC[[1]][, var], type="l", 
+       xlab="Iterations", ylab=var, bty="n", las=1)
 }
 }
 \author{

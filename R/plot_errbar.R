@@ -31,6 +31,7 @@
 #' errbar.y.plus.\cr
 #' The parameter errbar.y.polygon=TRUE permits to define error as an envolop for y axis.
 #' @examples
+#' \dontrun{
 #' plot_errbar(1:100, rnorm(100, 1, 2), 
 #'		xlab="axe x", ylab="axe y", bty="n", xlim=c(1,100), 
 #' 		errbar.x=2, errbar.y=rnorm(100, 1, 0.1))
@@ -49,7 +50,7 @@
 #'      y.minus=y-1, y.plus=y+1, ylim=c(-3, 3), type="l",  
 #' 		errbar.y.polygon=TRUE, 
 #' 		errbar.y.polygon.list=list(border=NA, col=rgb(0, 0, 0, 0.5)))
-
+#' 		}
 #' @export
 
 

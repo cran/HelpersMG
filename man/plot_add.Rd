@@ -21,8 +21,10 @@ This function is complementary to matlines() and matpoints() from package graphi
 plot_add adds a plot to a previous one
 }
 \examples{
+\dontrun{
 plot(x=1:100, y=sin(1:100), type="l", bty="n", xlim=c(1,200), xlab="x", ylab="y")
 plot_add(x=1:200, y=cos(1:200), type="l", bty="n", col="red")
+}
 }
 \author{
 Marc Girondot

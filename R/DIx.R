@@ -24,6 +24,7 @@
 #' Edwards, A.W.F., 1971. Distances between populations on the basis of gene frequencies. Biometrics 27, 873–881.\cr
 #' Shannon C.E. 1948 A mathematical theory of communication. Bell System Technical Journal 27(3), 379-423.\cr
 #' @examples
+#' \dontrun{
 #' l1 <- c(0.1, 0.1, 0.05, 0.2, 0.3, 0.25)
 #' l2 <- c(0.2, 0.3, 0.5)
 #' DIx(l1, l2)
@@ -51,6 +52,7 @@
 #' l1 <- c(0.3333, 0.3333, 0.3333)
 #' l2 <- c(0.3333, 0.3333, 0.3333)
 #' DIx(l1, l2)
+#' }
 #' @export
 
 DIx <- function(l1, l2, details=FALSE, version = 1) {

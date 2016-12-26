@@ -38,6 +38,7 @@ The Developmental Instability Index is then S * E
 DIx returns an index of quantitative asymmetry and complexity
 }
 \examples{
+\dontrun{
 l1 <- c(0.1, 0.1, 0.05, 0.2, 0.3, 0.25)
 l2 <- c(0.2, 0.3, 0.5)
 DIx(l1, l2)
@@ -65,6 +66,7 @@ DIx(l1, l2)
 l1 <- c(0.3333, 0.3333, 0.3333)
 l2 <- c(0.3333, 0.3333, 0.3333)
 DIx(l1, l2)
+}
 }
 \author{
 Marc Girondot

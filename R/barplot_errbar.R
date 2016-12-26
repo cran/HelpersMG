@@ -22,6 +22,7 @@
 #' errbar.y.minus and errbar.y.plus.
 #' @seealso \code{plot_errorbar}
 #' @examples
+#' \dontrun{
 #' barplot_errbar(rnorm(10, 10, 3), 
 #'		xlab="axe x", ylab="axe y", bty="n", 
 #' 		errbar.y.plus=rnorm(10, 1, 0.1), col=rainbow(10), 
@@ -30,6 +31,7 @@
 #' barplot_errbar(y, 
 #'                	xlab="axe x", ylab="axe y", bty="n", 
 #'             		y.plus=y+2)
+#' }
 #' @export
 
 

@@ -28,6 +28,7 @@ When phase is set to TRUE, a character representing the moon phase is returned.
 moon.info calculates the moon phase based on a date.
 }
 \examples{
+\dontrun{
 library("HelpersMG")
 moon.info(as.Date("2001-12-31"))
 moon.info(as.Date("14/04/2010", "\%d/\%m/\%Y"))
@@ -36,6 +37,7 @@ moon.info(seq(from=as.Date("2012-03-01"),
 	to=as.Date("2012-04-15"), by="days"))
 moon.info(seq(from=as.Date("2012-03-01"), 
 		to=as.Date("2012-04-15"), by="days"), phase=TRUE)
+}
 }
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}

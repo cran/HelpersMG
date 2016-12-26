@@ -11,6 +11,9 @@
 #' @param trace Or FALSE or period to show progress
 #' @param intermediate Or NULL of period to save intermediate result
 #' @param filename Name of file in which intermediate results are saved
+#' @param adaptive Should an adaptive process for SDProp be used
+#' @param adaptive.lag  Lag to analyze the SDProp value in an adaptive context
+#' @param adaptive.fun Function used to change the SDProp
 #' @param previous The content of the file in which intermediate results are saved
 #' @param ... Parameters to be transmitted to likelihood function
 #' @description The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
@@ -24,7 +27,10 @@
 #'   \item Init. The initial value for this parameter
 #' }
 #' This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).\cr
-#' The likelihood function must take x parameters.
+#' The likelihood function must take a parameter named x.\cr
+#' For adaptive mcmc, see:\cr
+#' Rosenthal, J. S. 2011. Optimal Proposal Distributions and Adaptive MCMC. Pages 93-112 in S. Brooks, A. Gelman, 
+#' G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.
 #' @family mcmcComposite functions
 #' @examples
 #' \dontrun{
@@ -95,6 +101,18 @@
 #' parameters_mcmc[,"Init"] <- c(mean(x), sd(x))
 #' mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, 
 #' likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
+#' # Here is how to use adaptive mcmc
+#' mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, adaptive = FALSE, 
+#' likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
+#' 1-rejectionRate(as.mcmc(mcmc_run))
+#' mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, adaptive = TRUE,  
+#' likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
+#' 1-rejectionRate(as.mcmc(mcmc_run))
+#' # To see the dynamics :
+#' var <- "mean"
+#' par(mar=c(4, 4, 1, 1)+0.4)
+#' plot(1:nrow(mcmc_run$resultMCMC[[1]]), mcmc_run$resultMCMC[[1]][, var], type="l", 
+#'        xlab="Iterations", ylab=var, bty="n", las=1)
 #' }
 #' @export
 
@@ -104,6 +122,8 @@
 MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"), 
                     parameters=stop("Priors  must be supplied"), ..., 
                     n.iter=10000, n.chains = 1, n.adapt = 100, thin=30, trace=FALSE, 
+                    adaptive = FALSE, adaptive.lag = 500, 
+                    adaptive.fun = function(x) {ifelse(x>0.234, 1.3, 0.7)},
                     intermediate=NULL, filename="intermediate.Rdata",
                     previous=NULL)
 
@@ -114,7 +134,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
   }
   
 # likelihood=NULL; parameters=NULL; n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
-# datax <- list()
+# datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
   
   if (is.null(previous)) {
     nbvar <- dim(parameters)[1]
@@ -129,6 +149,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     cpt_trace <- 0
     res<-as.list(NULL)
     resL<-as.list(NULL)
+    # datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
     datax <- list(...)
   } else {
     n.iter <- previous$n.iter
@@ -154,6 +175,9 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     sdg <- previous$sdg
     MaxL <- previous$MaxL
     t <- as.character(previous$trace)
+    adaptive <- previous$adaptive
+    adaptive.lag <- previous$adaptive.lag
+    adaptive.fun <- previous$adaptive.fun
   }
   
   pt <- NULL
@@ -166,8 +190,6 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
   
 
 for (kk in deb_kk:n.chains) {
-
-
 
 varp <- deb_varp
 varp2 <- deb_varp2
@@ -195,7 +217,7 @@ if (trace) {
 	cat(paste("Chain ", kk, "\n", sep=""))
 }
 
-MaxL<-varp[1,]
+MaxL <- varp[1, ]
 
 sdg=NULL
 
@@ -216,7 +238,7 @@ if (is.data.frame(parameters[,2:3])) {
   Limites<-matrix(as.numeric(parameters[,5:6]), ncol=2)
 }
 
-dfun<-parameters[,"Density"]
+dfun <- parameters[,"Density"]
 
 
 # Itérations
@@ -240,34 +262,42 @@ for (i in deb_i:(n.adapt+n.iter)) {
                   cpt=cpt,
                   cpt_trace=cpt_trace, 
                   resL=resL, 
-                  sdg=sdg, MaxL=MaxL)
+                  sdg=sdg, MaxL=MaxL, 
+                  adaptive=adaptive,
+                  adaptive.lag=adaptive.lag,
+                  adaptive.fun=adaptive.fun)
       save(itr, file=filename)
     }
   
   
   ###### Pas clair si previous
     deb_i <- 2
-	newvarp<-varp[i-1, 1:nbvar]
+    Lprevious <- LpreviousT <- varp[i-1, "Ln L"]
+	newvarp <- varp[i-1, 1:nbvar]
+	
 	for (j in 1:nbvar) {	
 		# Nouveau paramètre
-		propvarp<-newvarp
-		propvarp[j]<-propvarp[j]+rnorm(1, mean=0, sd=sdg[j])
+		propvarp <- newvarp
+		propvarp[j] <- propvarp[j]+rnorm(1, mean=0, sd=sdg[j])
 
 		if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) 
 			{
-			logratio <- get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=TRUE)+
-					-do.call(likelihood, modifyList(datax, list(x=propvarp)))-
-		        	(get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=TRUE)+varp[i-1, "Ln L"])
+		  Lprevious2 <- -do.call(likelihood, modifyList(datax, list(x=propvarp)))
+			logratio <- get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=TRUE) + Lprevious2 -
+					(get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=TRUE)+LpreviousT)
 			alpha<-min(c(1,exp(logratio)))
 			# 15/2/2015 Pour éviter des erreurs
 			if (!is.finite(alpha)) alpha <- -1
-			if (runif(1, min=0, max=1)<=alpha) {newvarp <- propvarp} 
+			if (runif(1, min=0, max=1)<=alpha) {
+			  newvarp <- propvarp
+			  LpreviousT <- Lprevious2
+			  } 
 			}
 	}		
-	varp[i, 1:nbvar]<-newvarp
-	varp[i, "Ln L"] <- -do.call(likelihood, modifyList(datax, list(x=newvarp)))
+	varp[i, 1:nbvar] <- newvarp
+	varp[i, "Ln L"] <- LpreviousT
 
-	if (MaxL["Ln L"]<varp[i, "Ln L"]) {MaxL<-varp[i,]}
+	if (MaxL["Ln L"] < varp[i, "Ln L"]) { MaxL <- varp[i,]}
   
 
 # 6/10/2012: Je stocke tout	
@@ -284,6 +314,18 @@ for (i in deb_i:(n.adapt+n.iter)) {
     }
 	}
 		
+		
+		if (adaptive) {
+		  if ((i %% adaptive.lag) == 0) {
+		    sdp <- 
+		    for (j in 1:nbvar) {
+		      dta <- varp[(i-adaptive.lag):i, j]
+		      txaccept <- sum(diff(dta)!=0)/(length(dta)-1)
+		      sdg[j] <- adaptive.fun(txaccept)*sdg[j]
+		    }
+		    # print(sdg)
+		  }
+		}
 		
 }
 
@@ -304,7 +346,7 @@ for (j in 1:nbvar) {cat(paste(names(MaxL[j]), "=", MaxL[j], "\n"))}
 
 
 
-out <- (list(resultMCMC=res, resultLnL=resL, parametersMCMC=list(parameters=parameters, n.iter=n.iter, n.chains=n.chains, n.adapt=n.adapt, thin=thin)))
+out <- (list(resultMCMC=res, resultLnL=resL, parametersMCMC=list(parameters=parameters, n.iter=n.iter, n.chains=n.chains, n.adapt=n.adapt, thin=thin, SDProp.end=structure(sdg, .Names=rownames(parameters)))))
 class(out) <- "mcmcComposite"
 return(out)
 

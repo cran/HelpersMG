@@ -10,6 +10,7 @@
 #' @description Plot a female symbol in the plotting region.
 #' @family Symbol
 #' @examples
+#' \dontrun{
 #' plot(x=1:2, y=c(10,20), type="n", bty="n", xlab="", ylab="")
 #' 
 #' rayonx <- 0.01
@@ -32,6 +33,7 @@
 #' 
 #' symbol.Male(centerx=centerx, centery = centery, rayonx=rayonx, lwd=4, col="blue")
 #' symbol.Female(centerx=centerx+0.5, centery = centery, rayonx=rayonx, lwd=4, col="red")
+#' }
 #' @export
 
 
