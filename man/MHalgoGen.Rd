@@ -146,9 +146,6 @@ plot(1:nrow(mcmc_run$resultMCMC[[1]]), mcmc_run$resultMCMC[[1]][, var], type="l"
        xlab="Iterations", ylab=var, bty="n", las=1)
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other mcmcComposite functions: \code{\link{as.mcmc.mcmcComposite}},
   \code{\link{as.parameters}},
@@ -156,4 +153,6 @@ Other mcmcComposite functions: \code{\link{as.mcmc.mcmcComposite}},
   \code{\link{plot.mcmcComposite}},
   \code{\link{summary.mcmcComposite}}
 }
-
+\author{
+Marc Girondot
+}

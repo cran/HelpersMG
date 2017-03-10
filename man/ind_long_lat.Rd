@@ -56,4 +56,3 @@ coordinates <- ind_long_lat(ncdf=dta2012, indice.lat=20, indice.long=30)
 \author{
 Marc Girondot
 }
-

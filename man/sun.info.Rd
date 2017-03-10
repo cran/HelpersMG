@@ -34,12 +34,11 @@ plot(date, sun.info(date, latitude=23, longitude=0)$sunrise, bty="n",
  las=1, type="l", xlab="Ordinal days", ylab="Sun rise in hours")
 }
 }
-\author{
-Marc Girondot \email{marc.girondot@u-psud.fr}
-}
 \seealso{
 Other Periodic patterns of indices: \code{\link{index.periodic}},
   \code{\link{minmax.periodic}}, \code{\link{moon.info}},
   \code{\link{tide.info}}
 }
-
+\author{
+Marc Girondot \email{marc.girondot@u-psud.fr}
+}

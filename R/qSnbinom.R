@@ -60,4 +60,4 @@ qSnbinom <- function(p=stop("At least one probability must be provided"),
   }, FUN.VALUE = 1.1)
   
   return(qq)
-  }
+}

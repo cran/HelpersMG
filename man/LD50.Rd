@@ -84,11 +84,10 @@ predict(LD50_DoubleRichards, doses=c(140, 170))
 plot(LD50_DoubleRichards)
 }
 }
-\author{
-Marc Girondot \email{marc.girondot@u-psud.fr}
-}
 \seealso{
 Other LD50 functions: \code{\link{logLik.LD50}},
   \code{\link{plot.LD50}}, \code{\link{predict.LD50}}
 }
-
+\author{
+Marc Girondot \email{marc.girondot@u-psud.fr}
+}

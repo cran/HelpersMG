@@ -22,10 +22,9 @@ chr returns the characters defined by the codes
 chr(65:75)
 chr(unlist(tapply(144:175, 144:175, function(x) {c(208, x)})))
 }
-\author{
-Based on this blog: http://datadebrief.blogspot.com/2011/03/ascii-code-table-in-r.html
-}
 \seealso{
 Other Characters: \code{\link{asc}}
 }
-
+\author{
+Based on this blog: http://datadebrief.blogspot.com/2011/03/ascii-code-table-in-r.html
+}

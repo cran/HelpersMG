@@ -86,13 +86,12 @@ plot_errbar(x=x, y=y, xlab="axe x", ylab="axe y", bty="n", xlim=c(1,20),
 		errbar.y.polygon.list=list(border=NA, col=rgb(0, 0, 0, 0.5)))
 		}
 }
-\author{
-Marc Girondot
-}
 \seealso{
 \code{barplot_errorbar}
 
 Other plot and barplot functions: \code{\link{ScalePreviousPlot}},
   \code{\link{barplot_errbar}}, \code{\link{plot_add}}
 }
-
+\author{
+Marc Girondot
+}

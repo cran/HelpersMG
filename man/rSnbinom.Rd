@@ -41,11 +41,10 @@ legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"),
    text.col=c("red", "black"), bty="n")
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other Distribution of sum of random variable with negative binomial distributions: \code{\link{dSnbinom}},
   \code{\link{pSnbinom}}, \code{\link{qSnbinom}}
 }
-
+\author{
+Marc Girondot
+}

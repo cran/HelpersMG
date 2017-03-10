@@ -79,12 +79,11 @@ plot_add(x=t[,"time"], y=t[,"index"], type="l")
 plot_add(observed$time, observed$temperature, pch=19, cex=0.5)
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other Periodic patterns of indices: \code{\link{index.periodic}},
   \code{\link{moon.info}}, \code{\link{sun.info}},
   \code{\link{tide.info}}
 }
-
+\author{
+Marc Girondot
+}

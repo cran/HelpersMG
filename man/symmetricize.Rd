@@ -46,4 +46,3 @@ symmetricize(mat, "avg")
 \author{
 Jeffrey D. Allen \email{Jeffrey.Allen@UTSouthwestern.edu}
 }
-

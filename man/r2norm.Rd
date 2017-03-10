@@ -34,4 +34,3 @@ hist(n)
 \author{
 Marc Girondot
 }
-

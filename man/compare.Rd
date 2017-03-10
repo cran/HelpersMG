@@ -24,4 +24,3 @@ compare()
 \author{
 Marc Girondot
 }
-

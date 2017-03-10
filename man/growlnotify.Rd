@@ -27,4 +27,3 @@ growlnotify("It works if you are on a Mac with GrowlNotify installed!")
 \author{
 Marc Girondot
 }
-

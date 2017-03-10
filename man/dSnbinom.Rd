@@ -30,8 +30,67 @@ If all prob values are the same, infinite is automatically set to 0.
 \details{
 dSnbinom returns the density for the sum of random variable with negative binomial distributions
 }
-\author{
-Marc Girondot
+\examples{
+\dontrun{
+alpha <- c(1, 2, 5, 1, 2)
+p <- c(0.1, 0.12, 0.13, 0.14, 0.14)
+# Test with lower iterations: 2 or 50 rather than 10 [default]; precision is very good still with 10
+dSnbinom(20, size=alpha, prob=p, infinite=50)
+dSnbinom(20, size=alpha, prob=p, infinite=10)
+dSnbinom(20, size=alpha, prob=p, infinite=2)
+# However it is not always the case; It depends on the parametrization (see Furman 2007)
+dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=1000)
+dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=100)
+dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=50)
+dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=10)
+dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=2)
+# Test with a single distribution
+dSnbinom(20, size=1, mu=20)
+# when only one distribution is available, it is the same as dnbinom()
+dnbinom(20, size=1, mu=20)
+# If a parameter is supplied as only one value, it is supposed to be constant
+dSnbinom(20, size=1, mu=c(14, 15, 10))
+# The function is vectorized:
+plot(0:200, dSnbinom(0:200, size=alpha, prob=p), bty="n", type="h", xlab="x", ylab="Density")
+# Comparison with simulated distribution using rep replicates
+alpha <- c(2.1, 2.05, 2)
+mu <- c(10, 30, 20)
+rep <- 100000
+distEmpirique <- rSnbinom(rep, size=alpha, mu=mu)
+tabledistEmpirique <- rep(0, 301)
+names(tabledistEmpirique) <- as.character(0:300)
+tabledistEmpirique[names(table(distEmpirique))] <- table(distEmpirique)/rep
+
+plot(0:300, dSnbinom(0:300, size=alpha, mu=mu, infinite=1000), type="h", bty="n", 
+   xlab="x", ylab="Density", ylim=c(0,0.02))
+plot_add(0:300, tabledistEmpirique, type="l", col="red")
+legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
+   text.col=c("red", "black"), bty="n")
+
+# Example with the approximation mu=mean(mu)
+plot(0:300, dSnbinom(0:300, size=alpha, mu=mu, infinite=0), type="h", bty="n", 
+   xlab="x", ylab="Density", ylim=c(0,0.02))
+plot_add(0:300, tabledistEmpirique, type="l", col="red")
+legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
+   text.col=c("red", "black"), bty="n")
+   
+# example to fit the distribution
+data <- rnbinom(1000, size=1, mu=10)
+hist(data)
+ag <- rep(1:100, 10)
+r <- aggregate(data, by=list(ag), FUN=sum)
+hist(r[,2])
+
+parx <- c(size=1, mu=10)
+
+dSnbinomx <- function(x, par) {
+  -sum(dSnbinom(x=x[,2], mu=rep(par["mu"], 10), size=par["size"], log=TRUE, 
+                infinite = 1000))
+}
+
+fit_mu_size <- optim(par = parx, fn=dSnbinomx, x=r, method="BFGS", control=c(trace=TRUE))
+fit_mu_size$par
+}
 }
 \references{
 Furman, E., 2007. On the convolution of the negative binomial random variables. Statistics & Probability Letters 77, 169-172.
@@ -40,4 +99,6 @@ Furman, E., 2007. On the convolution of the negative binomial random variables. 
 Other Distribution of sum of random variable with negative binomial distributions: \code{\link{pSnbinom}},
   \code{\link{qSnbinom}}, \code{\link{rSnbinom}}
 }
-
+\author{
+Marc Girondot
+}

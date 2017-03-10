@@ -25,10 +25,9 @@ convert.tz Convert one Date-Time from one timezone to another
 d <- as.POSIXlt("2010-01-01 17:34:20", tz="UTC")
 convert.tz(d, tz="America/Guatemala")
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Function \code{with_tz()} from \code{lubridate} package does the same. I keep it here only for compatibility with old scripts.
 }
-
+\author{
+Marc Girondot
+}

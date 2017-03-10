@@ -54,12 +54,12 @@
 
 as.mcmc.mcmcComposite <-
 function(x, ...) {
-	if (class(x)!="mcmcComposite") {
-		warning("mcmcComposite object must be provided")
-	
-	} else {
+	# if (class(x)!="mcmcComposite") {
+	# 	stop("mcmcComposite object must be provided")
+	# 
+	# } else {
 
 		return(x$resultMCMC)
-	}
+	# }
 
 }

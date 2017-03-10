@@ -28,4 +28,3 @@ modifyVector(e, c(U=10, M=30))
 \author{
 Marc Girondot
 }
-

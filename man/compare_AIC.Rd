@@ -53,4 +53,3 @@ compare_AIC(separate=list(m1, m1_2), grouped=m1_grouped)
 \author{
 Marc Girondot
 }
-

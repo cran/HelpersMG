@@ -30,11 +30,10 @@ logLik(LD50_logistic)
 AIC(LD50_logistic)
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other LD50 functions: \code{\link{LD50}},
   \code{\link{plot.LD50}}, \code{\link{predict.LD50}}
 }
-
+\author{
+Marc Girondot
+}

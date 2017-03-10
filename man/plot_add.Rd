@@ -26,11 +26,10 @@ plot(x=1:100, y=sin(1:100), type="l", bty="n", xlim=c(1,200), xlab="x", ylab="y"
 plot_add(x=1:200, y=cos(1:200), type="l", bty="n", col="red")
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other plot and barplot functions: \code{\link{ScalePreviousPlot}},
   \code{\link{barplot_errbar}}, \code{\link{plot_errbar}}
 }
-
+\author{
+Marc Girondot
+}

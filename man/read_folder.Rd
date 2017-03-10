@@ -46,4 +46,3 @@ contentaslist <- read_folder(folder=".", wildcard=files, read=read.csv2)
 \author{
 Marc Girondot
 }
-

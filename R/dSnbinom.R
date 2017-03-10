@@ -63,12 +63,14 @@
 #' r <- aggregate(data, by=list(ag), FUN=sum)
 #' hist(r[,2])
 #' 
-#' x <- c(size=1, mu=10)
+#' parx <- c(size=1, mu=10)
 #' 
 #' dSnbinomx <- function(x, par) {
 #'   -sum(dSnbinom(x=x[,2], mu=rep(par["mu"], 10), size=par["size"], log=TRUE, 
 #'                 infinite = 1000))
-#' fit_mu_size <- optim(par = x, fn=dSnbinomx, x=r, method="BFGS", control=c(trace=TRUE))
+#' }
+#' 
+#' fit_mu_size <- optim(par = parx, fn=dSnbinomx, x=r, method="BFGS", control=c(trace=TRUE))
 #' fit_mu_size$par
 #' }
 #' @export

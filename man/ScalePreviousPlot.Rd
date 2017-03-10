@@ -33,11 +33,10 @@ text(x=ScalePreviousPlot()$xlim["center"], y=ScalePreviousPlot()$ylim["label"],
   xpd=TRUE, "Legend for X axes", pos=1)
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other plot and barplot functions: \code{\link{barplot_errbar}},
   \code{\link{plot_add}}, \code{\link{plot_errbar}}
 }
-
+\author{
+Marc Girondot
+}

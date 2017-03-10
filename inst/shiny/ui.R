@@ -6,46 +6,58 @@ library(shiny)
 library(HelpersMG)
 
 # Define UI for application that draws a histogram
-shinyUI(fluidPage(
+fluidPage(
   
   # Application title
   
   wellPanel(
-    h1("Simple replacement of chi2 and t-tests", align = "center")
-    , h2("that do not use p-value", align = "center")
-    , p("This web server version v. 1.00 is a simplified version of the complete tools available ", 
-        a("here."
+    h1(HTML("The <em>w</em>-value: An alternative to <em>t</em>- and <em>&chi;<sup>2</sup></em>-tests"), align = "center")
+    , h2(HTML("that does not use <em>p</em>-value"), align = "center")
+    , p("This web server version v. 1.03 is a simplified version of the complete tools available ", 
+        a("in the HelpersMG R package."
           , href="https://cran.r-project.org/package=HelpersMG"
           , target="_blank"))
-    , p("HelpersMG package is developped by "
-        , a("Marc Girondot"
-            , href="http://max2.ese.u-psud.fr/epc/conservation/Girondot/Publications/Marc.html"
-            , target="_blank"))
+    , p(HTML("The <em>w</em>-value methodology has been developped by 
+             <a href=\"http://max2.ese.u-psud.fr/epc/conservation/Girondot/Publications/Marc.html\">Marc Girondot</a> and 
+             <a href=\"http://www.ese.u-psud.fr/article199.html\">Jean-Michel Guillon</a>."))
+    , p("Ecologie, Systématique, Evolution - Université Paris-Sud, CNRS, AgroParisTech, Université Paris Saclay, France.")
   ),
     
     # Show a plot of the generated distribution
     mainPanel(
       
-      selectInput("type", "type"
-                  , choices=as.list(c("Contingency table", "Data"))
-                  , selected = "Data", multiple = FALSE,
-                  selectize = TRUE, width = NULL, size = NULL),
-      selectInput("var.equal", "var.equal"
-                  , choices=as.list(c(FALSE, TRUE))
-                  , selected = TRUE, multiple = FALSE,
-                  selectize = TRUE, width = NULL, size = NULL),
-      selectInput("Criterion", "Criterion"
-                  , choices=as.list(c("AIC", "AICc", "BIC"))
-                  , selected = "AIC", multiple = TRUE,
-                  selectize = TRUE, width = NULL, size = NULL),
-      textInput("data", "Data to be analyzed (values separated by space and lines by ;)", "", width = "100%", 
-                placeholder=c("12.4 13.3 17.2;12.9 19.20 32.9")),
+      radioButtons("type", "What test should be done ?", 
+                   list("Data series"=1, "Homogeneity contingency table"=2, "Conformity contingency table"=3), selected=1, inline = TRUE),
+      # selectInput("type", "type"
+      #            , choices=as.list(c("Contingency table", "Data"))
+      #            , selected = "Data", multiple = FALSE,
+      #            selectize = TRUE, width = NULL, size = NULL),
+      # selectInput("var.equal", "var.equal"
+      #             , choices=as.list(c(FALSE, TRUE))
+      #             , selected = TRUE, multiple = FALSE,
+      #             selectize = TRUE, width = NULL, size = NULL),
+      uiOutput("varData"), 
+      # radioButtons("var.equal", "Do the variances of the series should be supposed equal? (for data series test)", 
+      #              list("Yes"=1, "No"=2), selected=1, inline = TRUE),
+      # selectInput("Criterion", "Criterion"
+      #             , choices=as.list(c("AIC", "AICc", "BIC"))
+      #             , selected = "AIC", multiple = TRUE,
+      #             selectize = TRUE, width = NULL, size = NULL),
+      # textInput(inputId="data", label="Data to be analyzed (values separated by space and series by \";\")", 
+      #           value="",
+      #           width = "100%", 
+      #           placeholder=c("12.4 13.3 17.2;12.9 19.20 32.9")),
+      uiOutput("typeD"), 
+      uiOutput("typeC"), 
       actionButton("goButton", "Compare"), 
+      # submitButton("Compare"),
+      h4("Results"),
       verbatimTextOutput(outputId="AW"), 
-      p("The value represents the probability that a single model for all the series is sufficient 
-        to model the data. The lower the value (close to 0), the most likely the series are different. 
-        The higher the value (close to 1) the most likely the series are similar."),
+      p("The value \"w-value=BICw(identical)=\" represents the probability that, taking into the available information, a single model for all the series is sufficient 
+        to modelize the data. The lower the value (closer to 0), the most likely the series are obtained from different distributions. 
+        The higher the value (closer to 1) the most likely the series are obtained from a single distribution."),
+      h4("Data table"), 
       tableOutput(outputId="DataOut")
     )
   )
-  )
+  

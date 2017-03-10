@@ -1,14 +1,12 @@
-#' compare_BIC compares the BIC of several outputs obtained with the same data.
-#' @title Compares the BIC of several outputs
+#' compare_AICc compares the AICc of several outputs obtained with the same data.
+#' @title Compares the AICc of several outputs
 #' @author Marc Girondot
-#' @return A list with DeltaBIC and Akaike weight for the models.
+#' @return A list with DeltaAICc and Akaike weight for the models.
 #' @param ... Successive results to be compared as lists.
 #' @param factor.value The $value of the list object is multiplied by factor.value to calculate BIC.
-#' @description This function is used to compare the BIC of several outputs obtained with the same data but with different set of parameters.\cr
+#' @description This function is used to compare the AICc of several outputs obtained with the same data but with different set of parameters.\cr
 #' Each object must have associated \code{logLik()} method with df and nobs attributes.\cr
-#' BIC for object x will be calculated as \code{2*factor.value*sum(logLik(x))+sum(attributes(logLik(x))$df)*log(attributes(logLik(x))$nobs))}.\cr
-#' When several data (i..n) are included, the global BIC is calculated as:\cr
-#' \code{2*factor.value*sum(logLik(x)) for i..n+sum(attributes(logLik(x))$df) for i..n*log(attributes(logLik(x))$nobs for i..n))}
+#' AICc for object x will be calculated as \code{2*factor.value*logLik(x)+(2*attributes(logLik(x))$df*(attributes(logLik(x))$df+1)/(attributes(logLik(x))$nobs-attributes(logLik(x))$df-1)}.\cr
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")
@@ -31,12 +29,12 @@
 #' y_grouped <- c(y, y2)
 #' d_grouped <- data.frame(x=x_grouped, y=y_grouped)
 #' m1_grouped <- lm(y ~ x, data=d_grouped)
-#' compare_BIC(separate=list(m1, m1_2), grouped=m1_grouped, factor.value=-1)
+#' compare_AICc(separate=list(m1, m1_2), grouped=m1_grouped, factor.value=-1)
 #' }
 #' @export
 
 
-compare_BIC <- function(..., factor.value=1) {
+compare_AICc <- function(..., factor.value=1) {
 
   result <- list(...)
   
@@ -53,7 +51,7 @@ compare_BIC <- function(..., factor.value=1) {
       if (l<2) {
         stop("A least two results must be provided.")
       } else {
-        bic <- NULL
+        aicc <- NULL
         name <- names(result)
         for (i in 1:l) {
           
@@ -79,18 +77,18 @@ compare_BIC <- function(..., factor.value=1) {
             sumdf <- sumdf + attributes(logLik(encours2))$df
             sumnobs <- sumnobs + attributes(logLik(encours2))$nobs
           }
-          bic <- c(bic, 2*factor.value*sumL+sumdf*log(sumnobs))	
+          aicc <- c(aicc, 2*factor.value*sumL+(2*sumdf*(sumdf+1))/(sumnobs-sumdf-1))	
         }
         
-        bestbic<-min(bic)
-        ser<-which.min(bic)
-        deltabic<-bic-bestbic
-        aw<-exp(-0.5*deltabic)
+        bestaicc<-min(aicc)
+        ser<-which.min(aicc)
+        deltaaicc<-aicc-bestaicc
+        aw<-exp(-0.5*deltaaicc)
         saw=sum(aw)
         aw<-aw/saw
         
-        out<-data.frame(cbind(BIC=bic, DeltaBIC=deltabic, Akaike_weight=aw), row.names=name)
-        print(paste("The lowest BIC (",sprintf("%.3f", bestbic) ,") is for series ", name[ser], " with Akaike weight=", sprintf("%.3f", aw[ser]), sep=""))
+        out<-data.frame(cbind(AICc=aicc, DeltaAICc=deltaaicc, Akaike_weight=aw), row.names=name)
+        print(paste("The lowest AICc (",sprintf("%.3f", bestaicc) ,") is for series ", name[ser], " with Akaike weight=", sprintf("%.3f", aw[ser]), sep=""))
         
         return(out)
       }

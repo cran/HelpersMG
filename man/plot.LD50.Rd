@@ -49,9 +49,6 @@ predict(LD50_logistic, doses=c(140, 170))
 plot(LD50_logistic)
 }
 }
-\author{
-Marc Girondot
-}
 \references{
 Girondot, M. 1999. Statistical description of temperature-dependent sex determination using maximum likelihood. Evolutionary Ecology Research, 1, 479-486.
 
@@ -65,4 +62,6 @@ Girondot M., Submited. On the concept of embryological thermosensitive period fo
 Other LD50 functions: \code{\link{LD50}},
   \code{\link{logLik.LD50}}, \code{\link{predict.LD50}}
 }
-
+\author{
+Marc Girondot
+}

@@ -25,4 +25,3 @@ clean.knitr()
 \author{
 Marc Girondot
 }
-

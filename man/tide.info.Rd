@@ -44,13 +44,12 @@ xlab=paste("Year", as.POSIXlt(Date.Time[1])$year+1900),
 ylab="Tide level in m"))
 }
 }
-\author{
-Marc Girondot \email{marc.girondot@u-psud.fr}
-}
 \seealso{
 Other Periodic patterns of indices: \code{\link{index.periodic}},
   \code{\link{minmax.periodic}}, \code{\link{moon.info}},
   \code{\link{sun.info}}
 }
+\author{
+Marc Girondot \email{marc.girondot@u-psud.fr}
+}
 \keyword{Tide}
-

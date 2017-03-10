@@ -48,4 +48,3 @@ lines(s$x, s$y)
 \author{
 Marc Girondot
 }
-

@@ -54,8 +54,7 @@
 #' @export
 
 
-as.parameters <-
-function(x, index="best", chain=1) {
+as.parameters <- function(x, index="best", chain=1) {
 
 	L <- x$resultLnL[[chain]]
 	p <- x$resultMCMC[,][[chain]]

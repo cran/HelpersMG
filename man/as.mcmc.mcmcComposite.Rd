@@ -63,9 +63,6 @@ mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x,
 likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other mcmcComposite functions: \code{\link{MHalgoGen}},
   \code{\link{as.parameters}},
@@ -73,4 +70,6 @@ Other mcmcComposite functions: \code{\link{MHalgoGen}},
   \code{\link{plot.mcmcComposite}},
   \code{\link{summary.mcmcComposite}}
 }
-
+\author{
+Marc Girondot
+}

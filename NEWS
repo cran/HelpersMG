@@ -1,8 +1,22 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 1.8    (2016-12-26)
+            CHANGES IN VERSION 1.9    (2017-03-10)
+
+* New version for CRAN - 1.9
+
+            CHANGES IN VERSION 1.8-1.8.10    (2017-02-17)
 
 * New version for CRAN - 1.8
+* New version of the shiny compare - 1.8.1
+* Functions contingencyTable.compare() and series.compare() - 1.8.2
+* Allow NA in data.frame send to series.compare() - 1.8.3
+* Example for dSnbinom() is added - 1.8.4
+* Minor change in compare() and mcmc functions - 1.8.5
+* Cosmetic change in compare() - 1.8.6 
+* New hidden function for non-linear estimation of confidence interval - 1.8.7
+* New hidden functions to estimate random number with vcov matrix - 1.8.8
+* Remove the last change (1.8.8) because package lmf does better job - 1.8.9
+* New function compare_AICc() - 1.8.10
 
             CHANGES IN VERSION 1.7-1.7.9    (2016-12-25)
 

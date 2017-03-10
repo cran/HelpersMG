@@ -129,9 +129,9 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
 
 {
   
-  if (!requireNamespace("coda", quietly = TRUE)) {
-    stop("coda package is necessary for this function")
-  }
+  # if (!requireNamespace("coda", quietly = TRUE)) {
+  #   stop("coda package is necessary for this function")
+  # }
   
 # likelihood=NULL; parameters=NULL; n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
 # datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
@@ -150,6 +150,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     res<-as.list(NULL)
     resL<-as.list(NULL)
     # datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
+    # datax <- list(data)
     datax <- list(...)
   } else {
     n.iter <- previous$n.iter
@@ -204,7 +205,7 @@ colnames(deb_varp2)<-c(rownames(parameters), "Ln L")
 
 varp[1, 1:nbvar] <- as.numeric(parameters[1:nbvar, 'Init'])
 
-varp[1, "Ln L"]<- -do.call(likelihood, modifyList(datax, list(x=varp[1, 1:nbvar])))
+varp[1, "Ln L"] <- -do.call(likelihood, modifyList(datax, list(x=varp[1, 1:nbvar])))
 cpt<-1
 varp2[cpt, 1:nbvar] <- varp[1, 1:nbvar]
 varp2[cpt, "Ln L"] <- varp[1, "Ln L"]
@@ -224,7 +225,7 @@ sdg=NULL
 
 # 18/1/2013
 # for(i in 1:nbvar) sdg<-c(sdg, as.numeric(parameters[i, 'SDProp']))
-sdg<-c(sdg, as.numeric(parameters[1:nbvar, 'SDProp']))
+sdg <- c(sdg, as.numeric(parameters[1:nbvar, 'SDProp']))
 
 # previous <- NULL
 }
@@ -331,20 +332,16 @@ for (i in deb_i:(n.adapt+n.iter)) {
 
 lp <- getFromNamespace("as.mcmc", ns="coda")(varp2[(n.adapt+1):(cpt-1), 1:nbvar])
 lp <- getFromNamespace("mcmc", ns="coda")(data=lp, start=n.adapt+1, end=n.iter+n.adapt, thin=thin)
-
 res<-c(res, list(lp))
 resL <- c(resL, list(varp2[(n.adapt+1):(cpt-1), "Ln L"]))
 
 }
 
 names(res) <- 1:n.chains
-
 res <- getFromNamespace("as.mcmc.list", ns="coda")(res)
 
 cat("Best likelihood for: \n")
 for (j in 1:nbvar) {cat(paste(names(MaxL[j]), "=", MaxL[j], "\n"))}
-
-
 
 out <- (list(resultMCMC=res, resultLnL=resL, parametersMCMC=list(parameters=parameters, n.iter=n.iter, n.chains=n.chains, n.adapt=n.adapt, thin=thin, SDProp.end=structure(sdg, .Names=rownames(parameters)))))
 class(out) <- "mcmcComposite"

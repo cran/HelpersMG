@@ -29,8 +29,8 @@ Helpers functions for several packages
 \tabular{ll}{
  Package: \tab HelpersMG\cr
  Type: \tab Package\cr
- Version: \tab 1.8 build 76\cr
- Date: \tab 2016-12-26\cr
+ Version: \tab 1.9 build 88\cr
+ Date: \tab 2017-03-10\cr
  License: \tab GPL (>= 2)\cr
  LazyLoad: \tab yes\cr
  }
@@ -113,4 +113,3 @@ plot_add(x=t[,"time"], y=t[,"temperature"], type="l")
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}
 }
-

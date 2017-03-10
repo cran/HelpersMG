@@ -43,11 +43,10 @@ predict(LD50_logistic, doses=c(140, 170))
 plot(LD50_logistic
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other LD50 functions: \code{\link{LD50}},
   \code{\link{logLik.LD50}}, \code{\link{plot.LD50}}
 }
-
+\author{
+Marc Girondot
+}

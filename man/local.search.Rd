@@ -39,4 +39,3 @@ nc.files <- local.search("*.nc", folder=paste0("'",getwd(),"'"))
 \author{
 Marc Girondot
 }
-

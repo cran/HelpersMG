@@ -52,10 +52,9 @@ symbol.Male(centerx=centerx, centery = centery, rayonx=rayonx, lwd=4, col="blue"
 symbol.Female(centerx=centerx+0.5, centery = centery, rayonx=rayonx, lwd=4, col="red")
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other Symbol: \code{\link{symbol.Male}}
 }
-
+\author{
+Marc Girondot
+}

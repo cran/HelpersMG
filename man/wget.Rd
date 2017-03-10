@@ -32,4 +32,3 @@ wget(c("https://cran.r-project.org/web/packages/HelpersMG/HelpersMG.pdf",
 \author{
 Marc Girondot
 }
-

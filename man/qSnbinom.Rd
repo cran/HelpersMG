@@ -39,11 +39,10 @@ mu <- c(10, 30, 20)
 q <- qSnbinom(p=0.1, size=alpha, mu=mu, lower.tail = TRUE)
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 Other Distribution of sum of random variable with negative binomial distributions: \code{\link{dSnbinom}},
   \code{\link{pSnbinom}}, \code{\link{rSnbinom}}
 }
-
+\author{
+Marc Girondot
+}

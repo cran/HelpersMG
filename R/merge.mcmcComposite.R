@@ -56,17 +56,16 @@
 
 merge.mcmcComposite <- function(x, y, ...) {
   
-  if (!requireNamespace("coda", quietly = TRUE)) {
-    stop("coda package is necessary for this function")
-  }
-  
+  # if (!requireNamespace("coda", quietly = TRUE)) {
+  #   stop("coda package is necessary for this function")
+  # }
+  # 
   
   mcmcComposite1 <- x
   mcmcComposite2 <- y
   
   if (mcmcComposite1$parametersMCMC$n.chains != mcmcComposite2$parametersMCMC$n.chains) {
-    print("MCMC results must have the same number of chains")
-    return()
+    stop("MCMC results must have the same number of chains")
   }
   
   mcmcComposite <- mcmcComposite1

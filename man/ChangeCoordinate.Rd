@@ -30,4 +30,3 @@ ChangeCoordinate(x=c(10, 20), initial=c(1, 100), transformed=c(0, 1))
 \author{
 Marc Girondot
 }
-

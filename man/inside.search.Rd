@@ -43,4 +43,3 @@ inside.search(path=".", pattern="*\\\\.R$", search="embryogrowth")
 \author{
 Marc Girondot
 }
-

@@ -46,4 +46,3 @@ newcompassRose(x=110, y=35, col.arrows.light="grey")
 \author{
 modified from Jim Lemon; See compassRose {sp}
 }
-

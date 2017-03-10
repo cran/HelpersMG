@@ -50,5 +50,4 @@ pSnbinom <- function(q=stop("At least one quantile must be provided"),
   }, FUN.VALUE = 10.1)
   
   return(pp)
-  }
-  
+}

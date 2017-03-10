@@ -58,13 +58,12 @@ barplot_errbar(y,
             		y.plus=y+2)
 }
 }
-\author{
-Marc Girondot
-}
 \seealso{
 \code{plot_errorbar}
 
 Other plot and barplot functions: \code{\link{ScalePreviousPlot}},
   \code{\link{plot_add}}, \code{\link{plot_errbar}}
 }
-
+\author{
+Marc Girondot
+}
