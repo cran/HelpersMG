@@ -2,7 +2,8 @@
 #' @title Run a shiny application for basic functions of comparison
 #' @author Marc Girondot
 #' @return Nothing
-#' @description Run a shiny application for basic functions of comparison
+#' @description Run a shiny application for basic functions of comparison.
+#' @family AIC
 #' @examples
 #' \dontrun{
 #' library(HelpersMG)

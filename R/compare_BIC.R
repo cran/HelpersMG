@@ -9,6 +9,7 @@
 #' BIC for object x will be calculated as \code{2*factor.value*sum(logLik(x))+sum(attributes(logLik(x))$df)*log(attributes(logLik(x))$nobs))}.\cr
 #' When several data (i..n) are included, the global BIC is calculated as:\cr
 #' \code{2*factor.value*sum(logLik(x)) for i..n+sum(attributes(logLik(x))$df) for i..n*log(attributes(logLik(x))$nobs for i..n))}
+#' @family AIC
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")
@@ -36,7 +37,7 @@
 #' @export
 
 
-compare_BIC <- function(..., factor.value=1) {
+compare_BIC <- function(..., factor.value=-1) {
 
   result <- list(...)
   

@@ -7,6 +7,7 @@
 #' @description This function is used to compare the AICc of several outputs obtained with the same data but with different set of parameters.\cr
 #' Each object must have associated \code{logLik()} method with df and nobs attributes.\cr
 #' AICc for object x will be calculated as \code{2*factor.value*logLik(x)+(2*attributes(logLik(x))$df*(attributes(logLik(x))$df+1)/(attributes(logLik(x))$nobs-attributes(logLik(x))$df-1)}.\cr
+#' @family AIC
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")
@@ -30,11 +31,13 @@
 #' d_grouped <- data.frame(x=x_grouped, y=y_grouped)
 #' m1_grouped <- lm(y ~ x, data=d_grouped)
 #' compare_AICc(separate=list(m1, m1_2), grouped=m1_grouped, factor.value=-1)
+#' # Or simply
+#' compare_AICc(m1=list(AICc=100), m2=list(AICc=102))
 #' }
 #' @export
 
 
-compare_AICc <- function(..., factor.value=1) {
+compare_AICc <- function(..., factor.value=-1) {
 
   result <- list(...)
   
@@ -60,6 +63,10 @@ compare_AICc <- function(..., factor.value=1) {
           # Il faut que logLik(encours[[1]]) existe avec les attributs corrects
           # nall, nobs (nb d'observations) et df (nb de parametres)
           
+          if (!is.null(encours[[1]]$AICc)) {
+            aicc <- c(aicc, encours[[1]]$AICc)
+          } else {
+          
           t <- (class(try(logLik(encours[[1]]), silent=TRUE))=="try-error")
           if (t) encours <- encours[[1]]
           
@@ -77,7 +84,9 @@ compare_AICc <- function(..., factor.value=1) {
             sumdf <- sumdf + attributes(logLik(encours2))$df
             sumnobs <- sumnobs + attributes(logLik(encours2))$nobs
           }
-          aicc <- c(aicc, 2*factor.value*sumL+(2*sumdf*(sumdf+1))/(sumnobs-sumdf-1))	
+          aicc <- c(aicc, 2*factor.value*sumL+(2*sumdf*(sumdf+1))/(sumnobs-sumdf-1))
+          }
+          
         }
         
         bestaicc<-min(aicc)

@@ -4,7 +4,7 @@
 \alias{compare_BIC}
 \title{Compares the BIC of several outputs}
 \usage{
-compare_BIC(..., factor.value = 1)
+compare_BIC(..., factor.value = -1)
 }
 \arguments{
 \item{...}{Successive results to be compared as lists.}
@@ -48,6 +48,11 @@ d_grouped <- data.frame(x=x_grouped, y=y_grouped)
 m1_grouped <- lm(y ~ x, data=d_grouped)
 compare_BIC(separate=list(m1, m1_2), grouped=m1_grouped, factor.value=-1)
 }
+}
+\seealso{
+Other AIC: \code{\link{ExtractAIC.glm}},
+  \code{\link{compare_AICc}}, \code{\link{compare_AIC}},
+  \code{\link{compare}}
 }
 \author{
 Marc Girondot

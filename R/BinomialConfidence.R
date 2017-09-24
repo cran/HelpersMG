@@ -82,6 +82,7 @@ function (x, n, alpha = 0.05, method = c("wilson", "exact", "asymptotic",
         mat <- cbind(X = x, mat)
     if (return.df) 
         mat <- as.data.frame(mat, row.names = NULL)
+    class(mat) <- "binconf"
     mat
 }
 

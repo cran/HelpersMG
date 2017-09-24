@@ -57,7 +57,7 @@ index.periodic <- function(minmax, time=NULL,
     return()
   }
   if (is.null(time)) {
-    time <- seq(from=minmax$time[1], to=tail(minmax$time, n=1), by=1)
+    time <- seq(from=minmax$time[1], to=utils::tail(minmax$time, n=1), by=1)
   }
   if (progressbar) pb<-txtProgressBar(min=1, max=length(time), style=3)
   

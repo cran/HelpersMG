@@ -86,7 +86,8 @@ merge.mcmcComposite <- function(x, y, ...) {
   
   e <- mcmcComposite$resultMCMC
   
-  mcmcComposite$BatchSE <- batchSE(e)
+  # 2017-04-04
+  mcmcComposite$BatchSE <- NULL # batchSE(e)
   mcmcComposite$TimeSeriesSE <- summary(e)$statistics[,"Time-series SE"]
   return(mcmcComposite)
 }

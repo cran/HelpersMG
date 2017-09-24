@@ -10,6 +10,7 @@
 #' If several objects are within the same list, their AIC are summed.\cr
 #' For example, compare_AIC(g1=list(group), g2=list(separe1, separe2)) can be used to compare a single model onto two different sets of data against each set of data fited with its own set of parameters.\cr
 #' Take a look at \code{ICtab} in package \code{bbmle} which is similar.
+#' @family AIC
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")

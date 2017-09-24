@@ -41,7 +41,7 @@ modeled.hist <- function(breaks, FUN, ..., sum=1) {
                         par.fun)
   s <- do.call(FUN, par.fun)
   # s <- pfun(xp, par.fun[1], par.fun[2], log=FALSE)
-  s <- head(c(s[-1], 0)-s, length(breaks))
+  s <- utils::head(c(s[-1], 0)-s, length(breaks))
   return(list(x=breaks+by/2, y=s*sum))
 }
 

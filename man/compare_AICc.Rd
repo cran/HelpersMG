@@ -4,7 +4,7 @@
 \alias{compare_AICc}
 \title{Compares the AICc of several outputs}
 \usage{
-compare_AICc(..., factor.value = 1)
+compare_AICc(..., factor.value = -1)
 }
 \arguments{
 \item{...}{Successive results to be compared as lists.}
@@ -45,7 +45,14 @@ y_grouped <- c(y, y2)
 d_grouped <- data.frame(x=x_grouped, y=y_grouped)
 m1_grouped <- lm(y ~ x, data=d_grouped)
 compare_AICc(separate=list(m1, m1_2), grouped=m1_grouped, factor.value=-1)
+# Or simply
+compare_AICc(m1=list(AICc=100), m2=list(AICc=102))
 }
+}
+\seealso{
+Other AIC: \code{\link{ExtractAIC.glm}},
+  \code{\link{compare_AIC}}, \code{\link{compare_BIC}},
+  \code{\link{compare}}
 }
 \author{
 Marc Girondot

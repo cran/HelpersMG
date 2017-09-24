@@ -1,8 +1,19 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 1.9    (2017-03-10)
+            CHANGES IN VERSION 2.0    (2017-09-24)
+
+* SEfromHessian is more general - 2.0
+* extractAIC.glm() to use AICc with stepAIC() from MASS package - 2.0
+* invlogit() and logit() functions - 2.0
+* read.folder() does not change working directory if error occurs - 2.0
+* new function ellipse() to draw an ellipse - 2.0
+* Minor change for compare_AICc - 2.0
+
+            CHANGES IN VERSION 1.9.2    (2017-05-14)
 
 * New version for CRAN - 1.9
+* BatchSE is not calculated during merge to prevent an error - 1.9.1
+* SEfromHessian function to estimate SE from Hessian matrix - 1.9.2
 
             CHANGES IN VERSION 1.8-1.8.10    (2017-02-17)
 

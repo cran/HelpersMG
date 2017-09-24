@@ -10,7 +10,7 @@ compare()
 Nothing
 }
 \description{
-Run a shiny application for basic functions of comparison
+Run a shiny application for basic functions of comparison.
 }
 \details{
 compare runs a shiny application for basic functions of comparison
@@ -20,6 +20,11 @@ compare runs a shiny application for basic functions of comparison
 library(HelpersMG)
 compare()
 }
+}
+\seealso{
+Other AIC: \code{\link{ExtractAIC.glm}},
+  \code{\link{compare_AICc}}, \code{\link{compare_AIC}},
+  \code{\link{compare_BIC}}
 }
 \author{
 Marc Girondot

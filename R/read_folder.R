@@ -29,7 +29,7 @@
 read_folder <- function(folder=try(file.choose(), silent=TRUE), 
                         file=NULL,
                         wildcard="*.*", read=read.delim, ...) {
-  wd <- getwd()
+  # wd <- getwd()
 	if (class(folder)!="try-error") {
     fi <- file.info(folder)
     if (is.na(fi$isdir)) {
@@ -42,17 +42,18 @@ read_folder <- function(folder=try(file.choose(), silent=TRUE),
   	tp <- list(...)
 	
     	if (length(lf)!=0) {
-	      previous<-getwd()
-	      setwd(folder)
+    	  # si cela plante au milieu, le dossier reste changé; ce n'est pas top
+	      # previous<-getwd()
+	      # setwd(folder)
 	      ladd <- lapply(lf, function(lfx) do.call(read, modifyList(list(file=lfx), tp)))
       	names(ladd) <- lf
-      	setwd(previous)
+      	# setwd(previous)
       	return(ladd)
 	    } else {
 	      warning("No selected files in folder/directory")
 	      return(invisible(list()))
 	    }
 	}
-  setwd(dir = wd)
+  # setwd(dir = wd)
 
 }
