@@ -18,7 +18,6 @@ A data.frame with information about daily sun
 }
 \description{
 Estimate the sun fates according to latitude and date.\cr
-Based on Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics Journal 34(4):317-321.\cr
 Can be compared with the function \code{sunrise.set()} of package \code{StreamMetabolism}.
 }
 \details{
@@ -33,6 +32,9 @@ plot(date, sun.info(date, latitude=23, longitude=0)$day.length, bty="n",
 plot(date, sun.info(date, latitude=23, longitude=0)$sunrise, bty="n", 
  las=1, type="l", xlab="Ordinal days", ylab="Sun rise in hours")
 }
+}
+\references{
+Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics Journal 34(4):317-321.
 }
 \seealso{
 Other Periodic patterns of indices: \code{\link{index.periodic}},

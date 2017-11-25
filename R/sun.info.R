@@ -7,8 +7,8 @@
 #' @param date  A vector with the time at which sun fates are needed
 #' @family Periodic patterns of indices
 #' @description Estimate the sun fates according to latitude and date.\cr
-#' Based on Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics Journal 34(4):317-321.\cr
 #' Can be compared with the function \code{sunrise.set()} of package \code{StreamMetabolism}.
+#' @references Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics Journal 34(4):317-321.
 #' @examples
 #' \dontrun{
 #' # Generate a timeserie of time

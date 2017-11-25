@@ -3,7 +3,8 @@
 
 
 library(shiny)
-library(HelpersMG)
+package.HelpersMG <- require('HelpersMG')
+
 
 # Define UI for application that draws a histogram
 fluidPage(

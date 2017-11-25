@@ -3,6 +3,7 @@
 S3method(as.mcmc,mcmcComposite)
 S3method(logLik,LD50)
 S3method(merge,mcmcComposite)
+S3method(plot,IconoCorel)
 S3method(plot,LD50)
 S3method(plot,mcmcComposite)
 S3method(predict,LD50)
@@ -12,6 +13,9 @@ export(.getTableAddressing)
 export(ChangeCoordinate)
 export(DIx)
 export(ExtractAIC.glm)
+export(IC_clean_data)
+export(IC_correlation_simplify)
+export(IC_threshold_matrix)
 export(LD50)
 export(MHalgoGen)
 export(SEfromHessian)
@@ -58,7 +62,16 @@ export(symmetricize)
 export(tide.info)
 export(wget)
 import(coda)
-import(stats)
-import(graphics)
-import(utils)
-import(grDevices)
+importFrom("grDevices", "rgb")
+importFrom("graphics", "arrows", "axis", "barplot", "hist", "legend",
+"lines", "mtext", "par", "plot", "polygon", "segments",
+"strheight", "text")
+importFrom("stats", "AIC", "aggregate", "as.formula", "binomial",
+"coef", "cor", "dbinom", "deriv", "df.residual",
+"dmultinom", "dnbinom", "dnorm", "glm", "lm", "logLik",
+"na.omit", "numericDeriv", "optim", "pchisq", "pnorm", "qf",
+"qnorm", "qt", "quantile", "residuals", "rnbinom", "rnorm",
+"runif", "sd", "vcov", "cov", "cov2cor", "pt")
+importFrom("utils", "combn", "download.file", "getFromNamespace",
+"installed.packages", "modifyList", "read.delim",
+"setTxtProgressBar", "tail", "txtProgressBar")

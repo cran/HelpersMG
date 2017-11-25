@@ -1,6 +1,10 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 2.0    (2017-09-24)
+            CHANGES IN VERSION 3.0    (2017-11-02)
+
+* New functions for Iconography of correlations - 3.0
+
+            CHANGES IN VERSION 2.0 - 2.0.3    (2017-10-19)
 
 * SEfromHessian is more general - 2.0
 * extractAIC.glm() to use AICc with stepAIC() from MASS package - 2.0
@@ -8,6 +12,8 @@ THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 * read.folder() does not change working directory if error occurs - 2.0
 * new function ellipse() to draw an ellipse - 2.0
 * Minor change for compare_AICc - 2.0
+* Bug correction in ind_long_lat when indices were supplied - 2.0.1
+* ind_long_lat can work with only ncdf4 or RnetCDF package - 2.0.2 and 2.0.3
 
             CHANGES IN VERSION 1.9.2    (2017-05-14)
 

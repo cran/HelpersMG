@@ -4,8 +4,8 @@
 \alias{ind_long_lat}
 \title{Return or the index in ncdf object from lat/longitude or inverse}
 \usage{
-ind_long_lat(ncdf = stop("The ncdf data must be supplied"), long = NA,
-  lat = NA, indice.long = NA, indice.lat = NA, name.lon = "lon",
+ind_long_lat(ncdf = stop("The ncdf data must be supplied"), long = NULL,
+  lat = NULL, indice.long = NULL, indice.lat = NULL, name.lon = "lon",
   name.lat = "lat")
 }
 \arguments{
