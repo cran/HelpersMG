@@ -4,6 +4,7 @@
 #' @return A list with DeltaAIC and Akaike weight for the models.
 #' @param ... Successive results to be compared as lists.
 #' @param factor.value The $value of the list object is multiplied by factor.value to calculate AIC.
+#' @param silent If TRUE, nothing is displayed.
 #' @description This function is used to compare the AIC of several outputs obtained with the same data but with different set of parameters.\cr
 #' The parameters must be lists with $aic or $AIC or $value and $par elements or if AIC(element) is defined.\cr
 #' if \code{$value} and \code{$par} are present in the object, the AIC is calculated as \code{2*factor.value*value+2*length(par)}. If \code{$value} is -log(likeihood), then factor.value must be 1 and if \code{$value} is log(likeihood), then factor.value must be -1.\cr
@@ -38,7 +39,7 @@
 #' @export
 
 
-compare_AIC <- function(..., factor.value=1) {
+compare_AIC <- function(..., factor.value=1, silent=FALSE) {
 result <- list(...)
 
 if (is.list(result) & length(result)==1) result <- unlist(result, recursive=FALSE)
@@ -91,7 +92,7 @@ if (!is.null(result)) {
 			aw<-aw/saw
 			
 			out<-data.frame(cbind(AIC=aic, DeltaAIC=deltaaic, Akaike_weight=aw), row.names=name)
-			print(paste("The lowest AIC (",sprintf("%.3f", bestaic) ,") is for series ", name[ser], " with Akaike weight=", sprintf("%.3f", aw[ser]), sep=""))
+			if (!silent) print(paste("The lowest AIC (",sprintf("%.3f", bestaic) ,") is for series ", name[ser], " with Akaike weight=", sprintf("%.3f", aw[ser]), sep=""))
 			
 			return(out)
 		}

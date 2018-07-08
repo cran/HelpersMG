@@ -5,7 +5,7 @@
 \title{Plot the result of a mcmcComposite object}
 \usage{
 \method{plot}{mcmcComposite}(x, ..., chain = 1, parameters = 1,
-  scale.prior = TRUE, legend = TRUE, ylab = "Posterior density",
+  scale.prior = TRUE, legend = "topright", ylab = "Posterior density",
   las = 1, col.prior = "red", lty.prior = 1, lwd.prior = 1,
   col.posterior = "white", lty.posterior = 1, lwd.posterior = 1,
   ylab.prior = "Prior density")
@@ -51,7 +51,8 @@ The parameters to use can be called by:\cr
 \code{parameters=1:4}\cr
 \code{parameters=c("PAR1", "PAR2", "PAR5")}\cr
 \code{parameters=c(TRUE, TRUE, FALSE, TRUE)}\cr
-If scale.prior is TRUE, another scale is shown at right.
+If scale.prior is TRUE, another scale is shown at right.\cr
+legend can take these values: FALSE, TRUE, topleft, topright, bottomleft, bottomright.
 }
 \details{
 plot.mcmcComposite plots the result of a MCMC search

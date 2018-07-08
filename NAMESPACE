@@ -31,13 +31,16 @@ export(compare_AICc)
 export(compare_BIC)
 export(contingencyTable.compare)
 export(convert.tz)
+export(d)
 export(dSnbinom)
+export(duplicate.packages)
 export(ellipse)
 export(growlnotify)
 export(ind_long_lat)
 export(index.periodic)
 export(inside.search)
 export(invlogit)
+export(list.packages)
 export(local.search)
 export(logit)
 export(minmax.periodic)
@@ -45,6 +48,7 @@ export(modeled.hist)
 export(modifyVector)
 export(moon.info)
 export(newcompassRose)
+export(newdbeta)
 export(newmap.scale)
 export(pSnbinom)
 export(plot_add)
@@ -60,6 +64,7 @@ export(symbol.Female)
 export(symbol.Male)
 export(symmetricize)
 export(tide.info)
+export(tnirp)
 export(wget)
 import(coda)
 importFrom("grDevices", "rgb")
@@ -67,11 +72,11 @@ importFrom("graphics", "arrows", "axis", "barplot", "hist", "legend",
 "lines", "mtext", "par", "plot", "polygon", "segments",
 "strheight", "text")
 importFrom("stats", "AIC", "aggregate", "as.formula", "binomial",
-"coef", "cor", "dbinom", "deriv", "df.residual",
+"coef", "cor", "dbeta", "dbinom", "deriv", "df.residual",
 "dmultinom", "dnbinom", "dnorm", "glm", "lm", "logLik",
 "na.omit", "numericDeriv", "optim", "pchisq", "pnorm", "qf",
 "qnorm", "qt", "quantile", "residuals", "rnbinom", "rnorm",
 "runif", "sd", "vcov", "cov", "cov2cor", "pt")
 importFrom("utils", "combn", "download.file", "getFromNamespace",
 "installed.packages", "modifyList", "read.delim",
-"setTxtProgressBar", "tail", "txtProgressBar")
+"setTxtProgressBar", "tail", "txtProgressBar", "compareVersion")

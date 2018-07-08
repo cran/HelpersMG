@@ -1,5 +1,5 @@
-# library(shiny); library("embryogrowh"); runApp("/Users/marc/Documents/Espace_de_travail_R/shiny/tsd")
-# library(shiny); runApp("http://max3.ese.u-psud.fr:3838/phenology/")
+# library(shiny); library("embryogrowth"); runApp("/Users/marcgirondot/Documents/Espace_de_travail_R/_shiny/compare")
+# library(shiny); runApp("http://134.158.74.46/compare/")
 
 
 library(shiny)
@@ -14,7 +14,7 @@ fluidPage(
   wellPanel(
     h1(HTML("The <em>w</em>-value: An alternative to <em>t</em>- and <em>&chi;<sup>2</sup></em>-tests"), align = "center")
     , h2(HTML("that does not use <em>p</em>-value"), align = "center")
-    , p("This web server version v. 1.03 is a simplified version of the complete tools available ", 
+    , p("This web server version v. 1.04 is a simplified version of the complete tools available ", 
         a("in the HelpersMG R package."
           , href="https://cran.r-project.org/package=HelpersMG"
           , target="_blank"))
@@ -22,6 +22,9 @@ fluidPage(
              <a href=\"http://max2.ese.u-psud.fr/epc/conservation/Girondot/Publications/Marc.html\">Marc Girondot</a> and 
              <a href=\"http://www.ese.u-psud.fr/article199.html\">Jean-Michel Guillon</a>."))
     , p("Ecologie, Systématique, Evolution - Université Paris-Sud, CNRS, AgroParisTech, Université Paris Saclay, France.")
+    , p("It has been published in: ")
+    , p(HTML("<a href=\"https://www.researchgate.net/publication/323847382_The_w-value_An_Alternative_to_t-and_ch2_Tests\">Girondot, M., Guillon, J.-M., 2018. The <em>w</em>-value: An alternative to <em>t</em>- and &chi;<sup>2</sup> tests. Journal of Biostatistics & Biometrics 1(1): 1-4.</a>."))
+    , p("")
   ),
     
     # Show a plot of the generated distribution

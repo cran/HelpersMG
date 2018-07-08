@@ -4,6 +4,7 @@
 #' @return A list with DeltaAICc and Akaike weight for the models.
 #' @param ... Successive results to be compared as lists.
 #' @param factor.value The $value of the list object is multiplied by factor.value to calculate BIC.
+#' @param silent If TRUE, nothing is displayed.
 #' @description This function is used to compare the AICc of several outputs obtained with the same data but with different set of parameters.\cr
 #' Each object must have associated \code{logLik()} method with df and nobs attributes.\cr
 #' AICc for object x will be calculated as \code{2*factor.value*logLik(x)+(2*attributes(logLik(x))$df*(attributes(logLik(x))$df+1)/(attributes(logLik(x))$nobs-attributes(logLik(x))$df-1)}.\cr
@@ -37,7 +38,7 @@
 #' @export
 
 
-compare_AICc <- function(..., factor.value=-1) {
+compare_AICc <- function(..., factor.value=-1, silent=FALSE) {
 
   result <- list(...)
   
@@ -84,7 +85,7 @@ compare_AICc <- function(..., factor.value=-1) {
             sumdf <- sumdf + attributes(logLik(encours2))$df
             sumnobs <- sumnobs + attributes(logLik(encours2))$nobs
           }
-          aicc <- c(aicc, 2*factor.value*sumL+(2*sumdf*(sumdf+1))/(sumnobs-sumdf-1))
+          aicc <- c(aicc, 2*factor.value*sumL+2*sumdf+(2*sumdf*(sumdf+1))/(sumnobs-sumdf-1))
           }
           
         }
@@ -97,7 +98,7 @@ compare_AICc <- function(..., factor.value=-1) {
         aw<-aw/saw
         
         out<-data.frame(cbind(AICc=aicc, DeltaAICc=deltaaicc, Akaike_weight=aw), row.names=name)
-        print(paste("The lowest AICc (",sprintf("%.3f", bestaicc) ,") is for series ", name[ser], " with Akaike weight=", sprintf("%.3f", aw[ser]), sep=""))
+        if (!silent) print(paste("The lowest AICc (",sprintf("%.3f", bestaicc) ,") is for series ", name[ser], " with Akaike weight=", sprintf("%.3f", aw[ser]), sep=""))
         
         return(out)
       }

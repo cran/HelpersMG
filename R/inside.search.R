@@ -34,7 +34,7 @@ inside.search <- function(path=".", pattern="*\\.R$", showallfilenames=FALSE, ..
   
   for (f in ls) {
  
-    fc <- readLines(con = f, ...)
+    fc <- readLines(con = file.path(path, f), ...)
     x <- gsub(pattern=text, replacement="", x=fc, fixed=fixed, ignore.case = ignore.case)
     if (any(x != fc)) {
       cat("file ", f, "\n")

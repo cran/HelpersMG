@@ -121,6 +121,13 @@ par(xpd = TRUE)
 text(x=13.05, y=0.05, labels = "0.05", pos=4)
 }
 }
+\references{
+Girondot, M., Guillon, J.-M., 2018. The w-value: An alternative to t- and X2 tests. Journal of Biostatistics & Biometrics 1, 1-4.
+}
+\seealso{
+Other w-value functions: \code{\link{compare}},
+  \code{\link{contingencyTable.compare}}
+}
 \author{
 Marc Girondot
 }

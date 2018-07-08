@@ -7,7 +7,7 @@
 #' @param fit fitted model, the result of a fitter glm.
 #' @param scale unused for glm.
 #' @param k numeric specifying the ‘weight’ of the equivalent degrees of freedom (=: edf) part in the AIC formula.
-#' @param ... further arguments (currently unused because some functions using this function do not use them).
+#' @param ... further arguments (currently unused because addterm.glm and dropterm.glm using this function do not transmit them).
 #' @description For glm fits the family's aic() function is used to compute the AIC.\cr
 #' The choice between different criteria is done by setting a global option AIC. It can be checked using show.option=TRUE.
 #' Indeed, it is not possible to use the ... parameter due to a bug in some functions of MASS package. If you want to use this function as a replacement for setpAIC(), do extractAIC.glm <- ExtractAIC.glm before.

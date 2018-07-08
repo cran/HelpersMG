@@ -129,9 +129,9 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
 
 {
   
-  # if (!requireNamespace("coda", quietly = TRUE)) {
-  #   stop("coda package is necessary for this function")
-  # }
+  if (!requireNamespace("coda", quietly = TRUE)) {
+     stop("coda package is necessary for this function")
+  }
   
 # likelihood=NULL; parameters=NULL; n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
 # datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
@@ -343,7 +343,10 @@ res <- getFromNamespace("as.mcmc.list", ns="coda")(res)
 cat("Best likelihood for: \n")
 for (j in 1:nbvar) {cat(paste(names(MaxL[j]), "=", MaxL[j], "\n"))}
 
-out <- (list(resultMCMC=res, resultLnL=resL, parametersMCMC=list(parameters=parameters, n.iter=n.iter, n.chains=n.chains, n.adapt=n.adapt, thin=thin, SDProp.end=structure(sdg, .Names=rownames(parameters)))))
+out <- (list(resultMCMC=res, resultLnL=resL, 
+             parametersMCMC=list(parameters=parameters, n.iter=n.iter, n.chains=n.chains, n.adapt=n.adapt, thin=thin, 
+                                 SDProp.end=structure(sdg, .Names=rownames(parameters)), 
+                                 control=datax)))
 class(out) <- "mcmcComposite"
 return(out)
 

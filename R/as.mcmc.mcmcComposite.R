@@ -52,14 +52,7 @@
 #' @import coda
 #' @export
 
-as.mcmc.mcmcComposite <-
-function(x, ...) {
-	# if (class(x)!="mcmcComposite") {
-	# 	stop("mcmcComposite object must be provided")
-	# 
-	# } else {
+as.mcmc.mcmcComposite <- function(x, ...) {
 
 		return(x$resultMCMC)
-	# }
-
 }

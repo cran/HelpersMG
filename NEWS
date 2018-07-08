@@ -1,8 +1,23 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 3.0    (2017-11-02)
+            CHANGES IN VERSION 3.2 (2018-07-08)
+
+* New function duplicate.packages() - 3.1.1 (2018-04-26)
+* MHalgoGen() store the control parameters in the result - 3.1.2 (2018-04-27)
+* New version of list.packages() and duplicate.packages() - 3.1.3 (2018-04-29)
+
+            CHANGES IN VERSION 3.1 (2018-04-25)
 
 * New functions for Iconography of correlations - 3.0
+* Minor change for plot.mcmccomposite() - 3.0.1
+* New function newdbeta() to parameter beta distribution with mean and variance - 3.0.2
+* New function d() to dput named vector - 3.0.3
+* New function tnirp() to read ASCII representation of vector - 3.0.4
+* New function list.packages() to show the installed packages with their location - 3.0.5
+* Correct a bug for compare_AICc(); the AICc was wrongly calculated - 3.0.6
+* Minor change in IC_threshold_matrix() - 3.0.7
+* Minor change in ind_lat_long() - 3.0.8
+* Minor change in inside.search() - 3.0.9
 
             CHANGES IN VERSION 2.0 - 2.0.3    (2017-10-19)
 

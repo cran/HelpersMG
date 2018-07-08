@@ -53,6 +53,35 @@
 #' par(mar=c(1,1,1,1))
 #' set.seed(4)
 #' plot(cor_threshold_AAT, show.legend.strength="bottomleft")
+#' 
+#' 
+#' 
+#' ############
+#' dta <- structure(list(Élève = structure(1:8, .Label = c("e1", "e2", 
+#' "e3", "e4", "e5", "e6", "e7", "e8"), class = "factor"), Poids = c(52L, 
+#' 59L, 55L, 58L, 66L, 62L, 63L, 69L), Âge = c(12, 12.5, 13, 14.5, 
+#' 15.5, 16, 17, 18), Assiduité = c(12L, 9L, 15L, 5L, 11L, 15L, 
+#' 12L, 9L), Note = c(5, 5, 9, 5, 13.5, 18, 18, 18), e1 = c(1L, 
+#' 0L, 0L, 0L, 0L, 0L, 0L, 0L), e2 = c(0L, 1L, 0L, 0L, 0L, 0L, 0L, 
+#' 0L), e3 = c(0L, 0L, 1L, 0L, 0L, 0L, 0L, 0L), e4 = c(0L, 0L, 0L, 
+#' 1L, 0L, 0L, 0L, 0L), e5 = c(0L, 0L, 0L, 0L, 1L, 0L, 0L, 0L), 
+#'     e6 = c(0L, 0L, 0L, 0L, 0L, 1L, 0L, 0L), e7 = c(0L, 0L, 0L, 
+#'     0L, 0L, 0L, 1L, 0L), e8 = c(0L, 0L, 0L, 0L, 0L, 0L, 0L, 1L
+#'     )), .Names = c("Élève", "Poids", "Âge", "Assiduité", 
+#' "Note", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8"), class = "data.frame", row.names = c(NA, 
+#' -8L))
+#'
+#' dta0 <- dta[, 2:ncol(dta)]
+#' ic0 <- IC_threshold_matrix(data = dta0)
+#' cor_threshold <- IC_threshold_matrix(data=ic0, threshold = 0.3)
+#' par(mar=c(1,1,1,1))
+#' set.seed(4)
+#' library("igraph")
+#' 
+#' plot(cor_threshold, vertex.color="red", show.legend.strength = FALSE)
+#' plot(IC_correlation_simplify(matrix=cor_threshold), 
+#'      show.legend.strength = FALSE, show.legend.direction = FALSE)
+#' 
 #' }
 #' @export
 
@@ -131,7 +160,7 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
     } else {
       pcor <- getFromNamespace("pcor", ns="ppcor")
     }
-    model <- model[1]
+  model <- model[1]
   method <- method[1]
   use <- use[1]
   cor_mat <- cor(data, method=method, use=use)
@@ -187,13 +216,19 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
     
     cor_seuil <- pcor(data, method=method)$estimate
     diag(cor_seuil) <- 0
-    
   }
 
   }
 
   if (!is.null(threshold)) {
-    cor_seuil_binary <- (abs(cor_seuil)>threshold) & (abs(cor_mat)>threshold) & (sign(cor_mat) == sign(cor_seuil))
+    # Pour éviter les redondances, le lien AB est tracé si et seulement si la 
+    # corrélation totale r(A,B) est supérieure au seuil en valeur absolue, 
+    # et si les corrélations partielles r(A,B), par rapport à une variable Z, 
+    # sont supérieures au seuil, en valeur absolue, et de même signe que la 
+    # corrélation totale, pour tout Z parmi les variables disponibles, y 
+    # compris les « instants ».
+    # cor_seuil_binary <- (abs(cor_seuil)>threshold) & (abs(cor_mat)>threshold) & (sign(cor_mat) == sign(cor_seuil))
+    cor_seuil_binary <- (abs(cor_seuil)>threshold) & (abs(cor_mat)>threshold)
     cor_mat_threshold <- cor_mat * ifelse(cor_seuil_binary, 1, 0)
   } else {
     cor_seuil_binary <- NULL

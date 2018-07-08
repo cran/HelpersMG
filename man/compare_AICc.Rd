@@ -4,12 +4,14 @@
 \alias{compare_AICc}
 \title{Compares the AICc of several outputs}
 \usage{
-compare_AICc(..., factor.value = -1)
+compare_AICc(..., factor.value = -1, silent = FALSE)
 }
 \arguments{
 \item{...}{Successive results to be compared as lists.}
 
 \item{factor.value}{The $value of the list object is multiplied by factor.value to calculate BIC.}
+
+\item{silent}{If TRUE, nothing is displayed.}
 }
 \value{
 A list with DeltaAICc and Akaike weight for the models.
@@ -51,8 +53,7 @@ compare_AICc(m1=list(AICc=100), m2=list(AICc=102))
 }
 \seealso{
 Other AIC: \code{\link{ExtractAIC.glm}},
-  \code{\link{compare_AIC}}, \code{\link{compare_BIC}},
-  \code{\link{compare}}
+  \code{\link{compare_AIC}}, \code{\link{compare_BIC}}
 }
 \author{
 Marc Girondot

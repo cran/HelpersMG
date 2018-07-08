@@ -121,6 +121,13 @@ segments(x0=0, x1=n, y0=0.05, y1=0.05, lty=2)
 text(x=101, y=0.05, labels = "0.05", pos=4)
 }
 }
+\references{
+Girondot, M., Guillon, J.-M., 2018. The w-value: An alternative to t- and X2 tests. Journal of Biostatistics & Biometrics 1, 1-4.
+}
+\seealso{
+Other w-value functions: \code{\link{compare}},
+  \code{\link{series.compare}}
+}
 \author{
 Marc Girondot
 }

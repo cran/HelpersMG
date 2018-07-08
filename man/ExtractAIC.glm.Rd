@@ -13,7 +13,7 @@ ExtractAIC.glm(fit, scale = 0, k = 2, ...)
 
 \item{k}{numeric specifying the ‘weight’ of the equivalent degrees of freedom (=: edf) part in the AIC formula.}
 
-\item{...}{further arguments (currently unused because some functions using this function do not use them).}
+\item{...}{further arguments (currently unused because addterm.glm and dropterm.glm using this function do not transmit them).}
 }
 \value{
 A numeric named vector of length 2, with first and second elements giving\cr
@@ -44,8 +44,7 @@ extractAIC(g)
 }
 \seealso{
 Other AIC: \code{\link{compare_AICc}},
-  \code{\link{compare_AIC}}, \code{\link{compare_BIC}},
-  \code{\link{compare}}
+  \code{\link{compare_AIC}}, \code{\link{compare_BIC}}
 }
 \author{
 Modified from stats:::extract.AIC.glm

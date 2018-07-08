@@ -6,6 +6,8 @@
 #' @param criterion Which criterion is used for model selection. can be AIC, AICc or BIC
 #' @param var.equal Should the variances of all series being equal? Default TRUE
 #' @description This function is used as a replacement of t.test() to not use p-value. 
+#' @references Girondot, M., Guillon, J.-M., 2018. The w-value: An alternative to t- and X2 tests. Journal of Biostatistics & Biometrics 1, 1-4.
+#' @family w-value functions
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")

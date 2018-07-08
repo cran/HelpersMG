@@ -52,7 +52,7 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied"), long = 
   #   maxlg <- lg[maxindicelg]
   #   minlg <- lg[1]
   # }
-  if (class(ncdf) == "ncdf") {
+  if (class(ncdf) == "ncdf4") {
     if (!requireNamespace("ncdf4", quietly = TRUE)) {
       stop("ncdf4 package is necessary for this function")
     }

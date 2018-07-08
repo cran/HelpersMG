@@ -21,10 +21,12 @@ library(HelpersMG)
 compare()
 }
 }
+\references{
+Girondot, M., Guillon, J.-M., 2018. The w-value: An alternative to t- and X2 tests. Journal of Biostatistics & Biometrics 1, 1-3.
+}
 \seealso{
-Other AIC: \code{\link{ExtractAIC.glm}},
-  \code{\link{compare_AICc}}, \code{\link{compare_AIC}},
-  \code{\link{compare_BIC}}
+Other w-value functions: \code{\link{contingencyTable.compare}},
+  \code{\link{series.compare}}
 }
 \author{
 Marc Girondot

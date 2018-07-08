@@ -6,6 +6,8 @@
 #' @param criterion Which criterion is used for model selection
 #' @param probs Series of probabilities used for conformity comparison
 #' @description This function is used as a replacement of chisq.test() to not use p-value. 
+#' @references Girondot, M., Guillon, J.-M., 2018. The w-value: An alternative to t- and X2 tests. Journal of Biostatistics & Biometrics 1, 1-4.
+#' @family w-value functions
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")

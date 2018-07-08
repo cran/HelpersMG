@@ -4,6 +4,7 @@
 #' @return A list with DeltaBIC and Akaike weight for the models.
 #' @param ... Successive results to be compared as lists.
 #' @param factor.value The $value of the list object is multiplied by factor.value to calculate BIC.
+#' @param silent If TRUE, nothing is displayed.
 #' @description This function is used to compare the BIC of several outputs obtained with the same data but with different set of parameters.\cr
 #' Each object must have associated \code{logLik()} method with df and nobs attributes.\cr
 #' BIC for object x will be calculated as \code{2*factor.value*sum(logLik(x))+sum(attributes(logLik(x))$df)*log(attributes(logLik(x))$nobs))}.\cr
@@ -37,7 +38,7 @@
 #' @export
 
 
-compare_BIC <- function(..., factor.value=-1) {
+compare_BIC <- function(..., factor.value=-1, silent=FALSE) {
 
   result <- list(...)
   
@@ -91,7 +92,7 @@ compare_BIC <- function(..., factor.value=-1) {
         aw<-aw/saw
         
         out<-data.frame(cbind(BIC=bic, DeltaBIC=deltabic, Akaike_weight=aw), row.names=name)
-        print(paste("The lowest BIC (",sprintf("%.3f", bestbic) ,") is for series ", name[ser], " with Akaike weight=", sprintf("%.3f", aw[ser]), sep=""))
+        if (!silent) print(paste("The lowest BIC (",sprintf("%.3f", bestbic) ,") is for series ", name[ser], " with Akaike weight=", sprintf("%.3f", aw[ser]), sep=""))
         
         return(out)
       }

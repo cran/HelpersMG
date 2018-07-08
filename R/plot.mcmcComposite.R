@@ -24,7 +24,8 @@
 #' \code{parameters=1:4}\cr
 #' \code{parameters=c("PAR1", "PAR2", "PAR5")}\cr
 #' \code{parameters=c(TRUE, TRUE, FALSE, TRUE)}\cr
-#' If scale.prior is TRUE, another scale is shown at right.
+#' If scale.prior is TRUE, another scale is shown at right.\cr
+#' legend can take these values: FALSE, TRUE, topleft, topright, bottomleft, bottomright.
 #' @examples 
 #' \dontrun{
 #' library(HelpersMG)
@@ -74,7 +75,7 @@
 #' @export
 
 plot.mcmcComposite <- function(x, ... , chain=1, parameters=1, 
-                               scale.prior=TRUE, legend=TRUE, 
+                               scale.prior=TRUE, legend="topright", 
                                ylab="Posterior density",
                                las = 1,
                                col.prior = "red", 
@@ -85,7 +86,7 @@ plot.mcmcComposite <- function(x, ... , chain=1, parameters=1,
                                lwd.posterior = 1,
                                ylab.prior="Prior density") {
 
-  # x<-resultNest_mcmc_4p_SSM4p;chain=1;parameters=1;scale.prior=TRUE;legend=TRUE;ylab="Posterior density";las=1;col.prior="red";lty.prior=1;lwd.prior=1;col.posterior="white";lty.posterior=1;lwd.posterior=1;ylab.prior="Prior density"
+  # x<-NULL;chain=1;parameters=1;scale.prior=TRUE;legend=TRUE;ylab="Posterior density";las=1;col.prior="red";lty.prior=1;lwd.prior=1;col.posterior="white";lty.posterior=1;lwd.posterior=1;ylab.prior="Prior density"
   
   if (scale.prior) {
   pre.mar <- par("mar")
@@ -193,7 +194,7 @@ if (Parameters[variable, "Density"]=="dunif") {
   p1 <- as.numeric(Parameters[variable,"Prior1"])
   p2 <- as.numeric(Parameters[variable,"Prior2"])
   y <- get(Parameters[variable, "Density"])(sequence, p1, p2)
-  yl <- c(0, max(y))
+  yl <- c(0, max(y[is.finite(y)]))
   
 if (Parameters[variable, "Density"]!="dunif") {
   par(new=TRUE)
@@ -231,10 +232,12 @@ if (Parameters[variable, "Density"]!="dunif") {
   }
 }
 
-if (legend) {
-	legend("topright", c("Prior", "Posterior"), lty=1, col=c('red', 'black'), bty = "n")
+if (legend != FALSE) {
+  if (isTRUE(legend)) legend <- "topright"
+  legend(x=legend, legend=c("Prior", "Posterior"), lty=c(1, 0), 
+         col=c("red", "black"), bty="n", pch=c(NA, 0))
 }
-    }
+}
 }
 
 par(mar=pre.mar)
