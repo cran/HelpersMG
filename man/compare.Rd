@@ -31,3 +31,4 @@ Other w-value functions: \code{\link{contingencyTable.compare}},
 \author{
 Marc Girondot
 }
+\concept{w-value functions}

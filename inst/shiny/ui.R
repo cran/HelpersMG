@@ -12,6 +12,10 @@ fluidPage(
   # Application title
   
   wellPanel(
+    wellPanel(
+      HTML("<small><i><font color='#006699'>The Virtual Data initiative, run by LABEX P2IO and supported by Université Paris-Sud, is thanked for providing computing resources on its cloud infrastructure.</font></i></small>")
+    ), 
+    
     h1(HTML("The <em>w</em>-value: An alternative to <em>t</em>- and <em>&chi;<sup>2</sup></em>-tests"), align = "center")
     , h2(HTML("that does not use <em>p</em>-value"), align = "center")
     , p("This web server version v. 1.04 is a simplified version of the complete tools available ", 
@@ -23,7 +27,7 @@ fluidPage(
              <a href=\"http://www.ese.u-psud.fr/article199.html\">Jean-Michel Guillon</a>."))
     , p("Ecologie, Systématique, Evolution - Université Paris-Sud, CNRS, AgroParisTech, Université Paris Saclay, France.")
     , p("It has been published in: ")
-    , p(HTML("<a href=\"https://www.researchgate.net/publication/323847382_The_w-value_An_Alternative_to_t-and_ch2_Tests\">Girondot, M., Guillon, J.-M., 2018. The <em>w</em>-value: An alternative to <em>t</em>- and &chi;<sup>2</sup> tests. Journal of Biostatistics & Biometrics 1(1): 1-4.</a>."))
+    , p(HTML("<a href=\"https://www.researchgate.net/publication/323847382_The_w-value_An_Alternative_to_t-and_ch2_Tests\">Girondot, M., Guillon, J.-M., 2018. The <em>w</em>-value: An alternative to <em>t</em>- and &chi;<sup>2</sup> tests. Journal of Biostatistics & Biometrics 1(1): 1-4.</a>"))
     , p("")
   ),
     
@@ -62,6 +66,7 @@ fluidPage(
         The higher the value (closer to 1) the most likely the series are obtained from a single distribution."),
       h4("Data table"), 
       tableOutput(outputId="DataOut")
-    )
+    ), 
+  HTML('<img src="http://perso0.free.fr/cgi-bin/wwwcount.cgi?df=Compare.dat&dd=C&ft=0">')
   )
   

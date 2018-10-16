@@ -48,3 +48,4 @@ Other Distribution of sum of random variable with negative binomial distribution
 \author{
 Marc Girondot
 }
+\concept{Distribution of sum of random variable with negative binomial distributions}

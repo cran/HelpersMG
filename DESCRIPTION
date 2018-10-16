@@ -1,8 +1,8 @@
 Package: HelpersMG
 Type: Package
 Title: Tools for Earth Meteorological Analysis
-Version: 3.2
-Date: 2018-07-08
+Version: 3.3
+Date: 2018-09-26
 Author: Marc Girondot
 Maintainer: Marc Girondot <marc.girondot@u-psud.fr>
 Depends: coda, R (>= 2.14.0)
@@ -13,8 +13,8 @@ License: GPL-2
 LazyData: yes
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 NeedsCompilation: no
-Packaged: 2018-07-08 04:10:25 UTC; marcgirondot
+Packaged: 2018-09-26 03:14:37 UTC; marcgirondot
 Repository: CRAN
-Date/Publication: 2018-07-08 04:30:16 UTC
+Date/Publication: 2018-10-16 13:40:08 UTC

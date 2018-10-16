@@ -83,3 +83,4 @@ Other Iconography of correlations: \code{\link{IC_clean_data}},
 \author{
 Marc Girondot
 }
+\concept{Iconography of correlations}

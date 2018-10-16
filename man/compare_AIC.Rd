@@ -59,3 +59,4 @@ Other AIC: \code{\link{ExtractAIC.glm}},
 \author{
 Marc Girondot
 }
+\concept{AIC}

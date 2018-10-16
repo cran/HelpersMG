@@ -5,9 +5,9 @@
 \title{Clean the dataframe before to be used with IC_threshold_matrix}
 \usage{
 IC_clean_data(data = stop("A dataframe object is required"),
-  use = c("pairwise.complete.obs", "everything", "all.obs", "complete.obs",
-  "na.or.complete"), method = c("pearson", "kendall", "spearman"),
-  variable.retain = NULL, test.partial.correlation = TRUE,
+  use = c("pairwise.complete.obs", "everything", "all.obs",
+  "complete.obs", "na.or.complete"), method = c("pearson", "kendall",
+  "spearman"), variable.retain = NULL, test.partial.correlation = TRUE,
   progress = TRUE, debug = FALSE)
 }
 \arguments{
@@ -81,3 +81,4 @@ Other Iconography of correlations: \code{\link{IC_correlation_simplify}},
 \author{
 Marc Girondot
 }
+\concept{Iconography of correlations}

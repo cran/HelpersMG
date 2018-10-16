@@ -44,3 +44,4 @@ Other Periodic patterns of indices: \code{\link{index.periodic}},
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}
 }
+\concept{Periodic patterns of indices}

@@ -6,8 +6,8 @@
 \usage{
 barplot_errbar(..., errbar.y = NULL, errbar.y.plus = NULL,
   errbar.y.minus = NULL, y.plus = NULL, y.minus = NULL,
-  errbar.tick = 1/50, errbar.lwd = par("lwd"), errbar.lty = par("lty"),
-  errbar.col = par("fg"), add = FALSE)
+  errbar.tick = 1/50, errbar.lwd = par("lwd"),
+  errbar.lty = par("lty"), errbar.col = par("fg"), add = FALSE)
 }
 \arguments{
 \item{...}{Parameters for barplot() such as main= or ylim=}
@@ -67,3 +67,4 @@ Other plot and barplot functions: \code{\link{ScalePreviousPlot}},
 \author{
 Marc Girondot
 }
+\concept{plot and barplot functions}

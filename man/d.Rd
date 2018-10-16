@@ -38,3 +38,4 @@ Other Characters: \code{\link{asc}}, \code{\link{chr}},
 \author{
 Marc Girondot
 }
+\concept{Characters}

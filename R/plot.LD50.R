@@ -87,7 +87,7 @@ plot.LD50 <- function(x, ...,
   text(x=parP, y=1.1, lab.PT)
   text(x=parP, y=1.2, lab.TRD)
   
-  	  b <- HelpersMG::.BinomialConfidence(alive,N)
+  	  b <- getFromNamespace("BinomialConfidence", ns="HelpersMG")(alive,N)
   	  L1 <- modifyList(list(x=doses, y=alive/N, bty="n", type="p", ylim=c(0,1), y.plus = b[,3], y.minus = b[,2]), L)
   L1 <- modifyList(L1, list(ylim=c(0,1), xlab="", ylab="", main="", axes=FALSE, xlim=c(x1, x2)))
   

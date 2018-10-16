@@ -58,3 +58,4 @@ Other Symbol: \code{\link{symbol.Female}}
 \author{
 Marc Girondot
 }
+\concept{Symbol}

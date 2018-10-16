@@ -37,11 +37,12 @@ tide.info <- function(file=NULL, year=as.POSIXlt(Sys.time())$year+1900,
   # file=NULL; year=as.POSIXlt(Sys.time())$year+1900;location=0;latitude=NA;longitude=NA;tz=""
   # longitude=4.01; latitude=6.4
   if (!is.na(latitude) & !is.na(longitude)) {
-    locationTide <- NULL
-    load(file=paste0(system.file("Tide", package="HelpersMG"), "/locationTide.rda"))
+    locationTide <- locationTide
+    # locationTide <- NULL
+    # load(file=file.path(system.file("Tide", package="HelpersMG"), "locationTide.rda"))
   location <- locationTide$location[which.min(abs(locationTide$latitude-latitude)+abs(locationTide$longitude-longitude))][1]
   }
-  rm(locationTide)
+  # rm(locationTide)
   if (is.null(file)) {
   theurl <- paste0("http://tides.mobilegeographics.com/calendar/year/", location, ".html?y=", year, "&m=1&d=1")
 } else {

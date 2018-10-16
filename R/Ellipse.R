@@ -114,7 +114,7 @@ ellipse <- function(center.x = 0, center.y = 0,
       control.binconf.x <- modifyList(c(control.binconf, list(x=binconf.x[, "x"]), 
                                         list(n=binconf.x[, "n"])), 
                                       list(include.x = FALSE, include.n = FALSE, return.df = FALSE))
-      bc.x <- do.call(HelpersMG::.BinomialConfidence, control.binconf.x) 
+      bc.x <- do.call(getFromNamespace(".BinomialConfidence", ns="HelpersMG"), control.binconf.x) 
     }
     
     center.x = bc.x[, "PointEst"]
@@ -129,7 +129,7 @@ ellipse <- function(center.x = 0, center.y = 0,
       control.binconf.y <- modifyList(c(control.binconf, list(x=binconf.y[, "x"]), 
                                         list(n=binconf.y[, "n"])), 
                                       list(include.x = FALSE, include.n = FALSE, return.df = FALSE))
-      bc.y <- do.call(HelpersMG::.BinomialConfidence, control.binconf.y) 
+      bc.y <- do.call(getFromNamespace(".BinomialConfidence", ns="HelpersMG"), control.binconf.y) 
     }
     
     center.y = bc.y[, "PointEst"]

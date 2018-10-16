@@ -16,7 +16,8 @@ list.packages <- function() {
   lp <- levels(as.factor(ip[, "LibPath"]))
   grandL <- list()
   for (p in lp) {
-    L <- subset(ip, subset=(ip$LibPath==p), select=c("Version"))
+    L <- subset(ip, subset=(ip$LibPath==p), select=c("Package", "Version"))
+    rownames(L) <- L[, "Package"]
     grandL <- c(grandL, list(L))
   }
   names(grandL) <- lp

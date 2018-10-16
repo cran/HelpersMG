@@ -220,12 +220,14 @@ if (trace) {
 
 MaxL <- varp[1, ]
 
-sdg=NULL
+# sdg=NULL
 
 
 # 18/1/2013
 # for(i in 1:nbvar) sdg<-c(sdg, as.numeric(parameters[i, 'SDProp']))
-sdg <- c(sdg, as.numeric(parameters[1:nbvar, 'SDProp']))
+# sdg <- c(sdg, as.numeric(parameters[1:nbvar, 'SDProp']))
+sdg <- as.numeric(parameters[1:nbvar, 'SDProp'])
+
 
 # previous <- NULL
 }
@@ -318,7 +320,8 @@ for (i in deb_i:(n.adapt+n.iter)) {
 		
 		if (adaptive) {
 		  if ((i %% adaptive.lag) == 0) {
-		    sdp <- 
+
+#		    sdp <- 
 		    for (j in 1:nbvar) {
 		      dta <- varp[(i-adaptive.lag):i, j]
 		      txaccept <- sum(diff(dta)!=0)/(length(dta)-1)
@@ -332,9 +335,12 @@ for (i in deb_i:(n.adapt+n.iter)) {
 
 lp <- getFromNamespace("as.mcmc", ns="coda")(varp2[(n.adapt+1):(cpt-1), 1:nbvar])
 lp <- getFromNamespace("mcmc", ns="coda")(data=lp, start=n.adapt+1, end=n.iter+n.adapt, thin=thin)
+
+# Ca c'est uniquement pour les chaînes
+# Ce n'est pas ca qui fait perdre du temps
+
 res<-c(res, list(lp))
 resL <- c(resL, list(varp2[(n.adapt+1):(cpt-1), "Ln L"]))
-
 }
 
 names(res) <- 1:n.chains

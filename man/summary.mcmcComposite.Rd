@@ -75,3 +75,4 @@ Other mcmcComposite functions: \code{\link{MHalgoGen}},
 \author{
 Marc Girondot
 }
+\concept{mcmcComposite functions}

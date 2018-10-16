@@ -5,9 +5,10 @@
 \title{Search for minimum and maximum indices in periodic timeseries}
 \usage{
 minmax.periodic(time.minmax.daily = NULL, time.minmax = NULL,
-  progressbar = FALSE, observed = stop("data.frame with observed indices"),
-  period = 24, colname.time = "time", colname.index = "index",
-  colname.SD = "SD", plot = FALSE)
+  progressbar = FALSE,
+  observed = stop("data.frame with observed indices"), period = 24,
+  colname.time = "time", colname.index = "index", colname.SD = "SD",
+  plot = FALSE)
 }
 \arguments{
 \item{time.minmax.daily}{A named vector with Min and Max being the time in the day with minimum and maximum indices (temperature or level)}
@@ -87,3 +88,4 @@ Other Periodic patterns of indices: \code{\link{index.periodic}},
 \author{
 Marc Girondot
 }
+\concept{Periodic patterns of indices}

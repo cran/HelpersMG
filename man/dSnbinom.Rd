@@ -4,8 +4,8 @@
 \alias{dSnbinom}
 \title{Density for the sum of random variable with negative binomial distributions.}
 \usage{
-dSnbinom(x = stop("You must provide a x value"), size = NULL, prob = NULL,
-  mu = NULL, log = FALSE, infinite = 100)
+dSnbinom(x = stop("You must provide a x value"), size = NULL,
+  prob = NULL, mu = NULL, log = FALSE, infinite = 100)
 }
 \arguments{
 \item{x}{vector of (non-negative integer) quantiles.}
@@ -102,3 +102,4 @@ Other Distribution of sum of random variable with negative binomial distribution
 \author{
 Marc Girondot
 }
+\concept{Distribution of sum of random variable with negative binomial distributions}

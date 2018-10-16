@@ -49,3 +49,4 @@ Other AIC: \code{\link{compare_AICc}},
 \author{
 Modified from stats:::extract.AIC.glm
 }
+\concept{AIC}

@@ -40,3 +40,4 @@ Other plot and barplot functions: \code{\link{barplot_errbar}},
 \author{
 Marc Girondot
 }
+\concept{plot and barplot functions}

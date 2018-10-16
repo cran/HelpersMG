@@ -1,25 +1,26 @@
-#' @title Confidence Intervals for Binomial Probabilities
-#' @author Rollin Brant, Modified by Frank Harrell and Brad Biggerstaff 
-#' @return a matrix or data.frame containing the computed intervals and, optionally, x and n.
-#' @param x Vector containing the number of "successes" for binomial variates
-#' @param n Vector containing the numbers of corresponding observations
-#' @param alpha Probability of a type I error, so confidence coefficient = 1-alpha
-#' @param method Character string specifing which method to use. The "all" method only works when x and n are length 1. The "exact" method uses the F distribution to compute exact (based on the binomial cdf) intervals; the "wilson" interval is score-test-based; and the "asymptotic" is the text-book, asymptotic normal interval. Following Agresti and Coull, the Wilson interval is to be preferred and so is the default.
-#' @param include.x Logical flag to indicate whether x should be included in the returned matrix or data frame
-#' @param include.n Logical flag to indicate whether n should be included in the returned matrix or data frame
-#' @param return.df Logical flag to indicate that a data frame rather than a matrix be returned
-#' @description Produces 1-alpha confidence intervals for binomial probabilities.\cr
-#' @examples
-#' \dontrun{
-#' HelpersMG:::.BinomialConfidence(0:10,10,include.x=TRUE,include.n=TRUE)
-#' HelpersMG:::.BinomialConfidence(46,50,method="all")
-#' }
-#' @export
-
 .BinomialConfidence <- 
 function (x, n, alpha = 0.05, method = c("wilson", "exact", "asymptotic", 
     "all"), include.x = FALSE, include.n = FALSE, return.df = FALSE) 
 {
+  
+  # @title Confidence Intervals for Binomial Probabilities
+  # @author Rollin Brant, Modified by Frank Harrell and Brad Biggerstaff 
+  # @return a matrix or data.frame containing the computed intervals and, optionally, x and n.
+  # @param x Vector containing the number of "successes" for binomial variates
+  # @param n Vector containing the numbers of corresponding observations
+  # @param alpha Probability of a type I error, so confidence coefficient = 1-alpha
+  # @param method Character string specifing which method to use. The "all" method only works when x and n are length 1. The "exact" method uses the F distribution to compute exact (based on the binomial cdf) intervals; the "wilson" interval is score-test-based; and the "asymptotic" is the text-book, asymptotic normal interval. Following Agresti and Coull, the Wilson interval is to be preferred and so is the default.
+  # @param include.x Logical flag to indicate whether x should be included in the returned matrix or data frame
+  # @param include.n Logical flag to indicate whether n should be included in the returned matrix or data frame
+  # @param return.df Logical flag to indicate that a data frame rather than a matrix be returned
+  # @description Produces 1-alpha confidence intervals for binomial probabilities.\cr
+  # @examples
+  # \dontrun{
+  # HelpersMG:::.BinomialConfidence(0:10,10,include.x=TRUE,include.n=TRUE)
+  # HelpersMG:::.BinomialConfidence(46,50,method="all")
+  # }
+  # @export
+  
     method <- match.arg(method)
     bc <- function(x, n, alpha, method) {
         nu1 <- 2 * (n - x + 1)

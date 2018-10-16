@@ -4,7 +4,8 @@
 \alias{newdbeta}
 \title{Density for the Beta distributions.}
 \usage{
-newdbeta(x, mu = NULL, v = NULL, shape1, shape2, ncp = 0, log = FALSE)
+newdbeta(x, mu = NULL, v = NULL, shape1, shape2, ncp = 0,
+  log = FALSE)
 }
 \arguments{
 \item{x}{vector of quantiles.}

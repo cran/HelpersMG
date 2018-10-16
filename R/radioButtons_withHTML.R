@@ -1,9 +1,10 @@
-#' @title radioButtons_withHTML
-#' http://stackoverflow.com/users/4474157/nice
 
 .radioButtons_withHTML <- function (inputId, label, choices, selected = NULL, 
 								    inline = FALSE, width = NULL) 
 {
+
+  # http://stackoverflow.com/users/4474157/nice
+  
   tags <- NULL
   HTML <- NULL
   div <- NULL

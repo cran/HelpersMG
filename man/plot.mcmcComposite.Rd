@@ -5,10 +5,10 @@
 \title{Plot the result of a mcmcComposite object}
 \usage{
 \method{plot}{mcmcComposite}(x, ..., chain = 1, parameters = 1,
-  scale.prior = TRUE, legend = "topright", ylab = "Posterior density",
-  las = 1, col.prior = "red", lty.prior = 1, lwd.prior = 1,
-  col.posterior = "white", lty.posterior = 1, lwd.posterior = 1,
-  ylab.prior = "Prior density")
+  scale.prior = TRUE, legend = "topright",
+  ylab = "Posterior density", las = 1, col.prior = "red",
+  lty.prior = 1, lwd.prior = 1, col.posterior = "white",
+  lty.posterior = 1, lwd.posterior = 1, ylab.prior = "Prior density")
 }
 \arguments{
 \item{x}{A mcmcComposite object}
@@ -113,3 +113,4 @@ Other mcmcComposite functions: \code{\link{MHalgoGen}},
 \author{
 Marc Girondot
 }
+\concept{mcmcComposite functions}

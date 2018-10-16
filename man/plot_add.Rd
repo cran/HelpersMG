@@ -33,3 +33,4 @@ Other plot and barplot functions: \code{\link{ScalePreviousPlot}},
 \author{
 Marc Girondot
 }
+\concept{plot and barplot functions}

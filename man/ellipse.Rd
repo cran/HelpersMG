@@ -5,10 +5,10 @@
 \title{Plot an ellipse}
 \usage{
 ellipse(center.x = 0, center.y = 0, radius.x = 1, radius.y = 1,
-  radius.x.lower = NULL, radius.x.upper = NULL, radius.y.lower = NULL,
-  radius.y.upper = NULL, alpha = 0, binconf.x = NULL, binconf.y = NULL,
-  control.binconf = list(alpha = 0.05, method = "wilson"), length = 100,
-  ...)
+  radius.x.lower = NULL, radius.x.upper = NULL,
+  radius.y.lower = NULL, radius.y.upper = NULL, alpha = 0,
+  binconf.x = NULL, binconf.y = NULL, control.binconf = list(alpha =
+  0.05, method = "wilson"), length = 100, ...)
 }
 \arguments{
 \item{center.x}{Center of the ellipse on x axis}

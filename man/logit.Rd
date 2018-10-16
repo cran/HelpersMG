@@ -28,3 +28,4 @@ Other logit: \code{\link{invlogit}}
 \author{
 Marc Girondot
 }
+\concept{logit}

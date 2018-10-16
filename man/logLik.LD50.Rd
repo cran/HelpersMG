@@ -37,3 +37,4 @@ Other LD50 functions: \code{\link{LD50}},
 \author{
 Marc Girondot
 }
+\concept{LD50 functions}

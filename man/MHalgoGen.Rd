@@ -7,8 +7,8 @@
 MHalgoGen(likelihood = stop("A likelihood function must be supplied"),
   parameters = stop("Priors  must be supplied"), ..., n.iter = 10000,
   n.chains = 1, n.adapt = 100, thin = 30, trace = FALSE,
-  adaptive = FALSE, adaptive.lag = 500, adaptive.fun = function(x) {    
-  ifelse(x > 0.234, 1.3, 0.7) }, intermediate = NULL,
+  adaptive = FALSE, adaptive.lag = 500, adaptive.fun = function(x) { 
+     ifelse(x > 0.234, 1.3, 0.7) }, intermediate = NULL,
   filename = "intermediate.Rdata", previous = NULL)
 }
 \arguments{
@@ -156,3 +156,4 @@ Other mcmcComposite functions: \code{\link{as.mcmc.mcmcComposite}},
 \author{
 Marc Girondot
 }
+\concept{mcmcComposite functions}

@@ -4,7 +4,8 @@
 \alias{ChangeCoordinate}
 \title{Return a value in a changed coordinate}
 \usage{
-ChangeCoordinate(x = stop("At least one value to convert must be provided"),
+
+  ChangeCoordinate(x = stop("At least one value to convert must be provided"),
   initial = stop("Set of two values must be provided as references"),
   transformed = stop("Set of two transformed values must be provided"))
 }

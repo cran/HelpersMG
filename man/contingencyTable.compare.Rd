@@ -131,3 +131,4 @@ Other w-value functions: \code{\link{compare}},
 \author{
 Marc Girondot
 }
+\concept{w-value functions}

@@ -4,7 +4,8 @@
 \alias{series.compare}
 \title{Data series comparison using Akaike weight}
 \usage{
-series.compare(..., criterion = c("BIC", "AIC", "AICc"), var.equal = TRUE)
+series.compare(..., criterion = c("BIC", "AIC", "AICc"),
+  var.equal = TRUE)
 }
 \arguments{
 \item{...}{Series of data (at least two or data are in a table with series in different rows)}
@@ -131,3 +132,4 @@ Other w-value functions: \code{\link{compare}},
 \author{
 Marc Girondot
 }
+\concept{w-value functions}

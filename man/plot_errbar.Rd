@@ -4,10 +4,11 @@
 \alias{plot_errbar}
 \title{Plot a xy graph with error bar on x and/or y}
 \usage{
-plot_errbar(..., errbar.x = NULL, errbar.y = NULL, errbar.x.plus = NULL,
-  errbar.x.minus = NULL, errbar.y.plus = NULL, errbar.y.minus = NULL,
-  x.plus = NULL, x.minus = NULL, y.plus = NULL, y.minus = NULL,
-  errbar.tick = 1/50, errbar.lwd = par("lwd"), errbar.lty = par("lty"),
+plot_errbar(..., errbar.x = NULL, errbar.y = NULL,
+  errbar.x.plus = NULL, errbar.x.minus = NULL, errbar.y.plus = NULL,
+  errbar.y.minus = NULL, x.plus = NULL, x.minus = NULL,
+  y.plus = NULL, y.minus = NULL, errbar.tick = 1/50,
+  errbar.lwd = par("lwd"), errbar.lty = par("lty"),
   errbar.col = par("fg"), errbar.y.polygon = FALSE,
   errbar.y.polygon.list = list(NULL), add = FALSE)
 }
@@ -95,3 +96,4 @@ Other plot and barplot functions: \code{\link{ScalePreviousPlot}},
 \author{
 Marc Girondot
 }
+\concept{plot and barplot functions}
