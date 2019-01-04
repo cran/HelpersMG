@@ -29,6 +29,8 @@
 
 tide.info <- function(file=NULL, year=as.POSIXlt(Sys.time())$year+1900, 
 	location=0, latitude=NA, longitude=NA, tz="") {
+  
+  
         
   if (!requireNamespace("XML", quietly = TRUE)) {
     stop("XML package is necessary for this function")
@@ -48,14 +50,20 @@ tide.info <- function(file=NULL, year=as.POSIXlt(Sys.time())$year+1900,
 } else {
   theurl <- file
 }
-tables <- XML::readHTMLTable(theurl, stringsAsFactors=FALSE)
+  
+  dest <- paste(tempdir(), "/tide.html", sep="")
+  download.file(theurl, dest, quiet = TRUE)
+  
+  tables <- XML::readHTMLTable(dest, header=TRUE, stringsAsFactors = FALSE)
+  
+# tables <- XML::readHTMLTable(theurl, stringsAsFactors=FALSE)
 n.rows <- lapply(tables, function(t) dim(t)[1])
 n.rows <- lapply(n.rows, function(t) {ifelse(is.null(t), 1, t)})
 n.rows <- unlist(n.rows)
 
 tl <- Sys.getlocale(category = "LC_TIME")
 Sys.setlocale(category = "LC_TIME", locale = gsub(".._..(.+)", "en_US\\1", tl) )
-Tide.Calendar <- NULL
+Tide.Calendar <- data.frame(Date.time=as.POSIXlt(character(0)), Level=numeric(0), Tide=character(0))
 months <- which(n.rows>27)
 for (month in 1:12) {
   table <- tables[[months[month]]]
@@ -65,8 +73,13 @@ for (month in 1:12) {
   Time <- gsub("([0-9]+:[0-9]+ [AP]M) .+", "\\1", table[,col])
   
   Date.Time <- strptime(paste(Date, Time), format="%Y-%m-%d %I:%M %p", tz=tz)
-  Level <- gsub("[0-9]+:[0-9]+ [AP]M .+ / (-?[\\.0-9]+) m", "\\1", table[,col])
-  Tide.Calendar <- rbind(Tide.Calendar, data.frame(Date.Time=Date.Time, Level=as.numeric(Level), 
+  metric <- TRUE
+  Level2 <- gsub("[0-9]+:[0-9]+ [AP]M .+ (-?[\\.0-9]+) m", "\\1", table[,col])
+  if (identical(table[,col], Level2)) {
+    Level2 <- gsub("[0-9]+:[0-9]+ [AP]M .+ (-?[\\.0-9]+) ft", "\\1", table[,col])
+    metric <- FALSE
+  }
+  Tide.Calendar <- rbind(Tide.Calendar, data.frame(Date.Time=Date.Time, Level=ifelse(Level2=="", NA, as.numeric(Level2)), 
                                                    Tide=c("High Tide", "Low Tide", "High Tide", 
                                                           "Low Tide", "High Tide")[col-1], 
                                                    stringsAsFactors=FALSE))
@@ -74,6 +87,7 @@ for (month in 1:12) {
 }
 Tide.Calendar <- na.omit(Tide.Calendar)
 Tide.Calendar <- Tide.Calendar[order(Tide.Calendar[,1]),]
+if (!metric) Tide.Calendar[, "Level"] <- Tide.Calendar[, "Level"] * 0.3048
 Sys.setlocale(category = "LC_TIME", locale = tl )
 return(Tide.Calendar)
 }

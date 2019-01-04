@@ -1,11 +1,11 @@
-aec0e312b9b76a79dff2dff8b9b325c4 *DESCRIPTION
-46e8ffc7790ce37d0729134ccc9791d8 *NAMESPACE
-ff3c2232d2d67f37c621b8de10e8928e *NEWS
+ab922d950f72d7f825acf1504ac01e12 *DESCRIPTION
+e4161cd328ea69efe3e9be163163f53d *NAMESPACE
+fa072aae21561e346bc2f0a85cb0f179 *NEWS
 42659f31ccbaee8bd22d718d44b7334c *R/BinomialConfidence.R
 f972fda8168c6d94ef2d53565c5ef5b7 *R/ChangeCoordinate.R
 4b79dff227038e65934d220e45c0cb9c *R/DIx.R
 03d3cd77fb2fc8c54a44d6155a9638c3 *R/Ellipse.R
-8d0239f9bc5a45a237f0079700a60b3d *R/HelpersMG-package.R
+306f8f4f3ab39bbb114bdb41722d42ec *R/HelpersMG-package.R
 9f0c1ab57487846454121250a2a9b382 *R/IC_clean_data.R
 19d18fcceca486ee081341638cbc265c *R/IC_correlation_simplify.R
 3bcb4d6cc8412ec07e822125e1f6054a *R/IC_threshold_matrix.R
@@ -18,6 +18,7 @@ e41e5ecb18b40f2ae94534d446f588fe *R/as.mcmc.mcmcComposite.R
 6410a2f9b4e9f1ca73dbf6b8316755de *R/as.parameters.R
 5ee877206662517351c289898a9db6db *R/asc.R
 4386ea5d8eb15ad761fbed768eb33574 *R/barplot_errbar.R
+ae9d28db3740b6bef4000db3bec71f39 *R/cArrows.R
 e4075ab6a035267478130492e2d6c40c *R/chr.R
 b4594793cbb4dbb6d4dda785f856ae28 *R/clean.knitr.R
 822d9e78da4060eaffd9a1f7cebe52ba *R/compare.R
@@ -59,6 +60,7 @@ ea9005e303db03dcc0ceba99669373a1 *R/nlConfint.R
 d631b357fd00cbcea1d4f145b29e3812 *R/plot_errbar.R
 efb32167c4508e290beba168a539b6c6 *R/predict.LD50.R
 cf37b925f105369580133960ca382a22 *R/qSnbinom.R
+f96bf59e0612816166c0d6ea7cb03f0c *R/qvlmer.R
 3a70a0c51b3b2a58bd28964d363739a4 *R/r2norm.R
 85de116acfe81967fd3ae12c130120c2 *R/rSnbinom.R
 fa6d0937dc12883999438b6c2c26e8f7 *R/radioButtons_withHTML.R
@@ -71,7 +73,7 @@ f76c891e90b8b14b2816255495bae6f5 *R/symbol.Female.R
 49043e8ed6e3bf5bf3861fd7d3ea68e8 *R/symbol.Male.R
 5d55fb92e2ca9e1fac277b182ed7075e *R/symmetricize.R
 666e8fdb9e95189ff57dab2cf7bbae04 *R/sysdata.rda
-b1f2505d09287cb60511dbe280fc411b *R/tide.info.R
+69d4ed06a192043b8b8a9a7e0b572897 *R/tide.info.R
 5b847ecb8f504e499015a0e6bdc36e88 *R/tnirp.R
 fa196723760455bb290178f1c8231786 *R/wget.R
 fde57504ab5c02afde9f93bf2cb91a53 *inst/shiny/server.R
@@ -80,7 +82,7 @@ ca0c55ff62aff6ad66c52bd78b65810f *inst/shiny/www/PDF.png
 de9cc81ed5d1edfc8f9c61869581329c *man/ChangeCoordinate.Rd
 162c1f88d03e15696a33cbf007d122ca *man/DIx.Rd
 14ad5a9a2820ca6514db7c3d7f003577 *man/ExtractAIC.glm.Rd
-567b580f5550459ae8d7c8a60b4736cd *man/HelpersMG-package.Rd
+ecf8e323dc85b5d4e41961c96a820a37 *man/HelpersMG-package.Rd
 38f402c22534bf6739979012ebecd9f0 *man/IC_clean_data.Rd
 9458182cfa610a7f2dc8024faf38f402 *man/IC_correlation_simplify.Rd
 8142902315f3e88a724cf8b5889d0fbf *man/IC_threshold_matrix.Rd
@@ -92,6 +94,7 @@ f9a915b998ddfffd8df891b99d736992 *man/as.mcmc.mcmcComposite.Rd
 a23b3791bcee2cd2656c8a4195a4b5c8 *man/as.parameters.Rd
 cb2a3fa75810bb8d36009adeb3ef2fe7 *man/asc.Rd
 0dae065ef165f4cb3392070cbe6a85ce *man/barplot_errbar.Rd
+8d1f78686f24fdf193cd2339423c6f10 *man/cArrows.Rd
 ae2eb4b7c0255038a03700b230503972 *man/chr.Rd
 5c0fe48b4811b9b5cd3e4f08d61d774b *man/clean.knitr.Rd
 4a81632bf5a8262de943500778c9d968 *man/compare.Rd
@@ -129,6 +132,7 @@ f98ab0ff6ff5aff92efd5e2927f29067 *man/plot.mcmcComposite.Rd
 0986136313f85ba9565282712f10a260 *man/plot_errbar.Rd
 213ebe3c58b1345a91139505dc6ea304 *man/predict.LD50.Rd
 aa2e117d07f495bbc1b63c36376d50ed *man/qSnbinom.Rd
+1dbe6e6b9bfc334fa1f0af589f775aa0 *man/qvlmer.Rd
 df6ba3a17d95fd8123762724ccb26b49 *man/r2norm.Rd
 2b267b45e1789d3a102dcbfa1b21d9d5 *man/rSnbinom.Rd
 2d7dd3f5c3e2b5c8bd59cf13adae5ed3 *man/read_folder.Rd

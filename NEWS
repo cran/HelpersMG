@@ -1,5 +1,12 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
+            CHANGES IN VERSION 3.5 (2019-01-04)
+
+* New function cArrows() - 3.4 (2018-10-17)
+* New function qvlmer() - 3.4.1 (2018-12-30)
+* solve a problem with tide.info() - 3.5 (2019-01-04)
+* update some internal build for the package - 3.5 (2019-01-04)
+
             CHANGES IN VERSION 3.3 (2018-09-26)
 
 * Better managment of rda internal file - 3.2.1 (2018-07-30)

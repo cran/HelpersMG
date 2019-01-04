@@ -21,6 +21,7 @@ export(ScalePreviousPlot)
 export(as.parameters)
 export(asc)
 export(barplot_errbar)
+export(cArrows)
 export(chr)
 export(clean.knitr)
 export(compare)
@@ -52,6 +53,7 @@ export(pSnbinom)
 export(plot_add)
 export(plot_errbar)
 export(qSnbinom)
+export(qvlmer)
 export(r2norm)
 export(rSnbinom)
 export(read_folder)
@@ -68,6 +70,7 @@ import(coda)
 importFrom("grDevices", "rgb")
 importFrom("graphics", "arrows", "axis", "barplot", "hist", "legend",
 "lines", "mtext", "par", "plot", "polygon", "segments",
+"xspline", "xyinch", 
 "strheight", "text")
 importFrom("stats", "AIC", "aggregate", "as.formula", "binomial",
 "coef", "cor", "dbeta", "dbinom", "deriv", "df.residual",
@@ -78,3 +81,5 @@ importFrom("stats", "AIC", "aggregate", "as.formula", "binomial",
 importFrom("utils", "combn", "download.file", "getFromNamespace",
 "installed.packages", "modifyList", "read.delim",
 "setTxtProgressBar", "tail", "txtProgressBar", "compareVersion")
+importFrom("stats", "model.matrix", "terms")
+importFrom("lme4", "fixef")
