@@ -32,7 +32,7 @@ A list
 \description{
 This function calculates the matrix of correlations thresholded using partial correlation.\cr
 If the threshold is not given, the object that is produced can be used later for thresholding.\cr
-For model OAT: a correlation is retained if it is higher that the threshold and if all partial correlationw of the two variables and any third one are all lower than the threshold.\cr
+For model OAT: a correlation is retained if it is higher that the threshold and if all partial correlations of the two variables and any third one are all lower than the threshold.\cr
 For model AAT: a correlation is retained if it is higher than the threshold and the partial correlation is lower than the threshold. In this case, no missing value is accepted.\cr
 The use and method parameters are used by cor() function. The function uses by default a parallel computing in Unix or MacOSX systems. 
 If progress is TRUE and the package pbmcapply is present, a progress bar is displayed. If debug is TRUE, some informations are shown during the process but parallel computing is not used.\cr

@@ -31,7 +31,8 @@ AIC(LD50_logistic)
 }
 }
 \seealso{
-Other LD50 functions: \code{\link{LD50}},
+Other LD50 functions: \code{\link{LD50_MHmcmc_p}},
+  \code{\link{LD50_MHmcmc}}, \code{\link{LD50}},
   \code{\link{plot.LD50}}, \code{\link{predict.LD50}}
 }
 \author{

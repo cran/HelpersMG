@@ -21,7 +21,7 @@ IC_clean_data(data = stop("A dataframe object is required"),
 
 \item{test.partial.correlation}{should the partial correlations be tested ?}
 
-\item{progress}{show a progress bar}
+\item{progress}{Show a progress bar}
 
 \item{debug}{if TRUE, information about progression of cleaning are shown}
 }

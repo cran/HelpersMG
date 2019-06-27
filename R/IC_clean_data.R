@@ -7,7 +7,7 @@
 #' @param method a character string indicating which correlation coefficient (or covariance) is to be computed. One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
 #' @param variable.retain a vector with the name of columns to keep
 #' @param test.partial.correlation should the partial correlations be tested ?
-#' @param progress show a progress bar
+#' @param progress Show a progress bar
 #' @param debug if TRUE, information about progression of cleaning are shown
 #' @description This function must be used if missing values are present in the dataset.\cr
 #' It ensures that all correlations and partial correlations can be calculated. 

@@ -19,7 +19,21 @@
   if (equation=="logistic")	p <- 1/(1+exp((1/par["S"])*(par["P"]-doses)))
   if (equation=="logit")	p <- 1/(1+exp(par["P"]+doses*par["S"]))
   if (equation=="probit")	p <- pnorm(par["P"]+doses*par["S"])
-  if (equation=="richards") p <- ifelse(par["K"]>3 & sign(par["P"]-doses)==sign(par["S"]), 
+  if (equation=="flexit") {
+    # Peut-être  encore des problèmes de exp(K1 ou K2)
+    S1 <- (1/(2*par["S"]*exp(par["K1"])))*(1-(1/(2^exp(par["K1"]))))
+    S2 <- (1/(2*par["S"]*exp(par["K2"])))*(1-(1/(2^exp(par["K2"]))))
+    
+    p <- ifelse(doses < par["P"],
+                ifelse(par["K1"]>3 & sign(par["P"]-doses) == sign(S1), 
+                       0.5*exp((doses-par["P"])/(S1*exp(par["K1"]))), 
+                       (1+(2^exp(par["K1"])-1)*exp((1/S1)*(par["P"]-doses)))^(-1/exp(par["K1"]))), 
+                ifelse(par["K2"]>3 & sign(par["P"]-doses) == sign(S2), 
+                       0.5*exp((doses-par["P"])/(S1*exp(par["K2"]))), 
+                       (1+(2^exp(par["K2"])-1)*exp((1/S2)*(par["P"]-doses)))^(-1/exp(par["K2"])))
+    )
+  }
+  if (equation=="richards") p <- ifelse(par["K"]>3 & sign(par["P"]-doses) == sign(par["S"]), 
                                         0.5*exp((doses-par["P"])/(par["S"]*exp(par["K"]))), 
                                         (1+(2^exp(par["K"])-1)*exp((1/par["S"])*(par["P"]-doses)))^(-1/exp(par["K"])))
   if (equation=="double-richards") p <- ifelse(doses<par["P"], 

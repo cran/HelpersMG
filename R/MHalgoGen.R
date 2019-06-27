@@ -15,6 +15,7 @@
 #' @param adaptive.lag  Lag to analyze the SDProp value in an adaptive context
 #' @param adaptive.fun Function used to change the SDProp
 #' @param previous The content of the file in which intermediate results are saved
+#' @param parameters_name The name of the parameters in the likelihood function, default is "x"
 #' @param ... Parameters to be transmitted to likelihood function
 #' @description The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
 #' \itemize{
@@ -27,7 +28,7 @@
 #'   \item Init. The initial value for this parameter
 #' }
 #' This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).\cr
-#' The likelihood function must take a parameter named x.\cr
+#' The likelihood function must use a parameter named parameters_name for the nammed parameters.\cr
 #' For adaptive mcmc, see:\cr
 #' Rosenthal, J. S. 2011. Optimal Proposal Distributions and Adaptive MCMC. Pages 93-112 in S. Brooks, A. Gelman, 
 #' G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.
@@ -120,6 +121,7 @@
 # ------------------------
 
 MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"), 
+                    parameters_name="x",
                     parameters=stop("Priors  must be supplied"), ..., 
                     n.iter=10000, n.chains = 1, n.adapt = 100, thin=30, trace=FALSE, 
                     adaptive = FALSE, adaptive.lag = 500, 
@@ -133,7 +135,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
      stop("coda package is necessary for this function")
   }
   
-# likelihood=NULL; parameters=NULL; n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
+# likelihood=NULL; parameters_name="x"; parameters=NULL; n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
 # datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
   
   if (is.null(previous)) {
@@ -159,6 +161,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     nbvar<-dim(parameters)[1]
     datax <- previous$datax
     likelihood <- previous$likelihood
+    parameters_name <- previous$parameters_name
     n.chains <- previous$n.chains
     n.adapt <- previous$n.adapt
     thin <- previous$thin
@@ -205,7 +208,10 @@ colnames(deb_varp2)<-c(rownames(parameters), "Ln L")
 
 varp[1, 1:nbvar] <- as.numeric(parameters[1:nbvar, 'Init'])
 
-varp[1, "Ln L"] <- -do.call(likelihood, modifyList(datax, list(x=varp[1, 1:nbvar])))
+param <- list(varp[1, 1:nbvar])
+names(param) <- parameters_name
+
+varp[1, "Ln L"] <- -do.call(likelihood, modifyList(datax, param))
 cpt<-1
 varp2[cpt, 1:nbvar] <- varp[1, 1:nbvar]
 varp2[cpt, "Ln L"] <- varp[1, "Ln L"]
@@ -233,16 +239,15 @@ sdg <- as.numeric(parameters[1:nbvar, 'SDProp'])
 }
 
 
-if (is.data.frame(parameters[,2:3])) {
-  Prior <- as.matrix(parameters[,2:3])
-  Limites <- as.matrix(parameters[,5:6])
+if (is.data.frame(parameters)) {
+  Prior <- as.matrix(parameters[,c("Prior1", "Prior2")])
+  Limites <- as.matrix(parameters[,c("Min", "Max")])
 } else {
-  Prior<-matrix(as.numeric(parameters[,2:3]), ncol=2)
-  Limites<-matrix(as.numeric(parameters[,5:6]), ncol=2)
+  Prior<-matrix(as.numeric(parameters[,c("Prior1", "Prior2")]), ncol=2)
+  Limites<-matrix(as.numeric(parameters[,c("Min", "Max")]), ncol=2)
 }
 
-dfun <- parameters[,"Density"]
-
+dfun <- as.character(parameters[,"Density"])
 
 # Itérations
 for (i in deb_i:(n.adapt+n.iter)) {
@@ -255,6 +260,7 @@ for (i in deb_i:(n.adapt+n.iter)) {
                   parameters=parameters,
                   datax=datax,
                   likelihood=likelihood,
+                  parameters_name=parameters_name,
                   n.chains=n.chains,
                   n.adapt=n.adapt,
                   thin=thin,
@@ -285,7 +291,9 @@ for (i in deb_i:(n.adapt+n.iter)) {
 
 		if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) 
 			{
-		  Lprevious2 <- -do.call(likelihood, modifyList(datax, list(x=propvarp)))
+		  param <- list(propvarp)
+		  names(param) <- parameters_name
+		  Lprevious2 <- -do.call(likelihood, modifyList(datax, param))
 			logratio <- get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=TRUE) + Lprevious2 -
 					(get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=TRUE)+LpreviousT)
 			alpha<-min(c(1,exp(logratio)))

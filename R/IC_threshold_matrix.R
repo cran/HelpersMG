@@ -11,7 +11,7 @@
 #' @param debug display information about progression of computing
 #' @description This function calculates the matrix of correlations thresholded using partial correlation.\cr
 #' If the threshold is not given, the object that is produced can be used later for thresholding.\cr
-#' For model OAT: a correlation is retained if it is higher that the threshold and if all partial correlationw of the two variables and any third one are all lower than the threshold.\cr
+#' For model OAT: a correlation is retained if it is higher that the threshold and if all partial correlations of the two variables and any third one are all lower than the threshold.\cr
 #' For model AAT: a correlation is retained if it is higher than the threshold and the partial correlation is lower than the threshold. In this case, no missing value is accepted.\cr
 #' The use and method parameters are used by cor() function. The function uses by default a parallel computing in Unix or MacOSX systems. 
 #' If progress is TRUE and the package pbmcapply is present, a progress bar is displayed. If debug is TRUE, some informations are shown during the process but parallel computing is not used.\cr
@@ -160,10 +160,11 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
     } else {
       pcor <- getFromNamespace("pcor", ns="ppcor")
     }
-  model <- model[1]
-  method <- method[1]
-  use <- use[1]
-  cor_mat <- cor(data, method=method, use=use)
+    model <- match.arg(model, choices = c("OAT", "ATT"))
+    method <- match.arg(method, choices = c("pearson", "kendall", "spearman"))
+    use <- match.arg(use, choices = c("pairwise.complete.obs", "everything", 
+                                      "all.obs", "complete.obs", "na.or.complete"))
+    cor_mat <- cor(data, method=method, use=use)
   
   if (model == "OAT") {
   

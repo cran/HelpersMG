@@ -6,26 +6,23 @@
 #' @param ... Parameters for plot()
 #' @param las.x las parameter for x axis
 #' @param las.y las parameter for y axis
-#' @param lab.PT Label to describe pivotal temperature
-#' @param lab.TRD Label to describe transitional range of temperature
+#' @param at Position of ticks in x-axis
+#' @param lab.PT Label to describe pivotal dose
+#' @param lab.TRD Label to describe transitional range of dose
 #' @param col.TRD The color of TRD
 #' @param col.TRD.CI The color of CI of TRD based on range.CI
 #' @param col.PT.CI The color of CI of PT based on range.CI
 #' @param show.CI Do the CI for the curve should be shown
-#' @description Plot the estimates that best describe lethality of exposures.
-#' @references Girondot, M. 1999. Statistical description of temperature-dependent sex determination using maximum likelihood. Evolutionary Ecology Research, 1, 479-486.
-#' @references Godfrey, M.H., Delmas, V., Girondot, M., 2003. Assessment of patterns of temperature-dependent sex determination using maximum likelihood model selection. Ecoscience 10, 265-272.
-#' @references Hulin, V., Delmas, V., Girondot, M., Godfrey, M.H., Guillon, J.-M., 2009. Temperature-dependent sex determination and global change: are some species at greater risk? Oecologia 160, 493-506.
-#' @references Girondot M., Submited. On the concept of embryological thermosensitive period for sex determination in reptiles.
+#' @description Plot the estimates that best describe lethality of doses.
 #' @family LD50 functions
 #' @examples
 #' \dontrun{
-#' #' data <- data.frame(Doses=c(80, 120, 150, 150, 180, 200),
+#' data <- data.frame(Doses=c(80, 120, 150, 150, 180, 200),
 #' Alive=c(10, 12, 8, 6, 2, 1),
 #' Dead=c(0, 1, 5, 6, 9, 15))
 #' LD50_logistic <- LD50(data, equation="logistic")
 #' predict(LD50_logistic, doses=c(140, 170))
-#' plot(LD50_logistic)
+#' plot(LD50_logistic, xlim=c(0, 300))
 #' }
 #' @method plot LD50
 #' @export
@@ -33,7 +30,7 @@
 
 
 plot.LD50 <- function(x, ...,  
-	las.x=1, las.y=1, lab.PT="LD50", 
+	las.x=1, las.y=1, lab.PT="LD50", at=NULL, 
 	lab.TRD=paste0("Transitional range of doses l=",l*100,"%"), 
 	col.TRD="gray", col.TRD.CI=rgb(0.8, 0.8, 0.8, 0.5), 
   col.PT.CI=rgb(0.8, 0.8, 0.8, 0.5), show.CI=TRUE) {
@@ -56,7 +53,8 @@ plot.LD50 <- function(x, ...,
  
    L <- list(...)
 
-		L1 <- modifyList(list(x=doses, y=alive/N, bty="n", type="n", xlab="Doses", ylab="Alive proportion"), L)
+		L1 <- modifyList(list(x=doses, y=alive/N, bty="n", type="n", xlab="Doses", 
+		                      ylab="Alive proportion"), L)
   L1 <- modifyList(L1, list(ylim=c(0,1), xaxt="n", las=las.y))
   
   if (is.null(L$xlim)) {
@@ -68,7 +66,7 @@ plot.LD50 <- function(x, ...,
   x2 <- (par("usr")[1]+par("usr")[2]*26)/27
   x1 <- x2*26-par("usr")[2]/0.04
   
-  axis(1, at=x1:x2, las=las.x)
+  axis(1, at=at, las=las.x)
   
   # je trace la TRD centree sur P
   
@@ -87,7 +85,7 @@ plot.LD50 <- function(x, ...,
   text(x=parP, y=1.1, lab.PT)
   text(x=parP, y=1.2, lab.TRD)
   
-  	  b <- getFromNamespace("BinomialConfidence", ns="HelpersMG")(alive,N)
+  	  b <- getFromNamespace(".BinomialConfidence", ns="HelpersMG")(alive,N)
   	  L1 <- modifyList(list(x=doses, y=alive/N, bty="n", type="p", ylim=c(0,1), y.plus = b[,3], y.minus = b[,2]), L)
   L1 <- modifyList(L1, list(ylim=c(0,1), xlab="", ylab="", main="", axes=FALSE, xlim=c(x1, x2)))
   

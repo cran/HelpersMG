@@ -1,5 +1,19 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
+            CHANGES IN VERSION 3.6 (2019-06-26)
+
+* Minor changes in MHalgoGen() in the way the priors are read - 3.5.1 (2019-02-19)
+* New function universalmclapply() to create a universal mclapply() function for both windows and unix - 3.5.2 (2019-03-31)
+* Improvment of universalmclapply() - 3.5.3 & 3.5.4 & 3.5.5 (2019-04-23)
+* It is possible to transform the variable used in mcmc before plotting - 3.5.6 (2019-05-29)
+* Name of parameters used in likelihood can be changed in MHalgoGen() - 3.5.7 (2019-05-30)
+* Corret a bug in plot.LD50() (thanks to Philipp Stoddard to point this bug) - 3.5.8 (2019-06-10)
+* Can show the mcmcComposite graph without the prior - 3.5.9 (2019-06-15)
+* Correct a bug for xlim with mcmcComposite graph - 3.5.10 (2019-06-17)
+* New flexit equation in LD50() - 3.5.11 (2019-06-26)
+* Bayesian MCMC in LD50() - 3.5.12 (2019-06-26)
+* Correct a bug for plot mcmcComposite when prior was normal - 3.5.12 (2019-06-26)
+
             CHANGES IN VERSION 3.5 (2019-01-04)
 
 * New function cArrows() - 3.4 (2018-10-17)

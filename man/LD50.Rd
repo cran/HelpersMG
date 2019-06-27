@@ -20,7 +20,7 @@ LD50(df = NULL, alive = NULL, dead = NULL, N = NULL,
 
 \item{N}{A vector with total numbers of tested individuals}
 
-\item{doses}{The constant incubation doses used to fit sex ratio}
+\item{doses}{The doses}
 
 \item{l}{The limit to define TRD (see Girondot, 1999)}
 
@@ -30,7 +30,7 @@ LD50(df = NULL, alive = NULL, dead = NULL, N = NULL,
 
 \item{SE}{Standard errors for parameters}
 
-\item{equation}{Could be "logistic", "logit", "probit", Hill", "Richards", "Hulin" or "Double-Richards"}
+\item{equation}{Could be "logistic", "logit", "probit", Hill", "Richards", "Hulin", "flexit" or "Double-Richards"}
 
 \item{replicates}{Number of replicates to estimate confidence intervals}
 
@@ -49,9 +49,19 @@ A list with the LD50, Transitional Range of Doses and their SE
 }
 \description{
 Estimate the parameters that best describe LD50\cr
-Logistic and logit models are the same but wit different parametrization:\cr
-logistic=1/(1+exp((1/S)*(P-d)))
-logit=1/(1+exp(P+d*S))
+Logistic and logit models are the same but with different parametrization:\cr
+logistic=1/(1+exp((1/S)*(P-d)))\cr
+logit=1/(1+exp(P+d*S))\cr
+See these publications for the description of equations:\cr
+Girondot, M. 1999. Statistical description of temperature-dependent sex determination using maximum likelihood. Evolutionary Ecology Research, 1, 479-486.\cr
+Godfrey, M.H., Delmas, V., Girondot, M., 2003. Assessment of patterns of temperature-dependent sex determination using maximum likelihood model selection. Ecoscience 10, 265-272.\cr
+Hulin, V., Delmas, V., Girondot, M., Godfrey, M.H., Guillon, J.-M., 2009. Temperature-dependent sex determination and global change: are some species at greater risk? Oecologia 160, 493-506.\cr
+The flexit equation is not still published but is the best:
+\deqn{if dose < P then (1+(2^exp(K1)-1)*exp((1/S1)*(P-dose)))^(-1/exp(K1)))}
+\deqn{if dose > P then (1+(2^exp(K2)-1)*exp((1/S2)*(P-dose)))^(-1/exp(K2)))}
+with:\cr
+    S1 = (1/(2*S*exp(K1)))*(1-(1/(2^exp(K1))))\cr
+    S2 = (1/(2*S*exp(K2)))*(1-(1/(2^exp(K2))))\cr
 }
 \details{
 LD50 estimates the parameters that best describe LD50
@@ -64,7 +74,7 @@ Alive=c(10, 12, 8, 6, 2, 1),
 Dead=c(0, 1, 5, 6, 9, 15))
 LD50_logistic <- LD50(data, equation="logistic")
 predict(LD50_logistic, doses=c(140, 170))
-plot(LD50_logistic)
+plot(LD50_logistic, xlim=c(0, 300), at=seq(from=0, to=300, by=50))
 LD50_probit <- LD50(data, equation="probit")
 predict(LD50_probit, doses=c(140, 170))
 plot(LD50_probit)
@@ -83,10 +93,14 @@ plot(LD50_Hulin)
 LD50_DoubleRichards <- LD50(data, equation="Double-Richards")
 predict(LD50_DoubleRichards, doses=c(140, 170))
 plot(LD50_DoubleRichards)
+LD50_flexit <- LD50(data, equation="flexit")
+predict(LD50_flexit, doses=c(140, 170))
+plot(LD50_flexit)
 }
 }
 \seealso{
-Other LD50 functions: \code{\link{logLik.LD50}},
+Other LD50 functions: \code{\link{LD50_MHmcmc_p}},
+  \code{\link{LD50_MHmcmc}}, \code{\link{logLik.LD50}},
   \code{\link{plot.LD50}}, \code{\link{predict.LD50}}
 }
 \author{

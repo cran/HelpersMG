@@ -3,7 +3,7 @@
 \docType{package}
 \name{HelpersMG-package}
 \alias{HelpersMG-package}
-\title{Tools for Earth Meteorological Analysis}
+\title{Tools for Environmental Analyses, Ecotoxicology and Various R Functions}
 \description{
 Contains functions useful for managing \cr
 'NetCDF' files (see http://en.wikipedia.org/wiki/NetCDF), \cr
@@ -20,7 +20,7 @@ calculate IC50 for ecotoxicological studies, \cr
 calculate the probability mass function of the sum of negative binomial \cr
 distributions.\cr
 The lastest version of this package can always been installed using:\cr
-install.packages("http://www.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
+install.packages("http://max2.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
 repos=NULL, type="source")
 }
 \details{
@@ -29,8 +29,8 @@ Helpers functions for several packages
 \tabular{ll}{
  Package: \tab HelpersMG\cr
  Type: \tab Package\cr
- Version: \tab 3.5 build 215\cr
- Date: \tab 2019-01-04\cr
+ Version: \tab 3.6 build 302\cr
+ Date: \tab 2019-06-26\cr
  License: \tab GPL (>= 2)\cr
  LazyLoad: \tab yes\cr
  }

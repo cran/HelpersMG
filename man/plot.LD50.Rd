@@ -5,8 +5,8 @@
 \title{Plot results of LD50() that best describe LD50}
 \usage{
 \method{plot}{LD50}(x, ..., las.x = 1, las.y = 1, lab.PT = "LD50",
-  lab.TRD = paste0("Transitional range of doses l=", l * 100, "\%"),
-  col.TRD = "gray", col.TRD.CI = rgb(0.8, 0.8, 0.8, 0.5),
+  at = NULL, lab.TRD = paste0("Transitional range of doses l=", l *
+  100, "\%"), col.TRD = "gray", col.TRD.CI = rgb(0.8, 0.8, 0.8, 0.5),
   col.PT.CI = rgb(0.8, 0.8, 0.8, 0.5), show.CI = TRUE)
 }
 \arguments{
@@ -18,9 +18,11 @@
 
 \item{las.y}{las parameter for y axis}
 
-\item{lab.PT}{Label to describe pivotal temperature}
+\item{lab.PT}{Label to describe pivotal dose}
 
-\item{lab.TRD}{Label to describe transitional range of temperature}
+\item{at}{Position of ticks in x-axis}
+
+\item{lab.TRD}{Label to describe transitional range of dose}
 
 \item{col.TRD}{The color of TRD}
 
@@ -34,32 +36,24 @@
 Nothing
 }
 \description{
-Plot the estimates that best describe lethality of exposures.
+Plot the estimates that best describe lethality of doses.
 }
 \details{
 plot.LD50 plot result of IC50() that best describe IC50
 }
 \examples{
 \dontrun{
-#' data <- data.frame(Doses=c(80, 120, 150, 150, 180, 200),
+data <- data.frame(Doses=c(80, 120, 150, 150, 180, 200),
 Alive=c(10, 12, 8, 6, 2, 1),
 Dead=c(0, 1, 5, 6, 9, 15))
 LD50_logistic <- LD50(data, equation="logistic")
 predict(LD50_logistic, doses=c(140, 170))
-plot(LD50_logistic)
+plot(LD50_logistic, xlim=c(0, 300))
 }
-}
-\references{
-Girondot, M. 1999. Statistical description of temperature-dependent sex determination using maximum likelihood. Evolutionary Ecology Research, 1, 479-486.
-
-Godfrey, M.H., Delmas, V., Girondot, M., 2003. Assessment of patterns of temperature-dependent sex determination using maximum likelihood model selection. Ecoscience 10, 265-272.
-
-Hulin, V., Delmas, V., Girondot, M., Godfrey, M.H., Guillon, J.-M., 2009. Temperature-dependent sex determination and global change: are some species at greater risk? Oecologia 160, 493-506.
-
-Girondot M., Submited. On the concept of embryological thermosensitive period for sex determination in reptiles.
 }
 \seealso{
-Other LD50 functions: \code{\link{LD50}},
+Other LD50 functions: \code{\link{LD50_MHmcmc_p}},
+  \code{\link{LD50_MHmcmc}}, \code{\link{LD50}},
   \code{\link{logLik.LD50}}, \code{\link{predict.LD50}}
 }
 \author{
