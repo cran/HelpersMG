@@ -20,18 +20,18 @@
 #' @param print Do the results must be printed at screen? TRUE (default) or FALSE
 #' @description Estimate the parameters that best describe LD50\cr
 #' Logistic and logit models are the same but with different parametrization:\cr
-#' logistic=1/(1+exp((1/S)*(P-d)))\cr
-#' logit=1/(1+exp(P+d*S))\cr
+#' logistic = 1/(1+exp((1/S)*(P-d)))\cr
+#' logit = 1/(1+exp(P+d*S))\cr
 #' See these publications for the description of equations:\cr
 #' Girondot, M. 1999. Statistical description of temperature-dependent sex determination using maximum likelihood. Evolutionary Ecology Research, 1, 479-486.\cr
 #' Godfrey, M.H., Delmas, V., Girondot, M., 2003. Assessment of patterns of temperature-dependent sex determination using maximum likelihood model selection. Ecoscience 10, 265-272.\cr
 #' Hulin, V., Delmas, V., Girondot, M., Godfrey, M.H., Guillon, J.-M., 2009. Temperature-dependent sex determination and global change: are some species at greater risk? Oecologia 160, 493-506.\cr
-#' The flexit equation is not still published but is the best:
-#' \deqn{if dose < P then (1+(2^exp(K1)-1)*exp((1/S1)*(P-dose)))^(-1/exp(K1)))}
-#' \deqn{if dose > P then (1+(2^exp(K2)-1)*exp((1/S2)*(P-dose)))^(-1/exp(K2)))}
+#' The flexit equation is not still published :
+#' \deqn{if dose < P then (1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}{if dose < P then (1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}
+#' \deqn{if dose > P then 1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}{if dose > P then 1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}
 #' with:\cr
-#'     S1 = (1/(2*S*exp(K1)))*(1-(1/(2^exp(K1))))\cr
-#'     S2 = (1/(2*S*exp(K2)))*(1-(1/(2^exp(K2))))\cr
+#'      \deqn{S1 = S/((4/K1)*(2^(-K1))^(1/K1+1)*(2^K1-1))}{S1 = S/((4/K1)*(2^(-K1))^(1/K1+1)*(2^K1-1))}
+#'      \deqn{S2 = S/((4/K2)*(2^(-K2))^(1/K2+1)*(2^K2-1))}{S2 = S/((4/K2)*(2^(-K2))^(1/K2+1)*(2^K2-1))}
 #' @family LD50 functions
 #' @examples
 #' \dontrun{
@@ -115,7 +115,7 @@ LD50 <- function(df=NULL, alive=NULL, dead=NULL, N=NULL,
   
   equation <- tolower(equation)
   
-  equation <- match.arg(equation, choices = c("gsd", "hulin", "logistic", "hill", "flexit", "richards", "double-richards"))
+  equation <- match.arg(equation, choices = c("gsd", "hulin", "logistic", "logit", "probit", "hill", "flexit", "richards", "double-richards"))
   
   if (is.null(parameters.initial)) parameters.initial <- c(P=NA, S=NA, K=0, K1=1, K2=0)
   
@@ -127,11 +127,18 @@ LD50 <- function(df=NULL, alive=NULL, dead=NULL, N=NULL,
   if (is.na(par["P"])) {
     if ((equation!="probit") & (equation!="logit")) {
       par["P"] <- doses[which.min(abs((alive/(alive+dead))-0.5))]
-      pente <- lm(alive/(alive+dead) ~ doses)
-      par["S"] <- pente$coefficients["doses"]
+    } else {
+      par["P"] <- 0
+    }
+  }
+  
+  if (is.na(par["S"])) {
+    if ((equation!="probit")) {
+    pente <- lm(alive/(alive+dead) ~ doses)
+    par["S"] <- pente$coefficients["doses"]
+    if (equation!="flexit") par["S"] <- 1/(4*par["S"])
     } else {
       par["S"] <- 0
-      par["P"] <- 0
     }
   }
   
@@ -156,7 +163,11 @@ LD50 <- function(df=NULL, alive=NULL, dead=NULL, N=NULL,
       a <- inter$coefficients["(Intercept)"]
       b <- inter$coefficients["doses"]
       par["P"] <- unname(-a/b)
-      par["S"] <- unname(-1/b)
+      if (equation=="flexit") {
+        par["S"] <- 1/(4*unname(-1/b))
+      } else {
+        par["S"] <- unname(-1/b)
+      }
     }
   }
   

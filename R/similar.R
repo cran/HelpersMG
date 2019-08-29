@@ -1,8 +1,8 @@
 #' @title Test if two vectors contains the same elements independently of their order
 #' @author Marc Girondot
 #' @return A logical TRUE or FALSE
-#' @param x A vector with numeric or string elements 
-#' @param y A vector with numeric or string elements
+#' @param x A vector with numeric or character elements 
+#' @param y A vector with numeric or character elements
 #' @param test.names Logical. If TRUE, the names of the vector elements must be also identical and unique
 #' @description Return TRUE only if all elements of x are present and only once in y.\cr
 #' @examples

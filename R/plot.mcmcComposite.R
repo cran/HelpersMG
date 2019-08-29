@@ -372,7 +372,7 @@ plot.mcmcComposite <- function(x, ... , chain=1, parameters=1,
       
       p1 <- as.numeric(Parameters[variable,"Prior1"])
       p2 <- as.numeric(Parameters[variable,"Prior2"])
-      y <- get(Parameters[variable, "Density"])(sequence, p1, p2)
+      y <- get(as.character(Parameters[variable, "Density"]))(sequence, p1, p2)
       yl <- c(0, max(y[is.finite(y)]))
       
       sequence <- transformx(sequence)

@@ -7,9 +7,9 @@
 similar(x, y, test.names = FALSE)
 }
 \arguments{
-\item{x}{A vector with numeric or string elements}
+\item{x}{A vector with numeric or character elements}
 
-\item{y}{A vector with numeric or string elements}
+\item{y}{A vector with numeric or character elements}
 
 \item{test.names}{Logical. If TRUE, the names of the vector elements must be also identical and unique}
 }

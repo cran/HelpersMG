@@ -23,7 +23,7 @@ n <- logit(0.5)
 invlogit(n)
 }
 \seealso{
-Other logit: \code{\link{invlogit}}
+Other logit: \code{\link{flexit}}, \code{\link{invlogit}}
 }
 \author{
 Marc Girondot

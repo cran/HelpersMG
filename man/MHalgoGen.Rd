@@ -7,10 +7,10 @@
 MHalgoGen(likelihood = stop("A likelihood function must be supplied"),
   parameters_name = "x", parameters = stop("Priors  must be supplied"),
   ..., n.iter = 10000, n.chains = 1, n.adapt = 100, thin = 30,
-  trace = FALSE, adaptive = FALSE, adaptive.lag = 500,
-  adaptive.fun = function(x) {     ifelse(x > 0.234, 1.3, 0.7) },
-  intermediate = NULL, filename = "intermediate.Rdata",
-  previous = NULL)
+  trace = FALSE, traceML = FALSE, adaptive = FALSE,
+  adaptive.lag = 500, adaptive.fun = function(x) {     ifelse(x >
+  0.234, 1.3, 0.7) }, intermediate = NULL,
+  filename = "intermediate.Rdata", previous = NULL)
 }
 \arguments{
 \item{likelihood}{The function that returns -ln likelihood using data and parameters}
@@ -30,6 +30,8 @@ MHalgoGen(likelihood = stop("A likelihood function must be supplied"),
 \item{thin}{Interval for thinning likelihoods}
 
 \item{trace}{Or FALSE or period to show progress}
+
+\item{traceML}{TRUE or FALSE to show ML}
 
 \item{adaptive}{Should an adaptive process for SDProp be used}
 
@@ -79,8 +81,25 @@ parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'),
 Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(0.35, 0.2), 
 Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
 row.names=c('mean', 'sd'))
+# Use of trace and traceML parameters
+# trace=1 : Only one likelihood is printed
 mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, 
 likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
+# trace=10 : 10 likelihoods are printed
+mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, 
+likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=10)
+# trace=TRUE : all likelihoods are printed
+mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, 
+likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=TRUE)
+# trace=FALSE : No likelihood is printed
+mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, 
+likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=FALSE)
+# traceML=TRUE : values when likelihood is better are shown
+mcmc_run <- MHalgoGen(n.iter=100, parameters=parameters_mcmc, data=val, 
+likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=TRUE, traceML=TRUE)
+mcmc_run <- MHalgoGen(n.iter=100, parameters=parameters_mcmc, data=val, 
+likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=FALSE, traceML=TRUE)
+
 plot(mcmc_run, xlim=c(0, 20))
 plot(mcmc_run, xlim=c(0, 10), parameters="sd")
 library(graphics)
@@ -151,7 +170,7 @@ plot(1:nrow(mcmc_run$resultMCMC[[1]]), mcmc_run$resultMCMC[[1]][, var], type="l"
 }
 \seealso{
 Other mcmcComposite functions: \code{\link{as.mcmc.mcmcComposite}},
-  \code{\link{as.parameters}},
+  \code{\link{as.parameters}}, \code{\link{as.quantile}},
   \code{\link{merge.mcmcComposite}},
   \code{\link{plot.mcmcComposite}},
   \code{\link{summary.mcmcComposite}}

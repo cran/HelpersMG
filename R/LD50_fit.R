@@ -5,7 +5,7 @@
   p <- ifelse(p==0, 1E-9, p)
   p <- ifelse(p==1, 1-1E-9, p)
 
-    if (any(is.infinite(p))) {return(Inf)} else {
+    if (any(is.infinite(p)) | any(is.na(p))) {return(Inf)} else {
    return(-sum(dbinom(alive, N, p, log = TRUE)))
   }
   
@@ -21,17 +21,7 @@
   if (equation=="probit")	p <- pnorm(par["P"]+doses*par["S"])
   if (equation=="flexit") {
     # Peut-être  encore des problèmes de exp(K1 ou K2)
-    S1 <- (1/(2*par["S"]*exp(par["K1"])))*(1-(1/(2^exp(par["K1"]))))
-    S2 <- (1/(2*par["S"]*exp(par["K2"])))*(1-(1/(2^exp(par["K2"]))))
-    
-    p <- ifelse(doses < par["P"],
-                ifelse(par["K1"]>3 & sign(par["P"]-doses) == sign(S1), 
-                       0.5*exp((doses-par["P"])/(S1*exp(par["K1"]))), 
-                       (1+(2^exp(par["K1"])-1)*exp((1/S1)*(par["P"]-doses)))^(-1/exp(par["K1"]))), 
-                ifelse(par["K2"]>3 & sign(par["P"]-doses) == sign(S2), 
-                       0.5*exp((doses-par["P"])/(S1*exp(par["K2"]))), 
-                       (1+(2^exp(par["K2"])-1)*exp((1/S2)*(par["P"]-doses)))^(-1/exp(par["K2"])))
-    )
+    p <- flexit(x = doses, par=par)
   }
   if (equation=="richards") p <- ifelse(par["K"]>3 & sign(par["P"]-doses) == sign(par["S"]), 
                                         0.5*exp((doses-par["P"])/(par["S"]*exp(par["K"]))), 
