@@ -8,7 +8,7 @@
 #' @param mu alternative parametrization via mean.
 #' @param log.p	logical; if TRUE, probabilities p are given as log(p).
 #' @param lower.tail logical; if TRUE (default), probabilities are P[X <= x], otherwise, P[X > x].
-#' @param infinite Number of maximal iterations; check different values to determine the error in estimation.
+#' @param tol Tolerance for recurrence
 #' @description Quantile function for the sum of random variable with negative binomial distributions.
 #' @family Distribution of sum of random variable with negative binomial distributions
 #' @examples
@@ -22,7 +22,7 @@
 qSnbinom <- function(p=stop("At least one probability must be provided"), 
                      size=stop("size parameter is mandatory"), 
                      prob=NULL, mu=NULL, lower.tail = TRUE, log.p = FALSE, 
-                     infinite=100) {
+                     tol=1E-6) {
   
   # prob=NULL; mu=NULL; log = FALSE; infinite=10
   
@@ -47,12 +47,12 @@ qSnbinom <- function(p=stop("At least one probability must be provided"),
   rankl <- 10
   limit <- 10
   repeat {
-    if (pSnbinom(limit, prob=prob, size=size, mu=NULL, log.p=FALSE, infinite=infinite)>=p1) break
+    if (pSnbinom(limit, prob=prob, size=size, mu=NULL, log.p=FALSE, tol=tol)>=p1) break
     limit <- limit + rankl
     rankl <- rankl + 5
   }
   
-  seqp <- pSnbinom(0:limit, prob=prob, size=size, mu=NULL, log.p=FALSE, infinite=infinite)
+  seqp <- pSnbinom(0:limit, prob=prob, size=size, mu=NULL, log.p=FALSE, tol=tol)
   
   qq <- vapply(p, FUN=function(pp) {
   

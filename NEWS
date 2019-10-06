@@ -1,6 +1,14 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 3.7 (2019-08-29)
+            CHANGES IN VERSION 3.8 (2019-10-06)
+
+* New parameter add in modifyVector() - 3.7.1 (2019-09-13)
+* Better x axis managment in plot.mcmcComposite - 3.7.2 (2019-09-16)
+* Solve a problem when only one variable was used in mcmc - 3.7.2 (2019-09-16)
+* as.quantile() renamed is as.quantiles() - 3.7.2 (2019-09-16)
+* Better management of dSnbbinom() using tol - 3.7.3 (2019-10-06)
+
+            CHANGES IN VERSION 3.6-3.7 (2019-08-29)
 
 * Better implementation of flexit model for LD50 - 3.6.1 & 3.6.2 (2019-07-18)
 * Minor change in plot.mcmcComposite when the density in priors is a factor - 3.6.2 (2019-07-18)

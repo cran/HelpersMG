@@ -64,8 +64,17 @@ resultMCMC <- object
 mcmc <- resultMCMC[["resultMCMC"]]
 
 if (!is.null(chain)) {mcmc <- mcmc[[chain]]}
+sm <- summary(mcmc)
 
-return(summary(mcmc))
+
+if (class(sm$statistics) == "numeric") {
+  sm$statistics <- t(as.matrix(sm$statistics))
+  rownames(sm$statistics) <- rownames(resultMCMC$parametersMCMC$parameters)
+  sm$quantiles <- t(as.matrix(sm$quantiles))
+  rownames(sm$quantiles) <- rownames(resultMCMC$parametersMCMC$parameters)
+}
+
+return(sm)
 
 
 }

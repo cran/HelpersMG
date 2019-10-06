@@ -6,7 +6,7 @@
 \usage{
 pSnbinom(q = stop("At least one quantile must be provided"),
   size = NULL, prob = NULL, mu = NULL, lower.tail = TRUE,
-  log.p = FALSE, infinite = 100)
+  log.p = FALSE, tol = 1e-06)
 }
 \arguments{
 \item{q}{vector of quantiles.}
@@ -21,7 +21,7 @@ pSnbinom(q = stop("At least one quantile must be provided"),
 
 \item{log.p}{logical; if TRUE, probabilities p are given as log(p).}
 
-\item{infinite}{Number of maximal iterations; check different values to determine the error in estimation.}
+\item{tol}{Tolerance for recurrence}
 }
 \value{
 pSnbinom returns distribution function

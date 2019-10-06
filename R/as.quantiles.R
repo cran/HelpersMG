@@ -1,6 +1,6 @@
 #' @title Extract quantile distribution from mcmcComposite object
 #' @author Marc Girondot
-#' @return A data.frame with quantile distribution
+#' @return A data.frame with quantiles
 #' @param x A mcmcComposite obtained as a result of \code{MHalgoGen()} function
 #' @param chain The number of the chain in which to get parameters
 #' @param fun The function to apply the parameters
@@ -25,21 +25,21 @@
 #' row.names=c('mean', 'sd'))
 #' mcmc_run <- MHalgoGen(n.iter=10000, parameters=parameters_mcmc, data=x, 
 #' likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
-#' k <- as.quantile(x=mcmc_run, namepar="mean")
-#' k <- as.quantile(x=mcmc_run, namepar="mean", 
+#' k <- as.quantiles(x=mcmc_run, namepar="mean")
+#' k <- as.quantiles(x=mcmc_run, namepar="mean", 
 #'                  xlim=c(1:5), nameparxlim="sd", 
 #'                  fun=function(...) return(sum(as.numeric(list(...)))))
 #' }
 #' @export
 
 
-as.quantile <- function(x, chain=1, fun=function(...) return(as.numeric(list(...))), 
+as.quantiles <- function(x, chain=1, fun=function(...) return(as.numeric(list(...))), 
                             probs=c(0.025, 0.975), xlim=NULL, 
                             nameparxlim=NULL, namepar=NULL) {
   
   # chain=1; fun=function(x) {x}; probs=c(0.025, 0.975); xlim=NULL; nameparxlim=NULL; namepar=NULL
 
-	p <- x$resultMCMC[,][[chain]]
+	p <- x$resultMCMC[[chain]]
 	df <- matrix(NA, ncol=max(1, length(xlim)))
 	df <- df[-1, ]
 	

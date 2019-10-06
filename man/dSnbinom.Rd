@@ -5,7 +5,8 @@
 \title{Density for the sum of random variable with negative binomial distributions.}
 \usage{
 dSnbinom(x = stop("You must provide a x value"), size = NULL,
-  prob = NULL, mu = NULL, log = FALSE, infinite = 100)
+  prob = NULL, mu = NULL, log = FALSE, tol = 1e-06,
+  infinite = 1000)
 }
 \arguments{
 \item{x}{vector of (non-negative integer) quantiles.}
@@ -18,7 +19,9 @@ dSnbinom(x = stop("You must provide a x value"), size = NULL,
 
 \item{log}{logical; if TRUE, probabilities p are given as log(p).}
 
-\item{infinite}{Number of maximal iterations; check different values to determine the error in estimation.}
+\item{tol}{Tolerance for recurrence}
+
+\item{infinite}{No more used - Maintained for retrocompatibility}
 }
 \value{
 dSnbinom gives the density
@@ -34,16 +37,8 @@ dSnbinom returns the density for the sum of random variable with negative binomi
 \dontrun{
 alpha <- c(1, 2, 5, 1, 2)
 p <- c(0.1, 0.12, 0.13, 0.14, 0.14)
-# Test with lower iterations: 2 or 50 rather than 10 [default]; precision is very good still with 10
-dSnbinom(20, size=alpha, prob=p, infinite=50)
-dSnbinom(20, size=alpha, prob=p, infinite=10)
-dSnbinom(20, size=alpha, prob=p, infinite=2)
-# However it is not always the case; It depends on the parametrization (see Furman 2007)
-dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=1000)
-dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=100)
-dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=50)
-dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=10)
-dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), infinite=2)
+dSnbinom(20, size=alpha, prob=p)
+dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03))
 # Test with a single distribution
 dSnbinom(20, size=1, mu=20)
 # when only one distribution is available, it is the same as dnbinom()
@@ -61,14 +56,14 @@ tabledistEmpirique <- rep(0, 301)
 names(tabledistEmpirique) <- as.character(0:300)
 tabledistEmpirique[names(table(distEmpirique))] <- table(distEmpirique)/rep
 
-plot(0:300, dSnbinom(0:300, size=alpha, mu=mu, infinite=1000), type="h", bty="n", 
+plot(0:300, dSnbinom(0:300, size=alpha, mu=mu), type="h", bty="n", 
    xlab="x", ylab="Density", ylim=c(0,0.02))
 plot_add(0:300, tabledistEmpirique, type="l", col="red")
 legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
    text.col=c("red", "black"), bty="n")
 
 # Example with the approximation mu=mean(mu)
-plot(0:300, dSnbinom(0:300, size=alpha, mu=mu, infinite=0), type="h", bty="n", 
+plot(0:300, dSnbinom(0:300, size=alpha, mu=mu), type="h", bty="n", 
    xlab="x", ylab="Density", ylim=c(0,0.02))
 plot_add(0:300, tabledistEmpirique, type="l", col="red")
 legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
@@ -84,8 +79,7 @@ hist(r[,2])
 parx <- c(size=1, mu=10)
 
 dSnbinomx <- function(x, par) {
-  -sum(dSnbinom(x=x[,2], mu=rep(par["mu"], 10), size=par["size"], log=TRUE, 
-                infinite = 1000))
+  -sum(dSnbinom(x=x[,2], mu=rep(par["mu"], 10), size=par["size"], log=TRUE))
 }
 
 fit_mu_size <- optim(par = parx, fn=dSnbinomx, x=r, method="BFGS", control=c(trace=TRUE))

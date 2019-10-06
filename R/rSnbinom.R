@@ -18,7 +18,7 @@
 #' names(tabledistEmpirique) <- as.character(0:300)
 #' tabledistEmpirique[names(table(distEmpirique))] <- table(distEmpirique)/rep
 #' 
-#' plot(0:300, dSnbinom(0:300, size=alpha, mu=mu, infinite=1000), type="h", bty="n", 
+#' plot(0:300, dSnbinom(0:300, size=alpha, mu=mu), type="h", bty="n", 
 #'    xlab="x", ylab="Density", ylim=c(0,0.02))
 #' plot_add(0:300, tabledistEmpirique, type="l", col="red")
 #' legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 

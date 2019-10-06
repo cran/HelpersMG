@@ -6,7 +6,7 @@
 \usage{
 qSnbinom(p = stop("At least one probability must be provided"),
   size = stop("size parameter is mandatory"), prob = NULL, mu = NULL,
-  lower.tail = TRUE, log.p = FALSE, infinite = 100)
+  lower.tail = TRUE, log.p = FALSE, tol = 1e-06)
 }
 \arguments{
 \item{p}{vector of probabilities.}
@@ -21,7 +21,7 @@ qSnbinom(p = stop("At least one probability must be provided"),
 
 \item{log.p}{logical; if TRUE, probabilities p are given as log(p).}
 
-\item{infinite}{Number of maximal iterations; check different values to determine the error in estimation.}
+\item{tol}{Tolerance for recurrence}
 }
 \value{
 qSnbinom returns quantile function

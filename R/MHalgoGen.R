@@ -402,6 +402,13 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
   cat("Best likelihood for: \n")
   for (j in 1:nbvar) {cat(paste(names(MaxL[j]), "=", MaxL[j], "\n"))}
   
+  # 16/9/2019: Si un seul paramètre, renvoie quand même une matrix
+  if (is.null(dim(res[[1]]))) {
+    for (i in 1:length(res)) {
+      res[[i]] <- matrix(data = res[[i]], ncol = 1, dimnames = list(c(NULL), rownames(parameters)))
+    }
+  }
+  
   out <- (list(resultMCMC=res, resultLnL=resL, 
                parametersMCMC=list(parameters=parameters, n.iter=n.iter, n.chains=n.chains, n.adapt=n.adapt, thin=thin, 
                                    SDProp.end=structure(sdg, .Names=rownames(parameters)), 

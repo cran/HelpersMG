@@ -360,15 +360,17 @@ plot.mcmcComposite <- function(x, ... , chain=1, parameters=1,
     if (show.prior) {
       
       scl <- ScalePreviousPlot()
+      # 16/9/2019
+      # min <- as.numeric(Parameters[variable,"Min"])
+      # max <- as.numeric(Parameters[variable,"Max"])
+      # 
+      # if (!is.null(transform)) {
+      #   sequence <- seq(from=min(min, rg[1]), to=max(max, rg[2]), length=200)
+      # } else {
+      #   sequence <- seq(from=min(min, scl$xlim[1]), to=max(max, scl$xlim[2]), length=200)
+      # }
       
-      min <- as.numeric(Parameters[variable,"Min"])
-      max <- as.numeric(Parameters[variable,"Max"])
-      
-      if (!is.null(transform)) {
-        sequence <- seq(from=min(min, rg[1]), to=max(max, rg[2]), length=200)
-      } else {
-        sequence <- seq(from=min(min, scl$xlim[1]), to=max(max, scl$xlim[2]), length=200)
-      }
+      sequence <- seq(from=scl$xlim[1], to=scl$xlim[2], length=200)
       
       p1 <- as.numeric(Parameters[variable,"Prior1"])
       p2 <- as.numeric(Parameters[variable,"Prior2"])

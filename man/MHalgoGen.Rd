@@ -170,7 +170,7 @@ plot(1:nrow(mcmc_run$resultMCMC[[1]]), mcmc_run$resultMCMC[[1]][, var], type="l"
 }
 \seealso{
 Other mcmcComposite functions: \code{\link{as.mcmc.mcmcComposite}},
-  \code{\link{as.parameters}}, \code{\link{as.quantile}},
+  \code{\link{as.parameters}}, \code{\link{as.quantiles}},
   \code{\link{merge.mcmcComposite}},
   \code{\link{plot.mcmcComposite}},
   \code{\link{summary.mcmcComposite}}

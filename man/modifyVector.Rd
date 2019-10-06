@@ -4,12 +4,14 @@
 \alias{modifyVector}
 \title{Modifies Elements of a Vector}
 \usage{
-modifyVector(x, val)
+modifyVector(x, val, add = TRUE)
 }
 \arguments{
 \item{x}{A named vector.}
 
 \item{val}{A named vector with components to replace corresponding components in x.}
+
+\item{add}{If FALSE, only existing elements of x are returned.}
 }
 \value{
 A modified version of x, with the elements of val replacing the elements of x
@@ -24,6 +26,7 @@ modifyVector modifies elements of a vector
 library("HelpersMG")
 e <- c(M=10, L=20, J=30)
 modifyVector(e, c(U=10, M=30))
+modifyVector(e, c(U=10, M=30), add=FALSE)
 }
 \author{
 Marc Girondot

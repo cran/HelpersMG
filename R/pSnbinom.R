@@ -8,7 +8,7 @@
 #' @param mu alternative parametrization via mean.
 #' @param log.p	logical; if TRUE, probabilities p are given as log(p).
 #' @param lower.tail logical; if TRUE (default), probabilities are P[X <= x], otherwise, P[X > x].
-#' @param infinite Number of maximal iterations; check different values to determine the error in estimation.
+#' @param tol Tolerance for recurrence
 #' @description Distribution function for the sum of random variable with negative binomial distributions.
 #' @family Distribution of sum of random variable with negative binomial distributions
 #' @examples
@@ -21,7 +21,7 @@
 
 pSnbinom <- function(q=stop("At least one quantile must be provided"), 
                      size=NULL, 
-                     prob=NULL, mu=NULL, lower.tail = TRUE, log.p = FALSE, infinite=100) {
+                     prob=NULL, mu=NULL, lower.tail = TRUE, log.p = FALSE, tol=1E-6) {
   
   # prob=NULL; mu=NULL; log = FALSE; infinite=10
   
@@ -41,7 +41,7 @@ pSnbinom <- function(q=stop("At least one quantile must be provided"),
   
   pp <- vapply(q, FUN=function(qq) {
   
-  l <- dSnbinom(0:qq, prob=prob, size=size, mu=NULL, log=FALSE, infinite=infinite)
+  l <- dSnbinom(0:qq, prob=prob, size=size, mu=NULL, log=FALSE, tol=tol)
   p <- sum(l)
   if (!lower.tail) p <- 1-p
   if (log.p) p <- log(p)

@@ -265,7 +265,7 @@ plot(mcmc_run_pbeta, parameters="p", xlim=c(0,1),
 \seealso{
 Other mcmcComposite functions: \code{\link{MHalgoGen}},
   \code{\link{as.mcmc.mcmcComposite}},
-  \code{\link{as.parameters}}, \code{\link{as.quantile}},
+  \code{\link{as.parameters}}, \code{\link{as.quantiles}},
   \code{\link{merge.mcmcComposite}},
   \code{\link{summary.mcmcComposite}}
 }
