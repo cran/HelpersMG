@@ -156,7 +156,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
   
   previousML <- -Inf
   
-  # likelihood=NULL; parameters_name="x"; parameters=NULL; n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; traceML=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL
+  # likelihood=NULL; parameters_name="x"; parameters=NULL; n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; traceML=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL; adaptive = FALSE; adaptive.lag = 500; adaptive.fun = function(x) {ifelse(x>0.234, 1.3, 0.7)}
   # datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
   
   if (is.null(previous)) {
@@ -237,7 +237,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
       # names(ll) <- c("data", parameters_name)
       
       varp[1, "Ln L"] <- -do.call(likelihood, modifyList(datax, param))
-      cpt<-1
+      cpt <- 1
       varp2[cpt, 1:nbvar] <- varp[1, 1:nbvar]
       varp2[cpt, "Ln L"] <- varp[1, "Ln L"]
       cpt <- 2
@@ -322,8 +322,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
         propvarp <- newvarp
         propvarp[j] <- propvarp[j]+rnorm(1, mean=0, sd=sdg[j])
         
-        if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) 
-        {
+        if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) {
           param <- list(propvarp)
           names(param) <- parameters_name
           Lprevious2 <- -do.call(likelihood, modifyList(datax, param))
@@ -386,7 +385,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
       
     }
     
-    lp <- getFromNamespace("as.mcmc", ns="coda")(varp2[(n.adapt+1):(cpt-1), 1:nbvar])
+    lp <- getFromNamespace("as.mcmc", ns="coda")(varp2[(n.adapt+1):(cpt-1), 1:nbvar, drop=FALSE])
     lp <- getFromNamespace("mcmc", ns="coda")(data=lp, start=n.adapt+1, end=n.iter+n.adapt, thin=thin)
     
     # Ca c'est uniquement pour les chaînes

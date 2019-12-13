@@ -4,8 +4,15 @@
 \alias{newcompassRose}
 \title{Display a compass rose}
 \usage{
-newcompassRose(x, y, rot = 0, cex = 1, col = "black",
-  col.arrows.light = "white", col.arrows.dark = "black")
+newcompassRose(
+  x,
+  y,
+  rot = 0,
+  cex = 1,
+  col = "black",
+  col.arrows.light = "white",
+  col.arrows.dark = "black"
+)
 }
 \arguments{
 \item{x}{The position of the center of the compass rose in user units.}

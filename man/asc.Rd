@@ -23,8 +23,10 @@ asc("abcd")
 asc("ABCD")
 }
 \seealso{
-Other Characters: \code{\link{chr}}, \code{\link{d}},
-  \code{\link{tnirp}}
+Other Characters: 
+\code{\link{chr}()},
+\code{\link{d}()},
+\code{\link{tnirp}()}
 }
 \author{
 Based on this blog: http://datadebrief.blogspot.com/2011/03/ascii-code-table-in-r.html

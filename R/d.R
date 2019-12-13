@@ -1,5 +1,5 @@
-#' d Write an ASCII Representation of an Object
-#' @title Write an ASCII Representation of an Object
+#' d Write an ASCII Representation of a vector object
+#' @title Write an ASCII Representation of a vector object
 #' @author Marc Girondot
 #' @return A string
 #' @param x A named vector object
@@ -45,21 +45,21 @@ d <- function(x, file = "",
           x1 <- x[i]
           ifelse(is.integer(x1) & (opts[1]==1),
                  if (is.na(x1) & (opts[7]==1)) {
-                   paste0("'", names(x1), "' = NA_integer_")
+                   paste0("'", gsub("'", "\\\\'", names(x1)), "' = NA_integer_")
                  } else {
-                 paste0("'", names(x1), "' = ", x1, "L")
+                 paste0("'", gsub("'", "\\\\'", names(x1)), "' = ", x1, "L")
                    }, 
                  if (is.na(x1) & (opts[7]==1)) {
-                   paste0(names(x1), " = NA_real_")
+                   paste0("'", gsub("'", "\\\\'", names(x1)), "' = NA_real_")
                  } else {
-                 paste0("'", names(x1), "' = ", format(x1, digits = 17, trim = TRUE))
+                 paste0("'", gsub("'", "\\\\'", names(x1)), "' = ", format(x1, digits = 17, trim = TRUE))
                  }
           )
           }
         ), 
         collapse=collapse), ")", sep="", file = file)
       } else {
-        cat("c(", paste0("'", names(x), "' = '", 
+        cat("c(", paste0("'", gsub("'", "\\\\'", names(x)), "' = '", 
                          x, "'", collapse=collapse), ")", sep="", file = file)
       }
     }

@@ -2,10 +2,14 @@
 % Please edit documentation in R/d.R
 \name{d}
 \alias{d}
-\title{Write an ASCII Representation of an Object}
+\title{Write an ASCII Representation of a vector object}
 \usage{
-d(x, file = "", control = c("keepNA", "keepInteger", "showAttributes"),
-  collapse = ", \\n  ")
+d(
+  x,
+  file = "",
+  control = c("keepNA", "keepInteger", "showAttributes"),
+  collapse = ", \\n  "
+)
 }
 \arguments{
 \item{x}{A named vector object}
@@ -25,15 +29,17 @@ It can be used as a replacement of dput() for named vectors.\cr
 The controls "keepNA", "keepInteger" and "showAttributes" are utilized for named vectors.
 }
 \details{
-d Write an ASCII Representation of an Object
+d Write an ASCII Representation of a vector object
 }
 \examples{
 d(c(A=10, B=20))
 dput(c(A=10, B=20))
 }
 \seealso{
-Other Characters: \code{\link{asc}}, \code{\link{chr}},
-  \code{\link{tnirp}}
+Other Characters: 
+\code{\link{asc}()},
+\code{\link{chr}()},
+\code{\link{tnirp}()}
 }
 \author{
 Marc Girondot

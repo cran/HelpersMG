@@ -4,13 +4,24 @@
 \alias{MHalgoGen}
 \title{Monte-Carlo Markov-chain with Metropolis-Hastings algorithm}
 \usage{
-MHalgoGen(likelihood = stop("A likelihood function must be supplied"),
-  parameters_name = "x", parameters = stop("Priors  must be supplied"),
-  ..., n.iter = 10000, n.chains = 1, n.adapt = 100, thin = 30,
-  trace = FALSE, traceML = FALSE, adaptive = FALSE,
-  adaptive.lag = 500, adaptive.fun = function(x) {     ifelse(x >
-  0.234, 1.3, 0.7) }, intermediate = NULL,
-  filename = "intermediate.Rdata", previous = NULL)
+MHalgoGen(
+  likelihood = stop("A likelihood function must be supplied"),
+  parameters_name = "x",
+  parameters = stop("Priors  must be supplied"),
+  ...,
+  n.iter = 10000,
+  n.chains = 1,
+  n.adapt = 100,
+  thin = 30,
+  trace = FALSE,
+  traceML = FALSE,
+  adaptive = FALSE,
+  adaptive.lag = 500,
+  adaptive.fun = function(x) {     ifelse(x > 0.234, 1.3, 0.7) },
+  intermediate = NULL,
+  filename = "intermediate.Rdata",
+  previous = NULL
+)
 }
 \arguments{
 \item{likelihood}{The function that returns -ln likelihood using data and parameters}
@@ -169,11 +180,13 @@ plot(1:nrow(mcmc_run$resultMCMC[[1]]), mcmc_run$resultMCMC[[1]][, var], type="l"
 }
 }
 \seealso{
-Other mcmcComposite functions: \code{\link{as.mcmc.mcmcComposite}},
-  \code{\link{as.parameters}}, \code{\link{as.quantiles}},
-  \code{\link{merge.mcmcComposite}},
-  \code{\link{plot.mcmcComposite}},
-  \code{\link{summary.mcmcComposite}}
+Other mcmcComposite functions: 
+\code{\link{as.mcmc.mcmcComposite}()},
+\code{\link{as.parameters}()},
+\code{\link{as.quantiles}()},
+\code{\link{merge.mcmcComposite}()},
+\code{\link{plot.mcmcComposite}()},
+\code{\link{summary.mcmcComposite}()}
 }
 \author{
 Marc Girondot

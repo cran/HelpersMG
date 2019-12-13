@@ -4,13 +4,26 @@
 \alias{plot_errbar}
 \title{Plot a xy graph with error bar on x and/or y}
 \usage{
-plot_errbar(..., errbar.x = NULL, errbar.y = NULL,
-  errbar.x.plus = NULL, errbar.x.minus = NULL, errbar.y.plus = NULL,
-  errbar.y.minus = NULL, x.plus = NULL, x.minus = NULL,
-  y.plus = NULL, y.minus = NULL, errbar.tick = 1/50,
-  errbar.lwd = par("lwd"), errbar.lty = par("lty"),
-  errbar.col = par("fg"), errbar.y.polygon = FALSE,
-  errbar.y.polygon.list = list(NULL), add = FALSE)
+plot_errbar(
+  ...,
+  errbar.x = NULL,
+  errbar.y = NULL,
+  errbar.x.plus = NULL,
+  errbar.x.minus = NULL,
+  errbar.y.plus = NULL,
+  errbar.y.minus = NULL,
+  x.plus = NULL,
+  x.minus = NULL,
+  y.plus = NULL,
+  y.minus = NULL,
+  errbar.tick = 1/50,
+  errbar.lwd = par("lwd"),
+  errbar.lty = par("lty"),
+  errbar.col = par("fg"),
+  errbar.y.polygon = FALSE,
+  errbar.y.polygon.list = list(NULL),
+  add = FALSE
+)
 }
 \arguments{
 \item{...}{Parameters for plot() such as main= or ylim=}
@@ -90,8 +103,10 @@ plot_errbar(x=x, y=y, xlab="axe x", ylab="axe y", bty="n", xlim=c(1,20),
 \seealso{
 \code{barplot_errorbar}
 
-Other plot and barplot functions: \code{\link{ScalePreviousPlot}},
-  \code{\link{barplot_errbar}}, \code{\link{plot_add}}
+Other plot and barplot functions: 
+\code{\link{ScalePreviousPlot}()},
+\code{\link{barplot_errbar}()},
+\code{\link{plot_add}()}
 }
 \author{
 Marc Girondot

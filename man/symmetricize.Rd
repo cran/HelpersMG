@@ -4,8 +4,11 @@
 \alias{symmetricize}
 \title{Make a matrix symmetric}
 \usage{
-symmetricize(matrix, method = c("max", "min", "avg", "ld", "ud"),
-  adjacencyList = FALSE)
+symmetricize(
+  matrix,
+  method = c("max", "min", "avg", "ld", "ud"),
+  adjacencyList = FALSE
+)
 }
 \arguments{
 \item{matrix}{The matrix to make symmatric}

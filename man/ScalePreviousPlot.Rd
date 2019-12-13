@@ -34,8 +34,10 @@ text(x=ScalePreviousPlot()$xlim["center"], y=ScalePreviousPlot()$ylim["label"],
 }
 }
 \seealso{
-Other plot and barplot functions: \code{\link{barplot_errbar}},
-  \code{\link{plot_add}}, \code{\link{plot_errbar}}
+Other plot and barplot functions: 
+\code{\link{barplot_errbar}()},
+\code{\link{plot_add}()},
+\code{\link{plot_errbar}()}
 }
 \author{
 Marc Girondot

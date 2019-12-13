@@ -4,8 +4,17 @@
 \alias{flexit}
 \title{Return the flexit}
 \usage{
-flexit(x, par = NULL, P = NULL, S = NULL, K1 = NULL, K2 = NULL,
-  zero = 1e-09, error0 = 0, error1 = 1)
+flexit(
+  x,
+  par = NULL,
+  P = NULL,
+  S = NULL,
+  K1 = NULL,
+  K2 = NULL,
+  zero = 1e-09,
+  error0 = 0,
+  error1 = 1
+)
 }
 \arguments{
 \item{x}{The values at which the flexit model must be calculated}
@@ -46,7 +55,9 @@ n <- flexit(x=1:100, par=c(P=50, S=0.001, K1=0.01, K2=0.02))
 n <- flexit(x=1:100, P=50, S=0.001, K1=0.01, K2=0.02)
 }
 \seealso{
-Other logit: \code{\link{invlogit}}, \code{\link{logit}}
+Other logit: 
+\code{\link{invlogit}()},
+\code{\link{logit}()}
 }
 \author{
 Marc Girondot

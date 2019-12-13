@@ -52,8 +52,10 @@ tnirp("   27.89 289.99
       90.56", named=FALSE)
 }
 \seealso{
-Other Characters: \code{\link{asc}}, \code{\link{chr}},
-  \code{\link{d}}
+Other Characters: 
+\code{\link{asc}()},
+\code{\link{chr}()},
+\code{\link{d}()}
 }
 \author{
 Marc Girondot

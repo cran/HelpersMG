@@ -4,12 +4,24 @@
 \alias{LD50}
 \title{Estimate the parameters that best describe LD50}
 \usage{
-LD50(df = NULL, alive = NULL, dead = NULL, N = NULL,
-  doses = NULL, l = 0.05, parameters.initial = NULL,
-  fixed.parameters = NULL, SE = NULL, equation = "logistic",
-  replicates = 1000, range.CI = 0.95, limit.low.TRD.minimum = 5,
-  limit.high.TRD.maximum = 1000, print = TRUE, doses.plot = seq(from
-  = 0, to = 1000, by = 0.1))
+LD50(
+  df = NULL,
+  alive = NULL,
+  dead = NULL,
+  N = NULL,
+  doses = NULL,
+  l = 0.05,
+  parameters.initial = NULL,
+  fixed.parameters = NULL,
+  SE = NULL,
+  equation = "logistic",
+  replicates = 1000,
+  range.CI = 0.95,
+  limit.low.TRD.minimum = 5,
+  limit.high.TRD.maximum = 1000,
+  print = TRUE,
+  doses.plot = seq(from = 0, to = 1000, by = 0.1)
+)
 }
 \arguments{
 \item{df}{A dataframe with at least two columns named alive, dead or N and doses columns}
@@ -99,9 +111,12 @@ plot(LD50_flexit)
 }
 }
 \seealso{
-Other LD50 functions: \code{\link{LD50_MHmcmc_p}},
-  \code{\link{LD50_MHmcmc}}, \code{\link{logLik.LD50}},
-  \code{\link{plot.LD50}}, \code{\link{predict.LD50}}
+Other LD50 functions: 
+\code{\link{LD50_MHmcmc_p}()},
+\code{\link{LD50_MHmcmc}()},
+\code{\link{logLik.LD50}()},
+\code{\link{plot.LD50}()},
+\code{\link{predict.LD50}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}

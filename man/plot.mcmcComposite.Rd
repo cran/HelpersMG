@@ -4,12 +4,25 @@
 \alias{plot.mcmcComposite}
 \title{Plot the result of a mcmcComposite object}
 \usage{
-\method{plot}{mcmcComposite}(x, ..., chain = 1, parameters = 1,
-  transform = NULL, scale.prior = TRUE, legend = "topright",
-  ylab = "Posterior density", las = 1, show.prior = TRUE,
-  col.prior = "red", lty.prior = 1, lwd.prior = 1,
-  col.posterior = "white", lty.posterior = 1, lwd.posterior = 1,
-  ylab.prior = "Prior density")
+\method{plot}{mcmcComposite}(
+  x,
+  ...,
+  chain = 1,
+  parameters = 1,
+  transform = NULL,
+  scale.prior = TRUE,
+  legend = "topright",
+  ylab = "Posterior density",
+  las = 1,
+  show.prior = TRUE,
+  col.prior = "red",
+  lty.prior = 1,
+  lwd.prior = 1,
+  col.posterior = "white",
+  lty.posterior = 1,
+  lwd.posterior = 1,
+  ylab.prior = "Prior density"
+)
 }
 \arguments{
 \item{x}{A mcmcComposite object}
@@ -18,7 +31,7 @@
 
 \item{chain}{The chain to use}
 
-\item{parameters}{Name of parameters or their number (see description)}
+\item{parameters}{Name of parameters or "all"}
 
 \item{transform}{Function to be used to transform the variable}
 
@@ -51,11 +64,6 @@ None
 }
 \description{
 Plot the results within a mcmcComposite object.\cr
-The parameters to use can be called by:\cr
-\code{parameters="all"}\cr
-\code{parameters=1:4}\cr
-\code{parameters=c("PAR1", "PAR2", "PAR5")}\cr
-\code{parameters=c(TRUE, TRUE, FALSE, TRUE)}\cr
 If scale.prior is TRUE, another scale is shown at right.\cr
 legend can take these values: \cr
 FALSE, TRUE, topleft, topright, bottomleft, bottomright, c(x=, y=)
@@ -263,11 +271,13 @@ plot(mcmc_run_pbeta, parameters="p", xlim=c(0,1),
 }
 }
 \seealso{
-Other mcmcComposite functions: \code{\link{MHalgoGen}},
-  \code{\link{as.mcmc.mcmcComposite}},
-  \code{\link{as.parameters}}, \code{\link{as.quantiles}},
-  \code{\link{merge.mcmcComposite}},
-  \code{\link{summary.mcmcComposite}}
+Other mcmcComposite functions: 
+\code{\link{MHalgoGen}()},
+\code{\link{as.mcmc.mcmcComposite}()},
+\code{\link{as.parameters}()},
+\code{\link{as.quantiles}()},
+\code{\link{merge.mcmcComposite}()},
+\code{\link{summary.mcmcComposite}()}
 }
 \author{
 Marc Girondot

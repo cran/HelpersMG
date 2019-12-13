@@ -4,10 +4,19 @@
 \alias{barplot_errbar}
 \title{Plot a barplot graph with error bar on y}
 \usage{
-barplot_errbar(..., errbar.y = NULL, errbar.y.plus = NULL,
-  errbar.y.minus = NULL, y.plus = NULL, y.minus = NULL,
-  errbar.tick = 1/50, errbar.lwd = par("lwd"),
-  errbar.lty = par("lty"), errbar.col = par("fg"), add = FALSE)
+barplot_errbar(
+  ...,
+  errbar.y = NULL,
+  errbar.y.plus = NULL,
+  errbar.y.minus = NULL,
+  y.plus = NULL,
+  y.minus = NULL,
+  errbar.tick = 1/50,
+  errbar.lwd = par("lwd"),
+  errbar.lty = par("lty"),
+  errbar.col = par("fg"),
+  add = FALSE
+)
 }
 \arguments{
 \item{...}{Parameters for barplot() such as main= or ylim=}
@@ -61,8 +70,10 @@ barplot_errbar(y,
 \seealso{
 \code{plot_errorbar}
 
-Other plot and barplot functions: \code{\link{ScalePreviousPlot}},
-  \code{\link{plot_add}}, \code{\link{plot_errbar}}
+Other plot and barplot functions: 
+\code{\link{ScalePreviousPlot}()},
+\code{\link{plot_add}()},
+\code{\link{plot_errbar}()}
 }
 \author{
 Marc Girondot

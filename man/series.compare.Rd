@@ -4,8 +4,7 @@
 \alias{series.compare}
 \title{Data series comparison using Akaike weight}
 \usage{
-series.compare(..., criterion = c("BIC", "AIC", "AICc"),
-  var.equal = TRUE)
+series.compare(..., criterion = c("BIC", "AIC", "AICc"), var.equal = TRUE)
 }
 \arguments{
 \item{...}{Series of data (at least two or data are in a table with series in different rows)}
@@ -126,8 +125,9 @@ text(x=13.05, y=0.05, labels = "0.05", pos=4)
 Girondot, M., Guillon, J.-M., 2018. The w-value: An alternative to t- and X2 tests. Journal of Biostatistics & Biometrics 1, 1-4.
 }
 \seealso{
-Other w-value functions: \code{\link{compare}},
-  \code{\link{contingencyTable.compare}}
+Other w-value functions: 
+\code{\link{compare}()},
+\code{\link{contingencyTable.compare}()}
 }
 \author{
 Marc Girondot

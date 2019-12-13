@@ -4,12 +4,16 @@
 \alias{IC_threshold_matrix}
 \title{Calculate correlation matrix}
 \usage{
-
-  IC_threshold_matrix(data = stop("A dataframe or an IconoCorel object is required"),
-  threshold = NULL, use = c("pairwise.complete.obs", "everything",
-  "all.obs", "complete.obs", "na.or.complete"), method = c("pearson",
-  "kendall", "spearman"), model = c("OAT", "ATT"), progress = TRUE,
-  debug = FALSE)
+IC_threshold_matrix(
+  data = stop("A dataframe or an IconoCorel object is required"),
+  threshold = NULL,
+  use = c("pairwise.complete.obs", "everything", "all.obs", "complete.obs",
+    "na.or.complete"),
+  method = c("pearson", "kendall", "spearman"),
+  model = c("OAT", "ATT"),
+  progress = TRUE,
+  debug = FALSE
+)
 }
 \arguments{
 \item{data}{A dataframe or an IconoCorel object from a previous run of IC_threshold_matrix}
@@ -111,9 +115,10 @@ plot(IC_correlation_simplify(matrix=cor_threshold),
 Lesty, M., 1999. Une nouvelle approche dans le choix des régresseurs de la régression multiple en présence d’interactions et de colinéarités. Revue de Modulad 22, 41-77.
 }
 \seealso{
-Other Iconography of correlations: \code{\link{IC_clean_data}},
-  \code{\link{IC_correlation_simplify}},
-  \code{\link{plot.IconoCorel}}
+Other Iconography of correlations: 
+\code{\link{IC_clean_data}()},
+\code{\link{IC_correlation_simplify}()},
+\code{\link{plot.IconoCorel}()}
 }
 \author{
 Marc Girondot

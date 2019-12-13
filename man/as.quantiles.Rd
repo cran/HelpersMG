@@ -4,9 +4,15 @@
 \alias{as.quantiles}
 \title{Extract quantile distribution from mcmcComposite object}
 \usage{
-as.quantiles(x, chain = 1, fun = function(...)
-  return(as.numeric(list(...))), probs = c(0.025, 0.975), xlim = NULL,
-  nameparxlim = NULL, namepar = NULL)
+as.quantiles(
+  x,
+  chain = 1,
+  fun = function(...) return(as.numeric(list(...))),
+  probs = c(0.025, 0.975),
+  xlim = NULL,
+  nameparxlim = NULL,
+  namepar = NULL
+)
 }
 \arguments{
 \item{x}{A mcmcComposite obtained as a result of \code{MHalgoGen()} function}
@@ -51,12 +57,13 @@ k <- as.quantiles(x=mcmc_run, namepar="mean",
 }
 }
 \seealso{
-Other mcmcComposite functions: \code{\link{MHalgoGen}},
-  \code{\link{as.mcmc.mcmcComposite}},
-  \code{\link{as.parameters}},
-  \code{\link{merge.mcmcComposite}},
-  \code{\link{plot.mcmcComposite}},
-  \code{\link{summary.mcmcComposite}}
+Other mcmcComposite functions: 
+\code{\link{MHalgoGen}()},
+\code{\link{as.mcmc.mcmcComposite}()},
+\code{\link{as.parameters}()},
+\code{\link{merge.mcmcComposite}()},
+\code{\link{plot.mcmcComposite}()},
+\code{\link{summary.mcmcComposite}()}
 }
 \author{
 Marc Girondot

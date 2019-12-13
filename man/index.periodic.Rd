@@ -4,8 +4,7 @@
 \alias{index.periodic}
 \title{Estimate indices in periodic timeseries based on anchored minimum and maximum}
 \usage{
-index.periodic(minmax, time = NULL, replicates = 100,
-  progressbar = FALSE)
+index.periodic(minmax, time = NULL, replicates = 100, progressbar = FALSE)
 }
 \arguments{
 \item{minmax}{A data.frame returned by minmax.periodic}
@@ -63,9 +62,11 @@ plot_add(observed$time, observed$temperature, pch=19, cex=0.5)
 }
 }
 \seealso{
-Other Periodic patterns of indices: \code{\link{minmax.periodic}},
-  \code{\link{moon.info}}, \code{\link{sun.info}},
-  \code{\link{tide.info}}
+Other Periodic patterns of indices: 
+\code{\link{minmax.periodic}()},
+\code{\link{moon.info}()},
+\code{\link{sun.info}()},
+\code{\link{tide.info}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}

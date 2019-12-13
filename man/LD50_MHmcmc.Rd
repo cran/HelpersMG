@@ -4,12 +4,22 @@
 \alias{LD50_MHmcmc}
 \title{Metropolis-Hastings algorithm for LD50}
 \usage{
-LD50_MHmcmc(result = stop("A result of LD50() fit must be provided"),
-  n.iter = 10000, parametersMCMC = NULL, n.chains = 1, n.adapt = 0,
-  thin = 1, trace = FALSE, batchSize = sqrt(n.iter),
-  adaptive = FALSE, adaptive.lag = 500, adaptive.fun = function(x) { 
-     ifelse(x > 0.234, 1.3, 0.7) }, intermediate = NULL,
-  filename = "intermediate.Rdata", previous = NULL)
+LD50_MHmcmc(
+  result = stop("A result of LD50() fit must be provided"),
+  n.iter = 10000,
+  parametersMCMC = NULL,
+  n.chains = 1,
+  n.adapt = 0,
+  thin = 1,
+  trace = FALSE,
+  batchSize = sqrt(n.iter),
+  adaptive = FALSE,
+  adaptive.lag = 500,
+  adaptive.fun = function(x) {     ifelse(x > 0.234, 1.3, 0.7) },
+  intermediate = NULL,
+  filename = "intermediate.Rdata",
+  previous = NULL
+)
 }
 \arguments{
 \item{result}{An object obtained after a SearchR fit}
@@ -108,9 +118,12 @@ heidel.diag(as.mcmc(result_mcmc_LD50))
 }
 }
 \seealso{
-Other LD50 functions: \code{\link{LD50_MHmcmc_p}},
-  \code{\link{LD50}}, \code{\link{logLik.LD50}},
-  \code{\link{plot.LD50}}, \code{\link{predict.LD50}}
+Other LD50 functions: 
+\code{\link{LD50_MHmcmc_p}()},
+\code{\link{LD50}()},
+\code{\link{logLik.LD50}()},
+\code{\link{plot.LD50}()},
+\code{\link{predict.LD50}()}
 }
 \author{
 Marc Girondot

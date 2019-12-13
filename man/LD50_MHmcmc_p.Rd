@@ -4,8 +4,10 @@
 \alias{LD50_MHmcmc_p}
 \title{Generates set of parameters to be used with LD50_MHmcmc()}
 \usage{
-LD50_MHmcmc_p(result = stop("An output from LD50() must be provided"),
-  accept = FALSE)
+LD50_MHmcmc_p(
+  result = stop("An output from LD50() must be provided"),
+  accept = FALSE
+)
 }
 \arguments{
 \item{result}{An object obtained after a LD50 fit}
@@ -33,9 +35,12 @@ pmcmc <- LD50_MHmcmc_p(LD50_logistic, accept=TRUE)
 }
 }
 \seealso{
-Other LD50 functions: \code{\link{LD50_MHmcmc}},
-  \code{\link{LD50}}, \code{\link{logLik.LD50}},
-  \code{\link{plot.LD50}}, \code{\link{predict.LD50}}
+Other LD50 functions: 
+\code{\link{LD50_MHmcmc}()},
+\code{\link{LD50}()},
+\code{\link{logLik.LD50}()},
+\code{\link{plot.LD50}()},
+\code{\link{predict.LD50}()}
 }
 \author{
 Marc Girondot

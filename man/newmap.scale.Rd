@@ -4,8 +4,15 @@
 \alias{newmap.scale}
 \title{Add Scale to Existing Unprojected Map}
 \usage{
-newmap.scale(x, y, relwidth = 0.15, metric = TRUE, ratio = TRUE,
-  col.line = "black", ...)
+newmap.scale(
+  x,
+  y,
+  relwidth = 0.15,
+  metric = TRUE,
+  ratio = TRUE,
+  col.line = "black",
+  ...
+)
 }
 \arguments{
 \item{x}{Location of left end of distance gauge.}

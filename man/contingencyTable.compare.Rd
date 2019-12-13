@@ -4,8 +4,11 @@
 \alias{contingencyTable.compare}
 \title{Contingency table comparison using Akaike weight}
 \usage{
-contingencyTable.compare(table, criterion = c("AIC", "AICc", "BIC"),
-  probs = NULL)
+contingencyTable.compare(
+  table,
+  criterion = c("AIC", "AICc", "BIC"),
+  probs = NULL
+)
 }
 \arguments{
 \item{table}{A matrix or a data.frame with series in rows and number of each category in column}
@@ -125,8 +128,9 @@ text(x=101, y=0.05, labels = "0.05", pos=4)
 Girondot, M., Guillon, J.-M., 2018. The w-value: An alternative to t- and X2 tests. Journal of Biostatistics & Biometrics 1, 1-4.
 }
 \seealso{
-Other w-value functions: \code{\link{compare}},
-  \code{\link{series.compare}}
+Other w-value functions: 
+\code{\link{compare}()},
+\code{\link{series.compare}()}
 }
 \author{
 Marc Girondot

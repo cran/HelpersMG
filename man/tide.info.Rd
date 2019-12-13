@@ -4,8 +4,14 @@
 \alias{tide.info}
 \title{Annual tide calendar for one particular location}
 \usage{
-tide.info(file = NULL, year = as.POSIXlt(Sys.time())$year + 1900,
-  location = 0, latitude = NA, longitude = NA, tz = "")
+tide.info(
+  file = NULL,
+  year = as.POSIXlt(Sys.time())$year + 1900,
+  location = 0,
+  latitude = NA,
+  longitude = NA,
+  tz = ""
+)
 }
 \arguments{
 \item{file}{An html file from the site \code{http://tides.mobilegeographics.com/}}
@@ -45,9 +51,11 @@ ylab="Tide level in m"))
 }
 }
 \seealso{
-Other Periodic patterns of indices: \code{\link{index.periodic}},
-  \code{\link{minmax.periodic}}, \code{\link{moon.info}},
-  \code{\link{sun.info}}
+Other Periodic patterns of indices: 
+\code{\link{index.periodic}()},
+\code{\link{minmax.periodic}()},
+\code{\link{moon.info}()},
+\code{\link{sun.info}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}

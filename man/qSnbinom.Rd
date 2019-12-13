@@ -4,9 +4,15 @@
 \alias{qSnbinom}
 \title{Quantile function for the sum of random variable with negative binomial distributions.}
 \usage{
-qSnbinom(p = stop("At least one probability must be provided"),
-  size = stop("size parameter is mandatory"), prob = NULL, mu = NULL,
-  lower.tail = TRUE, log.p = FALSE, tol = 1e-06)
+qSnbinom(
+  p = stop("At least one probability must be provided"),
+  size = stop("size parameter is mandatory"),
+  prob = NULL,
+  mu = NULL,
+  lower.tail = TRUE,
+  log.p = FALSE,
+  tol = 1e-06
+)
 }
 \arguments{
 \item{p}{vector of probabilities.}
@@ -40,8 +46,10 @@ q <- qSnbinom(p=0.1, size=alpha, mu=mu, lower.tail = TRUE)
 }
 }
 \seealso{
-Other Distribution of sum of random variable with negative binomial distributions: \code{\link{dSnbinom}},
-  \code{\link{pSnbinom}}, \code{\link{rSnbinom}}
+Other Distribution of sum of random variable with negative binomial distributions: 
+\code{\link{dSnbinom}()},
+\code{\link{pSnbinom}()},
+\code{\link{rSnbinom}()}
 }
 \author{
 Marc Girondot

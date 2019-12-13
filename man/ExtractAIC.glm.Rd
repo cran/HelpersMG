@@ -43,8 +43,10 @@ options(AIC="AICc")
 extractAIC(g)
 }
 \seealso{
-Other AIC: \code{\link{compare_AICc}},
-  \code{\link{compare_AIC}}, \code{\link{compare_BIC}}
+Other AIC: 
+\code{\link{compare_AICc}()},
+\code{\link{compare_AIC}()},
+\code{\link{compare_BIC}()}
 }
 \author{
 Modified from stats:::extract.AIC.glm

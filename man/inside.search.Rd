@@ -4,9 +4,15 @@
 \alias{inside.search}
 \title{Search a string within files of a folder}
 \usage{
-inside.search(path = ".", pattern = "*\\\\.R$",
-  showallfilenames = FALSE, ..., fixed = TRUE, ignore.case = FALSE,
-  text = stop("A text to be searched for is necessary"))
+inside.search(
+  path = ".",
+  pattern = "*\\\\.R$",
+  showallfilenames = FALSE,
+  ...,
+  fixed = TRUE,
+  ignore.case = FALSE,
+  text = stop("A text to be searched for is necessary")
+)
 }
 \arguments{
 \item{path}{Path of the folder to search in}

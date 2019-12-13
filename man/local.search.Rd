@@ -4,8 +4,14 @@
 \alias{local.search}
 \title{Return path of file searched for in local disk based on its file name}
 \usage{
-local.search(pattern, directory = "", folder = "$HOME",
-  intern = TRUE, ignore.stdout = FALSE, ignore.stderr = TRUE)
+local.search(
+  pattern,
+  directory = "",
+  folder = "$HOME",
+  intern = TRUE,
+  ignore.stdout = FALSE,
+  ignore.stderr = TRUE
+)
 }
 \arguments{
 \item{pattern}{The name of file to be searched for. Can use wildcards *}

@@ -4,8 +4,7 @@
 \alias{qvlmer}
 \title{Quasi Variances for lmer Model Coefficients}
 \usage{
-qvlmer(object, factorname = NULL, coef.indices = NULL,
-  dispersion = NULL, ...)
+qvlmer(object, factorname = NULL, coef.indices = NULL, dispersion = NULL, ...)
 }
 \arguments{
 \item{object}{A object obtained using lmer from package lme4}

@@ -4,9 +4,15 @@
 \alias{dSnbinom}
 \title{Density for the sum of random variable with negative binomial distributions.}
 \usage{
-dSnbinom(x = stop("You must provide a x value"), size = NULL,
-  prob = NULL, mu = NULL, log = FALSE, tol = 1e-06,
-  infinite = 1000)
+dSnbinom(
+  x = stop("You must provide a x value"),
+  size = NULL,
+  prob = NULL,
+  mu = NULL,
+  log = FALSE,
+  tol = 1e-06,
+  infinite = 1000
+)
 }
 \arguments{
 \item{x}{vector of (non-negative integer) quantiles.}
@@ -21,7 +27,7 @@ dSnbinom(x = stop("You must provide a x value"), size = NULL,
 
 \item{tol}{Tolerance for recurrence}
 
-\item{infinite}{No more used - Maintained for retrocompatibility}
+\item{infinite}{Maximum level of recursion}
 }
 \value{
 dSnbinom gives the density
@@ -35,10 +41,13 @@ dSnbinom returns the density for the sum of random variable with negative binomi
 }
 \examples{
 \dontrun{
+library(HelpersMG)
 alpha <- c(1, 2, 5, 1, 2)
 p <- c(0.1, 0.12, 0.13, 0.14, 0.14)
 dSnbinom(20, size=alpha, prob=p)
+dSnbinom(20, size=alpha, prob=p, log=TRUE)
 dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03))
+dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), log=TRUE)
 # Test with a single distribution
 dSnbinom(20, size=1, mu=20)
 # when only one distribution is available, it is the same as dnbinom()
@@ -90,8 +99,10 @@ fit_mu_size$par
 Furman, E., 2007. On the convolution of the negative binomial random variables. Statistics & Probability Letters 77, 169-172.
 }
 \seealso{
-Other Distribution of sum of random variable with negative binomial distributions: \code{\link{pSnbinom}},
-  \code{\link{qSnbinom}}, \code{\link{rSnbinom}}
+Other Distribution of sum of random variable with negative binomial distributions: 
+\code{\link{pSnbinom}()},
+\code{\link{qSnbinom}()},
+\code{\link{rSnbinom}()}
 }
 \author{
 Marc Girondot

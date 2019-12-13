@@ -4,8 +4,13 @@
 \alias{read_folder}
 \title{Read files present in a folder and creates a list with the content of these files}
 \usage{
-read_folder(folder = try(file.choose(), silent = TRUE), file = NULL,
-  wildcard = "*.*", read = read.delim, ...)
+read_folder(
+  folder = try(file.choose(), silent = TRUE),
+  file = NULL,
+  wildcard = "*.*",
+  read = read.delim,
+  ...
+)
 }
 \arguments{
 \item{folder}{Where to search for files; can be or a file path or a folder path}

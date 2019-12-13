@@ -37,9 +37,11 @@ plot(date, sun.info(date, latitude=23, longitude=0)$sunrise, bty="n",
 Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics Journal 34(4):317-321.
 }
 \seealso{
-Other Periodic patterns of indices: \code{\link{index.periodic}},
-  \code{\link{minmax.periodic}}, \code{\link{moon.info}},
-  \code{\link{tide.info}}
+Other Periodic patterns of indices: 
+\code{\link{index.periodic}()},
+\code{\link{minmax.periodic}()},
+\code{\link{moon.info}()},
+\code{\link{tide.info}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}

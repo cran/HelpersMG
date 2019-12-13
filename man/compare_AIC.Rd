@@ -53,8 +53,10 @@ compare_AIC(separate=list(m1, m1_2), grouped=m1_grouped)
 }
 }
 \seealso{
-Other AIC: \code{\link{ExtractAIC.glm}},
-  \code{\link{compare_AICc}}, \code{\link{compare_BIC}}
+Other AIC: 
+\code{\link{ExtractAIC.glm}()},
+\code{\link{compare_AICc}()},
+\code{\link{compare_BIC}()}
 }
 \author{
 Marc Girondot

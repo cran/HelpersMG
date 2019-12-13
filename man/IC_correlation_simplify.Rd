@@ -57,9 +57,10 @@ plot(cor_threshold_Note)
 Lesty, M., 1999. Une nouvelle approche dans le choix des régresseurs de la régression multiple en présence d’interactions et de colinéarités. Revue de Modulad 22, 41-77.
 }
 \seealso{
-Other Iconography of correlations: \code{\link{IC_clean_data}},
-  \code{\link{IC_threshold_matrix}},
-  \code{\link{plot.IconoCorel}}
+Other Iconography of correlations: 
+\code{\link{IC_clean_data}()},
+\code{\link{IC_threshold_matrix}()},
+\code{\link{plot.IconoCorel}()}
 }
 \author{
 Marc Girondot

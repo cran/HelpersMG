@@ -53,7 +53,8 @@ symbol.Female(centerx=centerx+0.5, centery = centery, rayonx=rayonx, lwd=4, col=
 }
 }
 \seealso{
-Other Symbol: \code{\link{symbol.Female}}
+Other Symbol: 
+\code{\link{symbol.Female}()}
 }
 \author{
 Marc Girondot

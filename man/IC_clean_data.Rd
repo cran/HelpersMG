@@ -4,11 +4,16 @@
 \alias{IC_clean_data}
 \title{Clean the dataframe before to be used with IC_threshold_matrix}
 \usage{
-IC_clean_data(data = stop("A dataframe object is required"),
-  use = c("pairwise.complete.obs", "everything", "all.obs",
-  "complete.obs", "na.or.complete"), method = c("pearson", "kendall",
-  "spearman"), variable.retain = NULL, test.partial.correlation = TRUE,
-  progress = TRUE, debug = FALSE)
+IC_clean_data(
+  data = stop("A dataframe object is required"),
+  use = c("pairwise.complete.obs", "everything", "all.obs", "complete.obs",
+    "na.or.complete"),
+  method = c("pearson", "kendall", "spearman"),
+  variable.retain = NULL,
+  test.partial.correlation = TRUE,
+  progress = TRUE,
+  debug = FALSE
+)
 }
 \arguments{
 \item{data}{The data.frame to be cleaned}
@@ -74,9 +79,10 @@ plot(cor_threshold_Note)
 Lesty, M., 1999. Une nouvelle approche dans le choix des régresseurs de la régression multiple en présence d’interactions et de colinéarités. Revue de Modulad 22, 41-77.
 }
 \seealso{
-Other Iconography of correlations: \code{\link{IC_correlation_simplify}},
-  \code{\link{IC_threshold_matrix}},
-  \code{\link{plot.IconoCorel}}
+Other Iconography of correlations: 
+\code{\link{IC_correlation_simplify}()},
+\code{\link{IC_threshold_matrix}()},
+\code{\link{plot.IconoCorel}()}
 }
 \author{
 Marc Girondot

@@ -4,7 +4,7 @@
 #' @return None
 #' @param x A mcmcComposite object
 #' @param chain The chain to use
-#' @param parameters Name of parameters or their number (see description)
+#' @param parameters Name of parameters or "all"
 #' @param transform Function to be used to transform the variable
 #' @param legend If FALSE, the legend is not shown; see description
 #' @param show.prior whould the prior be shown?
@@ -21,11 +21,6 @@
 #' @param ... Graphical parameters to be sent to hist()
 #' @family mcmcComposite functions
 #' @description Plot the results within a mcmcComposite object.\cr
-#' The parameters to use can be called by:\cr
-#' \code{parameters="all"}\cr
-#' \code{parameters=1:4}\cr
-#' \code{parameters=c("PAR1", "PAR2", "PAR5")}\cr
-#' \code{parameters=c(TRUE, TRUE, FALSE, TRUE)}\cr
 #' If scale.prior is TRUE, another scale is shown at right.\cr
 #' legend can take these values: \cr
 #' FALSE, TRUE, topleft, topright, bottomleft, bottomright, c(x=, y=)
@@ -282,36 +277,15 @@ plot.mcmcComposite <- function(x, ... , chain=1, parameters=1,
   NbTS <- length(possible)
   
   if (parameters[[1]]=="all") {
-    series<-rep(TRUE, NbTS)
-  } else {
-    if (any(!is.logical(parameters))) {
-      if (is.numeric(parameters)) {
-        # Même si un nombre de paramètres plus important est indiqué, ne provoque pas d'erreur
-        series <- rep(FALSE, max(NbTS, length(parameters)))
-        series[parameters] <- TRUE
-        series <- series[1:NbTS]
-      } else {
-        series <- (possible==parameters)
-      }
-    } else {
-      # c'est des valeurs logiques, je verifie si le bon nombre, sinon je recycle
-      if (length(parameters)!=NbTS) {
-        series <- rep(parameters, NbTS)
-        series <- series[1:NbTS]
-      }
-    }
+    parameters <- possible
   }
-  
-  seriesx <- series
-  
-  nbseries <- length(seriesx[seriesx==TRUE])
   
   tpt <- list(...)
   
-  for(variable in which(seriesx)) {
+  for(variable in parameters) {
     
     nitercorrige <- floor(n.iter/thin)
-    if (NbTS == 1) vals <- mcmc[[chain]] else vals <- mcmc[[chain]][,variable]
+    if (NbTS == 1) vals <- mcmc[[chain]] else vals <- mcmc[[chain]][ ,variable]
     # c'est quoi ça ??? 6/10/2012
     # vals <- vals[(length(vals)-nitercorrige):length(vals)]
     
@@ -323,11 +297,11 @@ plot.mcmcComposite <- function(x, ... , chain=1, parameters=1,
       # 22/8/2014
       # je suis en uniforme. Il faut que je limite les breaks
       # 9/3/2015 Si l'un est négatif ou nul, je dois faire un shift d'origine
-      shift <- as.numeric(Parameters[variable,"Prior1"])
+      shift <- as.numeric(Parameters[variable, "Prior1"])
       
       
-      mx <- as.numeric(Parameters[variable,"Prior2"])-shift
-      mn <- as.numeric(Parameters[variable,"Prior1"])-shift
+      mx <- as.numeric(Parameters[variable, "Prior2"])-shift
+      mn <- as.numeric(Parameters[variable, "Prior1"])-shift
       mxlog <- 10^(floor(log10(mx))-1)
       # C'est quoi ???
       xl <- as.numeric(c(mn, mx)+shift)+c(-mxlog, mxlog)
@@ -340,14 +314,14 @@ plot.mcmcComposite <- function(x, ... , chain=1, parameters=1,
       
       # tpt <- list(las=1, xlim=c(0,30), breaks=c(0, 1.00095, 2.0009, 3.00085, 4.0008, 5.00075, 6.0007, 7.00065, 8.0006, 9.00055, 10.0005, 11.00045, 12.0004, 13.00035, 14.0003, 15.00025, 16.0002, 17.00015, 18.0001, 19.00005, 20))
       
-      L <- modifyList(list(ylab="", xlab=rownames(Parameters)[[variable]], 
+      L <- modifyList(list(ylab="", xlab=variable, 
                            las=las, main="", freq=FALSE, 
                            xlim=xl, breaks=br, 
                            col=col.posterior, 
                            lty=lty.posterior, 
                            lwd=lwd.posterior), modifyList(list(x=vals), tpt)) 
     } else {
-      L <- modifyList(list(ylab="", xlab=rownames(Parameters)[[variable]], 
+      L <- modifyList(list(ylab="", xlab=variable, 
                            las=las, main="", freq=FALSE, 
                            col=col.posterior, 
                            lty=lty.posterior, 
@@ -372,8 +346,8 @@ plot.mcmcComposite <- function(x, ... , chain=1, parameters=1,
       
       sequence <- seq(from=scl$xlim[1], to=scl$xlim[2], length=200)
       
-      p1 <- as.numeric(Parameters[variable,"Prior1"])
-      p2 <- as.numeric(Parameters[variable,"Prior2"])
+      p1 <- as.numeric(Parameters[variable, "Prior1"])
+      p2 <- as.numeric(Parameters[variable, "Prior2"])
       y <- get(as.character(Parameters[variable, "Density"]))(sequence, p1, p2)
       yl <- c(0, max(y[is.finite(y)]))
       
@@ -397,7 +371,7 @@ plot.mcmcComposite <- function(x, ... , chain=1, parameters=1,
           # par(new=TRUE)
           # plot(c(scl$xlim["begin"], scl$xlim["end"]), c(0, max(y)), type="n", axes=FALSE, bty="n",
           #      xlab="", ylab="", main="")
-
+          
           segments(x0=scl$xlim[1], x1=transformx(p1), y0=0, y1=0, col=col.prior, lty=lty.prior, lwd=lwd.prior)
           segments(x0=transformx(p1), x1=transformx(p1), y0=0, y1=scl$ylim[2], col=col.prior, lty=lty.prior, lwd=lwd.prior)
           segments(x0=transformx(p1), x1=transformx(p2), y0=scl$ylim[2], y1=scl$ylim[2], col=col.prior, lty=lty.prior, lwd=lwd.prior)

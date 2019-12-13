@@ -4,11 +4,17 @@
 \alias{minmax.periodic}
 \title{Search for minimum and maximum indices in periodic timeseries}
 \usage{
-minmax.periodic(time.minmax.daily = NULL, time.minmax = NULL,
+minmax.periodic(
+  time.minmax.daily = NULL,
+  time.minmax = NULL,
   progressbar = FALSE,
-  observed = stop("data.frame with observed indices"), period = 24,
-  colname.time = "time", colname.index = "index", colname.SD = "SD",
-  plot = FALSE)
+  observed = stop("data.frame with observed indices"),
+  period = 24,
+  colname.time = "time",
+  colname.index = "index",
+  colname.SD = "SD",
+  plot = FALSE
+)
 }
 \arguments{
 \item{time.minmax.daily}{A named vector with Min and Max being the time in the day with minimum and maximum indices (temperature or level)}
@@ -81,9 +87,11 @@ plot_add(observed$time, observed$temperature, pch=19, cex=0.5)
 }
 }
 \seealso{
-Other Periodic patterns of indices: \code{\link{index.periodic}},
-  \code{\link{moon.info}}, \code{\link{sun.info}},
-  \code{\link{tide.info}}
+Other Periodic patterns of indices: 
+\code{\link{index.periodic}()},
+\code{\link{moon.info}()},
+\code{\link{sun.info}()},
+\code{\link{tide.info}()}
 }
 \author{
 Marc Girondot

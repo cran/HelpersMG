@@ -4,10 +4,17 @@
 \alias{universalmclapply}
 \title{Run the function FUN on X using parallel computing}
 \usage{
-universalmclapply(X, FUN, ..., mc.cores = parallel::detectCores(),
-  mc.preschedule = TRUE, clusterExport = list(),
-  clusterEvalQ = list(), forking = ifelse(.Platform$OS.type ==
-  "windows", FALSE, TRUE), progressbar = FALSE)
+universalmclapply(
+  X,
+  FUN,
+  ...,
+  mc.cores = parallel::detectCores(),
+  mc.preschedule = TRUE,
+  clusterExport = list(),
+  clusterEvalQ = list(),
+  forking = ifelse(.Platform$OS.type == "windows", FALSE, TRUE),
+  progressbar = FALSE
+)
 }
 \arguments{
 \item{X}{A vector (atomic or list) or an expressions vector. Other objects (including classed objects) will be coerced by as.list.}

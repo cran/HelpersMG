@@ -4,10 +4,17 @@
 \alias{plot.IconoCorel}
 \title{Clean the dataframe before to be used with IC_threshold_matrix}
 \usage{
-\method{plot}{IconoCorel}(x, ..., show.legend.direction = "bottomright",
-  show.legend.strength = "topleft", title = "Correlation iconography",
-  vertex.label.color = "black", vertex.label = NULL,
-  vertex.color = "white", plot = TRUE)
+\method{plot}{IconoCorel}(
+  x,
+  ...,
+  show.legend.direction = "bottomright",
+  show.legend.strength = "topleft",
+  title = "Correlation iconography",
+  vertex.label.color = "black",
+  vertex.label = NULL,
+  vertex.color = "white",
+  plot = TRUE
+)
 }
 \arguments{
 \item{x}{The correlation matrix to show}
@@ -76,9 +83,10 @@ plot(cor_threshold_Note)
 Lesty, M., 1999. Une nouvelle approche dans le choix des régresseurs de la régression multiple en présence d’interactions et de colinéarités. Revue de Modulad 22, 41-77.
 }
 \seealso{
-Other Iconography of correlations: \code{\link{IC_clean_data}},
-  \code{\link{IC_correlation_simplify}},
-  \code{\link{IC_threshold_matrix}}
+Other Iconography of correlations: 
+\code{\link{IC_clean_data}()},
+\code{\link{IC_correlation_simplify}()},
+\code{\link{IC_threshold_matrix}()}
 }
 \author{
 Marc Girondot

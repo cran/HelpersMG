@@ -9,16 +9,19 @@
 #' @param mu alternative parametrization via mean.
 #' @param log	logical; if TRUE, probabilities p are given as log(p).
 #' @param tol Tolerance for recurrence
-#' @param infinite No more used - Maintained for retrocompatibility
+#' @param infinite Maximum level of recursion
 #' @description Density for the sum of random variable with negative binomial distributions.\cr
 #' If all prob values are the same, infinite is automatically set to 0.
 #' @family Distribution of sum of random variable with negative binomial distributions
 #' @examples
 #' \dontrun{
+#' library(HelpersMG)
 #' alpha <- c(1, 2, 5, 1, 2)
 #' p <- c(0.1, 0.12, 0.13, 0.14, 0.14)
 #' dSnbinom(20, size=alpha, prob=p)
+#' dSnbinom(20, size=alpha, prob=p, log=TRUE)
 #' dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03))
+#' dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), log=TRUE)
 #' # Test with a single distribution
 #' dSnbinom(20, size=1, mu=20)
 #' # when only one distribution is available, it is the same as dnbinom()
@@ -72,7 +75,7 @@ dSnbinom <- function(x=stop("You must provide a x value"),
                      prob=NULL, mu=NULL, log = FALSE,  tol=1E-6,
                      infinite=1000) {
   
-  infinite <- 1000
+  
   # prob=NULL; mu=NULL; log = FALSE; infinite=10
   if (is.null(mu) + is.null(size) + is.null(prob) != 1) stop("Two values among mu, size and prob must be provided")
   
@@ -106,27 +109,30 @@ dSnbinom <- function(x=stop("You must provide a x value"),
     q1 <- 1-p1
     
     # R <- prod(((q*p1)/(q1*p))^(-alpha))
-    R <- exp(sum(log(((q*p1)/(q1*p))^(-alpha))))
-    if (R == 0) warning("Probability too low to be estimated")
-    
+    R <- sum(log(((q*p1)/(q1*p))^(-alpha)))
+   
+    delta <- c(1, rep(NA, infinite))
     xi <- rep(NA, infinite)
-    delta <- c(1, xi)
     
-    for(i in 1:infinite) {
+    i <- 1
+    repeat {
       xi[i] <- sum((alpha*(1-((q1*p)/(q*p1)))^i)/i)
       Ks <- 1:i
       delta[i+1] <- (1/i)*sum(Ks*xi[Ks]*delta[i-Ks+1])
-      if (abs((delta[i+1] - delta[i])) < tol) {
+      if ((abs((c(0, xi)[i + 1] - c(0, xi)[i])) < tol) | (i == infinite)) {
         delta <- delta[!is.na(delta)]
         break
       }
+      i <- i + 1
     }
     
-    
-    
     Pr <- sapply(x, function(S) {
-      PrS <- R*sum(delta*dnbinom(S, size=sum(alpha)+seq_along(delta)-1, prob=p1))
-      if (log) PrS <- log(PrS)
+      PrS <- sum(delta*dnbinom(S, size=sum(alpha)+seq_along(delta)-1, prob=p1))
+      if (log) {
+        PrS <- R + log(PrS)
+      } else {
+        PrS <- exp(R) * PrS
+      }
       return(PrS)
     }
     )

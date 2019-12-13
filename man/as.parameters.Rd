@@ -66,12 +66,13 @@ likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
 }
 }
 \seealso{
-Other mcmcComposite functions: \code{\link{MHalgoGen}},
-  \code{\link{as.mcmc.mcmcComposite}},
-  \code{\link{as.quantiles}},
-  \code{\link{merge.mcmcComposite}},
-  \code{\link{plot.mcmcComposite}},
-  \code{\link{summary.mcmcComposite}}
+Other mcmcComposite functions: 
+\code{\link{MHalgoGen}()},
+\code{\link{as.mcmc.mcmcComposite}()},
+\code{\link{as.quantiles}()},
+\code{\link{merge.mcmcComposite}()},
+\code{\link{plot.mcmcComposite}()},
+\code{\link{summary.mcmcComposite}()}
 }
 \author{
 Marc Girondot

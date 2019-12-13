@@ -4,11 +4,26 @@
 \alias{cArrows}
 \title{Draw curved lines with arrowhead}
 \usage{
-cArrows(x1, y1, x2, y2, code = 2, size = 1, width = 1.2/4/cin,
-  open = TRUE, sh.adj = 0.1, sh.lwd = 1, sh.col = if (is.R())
-  par("fg") else 1, sh.lty = 1, h.col = sh.col, h.col.bo = sh.col,
-  h.lwd = sh.lwd, h.lty = sh.lty, curved = FALSE,
-  beautiful.arrow = 2/3)
+cArrows(
+  x1,
+  y1,
+  x2,
+  y2,
+  code = 2,
+  size = 1,
+  width = 1.2/4/cin,
+  open = TRUE,
+  sh.adj = 0.1,
+  sh.lwd = 1,
+  sh.col = if (is.R()) par("fg") else 1,
+  sh.lty = 1,
+  h.col = sh.col,
+  h.col.bo = sh.col,
+  h.lwd = sh.lwd,
+  h.lty = sh.lty,
+  curved = FALSE,
+  beautiful.arrow = 2/3
+)
 }
 \arguments{
 \item{x1}{coordinates of points from which to draw.}
