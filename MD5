@@ -1,11 +1,12 @@
-f3b7fd5ee6c8669b58e190eb8c517718 *DESCRIPTION
-269d43598bb86554283f3f21af50d46d *NAMESPACE
-71dbcd8ed409e447360808910daa65eb *NEWS
+1b743dbeb3987d58fe69cd63e6eda70a *DESCRIPTION
+b65c37c66522e9296d104483f2231744 *NAMESPACE
+acf820c9d227de4680beee809c7cd71a *NEWS
 42659f31ccbaee8bd22d718d44b7334c *R/BinomialConfidence.R
 f972fda8168c6d94ef2d53565c5ef5b7 *R/ChangeCoordinate.R
 4b79dff227038e65934d220e45c0cb9c *R/DIx.R
 03d3cd77fb2fc8c54a44d6155a9638c3 *R/Ellipse.R
-197087f7ec40f0f585a03d5d8ffa7f25 *R/HelpersMG-package.R
+de4bb4a51085db4a44c032d2ae6b17cb *R/FormatCompareAIC.R
+4f61f9c63521937a7ac9fc7c4619e95b *R/HelpersMG-package.R
 3f1e26b131d09d089697c2558baebaf6 *R/IC_clean_data.R
 19d18fcceca486ee081341638cbc265c *R/IC_correlation_simplify.R
 2fd61bfa37e1b8413e3578b1a7270ddb *R/IC_threshold_matrix.R
@@ -15,6 +16,8 @@ d577fad7ca5185c4cb983ae360d720e0 *R/LD50_MHmcmc_p.R
 a99b0455cf3ad7a0a41cb09ae98e5204 *R/LD50_fit.R
 644195b9bc2d545ccf5d200b303fdd48 *R/MHalgoGen.R
 36e79a39fca39256f7f1a7f1aec5fc8f *R/MovingWindow.R
+d26ccd2fe8214ce9877d47c5dd80ca62 *R/RandomFromHessianOrMCMC.R
+47218c024d19e0938c708008ffbf6001 *R/RectangleRegression.R
 0ba2c181d49609a6a1c8b202b36c4217 *R/SEfromHessian.R
 996bd0e24e074eaafc1dc523b4c80b79 *R/ScalePreviousPlot.R
 e41e5ecb18b40f2ae94534d446f588fe *R/as.mcmc.mcmcComposite.R
@@ -35,7 +38,7 @@ fe5d12f361d26d4ae65dc386b5c0922d *R/contingencyTable.compare.R
 11b06ba6a6fe16adbab25076a5117ca8 *R/dSnbinom.R
 8c584b4a102996f97b4fc39c5cfc701a *R/duplicate.packages.R
 946a8070e9792ff48040dcb0c6978b59 *R/extractAIC.R
-1bef63cb95e1338fd19e4f0316ea0bd5 *R/flexit.R
+3388bd51680ff39ae8355148690754c5 *R/flexit.R
 7f694567865ad3e600d53329748b6078 *R/getTableAddressing.R
 da141d8db1247c850142429e85773a96 *R/growlnotify.R
 edf4001aaf063ad23d612254d1735a4c *R/ind_long_lat.R
@@ -45,6 +48,7 @@ defb7627d72fc017b97717954bac243d *R/invlogit.R
 99bdd2ec04693ab01c171e816171cb57 *R/list.packages.R
 5fb8a54f46cbd99039cc5757927303df *R/local.search.R
 ad18970795c9eae9c9853c25e6ec034c *R/logLik.LD50.R
+ab174aa2bdd529e036f9d1ef7539d8cc *R/logLik.compareAIC.R
 ac03674b4793f19d002679eea56c8638 *R/logit.R
 8895db72713a7e47dea4357106e003b5 *R/merge.mcmcComposite.R
 46e4e4369cf3b8ce92cca3609f159e7a *R/minmax.periodic.R
@@ -77,7 +81,7 @@ bcb42f0b7c398ce8542f72c16b7d45ac *R/sun.info.R
 f76c891e90b8b14b2816255495bae6f5 *R/symbol.Female.R
 49043e8ed6e3bf5bf3861fd7d3ea68e8 *R/symbol.Male.R
 5d55fb92e2ca9e1fac277b182ed7075e *R/symmetricize.R
-3a02b699696325caff70e6a7d7d32d25 *R/sysdata.rda
+f317c9391ad3d4d4462f5f911b028096 *R/sysdata.rda
 69d4ed06a192043b8b8a9a7e0b572897 *R/tide.info.R
 5b847ecb8f504e499015a0e6bdc36e88 *R/tnirp.R
 d3d5a99fa195a4c200ff35c713a2495e *R/universalmclapply.R
@@ -87,8 +91,9 @@ fde57504ab5c02afde9f93bf2cb91a53 *inst/shiny/server.R
 ca0c55ff62aff6ad66c52bd78b65810f *inst/shiny/www/PDF.png
 6b3a518a595026c79ab84f9f41408eef *man/ChangeCoordinate.Rd
 162c1f88d03e15696a33cbf007d122ca *man/DIx.Rd
-9e504efe3d71c74ded4a44dbfde6ada6 *man/ExtractAIC.glm.Rd
-69e6a64e6186c670fb6dfeb1f2915def *man/HelpersMG-package.Rd
+8af7689996f0e5c0451419ca809fa25e *man/ExtractAIC.glm.Rd
+627f1da33fcf26d60afefaa497910ec1 *man/FormatCompareAIC.Rd
+5519722807ba39330c049ab16faa20e9 *man/HelpersMG-package.Rd
 d6e5cb73df32a44a0a11d3134e53187e *man/IC_clean_data.Rd
 e0badc94038f9232f87092e2a5e1cca2 *man/IC_correlation_simplify.Rd
 8af482214e1c9a65e57e6c41241424cd *man/IC_threshold_matrix.Rd
@@ -97,6 +102,8 @@ e0badc94038f9232f87092e2a5e1cca2 *man/IC_correlation_simplify.Rd
 f35d04e980404432f841c9fa5aeb6418 *man/LD50_MHmcmc_p.Rd
 88396561d0b3e9aa4ca8bf3b06c24fc5 *man/MHalgoGen.Rd
 2b7cca6b3ca15f0941b017ef6fcd15e6 *man/MovingWindow.Rd
+c8980905ec0f87e75e2c43e577cbadd7 *man/RandomFromHessianOrMCMC.Rd
+8438f4f825b78b62a26d2aa63881977f *man/RectangleRegression.Rd
 d0247c59c9c99c658556f2a94b6641e0 *man/SEfromHessian.Rd
 c162e1454abd155174d8d97ff4796130 *man/ScalePreviousPlot.Rd
 68d653c7273979409db569edbbedf291 *man/as.mcmc.mcmcComposite.Rd
@@ -108,9 +115,9 @@ d62fe761a586d3b8311009cf80a83c4d *man/cArrows.Rd
 6780357207580660a5384353fb429fa6 *man/chr.Rd
 5c0fe48b4811b9b5cd3e4f08d61d774b *man/clean.knitr.Rd
 7d023ca02c9dd9e8b8eea73f9da93c60 *man/compare.Rd
-a0e2d383421b1d24256242429971513c *man/compare_AIC.Rd
-3739a257ef7b3453538a226a4f4bf4a5 *man/compare_AICc.Rd
-c5ddabca4be1e7cb0f8e6109f06a71cf *man/compare_BIC.Rd
+86bea784e7f5de8341a8fab031c88d37 *man/compare_AIC.Rd
+0b15b5d11b486a9e3e9d364df0849820 *man/compare_AICc.Rd
+db016c5b9410f83bb4be511eb2d418fe *man/compare_BIC.Rd
 7348662dd595f0c371baf6d527b2816e *man/contingencyTable.compare.Rd
 1cef03c2ce3e572bc020ae5cb3b5c2a9 *man/convert.tz.Rd
 9848121a4288cf3e81491061622f89c3 *man/d.Rd
@@ -126,6 +133,7 @@ ce2a67105353f50063d12d41df678849 *man/invlogit.Rd
 fb382cee4dbcb9feee3f05e6cbeaef10 *man/list.packages.Rd
 6e8b8a27b0f30fe6ddfa995acb4ba8e4 *man/local.search.Rd
 c7867df9448959b94d92bd603f8f39c2 *man/logLik.LD50.Rd
+cf26febb5c772bad5c4a23603d940a59 *man/logLik.compareAIC.Rd
 a1c4047042fc5c76df7a7e25d5c8251c *man/logit.Rd
 4b2c70ce6311ced41406480fb185356f *man/merge.mcmcComposite.Rd
 302188be5dad51f24ce0d2a70e209eaf *man/minmax.periodic.Rd

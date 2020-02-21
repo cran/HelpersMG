@@ -54,6 +54,7 @@ compare_AICc(m1=list(AICc=100), m2=list(AICc=102))
 \seealso{
 Other AIC: 
 \code{\link{ExtractAIC.glm}()},
+\code{\link{FormatCompareAIC}()},
 \code{\link{compare_AIC}()},
 \code{\link{compare_BIC}()}
 }

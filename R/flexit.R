@@ -25,6 +25,7 @@
 #' @export
 
 flexit <- function(x, par=NULL, P=NULL, S=NULL, K1=NULL, K2=NULL, zero=1E-9, error0 = 0, error1 = 1) {
+
   # Peut-être  encore des problèmes de exp(K1 ou K2)
   if (!is.null(par)) {
     K1 <- ifelse(par["K1"] == 0, zero, par["K1"])
@@ -32,6 +33,11 @@ flexit <- function(x, par=NULL, P=NULL, S=NULL, K1=NULL, K2=NULL, zero=1E-9, err
     S <- par["S"]
     P <- par["P"]
   }
+  
+  if (is.null(K1)) K1 <- zero
+  if (is.null(K2)) K2 <- zero
+  K1 <- ifelse(K1 == 0, zero, K1)
+  K2 <- ifelse(K2 == 0, zero, K2)
   
   if (is.infinite(2^(K1))) {
     S1 <- K1*S

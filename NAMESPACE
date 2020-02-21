@@ -2,6 +2,7 @@
 
 S3method(as.mcmc,mcmcComposite)
 S3method(logLik,LD50)
+S3method(logLik,compareAIC)
 S3method(merge,mcmcComposite)
 S3method(plot,IconoCorel)
 S3method(plot,LD50)
@@ -11,6 +12,7 @@ S3method(summary,mcmcComposite)
 export(ChangeCoordinate)
 export(DIx)
 export(ExtractAIC.glm)
+export(FormatCompareAIC)
 export(IC_clean_data)
 export(IC_correlation_simplify)
 export(IC_threshold_matrix)
@@ -19,6 +21,8 @@ export(LD50_MHmcmc)
 export(LD50_MHmcmc_p)
 export(MHalgoGen)
 export(MovingWindow)
+export(RandomFromHessianOrMCMC)
+export(RectangleRegression)
 export(SEfromHessian)
 export(ScalePreviousPlot)
 export(as.parameters)
@@ -83,7 +87,7 @@ importFrom("stats", "AIC", "aggregate", "as.formula", "binomial",
 "dmultinom", "dnbinom", "dnorm", "glm", "lm", "logLik",
 "na.omit", "numericDeriv", "optim", "pchisq", "pnorm", "qf",
 "qnorm", "qt", "quantile", "residuals", "rnbinom", "rnorm",
-"runif", "sd", "vcov", "cov", "cov2cor", "pt")
+"runif", "sd", "vcov", "cov", "cov2cor", "pt", "var")
 importFrom("utils", "combn", "download.file", "getFromNamespace",
 "installed.packages", "modifyList", "read.delim",
 "setTxtProgressBar", "tail", "txtProgressBar", "compareVersion")
