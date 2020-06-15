@@ -13,6 +13,7 @@ RandomFromHessianOrMCMC(
   probs = c(0.025, 0.5, 0.975),
   replicates = 10000,
   fn = NULL,
+  silent = FALSE,
   ...
 )
 }
@@ -32,6 +33,8 @@ RandomFromHessianOrMCMC(
 \item{replicates}{Number of replicates to generate}
 
 \item{fn}{The function to apply to each replicate}
+
+\item{silent}{Should the function display some information}
 
 \item{...}{Parameters send to fn function}
 }

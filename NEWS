@@ -1,5 +1,20 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
+            CHANGES IN VERSION 4.2 (2020-06-15)
+            
+* New CRAN version - 4.2 (2020-06-15)
+
+            CHANGES IN VERSION 4.1.6 (2020-06-15)
+            
+* plot_errbar: solve a problem when xlim or ylim were not managed consistantly - 4.1 (2020-04-02)
+* New Result Management functions with the RM prefix - 4.1 (2020-04-19)
+* Minor change in SEfromHessian() and RandomFromHessianOrMCMC() to prevent a warning - 4.1.1 (2020-04-22)
+* Minor change in summary.mcmccomposite() to prevent a warning - 4.1.2 (2020-05-09)
+* New silent parameter in RandomFromHessianOrMCMC() - 4.1.3 (2020-05-22)
+* New silent parameter in RM_list() - 4.1.4 (2020-06-07)
+* New max.level parameter in RM_list() - 4.1.5 (2020-06-08)
+* Correct a bug in info.tide() - Thanks to Louise P. McGarry - 4.1.6 (2020-06-15)
+
             CHANGES IN VERSION 4.0 (2020-02-21)
             
 * New CRAN version - 4.0 (2020-02-21)

@@ -67,8 +67,8 @@ plot_errbar <- function(...,
                         errbar.y.polygon=FALSE, 
                         errbar.y.polygon.list=list(NULL), 
                         add=FALSE) 
-  {
-
+{
+  
   # errbar.x=NULL; errbar.y=NULL; errbar.x.plus=NULL; errbar.x.minus=NULL; errbar.y.plus=NULL; errbar.y.minus=NULL; x.plus=NULL; x.minus=NULL; y.plus=NULL; y.minus=NULL; errbar.tick=1/50; errbar.lwd=par("lwd"); errbar.lty=par("lty"); errbar.col=par("fg"); errbar.y.polygon=FALSE; errbar.y.polygon.list=list(NULL); add=FALSE
   # par.plot <- list(x=x.axis, y=CTE, las=1, type="l", xlim=c(as.Date("1997-01-01"), as.Date("2014-01-01")), ylim=c(28, 32), bty="n", xlab="Year", ylab=expression("constant incubation temperature (" *degree*"C)"), xaxt="n")
   # y.plus=CTE.plus
@@ -84,7 +84,7 @@ plot_errbar <- function(...,
     x <- par.plot[[1]]
     names(par.plot)[1] <- "x"
   }
-    
+  
   if (is.data.frame(x) | is.matrix(x)) {
     y <- x[,2]
     x <- x[,1]
@@ -102,76 +102,92 @@ plot_errbar <- function(...,
   if (!is.null(y.minus)) errbar.y.minus <- y-y.minus
   
   if (is.null(errbar.x.minus) & !is.null(errbar.x)) {
-  	errbar.x.minus <- errbar.x
+    errbar.x.minus <- errbar.x
   }
   if (is.null(errbar.x.plus) & !is.null(errbar.x)) {
-  	errbar.x.plus <- errbar.x
+    errbar.x.plus <- errbar.x
   }
   if (is.null(errbar.y.minus) & !is.null(errbar.y)) {
-  	errbar.y.minus <- errbar.y
+    errbar.y.minus <- errbar.y
   }
   if (is.null(errbar.y.plus) & !is.null(errbar.y)) {
-  	errbar.y.plus <- errbar.y
+    errbar.y.plus <- errbar.y
   }
   
   if (add) {
+    # Si je superpose le graphique à un précédent:
     s <- ScalePreviousPlot()
     par(new=TRUE)
+    # Je retire les axes et je fixe xlim et ylim
     pp <- modifyList(par.plot, list(xlim=s$xlim[1:2], ylim=s$ylim[1:2], xlab="", ylab="", main="", axes=FALSE))
+    do.call(plot, modifyList(pp, list(type="n")))
+    
   } else {
+    # Je fais un nouveau graphique
+    # Là il n'y a pas de xlim, ylim; je le laisse calculer
     pp <- par.plot
     pp <- modifyList(pp, list(x=c(min(x-ifelse(is.null(errbar.x.minus), 0, errbar.x.minus)), 
-                                        max(x+ifelse(is.null(errbar.x.plus), 0, errbar.x.plus)))
-                                    ))
-      pp <- modifyList(pp, list(y=c(min(y-ifelse(is.null(errbar.y.minus), 0, errbar.y.minus)), 
-                                          max(y+ifelse(is.null(errbar.y.plus), 0, errbar.y.plus)))
-      ))
-    }
-  
-  do.call(plot, modifyList(pp, list(type="n")))
-  
-
-if (errbar.y.polygon) {
-# je dois faire un polygon
-	vx <- c(x, rev(x))
-	vy <- c(y-errbar.y.minus, rev(y+errbar.y.plus))
-	errbar.y.polygon.list <- modifyList(errbar.y.polygon.list, list(x=vx, y=vy))
-	do.call(polygon, errbar.y.polygon.list)
-
-
-} else {
-
-  sizebar <- (par("usr")[4]-par("usr")[3])*errbar.tick
-
-  if (!is.null(errbar.x.minus)) {
-    segments(x-errbar.x.minus, y, x, y, 
-             col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
-    segments(x-errbar.x.minus, y-sizebar, x-errbar.x.minus, y+sizebar, 
-             col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
-  }
-  if (!is.null(errbar.x.plus)) {
-    segments(x+errbar.x.plus, y, x, y, 
-             col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
-    segments(x+errbar.x.plus, y-sizebar, x+errbar.x.plus, y+sizebar, 
-             col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
-  }
+                                  max(x+ifelse(is.null(errbar.x.plus), 0, errbar.x.plus)))
+    ))
+    pp <- modifyList(pp, list(y=c(min(y-ifelse(is.null(errbar.y.minus), 0, errbar.y.minus)), 
+                                  max(y+ifelse(is.null(errbar.y.plus), 0, errbar.y.plus)))
+    ))
     
-  sizebar <- (par("usr")[2]-par("usr")[1])*errbar.tick
-  
-  if (!is.null(errbar.y.minus)) {
-    segments(x, y-errbar.y.minus, x, y, 
-             col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
-    segments(x-sizebar, y-errbar.y.minus, x+sizebar, y-errbar.y.minus, 
-             col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
+    do.call(plot, modifyList(pp, list(type="n")))
+    
+    # Je rajoute xlim et ylim sur par.plot: 2020-04-02
+    
+    s <- ScalePreviousPlot()
+    par.plot <- modifyList(par.plot, list(xlim=s$xlim[1:2], ylim=s$ylim[1:2]))
   }
-  if (!is.null(errbar.y.plus)) {
-    segments(x, y+errbar.y.plus, x, y, 
-             col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
-    segments(x-sizebar, y+errbar.y.plus, x+sizebar, y+errbar.y.plus, 
-             col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
-  }
-}
   
+  
+  
+  
+  if (errbar.y.polygon) {
+    # je dois faire un polygon
+    # Dans ce cas, c'est bon
+    vx <- c(x, rev(x))
+    vy <- c(y-errbar.y.minus, rev(y+errbar.y.plus))
+    errbar.y.polygon.list <- modifyList(errbar.y.polygon.list, list(x=vx, y=vy))
+    do.call(polygon, errbar.y.polygon.list)
+    
+    
+  } else {
+    
+    sizebar <- (par("usr")[4]-par("usr")[3])*errbar.tick
+    
+    # Je fais les barres d'erreur
+    if (!is.null(errbar.x.minus)) {
+      segments(x-errbar.x.minus, y, x, y, 
+               col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
+      segments(x-errbar.x.minus, y-sizebar, x-errbar.x.minus, y+sizebar, 
+               col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
+    }
+    if (!is.null(errbar.x.plus)) {
+      segments(x+errbar.x.plus, y, x, y, 
+               col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
+      segments(x+errbar.x.plus, y-sizebar, x+errbar.x.plus, y+sizebar, 
+               col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
+    }
+    
+    sizebar <- (par("usr")[2]-par("usr")[1])*errbar.tick
+    
+    if (!is.null(errbar.y.minus)) {
+      segments(x, y-errbar.y.minus, x, y, 
+               col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
+      segments(x-sizebar, y-errbar.y.minus, x+sizebar, y-errbar.y.minus, 
+               col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
+    }
+    if (!is.null(errbar.y.plus)) {
+      segments(x, y+errbar.y.plus, x, y, 
+               col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
+      segments(x-sizebar, y+errbar.y.plus, x+sizebar, y+errbar.y.plus, 
+               col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
+    }
+  }
+  
+  # Et là je fais le plot
   do.call(plot_add, par.plot)
-
+  
 }

@@ -245,8 +245,8 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
       
       if (trace) {
         cat(paste("Chain ", kk, ": [", 1, "] ",as.numeric(varp[1, nbvar+1]), "\n", sep=""))
-      } else {
-        cat(paste("Chain ", kk, "\n", sep=""))
+      # } else {
+      #   cat(paste("Chain ", kk, "\n", sep=""))
       }
       
       if (traceML) {
@@ -398,8 +398,10 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
   names(res) <- 1:n.chains
   res <- getFromNamespace("as.mcmc.list", ns="coda")(res)
   
+  if (trace) {
   cat("Best likelihood for: \n")
   for (j in 1:nbvar) {cat(paste(names(MaxL[j]), "=", MaxL[j], "\n"))}
+  }
   
   # 16/9/2019: Si un seul paramètre, renvoie quand même une matrix
   if (is.null(dim(res[[1]]))) {

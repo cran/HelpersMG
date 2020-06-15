@@ -32,7 +32,7 @@ Level is the tide level, Tide is the High or Low Tide information and Date.Time 
 the date/time in POSIXlt format.
 }
 \description{
-The script extracts tide information from \cr
+The script extracts tide information from:\cr
 \code{http://tides.mobilegeographics.com/} into a data.frame.\cr
 The presence of XLM package is required for this function.\cr
 }
@@ -48,6 +48,19 @@ Awala2004 <- tide.info(year=2004, longitude=long, latitude=lat, tz="America/Caye
 with(Awala2004, plot(Date.Time, Level, bty="n", las=1, type="l", 
 xlab=paste("Year", as.POSIXlt(Date.Time[1])$year+1900), 
 ylab="Tide level in m"))
+latitude <- 45.3667
+longitude <- -64.3833
+NovaScotia <- tide.info(year=2018, longitude=longitude, 
+                       latitude=latitude, tz="America/Halifax" )
+with(NovaScotia, plot(Date.Time, Level, bty="n", las=1, type="l", xaxt="n", 
+   xlab=paste("January", as.POSIXlt(Date.Time[1])$year+1900), 
+   xlim=as.numeric(as.POSIXlt(as.Date(c("2018-01-01", "2018-01-31")))), 
+   ylab="Tide level in m"))
+axis(1, at=as.numeric(as.POSIXlt(seq(from=as.Date("2018-01-01"), 
+                                     to=as.Date("2018-01-31"), by="1 day"))), 
+labels=1:31)
+segments(x0=as.numeric(as.POSIXlt(as.Date("2018-01-01"))), 
+x1=as.numeric(as.POSIXlt(as.Date("2018-01-31"))), y0=0, y1=0, lty=2)
 }
 }
 \seealso{

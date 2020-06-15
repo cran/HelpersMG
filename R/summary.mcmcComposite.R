@@ -67,7 +67,7 @@ if (!is.null(chain)) {mcmc <- mcmc[[chain]]}
 sm <- summary(mcmc)
 
 
-if (class(sm$statistics) == "numeric") {
+if (any(class(sm$statistics) == "numeric")) {
   sm$statistics <- t(as.matrix(sm$statistics))
   rownames(sm$statistics) <- rownames(resultMCMC$parametersMCMC$parameters)
   sm$quantiles <- t(as.matrix(sm$quantiles))

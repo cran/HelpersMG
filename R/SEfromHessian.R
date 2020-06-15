@@ -46,12 +46,14 @@ SEfromHessian <- function(a, hessian=FALSE) {
   mathessian <- ifelse(mathessian==+Inf, 1E9, mathessian)
   
     sigma  <- try(solve(mathessian), silent=TRUE)
-    if ((class(sigma) == "try-error") & (requireNamespace("Matrix", quietly = TRUE))) {
+    # Add all: 22/4/2020
+    if (all(class(sigma) == "try-error") & (requireNamespace("Matrix", quietly = TRUE))) {
       mathessian <- as.matrix(getFromNamespace("nearPD", ns="Matrix")(mathessian)$mat)
       sigma  <- try(solve(mathessian), silent=TRUE)
     } 
   
-    if (class(sigma) != "try-error") {
+    # Add all: 22/4/2020
+    if (all(class(sigma) != "try-error")) {
     
     if (all(diag(sigma)>=0)) {
       # méthode classique

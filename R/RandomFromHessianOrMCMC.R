@@ -10,6 +10,7 @@
 #' @param replicates Number of replicates to generate
 #' @param fn The function to apply to each replicate
 #' @param probs Probability for quantiles
+#' @param silent Should the function display some information
 #' @param ... Parameters send to fn function
 #' @description A data.frame with one column for each parameter
 #' @examples
@@ -68,7 +69,7 @@ RandomFromHessianOrMCMC <- function(Hessian=NULL, mcmc=NULL, chain=1,
                                     fitted.parameters=NULL, 
                                     fixed.parameters=NULL, 
                                     probs=c(0.025, 0.5, 0.975), 
-                                    replicates=10000, fn=NULL, ...) {
+                                    replicates=10000, fn=NULL, silent=FALSE, ...) {
   
   if (is.null(Hessian) & (is.null(mcmc))) stop("Both Hessian and mcmc cannot be NULL")
   if (!is.null(Hessian) & (!is.null(mcmc))) stop("Both Hessian and mcmc cannot be provided")
@@ -77,8 +78,8 @@ RandomFromHessianOrMCMC <- function(Hessian=NULL, mcmc=NULL, chain=1,
   
   if (!is.null(Hessian)) {
     sigma <- try(solve(Hessian), silent = TRUE)
-    if (class(sigma) != "try-error") {
-      cat("Estimation using variance-covariance matrix")
+    if (all(class(sigma) != "try-error")) {
+      if (!silent) cat("Estimation using variance-covariance matrix")
       s. <- svd(sigma)
       R <- t(s.$v %*% (t(s.$u) * sqrt(pmax(s.$d, 0))))
       df_random <- matrix(rnorm(replicates * ncol(sigma)), nrow = replicates, byrow = TRUE) %*% R
@@ -87,7 +88,7 @@ RandomFromHessianOrMCMC <- function(Hessian=NULL, mcmc=NULL, chain=1,
     } else {
       # J'ai une erreur sur l'inversion de la matrice hessienne; 
       # Je prends les SE
-      cat("Estimation using variances")
+      if (!silent) cat("Estimation using variances")
       se <- SEfromHessian(Hessian)
       
       df_random <- matrix(data = NA, ncol=length(se), nrow=replicates)
