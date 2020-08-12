@@ -7,9 +7,10 @@
 #' @param lat	Latitude in decimal format
 #' @param indice.long	Index of longitude
 #' @param indice.lat	Index of latitude
-#' @param name.lon Name of argument for longitude, default is lon
-#' @param name.lat Name of argument for latitude, default is lat
+#' @param label.longitude Name of argument for longitude, default is lon
+#' @param label.latitude Name of argument for latitude, default is lat
 #' @description Return or the index in ncdf object from lat/longitude or reverse.
+#' @family ncdf
 #' @examples
 #' \dontrun{
 #' url <- "ftp://ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2.highres/"
@@ -34,8 +35,9 @@
 
 
 ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied"), long = NULL, 
-                          lat = NULL, indice.long = NULL, indice.lat = NULL, name.lon = "lon", 
-                          name.lat = "lat") 
+                          lat = NULL, indice.long = NULL, indice.lat = NULL, 
+                          label.longitude = "lon", 
+                          label.latitude = "lat") 
 {
   maxindicelt <- NULL
   maxindicelg <- NULL
@@ -43,12 +45,12 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied"), long = 
   #   if (!requireNamespace("ncdf", quietly = TRUE)) {
   #     stop("ncdf package is necessary for this function")
   #   }
-  #   maxindicelt <- ncdf$dim[[name.lat]]$len
-  #   lt <- ncdf$dim[[name.lat]]$vals
-  #   lg <- ncdf$dim[[name.lon]]$vals
+  #   maxindicelt <- ncdf$dim[[label.latitude]]$len
+  #   lt <- ncdf$dim[[label.latitude]]$vals
+  #   lg <- ncdf$dim[[label.longitude]]$vals
   #   maxlt <- lt[maxindicelt]
   #   minlt <- lt[1]
-  #   maxindicelg <- ncdf$dim[[name.lon]]$len
+  #   maxindicelg <- ncdf$dim[[label.longitude]]$len
   #   maxlg <- lg[maxindicelg]
   #   minlg <- lg[1]
   # }
@@ -56,12 +58,12 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied"), long = 
     if (!requireNamespace("ncdf4", quietly = TRUE)) {
       stop("ncdf4 package is necessary for this function")
     }
-    maxindicelt <- ncdf$dim[[name.lat]]$len
-    lt <- ncdf$dim[[name.lat]]$vals
+    maxindicelt <- ncdf$dim[[label.latitude]]$len
+    lt <- ncdf$dim[[label.latitude]]$vals
     maxlt <- lt[maxindicelt]
     minlt <- lt[1]
-    maxindicelg <- ncdf$dim[[name.lon]]$len
-    lg <- ncdf$dim[[name.lon]]$vals
+    maxindicelg <- ncdf$dim[[label.longitude]]$len
+    lg <- ncdf$dim[[label.longitude]]$vals
     maxlg <- lg[maxindicelg]
     minlg <- lg[1]
   }
@@ -70,14 +72,14 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied"), long = 
       stop("RNetCDF package is necessary for this function")
     }
     maxindicelt <- getFromNamespace("dim.inq.nc", ns = "RNetCDF")(ncfile = ncdf, 
-                                                                  name.lat)$length
-    lt <- getFromNamespace("var.get.nc", ns = "RNetCDF")(ncfile = ncdf, variable = name.lat)
+                                                                  label.latitude)$length
+    lt <- getFromNamespace("var.get.nc", ns = "RNetCDF")(ncfile = ncdf, variable = label.latitude)
     maxlt <- lt[maxindicelt]
     minlt <- lt[1]
     maxindicelg <- getFromNamespace("dim.inq.nc", ns = "RNetCDF")(ncfile = ncdf, 
-                                                                  name.lon)$length
+                                                                  label.longitude)$length
     lg <- getFromNamespace("var.get.nc", ns = "RNetCDF")(ncfile = ncdf, 
-                                                         variable = name.lon)
+                                                         variable = label.longitude)
     maxlg <- lg[maxindicelg]
     minlg <- lg[1]
   }

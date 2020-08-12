@@ -62,7 +62,7 @@ A mcmcComposite object with all characteristics of the model and mcmc run
 \description{
 The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
 \itemize{
-  \item Density. The density function name, example \code{dnorm}, \code{dlnorm}, \code{dunif}
+  \item Density. The density function name, example \code{dnorm}, \code{dlnorm}, \code{dunif}, \code{dbeta}
   \item Prior1. The first parameter to send to the \code{Density} function
   \item Prior2. The second parameter to send to the \code{Density} function
   \item SDProp. The standard error from new proposition value of this parameter

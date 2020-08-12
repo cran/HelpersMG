@@ -5,7 +5,7 @@
 \alias{HelpersMG-package}
 \title{Tools for Environmental Analyses, Ecotoxicology and Various R Functions}
 \description{
-Contains functions useful for managing \cr
+Contains miscellaneous functions useful for managing \cr
 'NetCDF' files (see http://en.wikipedia.org/wiki/NetCDF), \cr
 get tide levels on any point of the globe, \cr
 get moon phase and time for sun rise and fall, \cr
@@ -29,8 +29,8 @@ Helpers functions for several packages
 \tabular{ll}{
  Package: \tab HelpersMG\cr
  Type: \tab Package\cr
- Version: \tab 4.2 build 448\cr
- Date: \tab 2020-06-15\cr
+ Version: \tab 4.3 build 459\cr
+ Date: \tab 2020-08-12\cr
  License: \tab GPL (>= 2)\cr
  LazyLoad: \tab yes\cr
  }

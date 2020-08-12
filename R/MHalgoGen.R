@@ -20,7 +20,7 @@
 #' @param ... Parameters to be transmitted to likelihood function
 #' @description The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
 #' \itemize{
-#'   \item Density. The density function name, example \code{dnorm}, \code{dlnorm}, \code{dunif}
+#'   \item Density. The density function name, example \code{dnorm}, \code{dlnorm}, \code{dunif}, \code{dbeta}
 #'   \item Prior1. The first parameter to send to the \code{Density} function
 #'   \item Prior2. The second parameter to send to the \code{Density} function
 #'   \item SDProp. The standard error from new proposition value of this parameter
@@ -237,6 +237,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
       # names(ll) <- c("data", parameters_name)
       
       varp[1, "Ln L"] <- -do.call(likelihood, modifyList(datax, param))
+      # likelihood(par=param$par, fixed.parameters = datax$fixed.parameters, res_1=datax$res_1, res_2=datax$res_2)
       cpt <- 1
       varp2[cpt, 1:nbvar] <- varp[1, 1:nbvar]
       varp2[cpt, "Ln L"] <- varp[1, "Ln L"]

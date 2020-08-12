@@ -3,8 +3,8 @@
 #' \tabular{ll}{
 #'  Package: \tab HelpersMG\cr
 #'  Type: \tab Package\cr
-#'  Version: \tab 4.2 build 448\cr
-#'  Date: \tab 2020-06-15\cr
+#'  Version: \tab 4.3 build 459\cr
+#'  Date: \tab 2020-08-12\cr
 #'  License: \tab GPL (>= 2)\cr
 #'  LazyLoad: \tab yes\cr
 #'  }
@@ -12,7 +12,7 @@
 #' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
 #' @docType package
 #' @name HelpersMG-package
-#' @description Contains functions useful for managing \cr
+#' @description Contains miscellaneous functions useful for managing \cr
 #' 'NetCDF' files (see http://en.wikipedia.org/wiki/NetCDF), \cr
 #' get tide levels on any point of the globe, \cr
 #' get moon phase and time for sun rise and fall, \cr

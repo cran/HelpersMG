@@ -1,8 +1,17 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 4.2 (2020-06-15)
+            CHANGES IN VERSION 4.3 (2020-08-12)
+            
+* New CRAN version - 4.3 (2020-08-12)
+
+            CHANGES IN VERSION 4.2.3 (2020-07-30)
             
 * New CRAN version - 4.2 (2020-06-15)
+* duplicate.packages() is renamed as duplicated.packages() - 4.2.1 (2020-06-19)
+* duplicated.packages() is renamed as duplicated_packages() - 4.2.2 (2020-07-07)
+* New function specify_decimals() - 4.2.2 (2020-07-07)
+* New function format_ncdf() - 4.2.3 (2020-07-30)
+* Parameters name.lat and name.lon are changed to label.latitude and label.longitude in ind_long_lat() - 4.2.3 (2020-07-30)
 
             CHANGES IN VERSION 4.1.6 (2020-06-15)
             

@@ -10,8 +10,8 @@ ind_long_lat(
   lat = NULL,
   indice.long = NULL,
   indice.lat = NULL,
-  name.lon = "lon",
-  name.lat = "lat"
+  label.longitude = "lon",
+  label.latitude = "lat"
 )
 }
 \arguments{
@@ -25,9 +25,9 @@ ind_long_lat(
 
 \item{indice.lat}{Index of latitude}
 
-\item{name.lon}{Name of argument for longitude, default is lon}
+\item{label.longitude}{Name of argument for longitude, default is lon}
 
-\item{name.lat}{Name of argument for latitude, default is lat}
+\item{label.latitude}{Name of argument for latitude, default is lat}
 }
 \value{
 Or the index in ncdf object from lat/longitude or inverse
@@ -59,6 +59,11 @@ coordinates <- ind_long_lat(ncdf=dta2012, indice.lat=20, indice.long=30)
 # coordinates <- ind_long_lat(ncdf=dta2012, indice.lat=20, indice.long=30)
 }
 }
+\seealso{
+Other ncdf: 
+\code{\link{format_ncdf}()}
+}
 \author{
 Marc Girondot
 }
+\concept{ncdf}

@@ -1,4 +1,4 @@
-#' duplicate.packages lists the duplicated packages with their locations
+#' duplicated_packages lists the duplicated packages with their locations
 #' @title List the duplicated packages with their locations
 #' @author Marc Girondot
 #' @return A data.frame with 4 elements for each duplicated packages:\cr
@@ -7,7 +7,7 @@
 #' @description A data.frame with the duplicated packages and their locations and version.\cr
 #' The columns Lib1 and Version1 should have the oldest version of the packages. Then 
 #' you can try:\cr
-#' li <- duplicate.packages()
+#' li <- duplicated_packages()
 #' if (nrow(li) != 0) {
 #'     for (i in 1:nrow(li))
 #'         remove.packages(rownames(li)[i], lib=li[i, "Lib1"])
@@ -15,12 +15,12 @@
 #' @examples
 #' \dontrun{
 #' library(HelpersMG)
-#' duplicate.packages()
+#' duplicated_packages()
 #' }
 #' @export
 
 
-duplicate.packages <- function() {
+duplicated_packages <- function() {
   li <- matrix(character(0), ncol=4, 
                dimnames = list(NULL, 
                                c("Lib1", "Version1", "Lib2", "Version2")))
