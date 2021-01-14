@@ -84,13 +84,13 @@
   for (i in 1L:r) {
     fli <- as.formula(paste("~", ltext[i]))
     z = try(deriv(as.formula(fli), namess), silent = T)
-    if (class(z) == "try-error") {
+    if (any(class(z) == "try-error")) {
       tei = as.character(i)
       tri2 = ", numerical derivatives were used in delta-method"
       wate = paste0("Note: For function ", i, tri2)
       if (!silent) message(wate)
-      ez = numericDeriv(quote(eval(parse(text = ltext[i]))), 
-                        namess)
+      ez <- numericDeriv(expr=quote(eval(parse(text = ltext[i]))), 
+                        theta=namess)
     }
     else ez = eval(z)
     hessj = attr(ez, "gradient")

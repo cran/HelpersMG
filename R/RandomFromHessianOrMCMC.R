@@ -3,16 +3,20 @@
 #' @author Marc Girondot
 #' @return Returns a list with two data.frames named df_random and df_fn
 #' @param Hessian An Hessian matrix
+#' @param se A nammed vector with SE of parameters
 #' @param mcmc A result from MHalgogen()
 #' @param chain MCMC chain to be used
+#' @param regularThin If TRUE, use regular thin for MCMC
+#' @param generatepseudoHessianfromMCMC If TRUE, the MCMC is converted into a pseudo-Hessian
+#' @param MinMax A data.frame with at least two columns: Min and Max and rownames being the variable names
 #' @param fitted.parameters The fitted parameters
 #' @param fixed.parameters The fixed parameters
-#' @param replicates Number of replicates to generate
+#' @param replicates Number of replicates to generate the randoms
 #' @param fn The function to apply to each replicate
 #' @param probs Probability for quantiles
 #' @param silent Should the function display some information
 #' @param ... Parameters send to fn function
-#' @description A data.frame with one column for each parameter
+#' @description If it is very long, use silent parameter to check if something goes wrong.
 #' @examples
 #' \dontrun{
 #' library(HelpersMG)
@@ -46,7 +50,7 @@
 #' hist(df[, 2], main="sd")
 #' plot(df[, 1], df[, 2], xlab="mean", ylab="sd", las=1, bty="n")
 #' 
-#' # Using a function
+#' # Using a function fn
 #' fitnorm <- function(par, data, x) { 
 #'   y=par["a"]*(x)+par["b"]
 #'   -sum(dnorm(data, y, abs(par["sd"]), log = TRUE))
@@ -65,54 +69,135 @@
 #' }
 #' @export
 
-RandomFromHessianOrMCMC <- function(Hessian=NULL, mcmc=NULL, chain=1, 
+RandomFromHessianOrMCMC <- function(se=NULL, Hessian=NULL, mcmc=NULL, chain=1, 
+                                    regularThin=TRUE, 
+                                    generatepseudoHessianfromMCMC=FALSE, 
+                                    MinMax=NULL, 
                                     fitted.parameters=NULL, 
                                     fixed.parameters=NULL, 
                                     probs=c(0.025, 0.5, 0.975), 
-                                    replicates=10000, fn=NULL, silent=FALSE, ...) {
+                                    replicates=10000, fn=NULL, silent=TRUE, ...) {
   
-  if (is.null(Hessian) & (is.null(mcmc))) stop("Both Hessian and mcmc cannot be NULL")
-  if (!is.null(Hessian) & (!is.null(mcmc))) stop("Both Hessian and mcmc cannot be provided")
+  # se=NULL; Hessian=NULL; mcmc=NULL; chain=1
+  # regularThin=TRUE
+  # generatepseudoHessianfromMCMC=FALSE
+  # MinMax=NULL
+  # fitted.parameters=NULL
+  # fixed.parameters=NULL
+  # probs=c(0.025, 0.5, 0.975)
+  # replicates=10000; fn=NULL; silent=FALSE
   
-  if (!is.null(Hessian) & (is.null(fitted.parameters))) stop("Fitted.parameters cannot be NULL with Hessian")
+  df_random <- NULL
   
-  if (!is.null(Hessian)) {
-    sigma <- try(solve(Hessian), silent = TRUE)
-    if (all(class(sigma) != "try-error")) {
-      if (!silent) cat("Estimation using variance-covariance matrix")
-      s. <- svd(sigma)
-      R <- t(s.$v %*% (t(s.$u) * sqrt(pmax(s.$d, 0))))
-      df_random <- matrix(rnorm(replicates * ncol(sigma)), nrow = replicates, byrow = TRUE) %*% R
-      df_random <- sweep(df_random, 2, fitted.parameters[rownames(Hessian)], "+")
-      colnames(df_random) <- rownames(Hessian)
+  if (is.null(Hessian) & (is.null(mcmc)) & (is.null(se))) stop("Hessian, se, and mcmc cannot be all NULL.")
+  if (!is.null(Hessian) & (!is.null(mcmc))) stop("Both Hessian and mcmc cannot be provided.")
+  if (!is.null(Hessian) & (!is.null(se))) stop("Both Hessian and se cannot be provided.")
+  if (!is.null(se) & (!is.null(mcmc))) stop("Both se and mcmc cannot be provided.")
+  
+  if (!is.null(Hessian) & (is.null(fitted.parameters))) stop("Fitted.parameters cannot be NULL with Hessian.")
+  if (!is.null(se) & (is.null(fitted.parameters))) stop("Fitted.parameters cannot be NULL with se")
+  
+  if (regularThin & generatepseudoHessianfromMCMC) stop("Both regularThin and generatepseudoHessianfromMCMC cannot be TRUE.")
+  
+  if (!is.null(mcmc)) {
+    if (generatepseudoHessianfromMCMC) {
+      Hessian <- solve(cov(mcmc$resultMCMC[[chain]]))
+      fitted.parameters <- as.parameters(mcmc)
     } else {
-      # J'ai une erreur sur l'inversion de la matrice hessienne; 
-      # Je prends les SE
-      if (!silent) cat("Estimation using variances")
-      se <- SEfromHessian(Hessian)
-      
-      df_random <- matrix(data = NA, ncol=length(se), nrow=replicates)
-      colnames(df_random) <- names(se)
-      
-      for (i in names(se)) {
-        df_random[, i] <- rnorm(replicates, fitted.parameters[i], se[i])
+      if (regularThin) {
+        if (replicates <= nrow(mcmc$resultMCMC[[chain]])) {
+          df_random <- mcmc$resultMCMC[[chain]][seq(from=1, to=nrow(mcmc$resultMCMC[[chain]]), length.out=replicates), ]
+        } else {
+          stop("When regularThin is TRUE, replicates must be lower of equal to number of MCMC iterations.")
+        }
+      } else {
+        if (replicates < nrow(mcmc$resultMCMC[[chain]])) {
+          df_random <- mcmc$resultMCMC[[chain]][sample(x=1:nrow(mcmc$resultMCMC[[chain]]), size=replicates), ]
+        } else {
+          df_random <- mcmc$resultMCMC[[chain]][sample(x=1:nrow(mcmc$resultMCMC[[chain]]), size=replicates, replace = TRUE), ]
+        }
       }
     }
   }
   
-  if (!is.null(mcmc)) {
-    if (replicates<nrow(mcmc$resultMCMC[[chain]])) {
-      df_random <- mcmc$resultMCMC[[chain]][sample(x=1:nrow(mcmc$resultMCMC[[chain]]), size=replicates), ]
+  if (!is.null(Hessian)) {
+    sigma <- try(solve(Hessian), silent = TRUE)
+    if (any(class(sigma) == "try-error")) sigma <- try(ginv(Hessian), silent = TRUE)
+    if (all(class(sigma) != "try-error")) {
+      if (!silent) cat("Estimation using variance-covariance matrix")
+      df_random <- matrix(data=NA, nrow=1, ncol=nrow(Hessian))
+      df_random <- as.data.frame(df_random)
+      colnames(df_random) <- rownames(Hessian)
+      df_random <- df_random[-1, colnames(df_random)]
+      reste.replicates <- replicates - nrow(df_random)
+      repeat {
+        if (!silent) cat(paste0("Still ", as.character(reste.replicates), " replicates\n"))
+        s. <- svd(sigma)
+        R <- t(s.$v %*% (t(s.$u) * sqrt(pmax(s.$d, 0))))
+        df_random_int <- matrix(rnorm(reste.replicates * ncol(sigma)), 
+                                nrow = reste.replicates, byrow = TRUE) %*% R
+        df_random_int <- sweep(df_random_int, 2, fitted.parameters[rownames(Hessian)], "+")
+        colnames(df_random_int) <- rownames(Hessian)
+        if (!is.null(MinMax)) {
+          L <- rep(TRUE, nrow(df_random_int))
+          for (i in colnames(df_random_int)) {
+            # Je veux TRUE si c'est bon
+            L <- L & (MinMax[i, "Min"] <= df_random_int[, i]) & 
+              (MinMax[i, "Max"] >= df_random_int[, i])
+          }
+          df_random_int <- df_random_int[L, , drop=FALSE]
+        }
+        df_random <- rbind(df_random, df_random_int)
+        reste.replicates <- replicates - nrow(df_random)
+        if (reste.replicates == 0) break
+      }
+      
     } else {
-      df_random <- mcmc$resultMCMC[[chain]]
+      if (!silent) cat("Estimation using variances")
+      se <- SEfromHessian(Hessian)
     }
   }
+  
+  if (!is.null(se)) {
+    # J'ai une erreur sur l'inversion de la matrice hessienne; ou bien j'ai des se
+    # Je prends les SE
+    df_random <- matrix(data=NA, nrow=1, ncol=length(se))
+    df_random <- as.data.frame(df_random)
+    colnames(df_random) <- names(se)
+    df_random <- df_random[-1, colnames(df_random)]
+    reste.replicates <- replicates - nrow(df_random)
+    repeat {
+      df_random_int <- matrix(data = NA, ncol=length(se), nrow=reste.replicates)
+      colnames(df_random_int) <- names(se)
+      for (i in colnames(df_random_int)) {
+        df_random_int[, i] <- rnorm(reste.replicates, fitted.parameters[i], se[i])
+      }
+      if (!is.null(MinMax)) {
+        L <- rep(TRUE, nrow(df_random_int))
+        for (i in colnames(df_random_int)) {
+          # Je veux TRUE si c'est bon
+          L <- L & (MinMax[i, "Min"] <= df_random_int[, i]) & 
+            (MinMax[i, "Max"] >= df_random_int[, i])
+        }
+        df_random_int <- df_random_int[L, ]
+      }
+      df_random <- rbind(df_random, df_random_int)
+      reste.replicates <- replicates - nrow(df_random)
+      if (reste.replicates == 0) break
+    } 
+    
+  }
+  
   
   if (!is.null(fixed.parameters)) {
     ajouter <- matrix(rep(fixed.parameters, replicates), 
                       nrow=replicates, byrow=TRUE,
                       dimnames = list(c(NULL), names(fixed.parameters)))
     df_random <- cbind(df_random, ajouter)
+  }
+  
+  if (is.null(df_random)) {
+    stop("Impossible to generate random numbers")
   }
   
   if (!is.null(fn)) {

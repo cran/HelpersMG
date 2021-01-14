@@ -1,8 +1,14 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 4.3 (2020-08-12)
+            CHANGES IN VERSION 4.4 (2021-01-14)
             
 * New CRAN version - 4.3 (2020-08-12)
+* restore par(xpd=FALSE) after barplot_errbar - 4.3-1 (2020-11-08)
+* tide.info() has been removed as the site http://tides.mobilegeographics.com/ does not exist anymore - 4.3-2 (2020-12-18)
+* Better managment of thin parameter in MHalgoGen() - 4.3-2 (2020-12-18)
+* growlnotify() is removed as this software does not exist anymore - 4.3-2 (2020-12-18)
+* as.parameters() is modified to used the new version of mcmcComposite format - 4.3-3 (2020-12-19)
+* New options for RandomFromHessianOrMCMC() - 4.3-4 (2020-12-21)
 
             CHANGES IN VERSION 4.2.3 (2020-07-30)
             

@@ -12,10 +12,10 @@
 #' The diagonal of the inverse of the Hessian matrix is calculated. If all values are positive, 
 #' the SEs are the square root of the inverse of the Hessian.\cr
 #' If not all values are positive, it will estimate the pseudo-variance 
-#' matrix based on GILL & King (2004). It necessitates a Cholesky matrix.\cr
+#' matrix based on Gill & King (2004). It necessitates a Cholesky matrix.\cr
 #' If from some reason it fails (for example all SE are 0 in output), then the strategy of 
-#' Rebonato and Jackel will be used to generate the Cholesky matrix.
-#' @references GILL J. AND G. KING 2004. What to do when your Hessian is not invertible: 
+#' Rebonato and Jackel (2000) will be used to generate the Cholesky matrix.
+#' @references Gill J. and G. King 2004. What to do when your Hessian is not invertible: 
 #' Alternatives to model respecification in nonlinear estimation. Sociological Methods 
 #' & Research 33: 54-87.
 #' @references Rebonato and Jackel, “The most general methodology for creating a valid 

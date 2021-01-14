@@ -7,7 +7,8 @@
 #' @description Take a mcmcComposite object and create a vector object with parameter value at specified iteration.\cr
 #' If \code{index="best"}, the function will return the parameters for the highest likelihood. It also indicates at which iteration the maximum lihelihood has been observed.\cr
 #' If \code{index="last"}, the fuction will return the parameters for the last likelihood.\cr
-#' \code{index} can also be a numeric value.
+#' \code{index} can also be a numeric value.\cr
+#' This function uses the complete iterations available, even if thin parameter was introduced.
 #' @family mcmcComposite functions
 #' @examples
 #' \dontrun{
@@ -56,8 +57,10 @@
 
 as.parameters <- function(x, index="best", chain=1) {
 
-	L <- x$resultLnL[[chain]]
-	p <- x$resultMCMC[,][[chain]]
+	L <- x$resultLnL.total[[chain]]
+	if (is.null(L)) L <- x$resultLnL[[chain]]
+	p <- x$resultMCMC.total[[chain]]
+	if (is.null(p)) p <- x$resultMCMC[[chain]]
 	
 	tab <- 0
 	pos <- NULL

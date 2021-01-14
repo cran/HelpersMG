@@ -86,5 +86,8 @@ barplot_errbar <- function(...,
              col=errbar.col, lty=errbar.lty, lwd=errbar.lwd)
   }
 
+  # 2020-11-08
+  par(xpd=FALSE)
+  
   return(invisible(essai))
 }

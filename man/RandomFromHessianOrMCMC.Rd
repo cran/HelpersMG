@@ -5,24 +5,36 @@
 \title{Random numbers based on Hessian matrix or MCMC}
 \usage{
 RandomFromHessianOrMCMC(
+  se = NULL,
   Hessian = NULL,
   mcmc = NULL,
   chain = 1,
+  regularThin = TRUE,
+  generatepseudoHessianfromMCMC = FALSE,
+  MinMax = NULL,
   fitted.parameters = NULL,
   fixed.parameters = NULL,
   probs = c(0.025, 0.5, 0.975),
   replicates = 10000,
   fn = NULL,
-  silent = FALSE,
+  silent = TRUE,
   ...
 )
 }
 \arguments{
+\item{se}{A nammed vector with SE of parameters}
+
 \item{Hessian}{An Hessian matrix}
 
 \item{mcmc}{A result from MHalgogen()}
 
 \item{chain}{MCMC chain to be used}
+
+\item{regularThin}{If TRUE, use regular thin for MCMC}
+
+\item{generatepseudoHessianfromMCMC}{If TRUE, the MCMC is converted into a pseudo-Hessian}
+
+\item{MinMax}{A data.frame with at least two columns: Min and Max and rownames being the variable names}
 
 \item{fitted.parameters}{The fitted parameters}
 
@@ -30,7 +42,7 @@ RandomFromHessianOrMCMC(
 
 \item{probs}{Probability for quantiles}
 
-\item{replicates}{Number of replicates to generate}
+\item{replicates}{Number of replicates to generate the randoms}
 
 \item{fn}{The function to apply to each replicate}
 
@@ -42,7 +54,7 @@ RandomFromHessianOrMCMC(
 Returns a list with two data.frames named df_random and df_fn
 }
 \description{
-A data.frame with one column for each parameter
+If it is very long, use silent parameter to check if something goes wrong.
 }
 \details{
 RandomFromHessianOrMCMC returns random numbers based on Hessian matrix or MCMC
@@ -80,7 +92,7 @@ hist(df[, 1], main="mean")
 hist(df[, 2], main="sd")
 plot(df[, 1], df[, 2], xlab="mean", ylab="sd", las=1, bty="n")
 
-# Using a function
+# Using a function fn
 fitnorm <- function(par, data, x) { 
   y=par["a"]*(x)+par["b"]
   -sum(dnorm(data, y, abs(par["sd"]), log = TRUE))

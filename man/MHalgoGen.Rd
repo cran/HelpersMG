@@ -158,12 +158,12 @@ parameters_mcmc[,"Init"] <- lastp
 # The n.adapt set to 1 is used to not record the first set of parameters
 # then it is not duplicated (as it is also the last one for 
 # the object mcmc_run)
-mcmc_run2 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, 
+mcmc_run2 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, data=val, 
 likelihood=dnormx, n.chains=1, n.adapt=1, thin=1, trace=1)
 mcmc_run3 <- merge(mcmc_run, mcmc_run2)
 ####### no adaptation, n.adapt must be 0
 parameters_mcmc[,"Init"] <- c(mean(x), sd(x))
-mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, 
+mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, data=val, 
 likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
 # Here is how to use adaptive mcmc
 mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, adaptive = FALSE, 

@@ -282,7 +282,7 @@ plot.mcmcComposite <- function(x, ... , chain=1, parameters=1,
   
   tpt <- list(...)
   
-  for(variable in parameters) {
+  for (variable in parameters) {
     
     nitercorrige <- floor(n.iter/thin)
     if (NbTS == 1) vals <- mcmc[[chain]] else vals <- mcmc[[chain]][ ,variable]

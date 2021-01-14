@@ -90,8 +90,7 @@ plot_add(observed$time, observed$temperature, pch=19, cex=0.5)
 Other Periodic patterns of indices: 
 \code{\link{index.periodic}()},
 \code{\link{moon.info}()},
-\code{\link{sun.info}()},
-\code{\link{tide.info}()}
+\code{\link{sun.info}()}
 }
 \author{
 Marc Girondot

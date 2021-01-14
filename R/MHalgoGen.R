@@ -113,12 +113,12 @@
 #' # The n.adapt set to 1 is used to not record the first set of parameters
 #' # then it is not duplicated (as it is also the last one for 
 #' # the object mcmc_run)
-#' mcmc_run2 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, 
+#' mcmc_run2 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, data=val, 
 #' likelihood=dnormx, n.chains=1, n.adapt=1, thin=1, trace=1)
 #' mcmc_run3 <- merge(mcmc_run, mcmc_run2)
 #' ####### no adaptation, n.adapt must be 0
 #' parameters_mcmc[,"Init"] <- c(mean(x), sd(x))
-#' mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, 
+#' mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, x=x, data=val, 
 #' likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
 #' # Here is how to use adaptive mcmc
 #' mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, adaptive = FALSE, 
@@ -164,6 +164,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     deb_kk <- 1
     deb_i <- 2
     res <- as.list(NULL)
+    restot <- as.list(NULL)
     deb_varp2 <- matrix(rep(NA, (nbvar+1)*(n.adapt+n.iter+2)), ncol=nbvar+1)
     deb_varp<-matrix(rep(NA, (nbvar+1)*(n.adapt+n.iter+2)), ncol=nbvar+1)
     colnames(deb_varp)<-c(rownames(parameters), "Ln L")
@@ -171,7 +172,9 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     t <- as.character(trace)
     cpt_trace <- 0
     res<-as.list(NULL)
+    restot <- as.list(NULL)
     resL<-as.list(NULL)
+    resLtot<-as.list(NULL)
     # datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
     # datax <- list(data)
     datax <- list(...)
@@ -193,11 +196,13 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     deb_kk <- previous$chain
     deb_i <- previous$iter
     res <- previous$res
+    restot <- previous$restot
     deb_varp2 <- previous$varp2
     deb_varp <- previous$varp
     cpt <- previous$cpt
     cpt_trace <- previous$cpt_trace
     resL <- previous$resL
+    resLtot <- previous$resLtot
     sdg <- previous$sdg
     MaxL <- previous$MaxL
     t <- as.character(previous$trace)
@@ -246,8 +251,8 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
       
       if (trace) {
         cat(paste("Chain ", kk, ": [", 1, "] ",as.numeric(varp[1, nbvar+1]), "\n", sep=""))
-      # } else {
-      #   cat(paste("Chain ", kk, "\n", sep=""))
+        # } else {
+        #   cat(paste("Chain ", kk, "\n", sep=""))
       }
       
       if (traceML) {
@@ -288,7 +293,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
       # est-ce que je sauve où j'en suis
       if (!is.null(intermediate))
         if (i %% intermediate==0) {
-          itr <- list(chain=kk, iter=i, varp2=varp2, res=res, 
+          itr <- list(chain=kk, iter=i, varp2=varp2, res=res, restot=restot, 
                       n.iter=n.iter,
                       parameters=parameters,
                       datax=datax,
@@ -305,6 +310,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
                       cpt=cpt,
                       cpt_trace=cpt_trace, 
                       resL=resL, 
+                      resLtot=resLtot, 
                       sdg=sdg, MaxL=MaxL, 
                       adaptive=adaptive,
                       adaptive.lag=adaptive.lag,
@@ -386,22 +392,38 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
       
     }
     
-    lp <- getFromNamespace("as.mcmc", ns="coda")(varp2[(n.adapt+1):(cpt-1), 1:nbvar, drop=FALSE])
-    lp <- getFromNamespace("mcmc", ns="coda")(data=lp, start=n.adapt+1, end=n.iter+n.adapt, thin=thin)
+    lp <- getFromNamespace("mcmc", ns="coda")(varp2[seq(from=(n.adapt+1), to=(cpt-1), by=thin), 1:nbvar, drop=FALSE], start=n.adapt+1, thin=thin)
+    lp1 <- getFromNamespace("mcmc", ns="coda")(varp2[seq(from=(n.adapt+1), to=(cpt-1), by=1), 1:nbvar, drop=FALSE], start=n.adapt+1, thin=1)
     
     # Ca c'est uniquement pour les chaînes
     # Ce n'est pas ca qui fait perdre du temps
     
+    # Je stocke les résultats avec thin
     res<-c(res, list(lp))
-    resL <- c(resL, list(varp2[(n.adapt+1):(cpt-1), "Ln L"]))
+    restot <- c(restot, list(lp1))
+    resL <- c(resL, list(varp2[seq(from=(n.adapt+1), to=(cpt-1), by=thin), "Ln L"]))
+    resLtot <- c(resLtot, list(varp2[seq(from=(n.adapt+1), to=(cpt-1), by=1), "Ln L"]))
   }
   
   names(res) <- 1:n.chains
   res <- getFromNamespace("as.mcmc.list", ns="coda")(res)
+  names(restot) <- 1:n.chains
+  restot <- getFromNamespace("as.mcmc.list", ns="coda")(restot)
+  
   
   if (trace) {
-  cat("Best likelihood for: \n")
-  for (j in 1:nbvar) {cat(paste(names(MaxL[j]), "=", MaxL[j], "\n"))}
+    mL <- +Inf
+    vmL <- NULL
+    for (cL in 1:length(resLtot)) {
+      imL <- which.max(resLtot[[cL]])[1]
+      if (mL > resLtot[[cL]][imL]) {
+        mL <- resLtot[[cL]][imL]
+        vmL <- restot[[cL]][imL, ]
+      }
+    }
+    
+    cat(paste0(mL, ": Best likelihood for: \n"))
+    cat(d(vmL))
   }
   
   # 16/9/2019: Si un seul paramètre, renvoie quand même une matrix
@@ -409,9 +431,15 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     for (i in 1:length(res)) {
       res[[i]] <- matrix(data = res[[i]], ncol = 1, dimnames = list(c(NULL), rownames(parameters)))
     }
+    for (i in 1:length(restot)) {
+      restot[[i]] <- matrix(data = restot[[i]], ncol = 1, dimnames = list(c(NULL), rownames(parameters)))
+    }
   }
   
-  out <- (list(resultMCMC=res, resultLnL=resL, 
+  out <- (list(resultMCMC=res, 
+               resultMCMC.total=restot, 
+               resultLnL=resL, 
+               resultLnL.total=resLtot, 
                parametersMCMC=list(parameters=parameters, n.iter=n.iter, n.chains=n.chains, n.adapt=n.adapt, thin=thin, 
                                    SDProp.end=structure(sdg, .Names=rownames(parameters)), 
                                    control=datax)))

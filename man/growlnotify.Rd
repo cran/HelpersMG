@@ -13,10 +13,11 @@ growlnotify(textinfo = "")
 None
 }
 \description{
-This function is used to send a notification to MacOS user.
+This function was used to send a notification to MacOS user.\cr
+Growlnotify being no longer supported in MacOSX, this function will be removed in future releases.
 }
 \details{
-growlnotify send growl notification for MacOs X systems.
+growlnotify sent growl notification for MacOs X systems. No more supported.
 }
 \examples{
 \dontrun{

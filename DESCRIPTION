@@ -2,20 +2,20 @@ Package: HelpersMG
 Type: Package
 Title: Tools for Environmental Analyses, Ecotoxicology and Various R
         Functions
-Version: 4.3
-Date: 2020-08-12
+Version: 4.4
+Date: 2021-01-14
 Author: Marc Girondot
 Maintainer: Marc Girondot <marc.girondot@u-psud.fr>
-Depends: lme4, coda, R (>= 3.6)
+Depends: lme4, coda, R (>= 3.6), MASS
 Suggests: RNetCDF, ncdf4, maps, XML, fields, shiny, Matrix, ppcor,
         pbmcapply, pbapply, parallel, visNetwork, igraph
-Description: Contains miscellaneous functions useful for managing 'NetCDF' files (see <http://en.wikipedia.org/wiki/NetCDF>), get tide levels on any point of the globe, get moon phase and time for sun rise and fall, analyse and reconstruct periodic time series of temperature with irregular sinusoidal pattern, show scales and wind rose in plot with change of color of text, Metropolis-Hastings algorithm for Bayesian MCMC analysis, plot graphs or boxplot with error bars, search files in disk by there names or their content, read the contents of all files from a folder at one time.
+Description: Contains miscellaneous functions useful for managing 'NetCDF' files (see <https://en.wikipedia.org/wiki/NetCDF>), get moon phase and time for sun rise and fall, analyse and reconstruct periodic time series of temperature with irregular sinusoidal pattern, show scales and wind rose in plot with change of color of text, Metropolis-Hastings algorithm for Bayesian MCMC analysis, plot graphs or boxplot with error bars, search files in disk by there names or their content, read the contents of all files from a folder at one time.
 License: GPL-2
 LazyData: yes
 LazyLoad: yes
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2020-08-12 09:47:28 UTC; marcgirondot
+Packaged: 2021-01-14 09:18:43 UTC; marcgirondot
 Repository: CRAN
-Date/Publication: 2020-08-12 12:12:17 UTC
+Date/Publication: 2021-01-14 09:50:09 UTC
