@@ -4,7 +4,12 @@
 \alias{compare_AICc}
 \title{Compares the AICc of several outputs}
 \usage{
-compare_AICc(..., factor.value = -1, silent = FALSE)
+compare_AICc(
+  ...,
+  factor.value = -1,
+  silent = FALSE,
+  FUN = function(x) specify_decimal(x, decimals = 2)
+)
 }
 \arguments{
 \item{...}{Successive results to be compared as lists.}
@@ -12,6 +17,8 @@ compare_AICc(..., factor.value = -1, silent = FALSE)
 \item{factor.value}{The $value of the list object is multiplied by factor.value to calculate BIC.}
 
 \item{silent}{If TRUE, nothing is displayed.}
+
+\item{FUN}{Function used to show values}
 }
 \value{
 A list with DeltaAICc and Akaike weight for the models.

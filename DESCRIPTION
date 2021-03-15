@@ -2,8 +2,8 @@ Package: HelpersMG
 Type: Package
 Title: Tools for Environmental Analyses, Ecotoxicology and Various R
         Functions
-Version: 4.4
-Date: 2021-01-14
+Version: 4.5
+Date: 2021-03-15
 Author: Marc Girondot
 Maintainer: Marc Girondot <marc.girondot@u-psud.fr>
 Depends: lme4, coda, R (>= 3.6), MASS
@@ -16,6 +16,6 @@ LazyLoad: yes
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-01-14 09:18:43 UTC; marcgirondot
+Packaged: 2021-03-15 13:37:32 UTC; marcgirondot
 Repository: CRAN
-Date/Publication: 2021-01-14 09:50:09 UTC
+Date/Publication: 2021-03-15 14:10:02 UTC

@@ -34,10 +34,13 @@
 #' @export
 
 
-ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied"), long = NULL, 
-                          lat = NULL, indice.long = NULL, indice.lat = NULL, 
-                          label.longitude = "lon", 
-                          label.latitude = "lat") 
+ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied") , 
+                          long = NULL                                   , 
+                          lat = NULL                                    , 
+                          indice.long = NULL                            , 
+                          indice.lat = NULL                             , 
+                          label.longitude = "lon"                       , 
+                          label.latitude = "lat"                        ) 
 {
   maxindicelt <- NULL
   maxindicelg <- NULL
@@ -54,7 +57,7 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied"), long = 
   #   maxlg <- lg[maxindicelg]
   #   minlg <- lg[1]
   # }
-  if (class(ncdf) == "ncdf4") {
+  if (any(class(ncdf) == "ncdf4")) {
     if (!requireNamespace("ncdf4", quietly = TRUE)) {
       stop("ncdf4 package is necessary for this function")
     }
@@ -67,7 +70,7 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied"), long = 
     maxlg <- lg[maxindicelg]
     minlg <- lg[1]
   }
-  if (class(ncdf) == "NetCDF") {
+  if (any(class(ncdf) == "NetCDF")) {
     if (!requireNamespace("RNetCDF", quietly = TRUE)) {
       stop("RNetCDF package is necessary for this function")
     }
@@ -87,11 +90,10 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied"), long = 
     stop("Check the ncdf data; it is not recognized")
   }
   if (!is.null(long) & !is.null(lat)) {
-    which.min(abs(lt - lat))
-    long <- long%%360
-    lat <- ((lat + 90)%%180) - 90
-    return(c(indice.long = which.min(abs(lg - long)), indice.lat = which.min(abs(lt - 
-                                                                                   lat))))
+    # which.min(abs(lt - lat))
+    if ((long > maxlg) | (long < minlg)) long <- long%%360
+    if ((lat > maxlt) | (lat < minlt)) lat <- ((lat + 90)%%180) - 90
+    return(c(indice.long = which.min(abs(lg - long)), indice.lat = which.min(abs(lt - lat))))
   } else {
     if (!is.null(indice.long) & !is.null(indice.lat)) {
       return(c(long = lg[indice.long], lat = lt[indice.lat]))

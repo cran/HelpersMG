@@ -9,7 +9,13 @@ format_ncdf(
   label.latitude = "latitude",
   label.longitude = "longitude",
   label.time = "time",
-  varid = NULL
+  varid = NULL,
+  longitude1 = NA,
+  latitude1 = NA,
+  longitude2 = NA,
+  latitude2 = NA,
+  package = "ncdf4",
+  bathy = TRUE
 )
 }
 \arguments{
@@ -22,13 +28,26 @@ format_ncdf(
 \item{label.time}{Label of time}
 
 \item{varid}{Name of variable to extract}
+
+\item{longitude1}{Longitude for first corner}
+
+\item{latitude1}{latitude for first corner}
+
+\item{longitude2}{Longitude for second corner}
+
+\item{latitude2}{latitude for second corner}
+
+\item{package}{If ncdf is a file, give the package to use to open the file}
+
+\item{bathy}{If TRUE, return a bathy object}
 }
 \value{
 A list with two element: data is an array and time is the POSIX.lt time
 }
 \description{
-Return a list with two element: data is an array and time is the POSIX.lt time./cr
-If varid is NULL, it shows the available variable of the file.
+Return a list with two elements: data is an array and time is the POSix.lt time.\cr
+Or if label.time is NULL or if bathy is TRUE, a bathy object.\cr
+If varid is NULL, it shows the available variable and dimensions of the file.
 }
 \details{
 format_ncdf is used extract information from ncdf file

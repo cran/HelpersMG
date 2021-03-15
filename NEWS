@@ -1,6 +1,10 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 4.4 (2021-01-14)
+            CHANGES IN VERSION 4.5 (2021-03-15)
+            
+* New CRAN version - 4.5 (2021-03-15)
+
+            CHANGES IN VERSION 4.4-8 (2021-02-26)
             
 * New CRAN version - 4.3 (2020-08-12)
 * restore par(xpd=FALSE) after barplot_errbar - 4.3-1 (2020-11-08)
@@ -9,6 +13,13 @@ THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 * growlnotify() is removed as this software does not exist anymore - 4.3-2 (2020-12-18)
 * as.parameters() is modified to used the new version of mcmcComposite format - 4.3-3 (2020-12-19)
 * New options for RandomFromHessianOrMCMC() - 4.3-4 (2020-12-21)
+* Name of parameter send to fn in RandomFromHessianorMCMC can be changed - 4.4-1 (2021-01-16)
+* If fn used in RandomFromHessianorMCMC returns a list, it is converted in vector - 4.4-2 (2021-01-16)
+* New parameter method in RandomFromHessianorMCMC to simplify the use - 4.4-3 (2021-01-25)
+* Correct a bug in RandomFromHessianorMCMC when replicate = 0 - 4.4-4 (2021-01-27)
+* Minor change in SEfromHessian - 4.4-5 (2021-01-29)
+* New parameters FUN in compare_AIC, AICc, or BIC - 4.4-6 (2021-01-31)
+* format_ncdf() can extract part of file based on longutude and latitude - 4.4-7 (2021-02-16)
 
             CHANGES IN VERSION 4.2.3 (2020-07-30)
             

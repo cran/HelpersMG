@@ -4,7 +4,12 @@
 \alias{compare_AIC}
 \title{Compares the AIC of several outputs}
 \usage{
-compare_AIC(..., factor.value = 1, silent = FALSE)
+compare_AIC(
+  ...,
+  factor.value = 1,
+  silent = FALSE,
+  FUN = function(x) specify_decimal(x, decimals = 2)
+)
 }
 \arguments{
 \item{...}{Successive results to be compared as lists.}
@@ -12,6 +17,8 @@ compare_AIC(..., factor.value = 1, silent = FALSE)
 \item{factor.value}{The $value of the list object is multiplied by factor.value to calculate AIC.}
 
 \item{silent}{If TRUE, nothing is displayed.}
+
+\item{FUN}{Function used to show values}
 }
 \value{
 A list with DeltaAIC and Akaike weight for the models.

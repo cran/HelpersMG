@@ -10,14 +10,15 @@ RandomFromHessianOrMCMC(
   mcmc = NULL,
   chain = 1,
   regularThin = TRUE,
-  generatepseudoHessianfromMCMC = FALSE,
   MinMax = NULL,
   fitted.parameters = NULL,
   fixed.parameters = NULL,
+  method = NULL,
   probs = c(0.025, 0.5, 0.975),
   replicates = 10000,
   fn = NULL,
   silent = TRUE,
+  ParTofn = "par",
   ...
 )
 }
@@ -32,13 +33,13 @@ RandomFromHessianOrMCMC(
 
 \item{regularThin}{If TRUE, use regular thin for MCMC}
 
-\item{generatepseudoHessianfromMCMC}{If TRUE, the MCMC is converted into a pseudo-Hessian}
-
 \item{MinMax}{A data.frame with at least two columns: Min and Max and rownames being the variable names}
 
 \item{fitted.parameters}{The fitted parameters}
 
 \item{fixed.parameters}{The fixed parameters}
+
+\item{method}{Can be NULL, "SE", "Hessian", "MCMC", or "PseudoHessianFromMCMC"}
 
 \item{probs}{Probability for quantiles}
 
@@ -48,13 +49,16 @@ RandomFromHessianOrMCMC(
 
 \item{silent}{Should the function display some information}
 
+\item{ParTofn}{Name of the parameter to send random values to fn}
+
 \item{...}{Parameters send to fn function}
 }
 \value{
-Returns a list with two data.frames named df_random and df_fn
+Returns a list with three data.frames named random, fn, and quantiles
 }
 \description{
-If it is very long, use silent parameter to check if something goes wrong.
+If it is very long, use silent parameter to check if something goes wrong.\cr
+If replicates is null or is 0, or if method is NULL, parameters are just copied into data.frame.
 }
 \details{
 RandomFromHessianOrMCMC returns random numbers based on Hessian matrix or MCMC
@@ -72,7 +76,9 @@ p<-c(mean=20, sd=5)
 # fit the model
 result <- optim(par=p, fn=fitnorm, data=val, method="BFGS", hessian=TRUE)
 # Using Hessian
-df <- RandomFromHessianOrMCMC(Hessian=result$hessian, fitted.parameters=result$par)$df_random
+df <- RandomFromHessianOrMCMC(Hessian=result$hessian, 
+                              fitted.parameters=result$par, 
+                              method="Hessian")$random
 hist(df[, 1], main="mean")
 hist(df[, 2], main="sd")
 plot(df[, 1], df[, 2], xlab="mean", ylab="sd", las=1, bty="n")
@@ -87,7 +93,8 @@ row.names=c('mean', 'sd'))
 mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, 
 parameters_name = "par", 
 likelihood=fitnorm, n.chains=1, n.adapt=100, thin=1, trace=1)
-df <- RandomFromHessianOrMCMC(mcmc=mcmc_run, fitted.parameters=NULL)$df_random
+df <- RandomFromHessianOrMCMC(mcmc=mcmc_run, fitted.parameters=NULL, 
+                              method="MCMC")$random
 hist(df[, 1], main="mean")
 hist(df[, 2], main="sd")
 plot(df[, 1], df[, 2], xlab="mean", ylab="sd", las=1, bty="n")
@@ -103,11 +110,12 @@ x <- 1:100
 result <- optim(par=p, fn=fitnorm, data=val, x=x, method="BFGS", hessian=TRUE)
 # Using Hessian
 df <- RandomFromHessianOrMCMC(Hessian=result$hessian, fitted.parameters=result$par, 
+                              method="Hessian", 
                               fn=function(par) (par["a"]*(x)+par["b"]))
 plot(1:100, val)
-lines(1:100, df$quantile["50\%", ])
-lines(1:100, df$quantile["2.5\%", ], lty=2)
-lines(1:100, df$quantile["97.5\%", ], lty=2)
+lines(1:100, df$quantiles["50\%", ])
+lines(1:100, df$quantiles["2.5\%", ], lty=2)
+lines(1:100, df$quantiles["97.5\%", ], lty=2)
 }
 }
 \author{

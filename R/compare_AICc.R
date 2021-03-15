@@ -5,6 +5,7 @@
 #' @param ... Successive results to be compared as lists.
 #' @param factor.value The $value of the list object is multiplied by factor.value to calculate BIC.
 #' @param silent If TRUE, nothing is displayed.
+#' @param FUN Function used to show values
 #' @description This function is used to compare the AICc of several outputs obtained with the same data but with different set of parameters.\cr
 #' Each object must have associated \code{logLik()} method with df and nobs attributes.\cr
 #' AICc for object x will be calculated as \code{2*factor.value*logLik(x)+(2*attributes(logLik(x))$df*(attributes(logLik(x))$df+1)/(attributes(logLik(x))$nobs-attributes(logLik(x))$df-1)}.\cr
@@ -38,7 +39,7 @@
 #' @export
 
 
-compare_AICc <- function(..., factor.value=-1, silent=FALSE) {
+compare_AICc <- function(..., factor.value=-1, silent=FALSE, FUN=function(x) specify_decimal(x, decimals=2)) {
 
   result <- list(...)
   
@@ -97,7 +98,7 @@ compare_AICc <- function(..., factor.value=-1, silent=FALSE) {
         saw=sum(aw)
         aw<-aw/saw
         
-        out<-data.frame(cbind(AICc=aicc, DeltaAICc=deltaaicc, Akaike_weight=aw), row.names=name)
+        out<-data.frame(cbind(AICc=FUN(aicc), DeltaAICc=FUN(deltaaicc), Akaike_weight=FUN(aw)), row.names=name)
         if (!silent) print(paste("The lowest AICc (",sprintf("%.3f", bestaicc) ,") is for series ", name[ser], " with Akaike weight=", sprintf("%.3f", aw[ser]), sep=""))
         
         return(out)
