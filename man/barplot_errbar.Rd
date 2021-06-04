@@ -73,7 +73,8 @@ barplot_errbar(y,
 Other plot and barplot functions: 
 \code{\link{ScalePreviousPlot}()},
 \code{\link{plot_add}()},
-\code{\link{plot_errbar}()}
+\code{\link{plot_errbar}()},
+\code{\link{show_name}()}
 }
 \author{
 Marc Girondot

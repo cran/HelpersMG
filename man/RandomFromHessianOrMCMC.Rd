@@ -17,13 +17,13 @@ RandomFromHessianOrMCMC(
   probs = c(0.025, 0.5, 0.975),
   replicates = 10000,
   fn = NULL,
-  silent = TRUE,
+  silent = FALSE,
   ParTofn = "par",
   ...
 )
 }
 \arguments{
-\item{se}{A nammed vector with SE of parameters}
+\item{se}{A named vector with SE of parameters}
 
 \item{Hessian}{An Hessian matrix}
 

@@ -4,6 +4,7 @@
 #' @return SEfromHessian returns a vector with standard errors
 #' @param a An Hessian matrix
 #' @param hessian If TRUE, return a list with the hessian and SE
+#' @param silent If TRUE, report some problems
 #' @description Standard error of parameters based on Hessian matrix.\cr
 #' The strategy is as follow:\cr
 #' First it tries to inverse the Hessian matrix. If it fails, it uses the near 
@@ -38,7 +39,7 @@
 #' }
 #' @export
 
-SEfromHessian <- function(a, hessian=FALSE) {
+SEfromHessian <- function(a, hessian=FALSE, silent=FALSE) {
   namesp <- colnames(a)
   mathessian <- a
   
@@ -47,12 +48,15 @@ SEfromHessian <- function(a, hessian=FALSE) {
   
   sigma  <- try(solve(mathessian), silent=TRUE)
   # Add all: 22/4/2020; any !
-  if (any(class(sigma) == "try-error") & (requireNamespace("Matrix", quietly = TRUE))) {
-    mathessianx <- try(as.matrix(getFromNamespace("nearPD", ns="Matrix")(mathessian)$mat), silent=TRUE)
+  if (any(class(sigma) == "try-error")) {
+    if (!silent) warning("Error in Hessian matrix inversion")
+    mathessianx <- try(as.matrix(nearPD(mathessian)$mat), silent=TRUE)
     # 29/1/2021
     if (any(class(mathessianx) == "try-error")) {
+      if (!silent) warning("Error in estimation of the Nearest Positive Definite Matrix. Calculates the Moore-Penrose generalized inverse. Use result with caution.")
       sigma  <- try(ginv(mathessian), silent=TRUE)
     } else {
+      if (!silent) warning("Calculates the Nearest Positive Definite Matrix. Use result with caution.")
       sigma  <- try(solve(mathessianx), silent=TRUE)
     }
   } 
@@ -63,6 +67,7 @@ SEfromHessian <- function(a, hessian=FALSE) {
     if (all(diag(sigma)>=0)) {
       # méthode classique
       res <- sqrt(diag(sigma))
+      
     } else {
       # Autre essai
       s. <- svd(sigma)
@@ -71,14 +76,12 @@ SEfromHessian <- function(a, hessian=FALSE) {
       
       # Si j'ai des SE négatif... pas bon signe
       if (any(res<0)) {
-        if (requireNamespace("Matrix", quietly = TRUE)) {
-          d <- diag(as.matrix(getFromNamespace("nearPD", ns="Matrix")(sigma)$mat))
+          d <- diag(as.matrix(nearPD(sigma)$mat))
           names(d) <- colnames(mathessian)
           res <- ifelse(d<0, NA, sqrt(d))
-        } else {
-          res <- NA
         }
         if (any(is.na(res))) {
+          
           
           a <- sigma
           
@@ -125,7 +128,13 @@ SEfromHessian <- function(a, hessian=FALSE) {
           
           if (any(d != 0) & all(d >= 0)) {
             res <- sqrt(d)
+            
+            if (!silent) warning("Estimates using pseudo-variance based on Gill & King (2004)")
+            
           } else {
+            if (!silent) warning("Approximation of Cholesky matrix based on Rebonato and Jackel (2000)")
+            if (!silent) warning("Estimates using pseudo-variance based on Gill & King (2004)")
+            
             # The paper by Rebonato and Jackel, “The most general methodology for creating a valid correlation matrix for risk management and option pricing purposes”, Journal of Risk, Vol 2, No 2, 2000, presents a methodology to create a positive definite matrix out of a non-positive definite matrix.
             # FP Brissette, M Khalili, R Leconte, Journal of Hydrology, 2007, “Efficient stochastic generation of multi-site synthetic precipitation data”
             # GA Baigorria, JW Jones, Journal of Climate, 2010, “GiST: A stochastic model for generating spatially and temporally correlated daily rainfall data”
@@ -165,7 +174,7 @@ SEfromHessian <- function(a, hessian=FALSE) {
         }
       }
     }
-  } 
+
   
   SEInf <- namesp[!namesp %in% names(res)]
   

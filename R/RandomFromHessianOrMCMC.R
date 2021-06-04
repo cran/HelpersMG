@@ -3,7 +3,7 @@
 #' @author Marc Girondot
 #' @return Returns a list with three data.frames named random, fn, and quantiles
 #' @param Hessian An Hessian matrix
-#' @param se A nammed vector with SE of parameters
+#' @param se A named vector with SE of parameters
 #' @param mcmc A result from MHalgogen()
 #' @param chain MCMC chain to be used
 #' @param regularThin If TRUE, use regular thin for MCMC
@@ -87,7 +87,7 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
                                     probs=c(0.025, 0.5, 0.975)       , 
                                     replicates=10000                 , 
                                     fn=NULL                          , 
-                                    silent=TRUE                      , 
+                                    silent=FALSE                      , 
                                     ParTofn="par"                    , 
                                     ...) {
   
@@ -99,7 +99,7 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
   # fixed.parameters=NULL
   # probs=c(0.025, 0.5, 0.975)
   # replicates=10000; fn=NULL; silent=FALSE; ParTofn="par"
-  
+
   if (is.null(replicates)) replicates <- 0
   if (is.null(method)) method <- "null"
   method <- tolower(method)
@@ -144,14 +144,28 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
   }
   
   if (method == "hessian") {
-    sigma <- try(solve(Hessian), silent = TRUE)
-    if (any(class(sigma) == "try-error")) sigma <- try(ginv(Hessian), silent = TRUE)
+    
+    sigma  <- try(solve(Hessian), silent=TRUE)
+    # Add all: 22/4/2020; any !
+    if (any(class(sigma) == "try-error")) {
+      if (!silent) warning("Error in Hessian matrix inversion")
+      Hessianx <- try(as.matrix(nearPD(Hessian)$mat), silent=TRUE)
+      # 29/1/2021
+      if (any(class(Hessianx) == "try-error")) {
+        if (!silent) warning("Error in estimation of the Nearest Positive Definite Matrix. Calculates the Moore-Penrose generalized inverse. Use result with caution.")
+        sigma  <- try(ginv(Hessian), silent=TRUE)
+      } else {
+        if (!silent) warning("Calculates the Nearest Positive Definite Matrix. Use result with caution.")
+        sigma  <- try(solve(Hessianx), silent=TRUE)
+      }
+    } 
+    
     if (all(class(sigma) != "try-error")) {
       if (!silent) cat("Estimation using variance-covariance matrix\n")
       df_random <- matrix(data=NA, nrow=1, ncol=nrow(Hessian))
-      df_random <- as.data.frame(df_random)
+      df_random <- as.data.frame(df_random[-1, ])
       colnames(df_random) <- rownames(Hessian)
-      df_random <- df_random[-1, colnames(df_random)]
+      
       reste.replicates <- replicates - nrow(df_random)
       repeat {
         if (!silent) cat(paste0("Still ", as.character(reste.replicates), " replicates\n"))
@@ -176,19 +190,23 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
       }
       
     } else {
-      if (!silent) cat("Estimation using standard errors estimated from Hessian")
+      if (!silent) cat("Error using Hessian; Estimation using standard errors estimated from Hessian")
       se <- SEfromHessian(Hessian)
       method <- "se"
     }
+  }
+  
+  if ((method == "se") & (is.null(se)) & (!is.null(Hessian))) {
+    if (!silent) cat("Estimation using standard errors estimated from Hessian")
+    se <- SEfromHessian(Hessian)
   }
   
   if (method == "se") {
     # J'ai une erreur sur l'inversion de la matrice hessienne; ou bien j'ai des se
     # Je prends les SE
     df_random <- matrix(data=NA, nrow=1, ncol=length(se))
-    df_random <- as.data.frame(df_random)
+    df_random <- as.data.frame(df_random[-1, ])
     colnames(df_random) <- names(se)
-    df_random <- df_random[-1, colnames(df_random)]
     reste.replicates <- replicates - nrow(df_random)
     repeat {
       df_random_int <- matrix(data = NA, ncol=length(se), nrow=reste.replicates)
@@ -228,8 +246,8 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
     parx <- list(...)
     # print(str(parx))
     df_fn <- apply(df_random, MARGIN=1, 
-                   FUN=function(par) {
-                     lst <- list(par=unlist(par))
+                   FUN=function(par_dfr) {
+                     lst <- list(par=unlist(par_dfr))
                      names(lst) <- ParTofn
                      do.call(fn, modifyList(lst, parx))
                    })
@@ -246,7 +264,8 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
       }
     }
     
-    q <- apply(df_fn, MARGIN=2, FUN=function(x) quantile(x, probs = probs))
+    q <- apply(df_fn, MARGIN=2, FUN=function(x) quantile(x, probs = probs, na.rm=TRUE))
+    if (any(is.na(df_fn))) warning("Some NA are produced; take care because outputs are biased")
   } else {
     df_fn <- NULL
     q <- NULL

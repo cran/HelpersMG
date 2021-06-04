@@ -43,7 +43,8 @@ moon.info(seq(from=as.Date("2012-03-01"),
 Other Periodic patterns of indices: 
 \code{\link{index.periodic}()},
 \code{\link{minmax.periodic}()},
-\code{\link{sun.info}()}
+\code{\link{sun.info}()},
+\code{\link{tide.info}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}

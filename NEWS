@@ -1,8 +1,28 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 4.5 (2021-03-15)
+            CHANGES IN VERSION 4.6 (2021-06-04)
+            
+* New CRAN version - 4.6 (2021-06-03)
+
+            CHANGES IN VERSION 4.6 (2021-06-03)
             
 * New CRAN version - 4.5 (2021-03-15)
+* Remove growlnotify function and add openwd() - 4.5-1 (2021-03-25)
+* tide.info() is reintroduced - 4.5-2 (2021-03-25)
+* tide.info() is ameliorated - 4.5-3 (2021-03-26)
+* tide.info() returns time in local time and in UTC time - 4.5-4 (2021-03-26)
+* Remove dependency to XML package - 4.5-4 (2021-03-26)
+* New version of specify_decimals() function - 4.5-5 (2021-03-29)
+* Minor change in tide.info() function - 4.5-6 (2021-03-31)
+* newdbeta renammed as dbeta_new - 4.5-7 (2021-04-08)
+* New function rnbinom_new() - 4.5-8 (2021-04-13) 
+* Remove ftp in examples of format_ncdf() and ind_lat_long() - 4.5-9 (2021-04-23)
+* Add HelpersMG logo - 4.5-10 (2021-05-01)
+* Minor correction in RandomFromHessianOrMCMC() documentation - 4.5-11 (2021-05-14)
+* RandomFromHessianOrMCMC() uses NearPDM if Hessian matrix inversion is wrong - 4.5-11 (2021-05-14)
+* New function show_name() to be used with plot_errbar() - 4.5-12 (2021-06-02)
+* Add message to dbeta_new() to show shape1 and shape2 - 4.6 (2021-06-04)
+* Solve an error when RandomFromHessianOrMCMC used only one variable - 4.6 (2021-06-04)
 
             CHANGES IN VERSION 4.4-8 (2021-02-26)
             
@@ -15,7 +35,7 @@ THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 * New options for RandomFromHessianOrMCMC() - 4.3-4 (2020-12-21)
 * Name of parameter send to fn in RandomFromHessianorMCMC can be changed - 4.4-1 (2021-01-16)
 * If fn used in RandomFromHessianorMCMC returns a list, it is converted in vector - 4.4-2 (2021-01-16)
-* New parameter method in RandomFromHessianorMCMC to simplify the use - 4.4-3 (2021-01-25)
+* New parameter method in RandomFromHessianorMCMC to simplify its use - 4.4-3 (2021-01-25)
 * Correct a bug in RandomFromHessianorMCMC when replicate = 0 - 4.4-4 (2021-01-27)
 * Minor change in SEfromHessian - 4.4-5 (2021-01-29)
 * New parameters FUN in compare_AIC, AICc, or BIC - 4.4-6 (2021-01-31)

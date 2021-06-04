@@ -16,7 +16,9 @@ Nothing
 }
 \description{
 Download a file from internet and save it locally. This function is a wrapper for
-download.files() that keep the name identical and can get several files at once.
+download.files() that keep the name identical and can get several files at once. It was written to simplify 
+downloading of file. It doest not use the true wget function (https://www.gnu.org/software/wget/) which is 
+much more complex but also powerful.
 }
 \details{
 wget download a file from internet and save it locally

@@ -65,7 +65,8 @@ plot_add(observed$time, observed$temperature, pch=19, cex=0.5)
 Other Periodic patterns of indices: 
 \code{\link{minmax.periodic}()},
 \code{\link{moon.info}()},
-\code{\link{sun.info}()}
+\code{\link{sun.info}()},
+\code{\link{tide.info}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}

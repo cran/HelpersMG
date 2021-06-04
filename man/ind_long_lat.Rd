@@ -40,7 +40,7 @@ ind_long_lat is used to manage ncdf information
 }
 \examples{
 \dontrun{
-url <- "ftp://ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2.highres/"
+url <- "https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres/"
 url <- paste0(url, "sst.day.mean.2012.v2.nc")
 dest <- paste(Sys.getenv("HOME"), "/sst.day.mean.2012.v2.nc", sep="")
 download.file(url, dest)

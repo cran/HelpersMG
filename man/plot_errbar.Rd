@@ -22,6 +22,7 @@ plot_errbar(
   errbar.col = par("fg"),
   errbar.y.polygon = FALSE,
   errbar.y.polygon.list = list(NULL),
+  names = NULL,
   add = FALSE
 )
 }
@@ -59,6 +60,8 @@ plot_errbar(
 \item{errbar.y.polygon}{If true, the errors are shown as a filed polygon.}
 
 \item{errbar.y.polygon.list}{List of parameters to be used for polygon.}
+
+\item{names}{The names of the points to be used with show_name().}
 
 \item{add}{If true, add the graph to the previous one.}
 }
@@ -106,7 +109,8 @@ plot_errbar(x=x, y=y, xlab="axe x", ylab="axe y", bty="n", xlim=c(1,20),
 Other plot and barplot functions: 
 \code{\link{ScalePreviousPlot}()},
 \code{\link{barplot_errbar}()},
-\code{\link{plot_add}()}
+\code{\link{plot_add}()},
+\code{\link{show_name}()}
 }
 \author{
 Marc Girondot

@@ -3,13 +3,13 @@
 #' \tabular{ll}{
 #'  Package: \tab HelpersMG\cr
 #'  Type: \tab Package\cr
-#'  Version: \tab 4.5 build 550\cr
-#'  Date: \tab 2021-03-15\cr
+#'  Version: \tab 4.6 build 632\cr
+#'  Date: \tab 2021-06-04\cr
 #'  License: \tab GPL (>= 2)\cr
 #'  LazyLoad: \tab yes\cr
 #'  }
 #' @title Tools for Environmental Analyses, Ecotoxicology and Various R Functions
-#' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @docType package
 #' @name HelpersMG-package
 #' @description Contains miscellaneous functions useful for managing \cr
@@ -29,6 +29,8 @@
 #' The lastest version of this package can always been installed using:\cr
 #' install.packages("http://max2.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
 #' repos=NULL, type="source")
+#' \if{html}{\figure{TB.png}{options: alt="HelpersMG logo", width="200pt", align="right"}}
+#' \if{latex}{\figure{TB.png}{options: width="200pt"}}
 #' @examples
 #' \dontrun{
 #' library(HelpersMG)

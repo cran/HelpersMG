@@ -14,4 +14,6 @@
 specify_decimal <- function(x, 
                             decimals=3, 
                             decimal.point=".") 
-  gsub("\\.", decimal.point, unname(trimws(format(round(x, decimals), nsmall=decimals))))
+  gsub("\\.", decimal.point, unname(formatC(x, digits = decimals, format = "f")))
+
+

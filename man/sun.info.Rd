@@ -40,7 +40,8 @@ Teets, D.A. 2003. Predicting sunrise and sunset times. The College Mathematics J
 Other Periodic patterns of indices: 
 \code{\link{index.periodic}()},
 \code{\link{minmax.periodic}()},
-\code{\link{moon.info}()}
+\code{\link{moon.info}()},
+\code{\link{tide.info}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@u-psud.fr}

@@ -4,12 +4,14 @@
 \alias{SEfromHessian}
 \title{Standard error of parameters based on Hessian matrix}
 \usage{
-SEfromHessian(a, hessian = FALSE)
+SEfromHessian(a, hessian = FALSE, silent = FALSE)
 }
 \arguments{
 \item{a}{An Hessian matrix}
 
 \item{hessian}{If TRUE, return a list with the hessian and SE}
+
+\item{silent}{If TRUE, report some problems}
 }
 \value{
 SEfromHessian returns a vector with standard errors

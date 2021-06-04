@@ -19,6 +19,7 @@
 #' @param errbar.col Error bar line color, see par("col")
 #' @param errbar.y.polygon If true, the errors are shown as a filed polygon.
 #' @param errbar.y.polygon.list List of parameters to be used for polygon.
+#' @param names The names of the points to be used with show_name().
 #' @param add If true, add the graph to the previous one.
 #' @family plot and barplot functions
 #' @seealso \code{barplot_errorbar}
@@ -66,6 +67,7 @@ plot_errbar <- function(...,
                         errbar.col=par("fg"), 
                         errbar.y.polygon=FALSE, 
                         errbar.y.polygon.list=list(NULL), 
+                        names=NULL, 
                         add=FALSE) 
 {
   
@@ -78,6 +80,8 @@ plot_errbar <- function(...,
   # par.plot <- list(1:100, rnorm(100, 1, 2),xlab="axe x", ylab="axe y", bty="n", xlim=c(1,100));errbar.x=2; errbar.y=rnorm(100, 1, 0.1)
   
   par.plot <- list(...)
+  
+  par(xpd=FALSE)
   
   x <- par.plot[["x"]]
   if (is.null(x)) {
@@ -189,5 +193,9 @@ plot_errbar <- function(...,
   
   # Et là je fais le plot
   do.call(plot_add, par.plot)
+  
+  if (is.null(names)) names <- paste0(as.character(x), ";", as.character(y))
+  
+  return(invisible(list(x=x, y=y, names=names)))
   
 }

@@ -2,20 +2,19 @@ Package: HelpersMG
 Type: Package
 Title: Tools for Environmental Analyses, Ecotoxicology and Various R
         Functions
-Version: 4.5
-Date: 2021-03-15
+Version: 4.6
+Date: 2021-06-04
 Author: Marc Girondot
-Maintainer: Marc Girondot <marc.girondot@u-psud.fr>
-Depends: lme4, coda, R (>= 3.6), MASS
-Suggests: RNetCDF, ncdf4, maps, XML, fields, shiny, Matrix, ppcor,
-        pbmcapply, pbapply, parallel, visNetwork, igraph
+Maintainer: Marc Girondot <marc.girondot@gmail.com>
+Depends: lme4, coda, R (>= 3.6), MASS, Matrix
+Suggests: RNetCDF, ncdf4, maps, fields, shiny, ppcor, pbmcapply,
+        pbapply, parallel, visNetwork, igraph
 Description: Contains miscellaneous functions useful for managing 'NetCDF' files (see <https://en.wikipedia.org/wiki/NetCDF>), get moon phase and time for sun rise and fall, analyse and reconstruct periodic time series of temperature with irregular sinusoidal pattern, show scales and wind rose in plot with change of color of text, Metropolis-Hastings algorithm for Bayesian MCMC analysis, plot graphs or boxplot with error bars, search files in disk by there names or their content, read the contents of all files from a folder at one time.
 License: GPL-2
-LazyData: yes
 LazyLoad: yes
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-03-15 13:37:32 UTC; marcgirondot
+Packaged: 2021-06-04 14:02:42 UTC; marcgirondot
 Repository: CRAN
-Date/Publication: 2021-03-15 14:10:02 UTC
+Date/Publication: 2021-06-04 16:00:02 UTC

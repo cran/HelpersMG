@@ -30,7 +30,8 @@ plot_add(x=1:200, y=cos(1:200), type="l", bty="n", col="red")
 Other plot and barplot functions: 
 \code{\link{ScalePreviousPlot}()},
 \code{\link{barplot_errbar}()},
-\code{\link{plot_errbar}()}
+\code{\link{plot_errbar}()},
+\code{\link{show_name}()}
 }
 \author{
 Marc Girondot

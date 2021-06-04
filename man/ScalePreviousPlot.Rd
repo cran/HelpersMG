@@ -37,7 +37,8 @@ text(x=ScalePreviousPlot()$xlim["center"], y=ScalePreviousPlot()$ylim["label"],
 Other plot and barplot functions: 
 \code{\link{barplot_errbar}()},
 \code{\link{plot_add}()},
-\code{\link{plot_errbar}()}
+\code{\link{plot_errbar}()},
+\code{\link{show_name}()}
 }
 \author{
 Marc Girondot
