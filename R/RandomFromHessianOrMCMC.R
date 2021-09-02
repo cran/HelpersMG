@@ -99,7 +99,7 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
   # fixed.parameters=NULL
   # probs=c(0.025, 0.5, 0.975)
   # replicates=10000; fn=NULL; silent=FALSE; ParTofn="par"
-
+  
   if (is.null(replicates)) replicates <- 0
   if (is.null(method)) method <- "null"
   method <- tolower(method)
@@ -118,15 +118,15 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
     }
   }
   
-  if (!is.null(Hessian) & (method == "hessian") & (is.null(fitted.parameters))) stop("Fitted.parameters or Hessian cannot be NULL with Hessian.")
-  if (!is.null(se) & (method == "se") & (is.null(fitted.parameters))) stop("Fitted.parameters or se cannot be NULL with se")
+  if (!is.null(Hessian) & (method == "hessian") & (is.null(fitted.parameters))) stop("Fitted.parameters or Hessian cannot be NULL with Hessian method.")
+  if (!is.null(se) & (method == "se") & (is.null(fitted.parameters))) stop("Fitted.parameters or se cannot be NULL with se method.")
   
   if (method == "mcmc") {
     if (regularThin) {
       if (replicates <= nrow(mcmc$resultMCMC[[chain]])) {
         df_random <- mcmc$resultMCMC[[chain]][seq(from=1, to=nrow(mcmc$resultMCMC[[chain]]), length.out=replicates), , drop=FALSE]
       } else {
-        stop("When regularThin is TRUE, replicates must be lower of equal to number of MCMC iterations.")
+        stop("When regularThin is TRUE, replicates must be lower or equal to number of MCMC iterations.")
       }
     } else {
       if (replicates < nrow(mcmc$resultMCMC[[chain]])) {
@@ -178,9 +178,11 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
         if (!is.null(MinMax)) {
           L <- rep(TRUE, nrow(df_random_int))
           for (i in colnames(df_random_int)) {
-            # Je veux TRUE si c'est bon
-            L <- L & (MinMax[i, "Min"] <= df_random_int[, i]) & 
-              (MinMax[i, "Max"] >= df_random_int[, i])
+            if ((!is.na(MinMax[i, "Min"])) & (!is.na(MinMax[i, "Max"]))) {
+              # Je veux TRUE si c'est bon
+              L <- L & (MinMax[i, "Min"] <= df_random_int[, i]) & 
+                (MinMax[i, "Max"] >= df_random_int[, i])
+            }
           }
           df_random_int <- df_random_int[L, , drop=FALSE]
         }

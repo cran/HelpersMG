@@ -4,16 +4,24 @@
 \alias{tide.info}
 \title{Annual tide calendar for one particular location}
 \usage{
-tide.info(location = NULL, year = 2021, longitude = NULL, latitude = NULL)
+tide.info(
+  location = NULL,
+  year = 2021,
+  longitude = NULL,
+  latitude = NULL,
+  tz = NULL
+)
 }
 \arguments{
-\item{location}{Textual information}
+\item{location}{Textual information about location name}
 
 \item{year}{Year to get the calendar}
 
 \item{longitude}{Longitude to search for}
 
 \item{latitude}{Latitude to search for}
+
+\item{tz}{The time zone to format the local time}
 }
 \value{
 Return a data.frame with annual tide calendar.
@@ -33,7 +41,7 @@ tide.info gets the annual tide calendar for one particular location.
 library("HelpersMG")
 Location <- "Les Hattes"
 Year <- 2010
-tide <- tide.info(Location, Year)
+tide <- tide.info(Location, Year, tz="America/Cayenne")
 plot(tide[, "DateTime.local"], tide[, "Tide.meter"], 
      type="l", bty="n", las=1, 
      main=tide[1, "Location"], 
@@ -55,18 +63,29 @@ tide <- tide.info(year=2010, longitude=-32, latitude=-4)
 library(maps)
 map(database = "world", regions = "Brazil", asp=1, 
     xlim=c(-80, -30), ylim=c(-33, 5))
-points(tide[1, "Longitude"], tide[1, "Latitude"], col="red")
-points(-32, -4, col="blue")
+points(tide[1, "Longitude"], tide[1, "Latitude"], col="red", pch=19)
+points(-32, -4, col="blue", pch=19)
 axis(1)
 axis(2, las=1)
-     
+
 # Show the locations with data    
 library(maps)
-map()
-axis(1)
-axis(2, las=1)
-points(tide_location[, c("longitude")], tide_location[, c("latitude")], 
+map(xlim=c(-180, 180), ylim=c(-90, 90))
+title("Locations with harmonics data")
+axis(1, at=seq(from=-180, to=180, by=45))
+axis(2, las=1, at=seq(from=-90, to=90, by=15))
+points(getFromNamespace(x="tide_location", ns="HelpersMG")[, c("longitude")], 
+       getFromNamespace(x="tide_location", ns="HelpersMG")[, c("latitude")], 
        pch=".", col="red", cex=2)
+# Another example
+tikei_lon  <- (-144.5465183)
+tikei_lat <- -14.9505897
+Year <- 2021
+tikei_tide <- tide.info(year=Year, longitude=tikei_lon, latitude=tikei_lat)
+plot(tikei_tide[, "DateTime.local"], tikei_tide[, "Tide.meter"], 
+     type="l", bty="n", las=1, 
+     main=tikei_tide[1, "Location"], 
+     xlab=as.character(Year), ylab="Tide level in meter")
 }
 }
 \seealso{
@@ -77,7 +96,7 @@ Other Periodic patterns of indices:
 \code{\link{sun.info}()}
 }
 \author{
-Marc Girondot \email{marc.girondot@u-psud.fr}
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Periodic patterns of indices}
 \keyword{Tide}

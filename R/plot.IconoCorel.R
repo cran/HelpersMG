@@ -52,13 +52,15 @@
 #' @export
 
 
-plot.IconoCorel <- function(x, ... , show.legend.direction="bottomright", 
-                            show.legend.strength="topleft", 
-                            title="Correlation iconography", 
-                            vertex.label.color="black", 
-                            vertex.label=NULL, 
-                            vertex.color="white",
-                            plot=TRUE) {
+plot.IconoCorel <- function(x                                          , 
+                            ...                                        , 
+                            show.legend.direction="bottomright"        , 
+                            show.legend.strength="topleft"             , 
+                            title="Correlation iconography"            , 
+                            vertex.label.color="black"                 , 
+                            vertex.label=NULL                          , 
+                            vertex.color="white"                       ,
+                            plot=TRUE                                  ) {
   
   if ((!is.element("igraph", installed.packages()[,1]))) {
     warning("Packages igraph is absent; the network cannot be shown.")
@@ -70,6 +72,10 @@ plot.IconoCorel <- function(x, ... , show.legend.direction="bottomright",
   
   threshold <- x$threshold
   matrix <- x$thresholded_correlation
+  if (is.null(matrix)) {
+    matrix <- x$correlation
+    threshold <- "No threshold"
+  }
   
   graph <- getFromNamespace("graph.adjacency", ns="igraph")(abs(matrix), weighted=TRUE, mode="lower")
   E <- getFromNamespace("E", ns="igraph")

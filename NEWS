@@ -1,8 +1,19 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 4.6 (2021-06-04)
+            CHANGES IN VERSION 4.7-0 (2021-09-02)
+            
+* New CRAN version - 4.7 (2021-09-01)
+
+            CHANGES IN VERSION 4.6-5 (2021-09-02)
             
 * New CRAN version - 4.6 (2021-06-03)
+* MinMax in RandomFromHessianOrMCMC can have only some parameters - 4.6-1 (2021-06-09)
+* Minor change in tide.info() - 4.6-1 (2021-06-09)
+* New function, NagelkerkeScaledR2() - 4.6-2 (2021-06-21)
+* New option in ScalePreviousPlot() to plot the legend at the same place - 4.6-3 (2021-06-23)
+* Workaround for tide.info() problem in windows - 4.6-4 (2021-07-08)
+* plot.IconoCorel() can plot object with method OAT - 4.6-5 (2021-08-20)
+* New parameter tz for tide.info() - 4.6-5 (2021-09-01)
 
             CHANGES IN VERSION 4.6 (2021-06-03)
             

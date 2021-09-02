@@ -1,11 +1,12 @@
 #' tide.info gets the annual tide calendar for one particular location.
 #' @title Annual tide calendar for one particular location
-#' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Return a data.frame with annual tide calendar.
-#' @param location Textual information
+#' @param location Textual information about location name
 #' @param year Year to get the calendar
 #' @param longitude Longitude to search for
 #' @param latitude Latitude to search for
+#' @param tz The time zone to format the local time
 #' @family Periodic patterns of indices
 #' @description Annual tide information.\cr
 #' The columns are: Location, Longitude, Latitude, Phase, DateTime.local, DateTime.UTC, Tide.meter\cr
@@ -18,7 +19,7 @@
 #' library("HelpersMG")
 #' Location <- "Les Hattes"
 #' Year <- 2010
-#' tide <- tide.info(Location, Year)
+#' tide <- tide.info(Location, Year, tz="America/Cayenne")
 #' plot(tide[, "DateTime.local"], tide[, "Tide.meter"], 
 #'      type="l", bty="n", las=1, 
 #'      main=tide[1, "Location"], 
@@ -40,24 +41,35 @@
 #' library(maps)
 #' map(database = "world", regions = "Brazil", asp=1, 
 #'     xlim=c(-80, -30), ylim=c(-33, 5))
-#' points(tide[1, "Longitude"], tide[1, "Latitude"], col="red")
-#' points(-32, -4, col="blue")
+#' points(tide[1, "Longitude"], tide[1, "Latitude"], col="red", pch=19)
+#' points(-32, -4, col="blue", pch=19)
 #' axis(1)
 #' axis(2, las=1)
-#'      
+#' 
 #' # Show the locations with data    
 #' library(maps)
-#' map()
-#' axis(1)
-#' axis(2, las=1)
-#' points(tide_location[, c("longitude")], tide_location[, c("latitude")], 
+#' map(xlim=c(-180, 180), ylim=c(-90, 90))
+#' title("Locations with harmonics data")
+#' axis(1, at=seq(from=-180, to=180, by=45))
+#' axis(2, las=1, at=seq(from=-90, to=90, by=15))
+#' points(getFromNamespace(x="tide_location", ns="HelpersMG")[, c("longitude")], 
+#'        getFromNamespace(x="tide_location", ns="HelpersMG")[, c("latitude")], 
 #'        pch=".", col="red", cex=2)
+#' # Another example
+#' tikei_lon  <- (-144.5465183)
+#' tikei_lat <- -14.9505897
+#' Year <- 2021
+#' tikei_tide <- tide.info(year=Year, longitude=tikei_lon, latitude=tikei_lat)
+#' plot(tikei_tide[, "DateTime.local"], tikei_tide[, "Tide.meter"], 
+#'      type="l", bty="n", las=1, 
+#'      main=tikei_tide[1, "Location"], 
+#'      xlab=as.character(Year), ylab="Tide level in meter")
 #' }
 #' @export
 
-tide.info <- function(location=NULL, year=2021, longitude=NULL, latitude=NULL) {
+tide.info <- function(location=NULL, year=2021, longitude=NULL, latitude=NULL, tz=NULL) {
   
-  tide_location <- tide_location
+  tide_location <- getFromNamespace(x="tide_location", ns="HelpersMG")
   
   if (is.null(location) & (is.null(longitude) | is.null(latitude))) {
     stop("Location or longitude/latitude must be provided.")
@@ -93,8 +105,12 @@ tide.info <- function(location=NULL, year=2021, longitude=NULL, latitude=NULL) {
   Begin <- paste0(as.character(year), "-01-01 00:00")
   End <- paste0(as.character(year), "-12-31 23:59")
   
-  out <- system(command = paste0('curl --silent --data-urlencode "location=', location,'" --data-urlencode "begin=', Begin,'" --data-urlencode "end=', End,'" "http://134.158.74.46:20000/tide"'), intern = TRUE)
+  file <- tempfile(pattern = "file", tmpdir = tempdir(), fileext = ".txt")
   
+  com <- paste0('curl --silent -o ', file, ' --data-urlencode "location=', location,'" --data-urlencode "begin=', Begin,'" --data-urlencode "end=', End,'" "http://134.158.74.46:20000/tide"')
+  out <- system(command = com, intern = FALSE)
+  out <- readChar(file, nchars=file.info(file)$size)
+
   out <- strsplit(out, split = "\",\"")[[1]]
   out <- gsub("\\[\"", "", out)
   out <- gsub("\"\\]", "", out)
@@ -117,7 +133,13 @@ tide.info <- function(location=NULL, year=2021, longitude=NULL, latitude=NULL) {
   out <- cbind(out, DateTime.local=strptime(out$DateTime, format = "%Y-%m-%d %I:%M %p", tz=tide_location$timezone[pos]))
   Sys.setlocale("LC_TIME", loc) 
   
-  out <- cbind(out, DateTime.UTC=convert.tz(out$DateTime.local, tz="UTC"))
+  if (!is.null(tz)) {
+    out <- cbind(out, DateTime.UTC=convert.tz(out$DateTime.local, tz="UTC"))
+  } else {
+    out <- cbind(out, DateTime.UTC=convert.tz(out$DateTime.local, tz=tz))
+  }
+  
+  
   out <- cbind(out, Longitude=tide_location$longitude[pos])
   out <- cbind(out, Latitude=tide_location$latitude[pos])
   

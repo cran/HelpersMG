@@ -86,13 +86,14 @@
 #' @export
 
 
-IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object is required"), 
-                             threshold=NULL, 
+IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object is required")  , 
+                             threshold=NULL                                                   , 
                              use = c("pairwise.complete.obs", "everything", 
-                                     "all.obs", "complete.obs", "na.or.complete"), 
-                             method=c("pearson", "kendall", "spearman"),
-                             model=c("OAT", "ATT"),
-                             progress=TRUE, debug=FALSE) {
+                                     "all.obs", "complete.obs", "na.or.complete")             , 
+                             method=c("pearson", "kendall", "spearman")                       ,
+                             model=c("OAT", "ATT")                                            ,
+                             progress=TRUE                                                    , 
+                             debug=FALSE                                                      ) {
   
  # print(class(data))
   if (class(data) == "IconoCorel") {

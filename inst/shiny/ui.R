@@ -14,21 +14,34 @@ fluidPage(
   wellPanel(
     wellPanel(
       HTML("<small><i><font color='#006699'>The Virtual Data initiative, run by LABEX P2IO and supported by Université Paris-Sud, is thanked for providing computing resources on its cloud infrastructure.</font></i></small>")
-    ), 
-    
+    )
+    , 
+    fluidRow(
     h1(HTML("The <em>w</em>-value: An alternative to <em>t</em>- and <em>&chi;<sup>2</sup></em>-tests"), align = "center")
-    , h2(HTML("that does not use <em>p</em>-value"), align = "center")
-    , p("This web server version v. 1.04 is a simplified version of the complete tools available ", 
+    ), 
+    fluidRow(h2(HTML("that does not use <em>p</em>-value"), align = "center")
+    ), 
+    fluidRow(
+      p("This web server version v. 1.05 is a simplified version of the complete tools available ", 
         a("in the HelpersMG R package."
           , href="https://cran.r-project.org/package=HelpersMG"
           , target="_blank"))
-    , p(HTML("The <em>w</em>-value methodology has been developped by 
-             <a href=\"http://max2.ese.u-psud.fr/epc/conservation/Girondot/Publications/Marc.html\">Marc Girondot</a> and 
+    ), 
+    fluidRow(p(HTML("The <em>w</em>-value methodology has been developped by 
+             <a href=\"https://max2.ese.u-psud.fr/epc/conservation/index.html\">Marc Girondot</a> and 
              <a href=\"http://www.ese.u-psud.fr/article199.html\">Jean-Michel Guillon</a>."))
-    , p("Ecologie, Systématique, Evolution - Université Paris-Sud, CNRS, AgroParisTech, Université Paris Saclay, France.")
-    , p("It has been published in: ")
-    , p(HTML("<a href=\"https://www.researchgate.net/publication/323847382_The_w-value_An_Alternative_to_t-and_ch2_Tests\">Girondot, M., Guillon, J.-M., 2018. The <em>w</em>-value: An alternative to <em>t</em>- and &chi;<sup>2</sup> tests. Journal of Biostatistics & Biometrics 1(1): 1-4.</a>"))
-    , p("")
+    ), 
+    fluidRow(
+      p("Ecologie, Systématique, Evolution - CNRS, AgroParisTech, Université Paris Saclay, France.")
+    ), 
+    fluidRow(p("It has been published in: ")
+    ), 
+    fluidRow(
+      p(HTML("<a href=\"https://www.researchgate.net/publication/323847382_The_w-value_An_Alternative_to_t-and_ch2_Tests\">Girondot, M., Guillon, J.-M., 2018. The <em>w</em>-value: An alternative to <em>t</em>- and &chi;<sup>2</sup> tests. Journal of Biostatistics & Biometrics 1(1): 1-4.</a>"))
+    ), 
+    fluidRow(
+      p("")
+    )
   ),
     
     # Show a plot of the generated distribution

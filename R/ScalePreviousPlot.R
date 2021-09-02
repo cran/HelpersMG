@@ -2,6 +2,8 @@
 #' @title Return the scale of the previous plot
 #' @author Marc Girondot
 #' @return A list with xlim and ylim
+#' @param x The position in x as relative position
+#' @param y The position in y as relative position
 #' @family plot and barplot functions
 #' @description Return a list with the limits of the previous plot, the center, the range, and the position of label on this axe. 
 #' @examples
@@ -20,11 +22,21 @@
 #'   xpd=TRUE, "Legend for Y axes", pos=3, srt=90)
 #' text(x=ScalePreviousPlot()$xlim["center"], y=ScalePreviousPlot()$ylim["label"], 
 #'   xpd=TRUE, "Legend for X axes", pos=1)
+#' Example to plot legend always in the same place
+#' layout(1:2)
+#' plot(x=1:100, y=sin(1:100), type="l", bty="n", xlim=c(1,200), xlab="", ylab="")
+#' text(x=ScalePreviousPlot(x=0.95, y=0.05)$x, 
+#'      y=ScalePreviousPlot(x=0.95, y=0.05)$y, 
+#'      labels="A", cex=2)
+#' plot(x=0:1, y=0:1, type="p", bty="n")
+#' text(x=ScalePreviousPlot(x=0.95, y=0.05)$x, 
+#'      y=ScalePreviousPlot(x=0.95, y=0.05)$y, 
+#'      labels="B", cex=2)
 #' }
 #' @export
 
 
-ScalePreviousPlot <- function() {
+ScalePreviousPlot <- function(x=NULL, y=NULL) {
   if (par("xaxs")=="i") {
     x1 <- par("usr")[1]
     x2 <- par("usr")[2]
@@ -39,6 +51,13 @@ ScalePreviousPlot <- function() {
     y2 <- (par("usr")[3]+par("usr")[4]*26)/27
     y1 <- y2*26-par("usr")[4]/0.04
   }
-  return(list(xlim=c(begin=x1, end=x2, center=x1+(x2-x1)/2, range=x2-x1, label=x1-(x2-x1)/2.6), 
-  				ylim=c(begin=y1, end=y2, center=y1+(y2-y1)/2, range=y2-y1, label=y1-(y2-y1)/3)))
+  
+  if (!is.null(x) & !is.null(y)) {
+    return(list(x=x1+(x2-x1)*x, 
+                y=y1+(y2-y1)*y))
+    
+  } else {
+    return(list(xlim=c(begin=x1, end=x2, center=x1+(x2-x1)/2, range=x2-x1, label=x1-(x2-x1)/2.6), 
+                ylim=c(begin=y1, end=y2, center=y1+(y2-y1)/2, range=y2-y1, label=y1-(y2-y1)/3)))
+  }
 }

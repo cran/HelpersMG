@@ -4,7 +4,12 @@
 \alias{ScalePreviousPlot}
 \title{Return the scale of the previous plot}
 \usage{
-ScalePreviousPlot()
+ScalePreviousPlot(x = NULL, y = NULL)
+}
+\arguments{
+\item{x}{The position in x as relative position}
+
+\item{y}{The position in y as relative position}
 }
 \value{
 A list with xlim and ylim
@@ -31,6 +36,16 @@ text(x=ScalePreviousPlot()$xlim["label"], y=ScalePreviousPlot()$ylim["center"],
   xpd=TRUE, "Legend for Y axes", pos=3, srt=90)
 text(x=ScalePreviousPlot()$xlim["center"], y=ScalePreviousPlot()$ylim["label"], 
   xpd=TRUE, "Legend for X axes", pos=1)
+Example to plot legend always in the same place
+layout(1:2)
+plot(x=1:100, y=sin(1:100), type="l", bty="n", xlim=c(1,200), xlab="", ylab="")
+text(x=ScalePreviousPlot(x=0.95, y=0.05)$x, 
+     y=ScalePreviousPlot(x=0.95, y=0.05)$y, 
+     labels="A", cex=2)
+plot(x=0:1, y=0:1, type="p", bty="n")
+text(x=ScalePreviousPlot(x=0.95, y=0.05)$x, 
+     y=ScalePreviousPlot(x=0.95, y=0.05)$y, 
+     labels="B", cex=2)
 }
 }
 \seealso{
