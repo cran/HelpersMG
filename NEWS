@@ -1,8 +1,11 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 4.7-0 (2021-09-02)
+            CHANGES IN VERSION 4.8 (2021-10-13)
             
 * New CRAN version - 4.7 (2021-09-01)
+* If K1 or K2 is NULL in flexit(), it is replaced to 1 to generate logistic function - 4.7-1 (2021-09-17)
+* format_ncdf() can use object with extra-dimensions - 4.7-2 (2021-10-08)
+* Solve a problem when K1 or K2 are very large in flexit() - 4.7-3 (2021-10-12)
 
             CHANGES IN VERSION 4.6-5 (2021-09-02)
             

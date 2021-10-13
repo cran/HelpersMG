@@ -13,9 +13,11 @@
 #' @param latitude2 latitude for second corner
 #' @param package If ncdf is a file, give the package to use to open the file
 #' @param bathy If TRUE, return a bathy object
-#' @description Return a list with two elements: data is an array and time is the POSix.lt time.\cr
+#' @description Return a list with two elements: data is an array and time is the POSIX.lt time.\cr
 #' Or if label.time is NULL or if bathy is TRUE, a bathy object.\cr
-#' If varid is NULL, it shows the available variable and dimensions of the file.
+#' If varid is NULL, it shows the available variable and dimensions of the file.\cr
+#' Bathymetry data can be download here: \cr
+#' https://www.gebco.net/data_and_products/gridded_bathymetry_data/#global
 #' @family ncdf
 #' @examples
 #' \dontrun{
@@ -39,6 +41,9 @@ format_ncdf <- function(ncdf                         ,
                         latitude2=NA                 , 
                         package = "ncdf4"            , 
                         bathy = TRUE                 ) {
+  
+  package <- match.arg(arg=package, choices=c("ncdf4", "RNetCDF"))
+  
   if (
     (
       (
@@ -68,11 +73,11 @@ format_ncdf <- function(ncdf                         ,
           package == "RNetCDF"
         ) 
       ) 
-    ) & 
-    (!requireNamespace("RNetCDF", quietly = TRUE) ) ) {
+    ) & (!requireNamespace("RNetCDF", quietly = TRUE) ) ) {
     
     stop("RNetCDF package is necessary for this function")
   }
+  
   # library("ncdf4")
   if (any(class(ncdf) == "character")) {
     if (package == "ncdf4") {
@@ -146,18 +151,38 @@ format_ncdf <- function(ncdf                         ,
     
     if (any(class(ncdf) == "ncdf4")) {
       
-      carte3D <- getFromNamespace("ncvar_get", ns="ncdf4")(ncdf, varid=varid, 
-                                                           start=c(start_lg,start_lt,1), 
-                                                           count=c(count_lg, 
-                                                                   count_lt, 
-                                                                   ncdf$dim[[label.time]]$len))
-      c3d <- array(data=carte3D[], dim=c(count_lg, 
-                                         count_lt, 
-                                         ncdf$dim[[label.time]]$len))
+      start <- NULL
+      count <- NULL
+      for (dm_ec in dm) {
+        if (dm_ec == label.longitude) {
+          start <- c(start, start_lg)
+          count <- c(count, count_lg)
+        } else if (dm_ec == label.latitude) {
+          start <- c(start, start_lt)
+          count <- c(count, count_lt)
+        } else if (dm_ec == label.time) {
+          start <- c(start, 1)
+          count <- c(count, ncdf$dim[[label.time]]$len)
+        } else {
+          start <- c(start, 1)
+          count <- c(count, 1)
+        }
+      }
+      
+      
+      carte3D <- getFromNamespace("ncvar_get", ns="ncdf4")(ncdf, varid=varid,
+                                                           start=start,
+                                                           count=count)
+      
+      c3d <- array(data=carte3D[], dim=count[c(which(dm == label.longitude), 
+                                               which(dm == label.latitude), 
+                                               which(dm == label.time))])
       
       
       if (isTRUE(requireNamespace("RNetCDF", quietly = TRUE)) ) {
-        date.char <- getFromNamespace("utcal.nc", ns="RNetCDF")(ncdf$dim[[label.time]]$units, ncdf$dim[[label.time]]$vals, type="s")
+        date.char <- getFromNamespace("utcal.nc", ns="RNetCDF")(ncdf$dim[[label.time]]$units, 
+                                                                ncdf$dim[[label.time]]$vals, 
+                                                                type="s")
         date.POSIXlt <- strptime(date.char, format="%Y-%m-%d %H:%M:%S", tz="UTC")
       } else {
         warning("The date and time information required the package RNetCDF being installed")
@@ -167,8 +192,8 @@ format_ncdf <- function(ncdf                         ,
       dnames <- list(ncdf$dim[[label.longitude]]$vals[start_lg:(start_lg+count_lg-1)], 
                      ncdf$dim[[label.latitude]]$vals[start_lt:(start_lt+count_lt-1)], 
                      date.char)
-      names(dnames) <- names(ncdf$dim)
       
+      names(dnames) <- c(label.longitude, label.latitude, label.time)
       
       if (ncdf$dim[[label.time]]$len > 1) {
         if (date.POSIXlt[1] > date.POSIXlt[2]) {
@@ -196,17 +221,33 @@ format_ncdf <- function(ncdf                         ,
       
     } else {
       
+      start <- NULL
+      count <- NULL
+      for (dm_ec in dm) {
+        if (dm_ec == label.longitude) {
+          start <- c(start, start_lg)
+          count <- c(count, count_lg)
+        } else if (dm_ec == label.latitude) {
+          start <- c(start, start_lt)
+          count <- c(count, count_lt)
+        } else if (dm_ec == label.time) {
+          start <- c(start, 1)
+          count <- c(count, getFromNamespace("dim.inq.nc", ns="RNetCDF")(ncdf, dimension  = label.time)$length)
+        } else {
+          start <- c(start, 1)
+          count <- c(count, 1)
+        }
+      }
+      
       
       
       carte3D <- getFromNamespace("var.get.nc", ns="RNetCDF")(ncfile=ncdf, variable=varid, 
-                                                              start=c(start_lg, start_lt, 1), 
-                                                              count=c(count_lg, 
-                                                                      count_lt, 
-                                                                      getFromNamespace("dim.inq.nc", ns="RNetCDF")(ncdf, dimension  = label.time)$length))
+                                                              start=start, 
+                                                              count=count)
       
-      c3d <- array(data=carte3D[], dim=c(count_lg, 
-                                         count_lt, 
-                                         getFromNamespace("dim.inq.nc", ns="RNetCDF")(ncdf, dimension  = label.time)$length))
+      c3d <- array(data=carte3D[], dim=count[c(which(dm == label.longitude), 
+                                               which(dm == label.latitude), 
+                                               which(dm == label.time))])
       
       ulat <- getFromNamespace("var.get.nc", ns="RNetCDF")(ncfile=ncdf, variable = label.latitude, start = start_lt, count = count_lt) 
       ulon <- getFromNamespace("var.get.nc", ns="RNetCDF")(ncfile=ncdf, variable = label.longitude, start = start_lg, count = count_lg) 

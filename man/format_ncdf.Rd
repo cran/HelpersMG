@@ -45,9 +45,11 @@ format_ncdf(
 A list with two element: data is an array and time is the POSIX.lt time
 }
 \description{
-Return a list with two elements: data is an array and time is the POSix.lt time.\cr
+Return a list with two elements: data is an array and time is the POSIX.lt time.\cr
 Or if label.time is NULL or if bathy is TRUE, a bathy object.\cr
-If varid is NULL, it shows the available variable and dimensions of the file.
+If varid is NULL, it shows the available variable and dimensions of the file.\cr
+Bathymetry data can be download here: \cr
+https://www.gebco.net/data_and_products/gridded_bathymetry_data/#global
 }
 \details{
 format_ncdf is used extract information from ncdf file

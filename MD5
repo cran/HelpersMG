@@ -1,12 +1,12 @@
-e7347ed3c9daccdb89ab86a7db04fd24 *DESCRIPTION
+8b440974a736fdd9d6c6bb78d953c5d3 *DESCRIPTION
 3e59027ed8a7b7914ac5fcea8ec72d4f *NAMESPACE
-c2eaa165b963929f817ebd6d7bbac54d *NEWS
+da5120c895a714a8f76af7ddc748d67e *NEWS
 52e8a254dbda4b17dbeafad6c0732036 *R/BinomialConfidence.R
 f972fda8168c6d94ef2d53565c5ef5b7 *R/ChangeCoordinate.R
 4b79dff227038e65934d220e45c0cb9c *R/DIx.R
 03d3cd77fb2fc8c54a44d6155a9638c3 *R/Ellipse.R
 de4bb4a51085db4a44c032d2ae6b17cb *R/FormatCompareAIC.R
-0847b56bb7b191ce517b9fb95b762f68 *R/HelpersMG-package.R
+f868494a6e210a9d15663194e58151de *R/HelpersMG-package.R
 3f1e26b131d09d089697c2558baebaf6 *R/IC_clean_data.R
 19d18fcceca486ee081341638cbc265c *R/IC_correlation_simplify.R
 ce224f561477b6e1def5752c6b6ef9c0 *R/IC_threshold_matrix.R
@@ -45,8 +45,8 @@ fe5d12f361d26d4ae65dc386b5c0922d *R/contingencyTable.compare.R
 762450e9f1c50d211e0f9fa1ddc69753 *R/dbeta_new.R
 bffc245de70f3bb06edfafd1355419dd *R/duplicated_packages.R
 946a8070e9792ff48040dcb0c6978b59 *R/extractAIC.R
-feef66e2b38b7eb1eeb550ac65cdb707 *R/flexit.R
-8e72baf8ed3731ca66f65428a4c20e72 *R/format_ncdf.R
+268c2533275fc3ae4da4352731b1c7cb *R/flexit.R
+641e0e18e020b29158e70cc1608ad200 *R/format_ncdf.R
 7f694567865ad3e600d53329748b6078 *R/getTableAddressing.R
 b961208534df36d0b8a39da98c5e9cd9 *R/ind_long_lat.R
 f4acf7ad91cc110f042537cb9491e395 *R/index.periodic.R
@@ -91,7 +91,7 @@ bcb42f0b7c398ce8542f72c16b7d45ac *R/sun.info.R
 f76c891e90b8b14b2816255495bae6f5 *R/symbol.Female.R
 fbae37fe0b3f7e553ba8dd1e12f6e290 *R/symbol.Male.R
 5d55fb92e2ca9e1fac277b182ed7075e *R/symmetricize.R
-6c83fe6b3202253a46eb411a65b55af7 *R/sysdata.rda
+670e8f0f2750e3a1c6194f73df40d70f *R/sysdata.rda
 75e9bfd85876d76187880ac763b91c73 *R/tide.info.R
 5b847ecb8f504e499015a0e6bdc36e88 *R/tnirp.R
 d3d5a99fa195a4c200ff35c713a2495e *R/universalmclapply.R
@@ -103,7 +103,7 @@ ca0c55ff62aff6ad66c52bd78b65810f *inst/shiny/www/PDF.png
 162c1f88d03e15696a33cbf007d122ca *man/DIx.Rd
 8af7689996f0e5c0451419ca809fa25e *man/ExtractAIC.glm.Rd
 627f1da33fcf26d60afefaa497910ec1 *man/FormatCompareAIC.Rd
-dd80a0ab23a7b715f4f800f7a107a7b1 *man/HelpersMG-package.Rd
+9cc53687de127d2d033ee53306cd51fc *man/HelpersMG-package.Rd
 d6e5cb73df32a44a0a11d3134e53187e *man/IC_clean_data.Rd
 e0badc94038f9232f87092e2a5e1cca2 *man/IC_correlation_simplify.Rd
 8af482214e1c9a65e57e6c41241424cd *man/IC_threshold_matrix.Rd
@@ -142,8 +142,8 @@ f3e8d289df15f5ef3af8c1a8afa2b223 *man/dSnbinom.Rd
 d944ce46df95ea709880f01cd7c12bbf *man/duplicated_packages.Rd
 abfe74be973fad7b5d06b19508279465 *man/ellipse.Rd
 1c5ca8392fe76cb53ab1f72cdf8ff184 *man/figures/TB.png
-36f95ff6a2e28ed1570999aacf0539d2 *man/flexit.Rd
-6543a21f7835ca44dcfcdfdc16a94140 *man/format_ncdf.Rd
+776bc64164525cbb7a2b9c381e33380d *man/flexit.Rd
+11c3cf0db9503924c9f3aac8bf150016 *man/format_ncdf.Rd
 63e5aed705ab0cc58b5a250e9e34898b *man/ind_long_lat.Rd
 e15a248381e855619cf806e4c2a1fb35 *man/index.periodic.Rd
 20482e7c2ec1715c005434b16a9006a0 *man/inside.search.Rd
