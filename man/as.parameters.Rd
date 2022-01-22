@@ -9,9 +9,9 @@ as.parameters(x, index = "best", chain = 1)
 \arguments{
 \item{x}{A mcmcComposite obtained as a result of \code{MHalgoGen()} function}
 
-\item{index}{At which iteration the parameters must be taken}
+\item{index}{At which iteration the parameters must be taken, see description}
 
-\item{chain}{The number of the chain inwhich to get parameters}
+\item{chain}{The number of the chain in which to get parameters}
 }
 \value{
 A vector with parameters at maximum likelihood or index position
@@ -19,9 +19,12 @@ A vector with parameters at maximum likelihood or index position
 \description{
 Take a mcmcComposite object and create a vector object with parameter value at specified iteration.\cr
 If \code{index="best"}, the function will return the parameters for the highest likelihood. It also indicates at which iteration the maximum lihelihood has been observed.\cr
-If \code{index="last"}, the fuction will return the parameters for the last likelihood.\cr
+If \code{index="last"}, the function will return the parameters for the last likelihood.\cr
+If \code{index="median"}, the function will return the median value of the parameter.\cr
+If \code{index="mode"}, the function will return the mode value of the parameter based on Asselin de Beauville (1978) method.\cr
 \code{index} can also be a numeric value.\cr
-This function uses the complete iterations available, even if thin parameter was introduced.
+This function uses the complete iterations available except the adaptation part, 
+even if thin parameter is not equal to 1.
 }
 \examples{
 \dontrun{
@@ -33,11 +36,17 @@ dnormx <- function(data, x) {
  return(-sum(dnorm(data, mean=x['mean'], sd=x['sd'], log=TRUE)))
 }
 parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'), 
-Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(1, 1), 
-Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
-row.names=c('mean', 'sd'))
+                              Prior1=c(10, 0.5), 
+                              Prior2=c(2, 0.5), 
+                              SDProp=c(1, 1), 
+                              Min=c(-3, 0), 
+                              Max=c(100, 10), 
+                              Init=c(10, 2), 
+                              stringsAsFactors = FALSE, 
+                              row.names=c('mean', 'sd'))
 mcmc_run <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x, 
-likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
+                      likelihood=dnormx, n.chains=1, n.adapt=100, 
+                      thin=1, trace=1)
 plot(mcmc_run, xlim=c(0, 20))
 plot(mcmc_run, xlim=c(0, 10), parameters="sd")
 mcmcforcoda <- as.mcmc(mcmc_run)
@@ -47,6 +56,7 @@ autocorr.diag(mcmcforcoda)
 acf(mcmcforcoda[[1]][,"mean"], lag.max=20, bty="n", las=1)
 acf(mcmcforcoda[[1]][,"sd"], lag.max=20, bty="n", las=1)
 batchSE(mcmcforcoda, batchSize=100)
+
 # The batch standard error procedure is usually thought to 
 # be not as accurate as the time series methods used in summary
 summary(mcmcforcoda)$statistics[,"Time-series SE"]
@@ -54,17 +64,29 @@ summary(mcmc_run)
 as.parameters(mcmc_run)
 lastp <- as.parameters(mcmc_run, index="last")
 parameters_mcmc[,"Init"] <- lastp
+
 # The n.adapt set to 1 is used to not record the first set of parameters
 # then it is not duplicated (as it is also the last one for 
 # the object mcmc_run)
 mcmc_run2 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x, 
-likelihood=dnormx, n.chains=1, n.adapt=1, thin=1, trace=1)
+                       likelihood=dnormx, n.chains=1, n.adapt=1, 
+                       thin=1, trace=1)
 mcmc_run3 <- merge(mcmc_run, mcmc_run2)
+
 ####### no adaptation, n.adapt must be 0
 parameters_mcmc[,"Init"] <- c(mean(x), sd(x))
 mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x, 
-likelihood=dnormx, n.chains=1, n.adapt=0, thin=1, trace=1)
+                       likelihood=dnormx, n.chains=1, n.adapt=0, 
+                       thin=1, trace=1)
+# With index being median, it returns the median value for each parameter
+as.parameters(mcmc_run3, index="median")
+as.parameters(mcmc_run3, index="mode")
+as.parameters(mcmc_run3, index="best")
 }
+}
+\references{
+Asselin de Beauville J.-P. (1978). Estimation non paramétrique de la densité et du mode, 
+exemple de la distribution Gamma. Revue de Statistique Appliquée, 26(3):47-70.
 }
 \seealso{
 Other mcmcComposite functions: 

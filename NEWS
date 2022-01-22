@@ -1,6 +1,23 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 4.8 (2021-10-13)
+            CHANGES IN VERSION 5.0 (2022-01-21)
+            
+* New CRAN version - 5.0 (2021-01-21)
+
+            CHANGES IN VERSION 4.9 (2021-11-29)
+            
+* New CRAN version - 4.9 (2021-11-29)
+* More efficient algorithm for Iconography of correlation - 4.9-1 (2022-01-15)
+* Miscellaneous changes for Iconography of correlation - 4.9-4 (2022-01-16)
+
+            CHANGES IN VERSION 4.8-5 (2021-11-29)
+            
+* dbeta_new return vakues with shape1, shape2, and ncp attributes - 4.8-1 (2021-10-19)
+* New function fitdistrquantiles() to fit beta, normal or gamma distribution based on quantiles - 4.8-2 (2021-10-20)
+* New median and mode options to return parameters of mcmcComposite object - 4.8-3 (2021-11-18)
+* New functions for cutter - 4.8-4 & 4.8-5 (2021-11-29)
+
+            CHANGES IN VERSION 4.7-x (2021-10-18)
             
 * New CRAN version - 4.7 (2021-09-01)
 * If K1 or K2 is NULL in flexit(), it is replaced to 1 to generate logistic function - 4.7-1 (2021-09-17)

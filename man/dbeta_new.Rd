@@ -37,7 +37,10 @@ dbeta_new gives the density for the Beta distributions
 }
 \description{
 Density for the Beta distribution with parameters mu and v or shape1 and 
-shape2 (and optional non-centrality parameter ncp).
+shape2 (and optional non-centrality parameter ncp).\cr
+The returned object has three attributes:\cr
+shape1, shape2, and ncp\cr
+Note that if x has attributes, they are preserved.
 }
 \details{
 dbeta_new returns the density for the Beta distributions
@@ -56,7 +59,29 @@ library("HelpersMG")
 mx <- ScalePreviousPlot()$ylim["end"]/
       max(dbeta_new(seq(from=0.01, to=0.99, by=0.01), mu = 0.8, v=0.1))
 curve(dbeta_new(x, mu = 0.8, v=0.1)*mx, add=TRUE, col="red")
+out <- dbeta_new(0.1, mu = 0.8, v=0.1)
+out
+attributes(out)$shape1; attributes(out)$shape2; attributes(out)$ncp
+dbeta(0.1, shape1=attributes(out)$shape1, shape2=attributes(out)$shape2, 
+      ncp=attributes(out)$ncp)
+
+# It can be used to generate random numbers using mu and v
+out <- dbeta_new(0.1, mu = 0.8, v=0.1, silent=TRUE)
+pi <- rbeta(100, shape1=attributes(out)$shape1, shape2=attributes(out)$shape2, 
+      ncp=attributes(out)$ncp)
+hist(pi, freq=FALSE, breaks=seq(from=0, to=1, by=0.1), ylim=c(0, 8), las=1)
+}
+\seealso{
+Other Distributions: 
+\code{\link{cutter}()},
+\code{\link{dcutter}()},
+\code{\link{dggamma}()},
+\code{\link{logLik.cutter}()},
+\code{\link{plot.cutter}()},
+\code{\link{print.cutter}()},
+\code{\link{rcutter}()}
 }
 \author{
 Marc Girondot
 }
+\concept{Distributions}

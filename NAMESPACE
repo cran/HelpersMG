@@ -3,11 +3,14 @@
 S3method(as.mcmc,mcmcComposite)
 S3method(logLik,LD50)
 S3method(logLik,compareAIC)
+S3method(logLik,cutter)
 S3method(merge,mcmcComposite)
 S3method(plot,IconoCorel)
 S3method(plot,LD50)
+S3method(plot,cutter)
 S3method(plot,mcmcComposite)
 S3method(predict,LD50)
+S3method(print,cutter)
 S3method(summary,mcmcComposite)
 export(ChangeCoordinate)
 export(DIx)
@@ -37,20 +40,24 @@ export(asc)
 export(barplot_errbar)
 export(cArrows)
 export(chr)
-export(clean.knitr)
 export(compare)
 export(compare_AIC)
 export(compare_AICc)
 export(compare_BIC)
 export(contingencyTable.compare)
 export(convert.tz)
+export(cutter)
 export(d)
 export(dSnbinom)
 export(dbeta_new)
+export(dcutter)
+export(dggamma)
 export(duplicated_packages)
 export(ellipse)
+export(fitdistrquantiles)
 export(flexit)
 export(format_ncdf)
+export(iCutter)
 export(ind_long_lat)
 export(index.periodic)
 export(inside.search)
@@ -66,13 +73,17 @@ export(newcompassRose)
 export(newmap.scale)
 export(openwd)
 export(pSnbinom)
+export(pggamma)
 export(plot_add)
 export(plot_errbar)
 export(qSnbinom)
+export(qggamma)
 export(qvlmer)
 export(r2norm)
 export(rSnbinom)
+export(rcutter)
 export(read_folder)
+export(rggamma)
 export(rnbinom_new)
 export(series.compare)
 export(show_name)
@@ -89,20 +100,24 @@ export(wget)
 import(coda)
 importFrom("grDevices", "rgb")
 importFrom("graphics", "arrows", "axis", "barplot", "hist", "legend",
-"lines", "mtext", "par", "plot", "polygon", "segments",
-"xspline", "xyinch", 
-"strheight", "text", "locator")
-importFrom("stats", "AIC", "aggregate", "as.formula", "binomial",
-"coef", "cor", "dbeta", "dbinom", "deriv", "df.residual",
-"dmultinom", "dnbinom", "dnorm", "glm", "lm", "logLik",
-"na.omit", "numericDeriv", "optim", "pchisq", "pnorm", "qf",
-"qnorm", "qt", "quantile", "residuals", "rnbinom", "rnorm",
-"runif", "sd", "vcov", "cov", "cov2cor", "pt", "var")
+             "lines", "mtext", "par", "plot", "polygon", "segments", "points", 
+             "xspline", "xyinch", "strheight", "text", "locator")
+importFrom("stats", "AIC", "aggregate", "as.formula", "binomial", 
+             "dgamma", "pgamma", "qgamma", "rgamma", 
+             "dlnorm", "qlnorm", "plnorm", "rlnorm", 
+             "dnorm", "pnorm", "qnorm", "rnorm", 
+             "coef", "cor", "dbeta", "dbinom", "deriv", "df.residual", 
+             "dmultinom", "dnbinom", "glm", "lm", "logLik", 
+             "na.omit", "numericDeriv", "optim", "pchisq", "qf", 
+             "qt", "quantile", "residuals", "rnbinom", 
+             "runif", "sd", "vcov", "cov", "cov2cor", "pt", "var", 
+             "model.matrix", "terms", "median", "qbeta", 
+             "dweibull", "pweibull", "qweibull", "rweibull", 
+             "p.adjust")
 importFrom("utils", "combn", "download.file", "getFromNamespace",
-"installed.packages", "modifyList", "read.delim",
-"setTxtProgressBar", "tail", "txtProgressBar", "compareVersion")
-importFrom("stats", "model.matrix", "terms")
+             "installed.packages", "modifyList", "read.delim",
+             "setTxtProgressBar", "tail", "txtProgressBar", 
+             "compareVersion", "timestamp", "capture.output")
 importFrom("lme4", "fixef")
-importFrom("utils", "timestamp")
 importFrom("Matrix", "nearPD")
 importFrom("MASS", "ginv")

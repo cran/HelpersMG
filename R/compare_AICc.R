@@ -39,8 +39,14 @@
 #' @export
 
 
-compare_AICc <- function(..., factor.value=-1, silent=FALSE, FUN=function(x) specify_decimal(x, decimals=2)) {
+compare_AICc <- function(..., factor.value=-1, silent=FALSE, 
+                         FUN=function(x) specify_decimal(x, decimals=2)) {
 
+  # factor.value=-1
+  # silent=FALSE 
+  # FUN=function(x) specify_decimal(x, decimals=2)
+  # result <- list()
+  
   result <- list(...)
   
   if (is.list(result) & length(result)==1) result <- unlist(result, recursive=FALSE)
@@ -91,7 +97,7 @@ compare_AICc <- function(..., factor.value=-1, silent=FALSE, FUN=function(x) spe
           
         }
         
-        bestaicc<-min(aicc)
+        bestaicc <- min(aicc)
         ser<-which.min(aicc)
         deltaaicc<-aicc-bestaicc
         aw<-exp(-0.5*deltaaicc)

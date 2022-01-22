@@ -48,31 +48,28 @@ IC_clean_data checks and corrects the dataframe to be used with IC_threshold_mat
 \examples{
 \dontrun{
 library("HelpersMG")
-es <- matrix(c("e1", "52", "12", "12", "5",
-"e2", "59", "12.5", "9", "5",
-"e3", "55", "13", "15", "9",
-"e4", "58", "14.5", "5", "5",
-"e5", "66", "15.5", "11", "13.5",
-"e6", "62", "16", "15", "18",
-"e7", "63", "17", "12", "18",
-"e8", "69", "18", "9", "18"), ncol=5, byrow = TRUE)
-colnames(es) <- c("Élève", "Poids", "Âge", "Assiduité", "Note")
-es <- as.data.frame(es, stringsasFactor=FALSE)
-es[, 2] <- as.numeric(as.character(es[, 2]))
-es[, 3] <- as.numeric(as.character(es[, 3]))
-es[, 4] <- as.numeric(as.character(es[, 4]))
-es[, 5] <- as.numeric(as.character(es[, 5]))
-
+# based on https://fr.wikipedia.org/wiki/Iconographie_des_corrélations
+es <- structure(list(Student = c("e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8"), 
+                     Mass = c(52, 59, 55, 58, 66, 62, 63, 69), 
+                     Age = c(12, 12.5, 13, 14.5, 15.5, 16, 17, 18), 
+                     Assiduity = c(12, 9, 15, 5, 11, 15, 12, 9), 
+                     Note = c(5, 5, 9, 5, 13.5, 18, 18, 18)), 
+                     row.names = c(NA, -8L), class = "data.frame")
 es
 
-df <- IC_clean_data(es, debug = TRUE)
-cor_matrix <- IC_threshold_matrix(data=df, threshold = NULL, progress=FALSE)
-cor_threshold <- IC_threshold_matrix(data=df, threshold = 0.3)
-par(mar=c(1,1,1,1))
-set.seed(4)
-plot(cor_threshold)
+df_clean <- IC_clean_data(es, debug = TRUE)
+cor_matrix <- IC_threshold_matrix(data=df_clean, threshold = NULL, progress=FALSE)
+cor_threshold <- IC_threshold_matrix(data=df_clean, threshold = 0.3)
+plot(cor_threshold, show.legend.strength=FALSE, show.legend.direction = FALSE)
 cor_threshold_Note <- IC_correlation_simplify(matrix=cor_threshold, variable="Note")
-plot(cor_threshold_Note)
+plot(cor_threshold_Note, show.legend.strength=FALSE, show.legend.direction = FALSE)
+
+cor_threshold <- IC_threshold_matrix(data=df_clean, threshold = 0.6)
+plot(cor_threshold, 
+layout=matrix(data=c(53, 53, 55, 55, 
+                     55, 53, 55, 53), ncol=2, byrow=FALSE), 
+show.legend.direction = FALSE,
+show.legend.strength = FALSE, xlim=c(-2, 2), ylim=c(-2, 2))
 }
 }
 \references{

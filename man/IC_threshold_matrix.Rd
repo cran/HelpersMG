@@ -11,6 +11,8 @@ IC_threshold_matrix(
     "na.or.complete"),
   method = c("pearson", "kendall", "spearman"),
   model = c("OAT", "ATT"),
+  significance.level = FALSE,
+  correction.multiple.comparisons = "fdr",
   progress = TRUE,
   debug = FALSE
 )
@@ -26,6 +28,10 @@ IC_threshold_matrix(
 
 \item{model}{a character string indicating if linear model uses all variables at a time (AAT) or one at a time (OAT).}
 
+\item{significance.level}{if FALSE, does not use significance level; or use this significance level.}
+
+\item{correction.multiple.comparisons}{"holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", or "none".}
+
 \item{progress}{show a progress bar}
 
 \item{debug}{display information about progression of computing}
@@ -36,8 +42,8 @@ A list
 \description{
 This function calculates the matrix of correlations thresholded using partial correlation.\cr
 If the threshold is not given, the object that is produced can be used later for thresholding.\cr
-For model OAT: a correlation is retained if it is higher that the threshold and if all partial correlations of the two variables and any third one are all lower than the threshold.\cr
-For model AAT: a correlation is retained if it is higher than the threshold and the partial correlation is lower than the threshold. In this case, no missing value is accepted.\cr
+For model OAT: The link between A and B is “remarkable” if and only if the total correlation between them is higher than a given threshold and if the partial correlation between A and B in respect to any other variable C is also higher in absolute values than this threshold and with the same sign as the total correlation.
+For model AAT: A correlation is retained if it is higher than the threshold and the partial correlation is lower than the threshold. In this case, no missing value is accepted.\cr
 The use and method parameters are used by cor() function. The function uses by default a parallel computing in Unix or MacOSX systems. 
 If progress is TRUE and the package pbmcapply is present, a progress bar is displayed. If debug is TRUE, some informations are shown during the process but parallel computing is not used.\cr
 \code{https://fr.wikipedia.org/wiki/Iconographie_des_corrélations}
@@ -48,35 +54,42 @@ IC_threshold_matrix calculates correlation matrix thresholed by partial correlat
 \examples{
 \dontrun{
 library("HelpersMG")
-es <- matrix(c("e1", "52", "12", "12", "5",
-"e2", "59", "12.5", "9", "5",
-"e3", "55", "13", "15", "9",
-"e4", "58", "14.5", "5", "5",
-"e5", "66", "15.5", "11", "13.5",
-"e6", "62", "16", "15", "18",
-"e7", "63", "17", "12", "18",
-"e8", "69", "18", "9", "18"), ncol=5, byrow = TRUE)
-colnames(es) <- c("Élève", "Poids", "Âge", "Assiduité", "Note")
-es <- as.data.frame(es, stringsasFactor=FALSE)
-es[, 2] <- as.numeric(as.character(es[, 2]))
-es[, 3] <- as.numeric(as.character(es[, 3]))
-es[, 4] <- as.numeric(as.character(es[, 4]))
-es[, 5] <- as.numeric(as.character(es[, 5]))
+es <- structure(list(Student = c("e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8"), 
+                 Mass = c(52, 59, 55, 58, 66, 62, 63, 69), 
+                 Age = c(12, 12.5, 13, 14.5, 15.5, 16, 17, 18), 
+                 Assiduity = c(12, 9, 15, 5, 11, 15, 12, 9), 
+                 Note = c(5, 5, 9, 5, 13.5, 18, 18, 18)), 
+                 row.names = c(NA, -8L), class = "data.frame")
 
 es
 
-df <- IC_clean_data(es, debug = TRUE)
-cor_matrix <- IC_threshold_matrix(data=df, threshold = NULL, progress=FALSE)
-cor_threshold <- IC_threshold_matrix(data=cor_matrix, threshold = 0.3)
-par(mar=c(1,1,1,1))
-set.seed(4)
-plot(cor_threshold)
+df_clean <- IC_clean_data(es, debug = TRUE)
+cor_matrix <- IC_threshold_matrix(data=df_clean, threshold = NULL, progress=FALSE)
+cor_threshold <- IC_threshold_matrix(data=df_clean, threshold = 0.3)
+plot(cor_threshold, show.legend.strength=FALSE, show.legend.direction = FALSE)
+cor_threshold_Note <- IC_correlation_simplify(matrix=cor_threshold, variable="Note")
+plot(cor_threshold_Note)
+
+cor_threshold <- IC_threshold_matrix(data=df_clean, threshold = 0.8, progress=FALSE)
+gr <- plot(cor_threshold, plot=FALSE)
+ly <- getFromNamespace("layout_nicely", ns="igraph")(gr)
+plot(cor_threshold, 
+layout=matrix(data=c(53, 53, 55, 55, 
+                     55, 53, 55, 53), ncol=2, byrow=FALSE), 
+show.legend.direction = FALSE,
+show.legend.strength = FALSE, xlim=c(-2, 2), ylim=c(-2, 2))
+
+# Using significance level
+
+cor_threshold <- IC_threshold_matrix(data=df_clean, threshold = 0.3, 
+                                     significance.level=0.05)
+plot(cor_threshold, show.legend.strength=FALSE, show.legend.direction = FALSE)
 cor_threshold_Note <- IC_correlation_simplify(matrix=cor_threshold, variable="Note")
 plot(cor_threshold_Note)
 
 # Using the model All at a time
 
-cor_threshold_AAT <- IC_threshold_matrix(data=df, threshold = 0.3, model="AAT")
+cor_threshold_AAT <- IC_threshold_matrix(data=df_clean, threshold = 0.3, model="AAT")
 par(mar=c(1,1,1,1))
 set.seed(4)
 plot(cor_threshold_AAT, show.legend.strength="bottomleft")
@@ -84,19 +97,12 @@ plot(cor_threshold_AAT, show.legend.strength="bottomleft")
 
 
 ############
-dta <- structure(list(Élève = structure(1:8, .Label = c("e1", "e2", 
-"e3", "e4", "e5", "e6", "e7", "e8"), class = "factor"), Poids = c(52L, 
-59L, 55L, 58L, 66L, 62L, 63L, 69L), Âge = c(12, 12.5, 13, 14.5, 
-15.5, 16, 17, 18), Assiduité = c(12L, 9L, 15L, 5L, 11L, 15L, 
-12L, 9L), Note = c(5, 5, 9, 5, 13.5, 18, 18, 18), e1 = c(1L, 
-0L, 0L, 0L, 0L, 0L, 0L, 0L), e2 = c(0L, 1L, 0L, 0L, 0L, 0L, 0L, 
-0L), e3 = c(0L, 0L, 1L, 0L, 0L, 0L, 0L, 0L), e4 = c(0L, 0L, 0L, 
-1L, 0L, 0L, 0L, 0L), e5 = c(0L, 0L, 0L, 0L, 1L, 0L, 0L, 0L), 
-    e6 = c(0L, 0L, 0L, 0L, 0L, 1L, 0L, 0L), e7 = c(0L, 0L, 0L, 
-    0L, 0L, 0L, 1L, 0L), e8 = c(0L, 0L, 0L, 0L, 0L, 0L, 0L, 1L
-    )), .Names = c("Élève", "Poids", "Âge", "Assiduité", 
-"Note", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8"), class = "data.frame", row.names = c(NA, 
--8L))
+dta <- structure(list(Student = c("e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8"), 
+                     Mass = c(52, 59, 55, 58, 66, 62, 63, 69), 
+                     Age = c(12, 12.5, 13, 14.5, 15.5, 16, 17, 18), 
+                     Assiduity = c(12, 9, 15, 5, 11, 15, 12, 9), 
+                     Note = c(5, 5, 9, 5, 13.5, 18, 18, 18)), 
+                     row.names = c(NA, -8L), class = "data.frame")
 
 dta0 <- dta[, 2:ncol(dta)]
 ic0 <- IC_threshold_matrix(data = dta0)

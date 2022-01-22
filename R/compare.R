@@ -19,7 +19,7 @@ compare <- function() {
     stop("shiny package is absent; Please install it first")
   }
   
-getFromNamespace("runApp", ns="shiny")(appDir = system.file("shiny", package="HelpersMG"), 
+getFromNamespace("runApp", ns="shiny")(appDir = system.file(file.path("shiny", "compare"), package="HelpersMG"), 
                                        launch.browser =TRUE)
 
 }

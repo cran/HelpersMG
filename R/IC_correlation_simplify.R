@@ -13,20 +13,12 @@
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")
-#' es <- matrix(c("e1", "52", "12", "12", "5",
-#' "e2", "59", "12.5", "9", "5",
-#' "e3", "55", "13", "15", "9",
-#' "e4", "58", "14.5", "5", "5",
-#' "e5", "66", "15.5", "11", "13.5",
-#' "e6", "62", "16", "15", "18",
-#' "e7", "63", "17", "12", "18",
-#' "e8", "69", "18", "9", "18"), ncol=5, byrow = TRUE)
-#' colnames(es) <- c("Élève", "Poids", "Âge", "Assiduité", "Note")
-#' es <- as.data.frame(es, stringsasFactor=FALSE)
-#' es[, 2] <- as.numeric(as.character(es[, 2]))
-#' es[, 3] <- as.numeric(as.character(es[, 3]))
-#' es[, 4] <- as.numeric(as.character(es[, 4]))
-#' es[, 5] <- as.numeric(as.character(es[, 5]))
+#' es <- structure(list(Student = c("e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8"), 
+#'                  Mass = c(52, 59, 55, 58, 66, 62, 63, 69), 
+#'                  Age = c(12, 12.5, 13, 14.5, 15.5, 16, 17, 18), 
+#'                  Assiduity = c(12, 9, 15, 5, 11, 15, 12, 9), 
+#'                  Note = c(5, 5, 9, 5, 13.5, 18, 18, 18)), 
+#'                  row.names = c(NA, -8L), class = "data.frame")
 #' 
 #' es
 #' 
@@ -43,12 +35,16 @@
 
 
 IC_correlation_simplify <- function(matrix, variable=NULL) {
+  if (class(matrix) != "IconoCorel") {
+    stop("Only an object obtained using IC_threshold_matrix() can be used.")
+  }
   m <- matrix$thresholded_correlation
   if (is.null(variable)) {
     garde <- !apply(X = m, MARGIN = 1, FUN=function(x) all(abs(x)<1E-5))
   } else {
-    garde <- m[, variable] != 0
+    garde <- m[, variable, drop=FALSE] != 0
     garde[colnames(x = m) %in% variable] <- TRUE
+    garde <- apply(garde, MARGIN = 1, FUN=any)
   }
   matrix$thresholded_correlation <- m[garde, garde]
   return(matrix)

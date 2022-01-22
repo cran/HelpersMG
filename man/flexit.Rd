@@ -47,13 +47,23 @@ reaction norm for sex ratios. PeerJ, 8, e8451.\cr
 If dose < P then \eqn{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}\cr
 If dose > P then \eqn{1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}{1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}\cr
 with:\cr
-     \deqn{S1 = S/((4/K1)*(2^(-K1))^(1/K1+1)*(2^K1-1))}{S1 = S/((4/K1)*(2^(-K1))^(1/K1+1)*(2^K1-1))}
-     \deqn{S2 = S/((4/K2)*(2^(-K2))^(1/K2+1)*(2^K2-1))}{S2 = S/((4/K2)*(2^(-K2))^(1/K2+1)*(2^K2-1))}
+     \deqn{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}
+     \deqn{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}
 \cr
 New in version 4.7-3 and larger:\cr
 \cr
 If \eqn{2^K1}{2^K1} is too large to be estimated, the approximation \eqn{S1 = S*K1/2}{S1 = S*K1/2} is used.\cr
+Demonstration:\cr
+\deqn{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}
+\deqn{S1 = exp(log((2^(K1 - 1) * S * K1)/(2^K1 - 1)))}{S1 = exp(log((2^(K1 - 1) * S * K1)/(2^K1 - 1)))}
+\deqn{S1 = exp(log(2^(K1 - 1)) + log(S * K1) - log(2^K1 - 1))}{S1 = exp(log(2^(K1 - 1)) + log(S * K1) - log(2^K1 - 1))}
+When \eqn{K1}{K1} is very large, \eqn{2^K1 - 1 = 2^K1}{2^K1 - 1 = 2^K1} then
+\deqn{S1 = exp((K1 - 1) * log(2) + log(S * K1) - K1 * log(2))}{S1 = exp((K1 - 1) * log(2) + log(S * K1) - K1 * log(2))}
+\deqn{S1 = exp((K1 * log(2) - log(2) + log(S * K1) - K1 * log(2))}{S1 = exp((K1 * log(2) - log(2) + log(S * K1) - K1 * log(2))}
+\deqn{S1 = exp(log(S * K1)- log(2))}{S1 = exp(log(S * K1)- log(2))}
+\deqn{S1 = S * K1 / 2}{S1 = S * K1 / 2}
 If \eqn{2^K2}{2^K2} is too large to be estimated, the approximation \eqn{S2 = S*K2/2}{S2 = S*K2/2} is used.\cr
+
 If \eqn{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)} is not finite, 
 the following approximation is used:\cr
 \deqn{exp((-1/K1)*(K1*log(2)+(4*S1*(P-x))))}{exp((-1/K1)*(K1*log(2)+(4*S1*(P-x))))}

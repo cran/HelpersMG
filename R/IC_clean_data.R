@@ -21,31 +21,28 @@
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")
-#' es <- matrix(c("e1", "52", "12", "12", "5",
-#' "e2", "59", "12.5", "9", "5",
-#' "e3", "55", "13", "15", "9",
-#' "e4", "58", "14.5", "5", "5",
-#' "e5", "66", "15.5", "11", "13.5",
-#' "e6", "62", "16", "15", "18",
-#' "e7", "63", "17", "12", "18",
-#' "e8", "69", "18", "9", "18"), ncol=5, byrow = TRUE)
-#' colnames(es) <- c("Élève", "Poids", "Âge", "Assiduité", "Note")
-#' es <- as.data.frame(es, stringsasFactor=FALSE)
-#' es[, 2] <- as.numeric(as.character(es[, 2]))
-#' es[, 3] <- as.numeric(as.character(es[, 3]))
-#' es[, 4] <- as.numeric(as.character(es[, 4]))
-#' es[, 5] <- as.numeric(as.character(es[, 5]))
-#' 
+#' # based on https://fr.wikipedia.org/wiki/Iconographie_des_corrélations
+#' es <- structure(list(Student = c("e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8"), 
+#'                      Mass = c(52, 59, 55, 58, 66, 62, 63, 69), 
+#'                      Age = c(12, 12.5, 13, 14.5, 15.5, 16, 17, 18), 
+#'                      Assiduity = c(12, 9, 15, 5, 11, 15, 12, 9), 
+#'                      Note = c(5, 5, 9, 5, 13.5, 18, 18, 18)), 
+#'                      row.names = c(NA, -8L), class = "data.frame")
 #' es
 #' 
-#' df <- IC_clean_data(es, debug = TRUE)
-#' cor_matrix <- IC_threshold_matrix(data=df, threshold = NULL, progress=FALSE)
-#' cor_threshold <- IC_threshold_matrix(data=df, threshold = 0.3)
-#' par(mar=c(1,1,1,1))
-#' set.seed(4)
-#' plot(cor_threshold)
+#' df_clean <- IC_clean_data(es, debug = TRUE)
+#' cor_matrix <- IC_threshold_matrix(data=df_clean, threshold = NULL, progress=FALSE)
+#' cor_threshold <- IC_threshold_matrix(data=df_clean, threshold = 0.3)
+#' plot(cor_threshold, show.legend.strength=FALSE, show.legend.direction = FALSE)
 #' cor_threshold_Note <- IC_correlation_simplify(matrix=cor_threshold, variable="Note")
-#' plot(cor_threshold_Note)
+#' plot(cor_threshold_Note, show.legend.strength=FALSE, show.legend.direction = FALSE)
+#' 
+#' cor_threshold <- IC_threshold_matrix(data=df_clean, threshold = 0.6)
+#' plot(cor_threshold, 
+#' layout=matrix(data=c(53, 53, 55, 55, 
+#'                      55, 53, 55, 53), ncol=2, byrow=FALSE), 
+#' show.legend.direction = FALSE,
+#' show.legend.strength = FALSE, xlim=c(-2, 2), ylim=c(-2, 2))
 #' }
 #' @export
 
@@ -57,6 +54,14 @@ IC_clean_data <- function(data=stop("A dataframe object is required"),
                        variable.retain=NULL,
                        test.partial.correlation=TRUE, 
                        progress=TRUE, debug=FALSE) {
+  
+  # data=NULL
+  # use="pairwise.complete.obs"
+  # method="pearson"
+  # variable.retain=NULL
+  # test.partial.correlation=TRUE
+  # progress=TRUE
+  # debug=FALSE
   
   method <- method[1]
   use <- use[1]
@@ -123,10 +128,13 @@ IC_clean_data <- function(data=stop("A dataframe object is required"),
   # J'enlève les colonnes qui n'ont que des NA
    if (debug) cat(paste0("The data have ", ncol(zc_y), " variables\n"))
    if (debug) cat("I remove the columns with only NA\n")
+  if (debug) {cat(colnames(zc_y)[apply(X = zc_y, MARGIN = 2, FUN = function(x) all(is.na(x)))]); cat("\n")}
   zc_y <- zc_y[, !apply(X = zc_y, MARGIN = 2, FUN = function(x) all(is.na(x)))]
    if (debug) cat(paste0("The data have ", ncol(zc_y), " variables\n"))
+  
   # J'enlève les colonnes qui ne présente pas de variabilité
   if (debug) cat("I remove the columns with no variability\n")
+  if (debug) {cat(colnames(zc_y)[apply(X = zc_y, MARGIN = 2, FUN = function(x) all(na.omit(x)==na.omit(x)[1]))]); cat("\n")}
   zc_y <- zc_y[, !apply(X = zc_y, MARGIN = 2, FUN = function(x) all(na.omit(x)==na.omit(x)[1]))]
    if (debug) cat(paste0("The data have ", ncol(zc_y), " variables\n"))
   # J'enlève les colonnes qui ne sont pas numériques
@@ -140,7 +148,7 @@ IC_clean_data <- function(data=stop("A dataframe object is required"),
     c <- suppressWarnings(expr=cor(zc_y, use=use, method=method))
     k <- apply(c, MARGIN=1, FUN=function(x) sum(ifelse(is.na(x), 1, 0)))
     # names(k) <- colnames(zc_y)
-    km1 <- max(k)
+    # km1 <- max(k)
     if (!is.null(variable.retain)) k[variable.retain] <- 0
     km <- max(k)
     if (km == 0) break
@@ -164,48 +172,60 @@ IC_clean_data <- function(data=stop("A dataframe object is required"),
   cname <- colnames(zc_y)
   lc <- length(cname)
   llc <- 1:lc
-  df <- expand.grid(e=1:(lc-1), f=2:(lc))
-  df <- df[(df[, 1]<df[, 2]), ]
+  # df <- expand.grid(e=1:(lc-2), f=2:(lc-1), g=3:lc)
+  # df <- df[(df[, 1]<df[, 2]) & (df[, 2]<df[, 3]), ]
+  
+  # lc <- 5
+  
+  df <- expand.grid(e=1:(lc-2), f=2:(lc-1), g=3:lc)
+  df <- df[(df[, 1]<df[, 2]) & (df[, 2]<df[, 3]), ]
+  
+  # pc <- array(data=Inf, dim=c(lc, lc, lc), dimnames = list(cname, cname, cname))
+  
 
   z <- lapp(1:nrow(df), FUN = function(x) {
     e <- df[x, 1]
     f <- df[x, 2]
-      outg <- NULL
-      for (g in llc[c(-e, -f)]) {
-        dfg <- na.omit(zc_y[, c(e, f, g)])
-        pc <- try(suppressWarnings(pcor(dfg, method=method)), 
-                  silent=TRUE)
-        if (class(pc)=="try-error") {
-          outg <- c(outg, e, f, g)
-        } else {
-          if (is.na(pc$estimate[1, 2])) {
-            outg <- c(outg, e, f, g)
-          }
-        }
-      }
-      return(outg)
+    g <- df[x, 3]
+    
+    dfg <- na.omit(zc_y[, c(e, f, g)])
+    pc <- try(suppressWarnings(pcor(dfg, method=method)), 
+              silent=TRUE)
+    outg <- (class(pc)=="try-error")
+    if (!outg) outg <- any(!is.finite(pc$estimate))
+    # if (outg==0) {
+    #   outg <- c(outg, pc$estimate[1, 2], pc$estimate[1, 3], pc$estimate[2, 3])
+    # } else {
+    #   outg <- c(outg, NA, NA, NA)
+    # }
+      return(!outg)
     }
   )
+  
+  
+  # Si TRUE, c'est bon
+  # FALSE c'est une erreur
+  zul <- unlist(z)
+  
   asupprimer <- NULL
     repeat {
-    zul <- unlist(z)
+
+    if (all(zul)) break
     
-    if (identical(zul, integer(0)) | is.null(zul)) break
+    zdf <- as.data.frame(table(as.vector(as.matrix(df[!zul, ]))), stringsAsFactors = FALSE)
     
-    zdf <- as.data.frame(table(zul), stringsAsFactors = FALSE)
-    zdf <- cbind(zdf, name=colnames(zc_y)[as.numeric(zdf$z)])
-    if (!is.null(variable.retain)) zdf[zdf$name == variable.retain, "Freq"] <- 0
-    as <- as.numeric(zdf$z[which.max(zdf$Freq)])
+    if (!is.null(variable.retain)) {
+      zdf <- cbind(zdf, name=colnames(zc_y)[as.numeric(zdf$Var1)])
+      zdf[zdf$name == variable.retain, "Freq"] <- 0
+    }
+    as <- as.numeric(zdf$Var1[which.max(zdf$Freq)])
     
     if (debug) cat(paste0("Remove: ", colnames(zc_y)[as], "\n"))
     
-    z[which(df[,1]==as)] <- NULL
-    z[which(df[,2]==as)] <- NULL
-    
-    zbis <- lapply(z, FUN=function(x) x[x != as])
-    
-    z <- zbis
-    
+    zul[which(df[,1]==as)] <- TRUE
+    zul[which(df[,2]==as)] <- TRUE
+    zul[which(df[,3]==as)] <- TRUE
+
     asupprimer <- c(asupprimer, as)
     }
   

@@ -15,12 +15,15 @@ MHalgoGen(
   thin = 30,
   trace = FALSE,
   traceML = FALSE,
+  progress.bar.ini = NULL,
+  progress.bar = NULL,
   adaptive = FALSE,
   adaptive.lag = 500,
   adaptive.fun = function(x) {     ifelse(x > 0.234, 1.3, 0.7) },
   intermediate = NULL,
   filename = "intermediate.Rdata",
-  previous = NULL
+  previous = NULL,
+  session = NULL
 )
 }
 \arguments{
@@ -44,6 +47,10 @@ MHalgoGen(
 
 \item{traceML}{TRUE or FALSE to show ML}
 
+\item{progress.bar.ini}{The command to initialize progress bar}
+
+\item{progress.bar}{The command to run the progress bar}
+
 \item{adaptive}{Should an adaptive process for SDProp be used}
 
 \item{adaptive.lag}{Lag to analyze the SDProp value in an adaptive context}
@@ -55,6 +62,8 @@ MHalgoGen(
 \item{filename}{Name of file in which intermediate results are saved}
 
 \item{previous}{The content of the file in which intermediate results are saved}
+
+\item{session}{The shiny session}
 }
 \value{
 A mcmcComposite object with all characteristics of the model and mcmc run
@@ -177,6 +186,25 @@ var <- "mean"
 par(mar=c(4, 4, 1, 1)+0.4)
 plot(1:nrow(mcmc_run$resultMCMC[[1]]), mcmc_run$resultMCMC[[1]][, var], type="l", 
        xlab="Iterations", ylab=var, bty="n", las=1)
+# Exemple with a progress bar
+
+val <- rnorm(30, 10, 2)
+dnormx <- function(data, x) {
+ data <- unlist(data)
+ return(-sum(dnorm(data, mean=x['mean'], sd=x['sd'], log=TRUE)))
+}
+parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'), 
+Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(0.35, 0.2), 
+Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
+row.names=c('mean', 'sd'))
+# Set up the progress bar
+mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, 
+                      likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=FALSE, 
+                       progress.bar.ini=function(n.iter) {
+                                 assign("pb", txtProgressBar(min=0, max=n.iter, style=3), 
+                                        env = parent.frame())}, 
+        progress.bar=function(iter) {setTxtProgressBar(get("pb", envir = parent.frame()), iter)})
+ 
 }
 }
 \seealso{

@@ -8,6 +8,7 @@
 #' @param vertex.label.color a vector with the colors of labels
 #' @param vertex.label a vector with the labels
 #' @param vertex.color a vector of colors
+#' @param vertex.label.cex a vector of cex
 #' @param title the title of the plot
 #' @param plot if TRUE, the plot is shown
 #' @param ... other options of plot.igraph()
@@ -18,20 +19,12 @@
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")
-#' es <- matrix(c("e1", "52", "12", "12", "5",
-#' "e2", "59", "12.5", "9", "5",
-#' "e3", "55", "13", "15", "9",
-#' "e4", "58", "14.5", "5", "5",
-#' "e5", "66", "15.5", "11", "13.5",
-#' "e6", "62", "16", "15", "18",
-#' "e7", "63", "17", "12", "18",
-#' "e8", "69", "18", "9", "18"), ncol=5, byrow = TRUE)
-#' colnames(es) <- c("Élève", "Poids", "Âge", "Assiduité", "Note")
-#' es <- as.data.frame(es, stringsasFactor=FALSE)
-#' es[, 2] <- as.numeric(as.character(es[, 2]))
-#' es[, 3] <- as.numeric(as.character(es[, 3]))
-#' es[, 4] <- as.numeric(as.character(es[, 4]))
-#' es[, 5] <- as.numeric(as.character(es[, 5]))
+#' es <- structure(list(Student = c("e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8"), 
+#'                  Mass = c(52, 59, 55, 58, 66, 62, 63, 69), 
+#'                  Age = c(12, 12.5, 13, 14.5, 15.5, 16, 17, 18), 
+#'                  Assiduity = c(12, 9, 15, 5, 11, 15, 12, 9), 
+#'                  Note = c(5, 5, 9, 5, 13.5, 18, 18, 18)), 
+#'                  row.names = c(NA, -8L), class = "data.frame")
 #' 
 #' es
 #' 
@@ -47,6 +40,10 @@
 #' visIgraph(kk)
 #' cor_threshold_Note <- IC_correlation_simplify(matrix=cor_threshold, variable="Note")
 #' plot(cor_threshold_Note)
+#' 
+#' # You can record the position of elements and use them later
+#' ly <- layout_nicely(kk)
+#' plot(cor_threshold, vertex.color="red", layout=ly)
 #' }
 #' @method plot IconoCorel
 #' @export
@@ -60,13 +57,15 @@ plot.IconoCorel <- function(x                                          ,
                             vertex.label.color="black"                 , 
                             vertex.label=NULL                          , 
                             vertex.color="white"                       ,
+                            vertex.label.cex=1                         ,
                             plot=TRUE                                  ) {
   
   if ((!is.element("igraph", installed.packages()[,1]))) {
     warning("Packages igraph is absent; the network cannot be shown.")
     plot <- FALSE
   }
-
+  
+  
   if (identical(show.legend.direction, TRUE)) show.legend.direction="bottomright"
   if (identical(show.legend.strength, TRUE)) show.legend.strength="topleft"
   
@@ -77,6 +76,11 @@ plot.IconoCorel <- function(x                                          ,
     threshold <- "No threshold"
   }
   
+  if (is.null(nrow(matrix)) | (nrow(matrix)==0)) {
+    stop("No plot can be shown")
+  }
+  
+  
   graph <- getFromNamespace("graph.adjacency", ns="igraph")(abs(matrix), weighted=TRUE, mode="lower")
   E <- getFromNamespace("E", ns="igraph")
   V <- getFromNamespace("V", ns="igraph")
@@ -86,8 +90,13 @@ plot.IconoCorel <- function(x                                          ,
   }
   
   w <- getFromNamespace("edge_attr", ns="igraph")(graph, "weight", E(graph))
+  if (length(w) <= 1) {
+    ww <- 1
+  } else {
+    ww <- 1 + 4*(w-min(w))/(max(w)-min(w))
+  }
   # E(g)[idx]$attr <- value is equivalent to g <- set_edge_attr(g, attr, E(g)[idx], value).
-  graph <- getFromNamespace("set_edge_attr", ns="igraph")(graph, "width", E(graph), 1 + 4*(w-min(w))/(max(w)-min(w)))
+    graph <- getFromNamespace("set_edge_attr", ns="igraph")(graph, "width", E(graph), ww)
   graph <- getFromNamespace("set_edge_attr", ns="igraph")(graph, "color", E(graph), sapply(strsplit(attributes(E(graph))$vnames, "\\|"), 
                                                                                            FUN=function(k) ifelse(matrix[k[1], k[2]]>0, "blue", "red")))
   graph <- getFromNamespace("set_edge_attr", ns="igraph")(graph, "lty", E(graph), sapply(strsplit(attributes(E(graph))$vnames, "\\|"), 
@@ -98,7 +107,7 @@ plot.IconoCorel <- function(x                                          ,
   graph <- getFromNamespace("set_vertex_attr", ns="igraph")(graph, "label", V(graph), vertex.label)
   graph <- getFromNamespace("set_vertex_attr", ns="igraph")(graph, "color", V(graph), vertex.color)
   graph <- getFromNamespace("set_vertex_attr", ns="igraph")(graph, "label.color", V(graph), vertex.label.color)
-  
+  graph <- getFromNamespace("set_vertex_attr", ns="igraph")(graph, "label.cex", V(graph), vertex.label.cex)
   
   
   
@@ -106,36 +115,43 @@ plot.IconoCorel <- function(x                                          ,
   # set.seed(4)
   if (plot) {
     
+    getFromNamespace("plot.igraph", ns="igraph")(graph, 
+                                                 edge.width = ww, 
+                                                 edge.color = sapply(strsplit(attributes(E(graph))$vnames, "\\|"), 
+                                                                     FUN=function(k) ifelse(matrix[k[1], k[2]]>0, "blue", "red")), 
+                                                 vertex.label = vertex.label, 
+                                                 vertex.color = vertex.color, 
+                                                 vertex.size = 1,
+                                                 edge.lty = sapply(strsplit(attributes(E(graph))$vnames, "\\|"), 
+                                                                   FUN=function(k) ifelse(matrix[k[1], k[2]]>0, 1, 2)), 
+                                                 vertex.frame.color = NA, 
+                                                 vertex.label.color = vertex.label.color, 
+                                                 margin=c(0, 0, 0, 0)
+                                                 , ...)
     
+    title(main = title)
+    if (!identical(show.legend.direction, FALSE)) {
+      legend(show.legend.direction, legend=c("Positive relationship", "Negative relationship"), 
+             col=c("blue", "red"), lty=c(1, 2))
+    }
     
-  getFromNamespace("plot.igraph", ns="igraph")(graph, 
-             edge.width = 1 + 4*(w-min(w))/(max(w)-min(w)), 
-              edge.color = sapply(strsplit(attributes(E(graph))$vnames, "\\|"), 
-                   FUN=function(k) ifelse(matrix[k[1], k[2]]>0, "blue", "red")), 
-              vertex.label = vertex.label, 
-              vertex.color = vertex.color, 
-              vertex.size = 1,
-              edge.lty = sapply(strsplit(attributes(E(graph))$vnames, "\\|"), 
-                   FUN=function(k) ifelse(matrix[k[1], k[2]]>0, 1, 2)), 
-              vertex.frame.color = NA, 
-              vertex.label.color = vertex.label.color, 
-              ..., 
-              margin=c(0, 0, 0, 0))
-  
-  title(main = title)
-  if (!identical(show.legend.direction, FALSE)) {
-  legend(show.legend.direction, legend=c("Positive relationship", "Negative relationship"), 
-         col=c("blue", "red"), lty=c(1, 2))
+    if (!identical(show.legend.strength, FALSE)) {
+      if (length(w) <= 1) {
+        legend(show.legend.strength, title="Correlation coefficient",
+               legend=specify_decimal(w), 
+               lty=1, 
+               lwd=1)
+      } else {
+        ml <- round(max(w)+0.1, 1)
+        if (ml>1) ml <- 1
+        legend(show.legend.strength, title="Correlation coefficient",
+               legend=as.character(seq(from=round(threshold, 1), to=ml, by=0.1)), 
+               lty=1, 
+               lwd=1+4*(seq(from=round(threshold, 1), to=ml, by=0.1)-min(w))/
+                 (max(w)-min(w)))
+      }
+    }
   }
   
-  if (!identical(show.legend.strength, FALSE)) {
-  legend(show.legend.strength, title="Correlation coefficient",
-         legend=as.character(seq(from=floor(threshold*10)/10, to=1, by=0.1)), 
-         lty=1, 
-         lwd=1+4*(seq(from=floor(threshold*10)/10, to=1, by=0.1)-min(w))/
-           (max(w)-min(w)))
-  }
-  }
-
   return(invisible(graph))
 }

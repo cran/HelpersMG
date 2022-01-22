@@ -18,12 +18,11 @@ search files in disk by there names or their content, \cr
 read the contents of all files from a folder at one time, \cr
 calculate IC50 for ecotoxicological studies, \cr
 calculate the probability mass function of the sum of negative binomial \cr
-distributions.\cr
-The lastest version of this package can always been installed using:\cr
+distributions, calculate distribution of unobserved values in censored or 
+truncated distributions.\cr
+The latest version of this package can always been installed using:\cr
 install.packages("http://max2.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
 repos=NULL, type="source")
-\if{html}{\figure{TB.png}{options: alt="HelpersMG logo", width="200pt", align="right"}}
-\if{latex}{\figure{TB.png}{options: width="200pt"}}
 }
 \details{
 Helpers functions for several packages
@@ -31,8 +30,8 @@ Helpers functions for several packages
 \tabular{ll}{
  Package: \tab HelpersMG\cr
  Type: \tab Package\cr
- Version: \tab 4.8 build 693\cr
- Date: \tab 2021-10-13\cr
+ Version: \tab 5.0 build 1158\cr
+ Date: \tab 2022-01-21\cr
  License: \tab GPL (>= 2)\cr
  LazyLoad: \tab yes\cr
  }

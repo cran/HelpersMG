@@ -10,12 +10,15 @@
 #' @param thin Interval for thinning likelihoods
 #' @param trace Or FALSE or period to show progress
 #' @param traceML TRUE or FALSE to show ML
+#' @param progress.bar.ini The command to initialize progress bar
+#' @param progress.bar The command to run the progress bar
 #' @param intermediate Or NULL of period to save intermediate result
 #' @param filename Name of file in which intermediate results are saved
 #' @param adaptive Should an adaptive process for SDProp be used
 #' @param adaptive.lag  Lag to analyze the SDProp value in an adaptive context
 #' @param adaptive.fun Function used to change the SDProp
 #' @param previous The content of the file in which intermediate results are saved
+#' @param session The shiny session
 #' @param parameters_name The name of the parameters in the likelihood function, default is "x"
 #' @param ... Parameters to be transmitted to likelihood function
 #' @description The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
@@ -132,6 +135,25 @@
 #' par(mar=c(4, 4, 1, 1)+0.4)
 #' plot(1:nrow(mcmc_run$resultMCMC[[1]]), mcmc_run$resultMCMC[[1]][, var], type="l", 
 #'        xlab="Iterations", ylab=var, bty="n", las=1)
+#' # Exemple with a progress bar
+#' 
+#' val <- rnorm(30, 10, 2)
+#' dnormx <- function(data, x) {
+#'  data <- unlist(data)
+#'  return(-sum(dnorm(data, mean=x['mean'], sd=x['sd'], log=TRUE)))
+#' }
+#' parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'), 
+#' Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(0.35, 0.2), 
+#' Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
+#' row.names=c('mean', 'sd'))
+#' # Set up the progress bar
+#' mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=val, 
+#'                       likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=FALSE, 
+#'                        progress.bar.ini=function(n.iter) {
+#'                                  assign("pb", txtProgressBar(min=0, max=n.iter, style=3), 
+#'                                         env = parent.frame())}, 
+#'         progress.bar=function(iter) {setTxtProgressBar(get("pb", envir = parent.frame()), iter)})
+#'  
 #' }
 #' @export
 
@@ -143,10 +165,12 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
                     parameters=stop("Priors  must be supplied"), ..., 
                     n.iter=10000, n.chains = 1, n.adapt = 100, thin=30, 
                     trace=FALSE, traceML=FALSE, 
+                    progress.bar.ini=NULL, 
+                    progress.bar=NULL, 
                     adaptive = FALSE, adaptive.lag = 500, 
                     adaptive.fun = function(x) {ifelse(x>0.234, 1.3, 0.7)},
                     intermediate=NULL, filename="intermediate.Rdata",
-                    previous=NULL)
+                    previous=NULL, session=NULL)
   
 {
   
@@ -156,7 +180,11 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
   
   previousML <- -Inf
   
-  # likelihood=NULL; parameters_name="x"; parameters=NULL; n.iter=10000; n.chains = 1; n.adapt = 100; thin=30; trace=FALSE; traceML=FALSE; intermediate=NULL; filename="intermediate.Rdata"; previous=NULL; adaptive = FALSE; adaptive.lag = 500; adaptive.fun = function(x) {ifelse(x>0.234, 1.3, 0.7)}
+  # likelihood=NULL; parameters_name="x"; parameters=NULL; n.iter=10000; n.chains = 1
+  # n.adapt = 100; thin=30; trace=FALSE; traceML=FALSE; intermediate=NULL; filename="intermediate.Rdata"
+  # previous=NULL; adaptive = FALSE; adaptive.lag = 500; adaptive.fun = function(x) {ifelse(x>0.234, 1.3, 0.7)}
+  # progress.bar.ini=NULL; progress.bar=NULL
+  
   # datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
   
   if (is.null(previous)) {
@@ -211,6 +239,10 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     adaptive.fun <- previous$adaptive.fun
   }
   
+  if (!is.null(progress.bar.ini)) {
+    progress.bar.ini(n.adapt+n.iter)
+  }
+  
   pt <- NULL
   if (t=="TRUE") {pt <- 1;tf <- TRUE}
   if (t=="FALSE") {pt <- 0;tf <- FALSE}
@@ -247,7 +279,6 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
       varp2[cpt, 1:nbvar] <- varp[1, 1:nbvar]
       varp2[cpt, "Ln L"] <- varp[1, "Ln L"]
       cpt <- 2
-      
       
       if (trace) {
         cat(paste("Chain ", kk, ": [", 1, "] ",as.numeric(varp[1, nbvar+1]), "\n", sep=""))
@@ -289,6 +320,11 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
     
     # Itérations
     for (i in deb_i:(n.adapt+n.iter)) {
+      
+      if (!is.null(progress.bar)) {
+        progress.bar(i, session)
+      }
+      
       
       # est-ce que je sauve où j'en suis
       if (!is.null(intermediate))
