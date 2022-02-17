@@ -24,12 +24,16 @@
 #'   }
 #'   mint
 #' }
-#' tp <- system.time({
-#' m <- universalmclapply(X=x, FUN=funx, forking=FALSE)
-#' })
-#' tp <- system.time({
-#' m <- universalmclapply(X=x, FUN=funx, forking=TRUE)
-#' })
+#' # Note that parallel computing is not always the best solution !
+#' (tp <- system.time({
+#'    m <- lapply(X=x, FUN=funx)
+#' }))
+#' (tp <- system.time({
+#'    m <- universalmclapply(X=x, FUN=funx, forking=FALSE)
+#' }))
+#' (tp <- system.time({
+#'    m <- universalmclapply(X=x, FUN=funx, forking=TRUE)
+#' }))
 #' 
 #' ### An example using clusterExport
 #' # Here no error is generated because environment was exported
@@ -74,7 +78,8 @@
 
 #
 
-universalmclapply <- function(X, FUN, ..., mc.cores=parallel::detectCores(), 
+universalmclapply <- function(X, FUN, ..., 
+                              mc.cores=getOption("mc.cores", parallel::detectCores()), 
                               mc.preschedule = TRUE, 
                               clusterExport=list(), 
                               clusterEvalQ=list(), 
@@ -87,7 +92,8 @@ if (forking) {
   if (progressbar & ("pbapply" %in% rownames(installed.packages()))) {
     m <- do.call(pbapply::pblapply, modifyList(list(...), list(X=X, FUN=FUN, cl=mc.cores)))
   } else {
-    m <- do.call(parallel::mclapply, modifyList(list(...), list(X=X, FUN=FUN, mc.cores=mc.cores, 
+    m <- do.call(parallel::mclapply, modifyList(list(...), list(X=X, FUN=FUN, 
+                                                                mc.cores=mc.cores, 
                                         mc.preschedule = mc.preschedule)))
   }
 } else {

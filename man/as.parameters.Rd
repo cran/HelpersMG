@@ -4,7 +4,7 @@
 \alias{as.parameters}
 \title{Extract parameters from mcmcComposite object}
 \usage{
-as.parameters(x, index = "best", chain = 1)
+as.parameters(x, index = "best", chain = 1, probs = 0.025)
 }
 \arguments{
 \item{x}{A mcmcComposite obtained as a result of \code{MHalgoGen()} function}
@@ -12,6 +12,8 @@ as.parameters(x, index = "best", chain = 1)
 \item{index}{At which iteration the parameters must be taken, see description}
 
 \item{chain}{The number of the chain in which to get parameters}
+
+\item{probs}{Quantiles to be returned, see description}
 }
 \value{
 A vector with parameters at maximum likelihood or index position
@@ -21,6 +23,7 @@ Take a mcmcComposite object and create a vector object with parameter value at s
 If \code{index="best"}, the function will return the parameters for the highest likelihood. It also indicates at which iteration the maximum lihelihood has been observed.\cr
 If \code{index="last"}, the function will return the parameters for the last likelihood.\cr
 If \code{index="median"}, the function will return the median value of the parameter.\cr
+if \code{index="quantile"}, the function will return the \code{probs} defined by quantiles parameter.\cr
 If \code{index="mode"}, the function will return the mode value of the parameter based on Asselin de Beauville (1978) method.\cr
 \code{index} can also be a numeric value.\cr
 This function uses the complete iterations available except the adaptation part, 
@@ -82,6 +85,9 @@ mcmc_run3 <- MHalgoGen(n.iter=1000, parameters=parameters_mcmc, data=x,
 as.parameters(mcmc_run3, index="median")
 as.parameters(mcmc_run3, index="mode")
 as.parameters(mcmc_run3, index="best")
+as.parameters(mcmc_run3, index="quantile", probs=0.025)
+as.parameters(mcmc_run3, index="quantile", probs=0.975)
+as.parameters(mcmc_run3, index="quantile", probs=c(0.025, 0.975))
 }
 }
 \references{

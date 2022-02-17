@@ -3,11 +3,13 @@
 #' @return A vector with parameters at maximum likelihood or index position
 #' @param x A mcmcComposite obtained as a result of \code{MHalgoGen()} function
 #' @param index At which iteration the parameters must be taken, see description
+#' @param probs Quantiles to be returned, see description
 #' @param chain The number of the chain in which to get parameters
 #' @description Take a mcmcComposite object and create a vector object with parameter value at specified iteration.\cr
 #' If \code{index="best"}, the function will return the parameters for the highest likelihood. It also indicates at which iteration the maximum lihelihood has been observed.\cr
 #' If \code{index="last"}, the function will return the parameters for the last likelihood.\cr
 #' If \code{index="median"}, the function will return the median value of the parameter.\cr
+#' if \code{index="quantile"}, the function will return the \code{probs} defined by quantiles parameter.\cr
 #' If \code{index="mode"}, the function will return the mode value of the parameter based on Asselin de Beauville (1978) method.\cr
 #' \code{index} can also be a numeric value.\cr
 #' This function uses the complete iterations available except the adaptation part, 
@@ -71,11 +73,14 @@
 #' as.parameters(mcmc_run3, index="median")
 #' as.parameters(mcmc_run3, index="mode")
 #' as.parameters(mcmc_run3, index="best")
+#' as.parameters(mcmc_run3, index="quantile", probs=0.025)
+#' as.parameters(mcmc_run3, index="quantile", probs=0.975)
+#' as.parameters(mcmc_run3, index="quantile", probs=c(0.025, 0.975))
 #' }
 #' @export
 
 
-as.parameters <- function(x, index="best", chain=1) {
+as.parameters <- function(x, index="best", chain=1, probs=0.025) {
   
   p <- x$resultMCMC.total[[chain]]
   if (is.null(p)) p <- x$resultMCMC[[chain]]
@@ -83,6 +88,10 @@ as.parameters <- function(x, index="best", chain=1) {
   if (index == "median") {
     pml <- apply(p, MARGIN=2, FUN = median)
     names(pml) <- colnames(p)
+  } else {
+    if (index=="quantile") {
+      pml <- apply(p, MARGIN=2, FUN = quantile, probs=probs)
+      names(pml) <- colnames(p)
   } else {
     
     if (index == "mode") {
@@ -207,6 +216,7 @@ as.parameters <- function(x, index="best", chain=1) {
       names(pml) <- names(p[pos,])
     }
   }
-  return(pml)
-  
+}
+return(pml)
+
 }

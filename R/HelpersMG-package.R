@@ -3,8 +3,8 @@
 #' \tabular{ll}{
 #'  Package: \tab HelpersMG\cr
 #'  Type: \tab Package\cr
-#'  Version: \tab 5.0 build 1158\cr
-#'  Date: \tab 2022-01-21\cr
+#'  Version: \tab 5.1 build 1166\cr
+#'  Date: \tab 2022-02-17\cr
 #'  License: \tab GPL (>= 2)\cr
 #'  LazyLoad: \tab yes\cr
 #'  }
@@ -30,6 +30,8 @@
 #' The latest version of this package can always been installed using:\cr
 #' install.packages("http://max2.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
 #' repos=NULL, type="source")
+#' \if{html}{\figure{TB.png}{options: alt="HelpersMG logo", align="right"}}
+#' \if{latex}{\figure{TB.png}}
 #' @examples
 #' \dontrun{
 #' library(HelpersMG)
@@ -103,6 +105,13 @@
 #' errbar.y.polygon.list = list(col="grey"))
 #' 
 #' plot_add(x=t[,"time"], y=t[,"temperature"], type="l")
+#' 
+#' # How many times this package has been download
+#' library(cranlogs)
+#' HelpersMG <- cran_downloads("HelpersMG", from = "2015-04-07", 
+#'                             to = Sys.Date() - 1) 
+#' sum(HelpersMG$count)
+#' plot(HelpersMG$date, HelpersMG$count, type="l", bty="n")
 #' }
 
 NULL

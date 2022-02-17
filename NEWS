@@ -1,8 +1,16 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 5.0 (2022-01-21)
+            CHANGES IN VERSION 5.1 (2022-02-17)
+            
+* New CRAN version - 5.1 (2021-01-21)
+
+            CHANGES IN VERSION 5.0-5 (2022-02-10)
             
 * New CRAN version - 5.0 (2021-01-21)
+* Minor change in universalmclapply() to use by default getOption("mc.cores") if it is defined - 5.0-1 (2022-02-01)
+* New option quantile for as.parameters - 5.0-2 (2022-02-10)
+* specify_decimal() keeps the attributes of x - 5.1 (2022-02-17)
+* Minot change for figure in documentation - 5.1 (2022-02-17)
 
             CHANGES IN VERSION 4.9 (2021-11-29)
             
@@ -12,7 +20,7 @@ THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
             CHANGES IN VERSION 4.8-5 (2021-11-29)
             
-* dbeta_new return vakues with shape1, shape2, and ncp attributes - 4.8-1 (2021-10-19)
+* dbeta_new return values with shape1, shape2, and ncp attributes - 4.8-1 (2021-10-19)
 * New function fitdistrquantiles() to fit beta, normal or gamma distribution based on quantiles - 4.8-2 (2021-10-20)
 * New median and mode options to return parameters of mcmcComposite object - 4.8-3 (2021-11-18)
 * New functions for cutter - 4.8-4 & 4.8-5 (2021-11-29)

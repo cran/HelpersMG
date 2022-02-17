@@ -11,7 +11,7 @@ if (!requireNamespace("shinyWidgets", quietly = TRUE)) {
 }
 
 package.HelpersMG <- require('HelpersMG')
-version <- "5.0 build 1158"
+version <- "5.1 build 1166"
 
 
 # Define UI for application that draws a histogram

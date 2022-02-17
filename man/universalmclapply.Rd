@@ -8,7 +8,7 @@ universalmclapply(
   X,
   FUN,
   ...,
-  mc.cores = parallel::detectCores(),
+  mc.cores = getOption("mc.cores", parallel::detectCores()),
   mc.preschedule = TRUE,
   clusterExport = list(),
   clusterEvalQ = list(),
@@ -56,12 +56,16 @@ funx <- function(y) {
   }
   mint
 }
-tp <- system.time({
-m <- universalmclapply(X=x, FUN=funx, forking=FALSE)
-})
-tp <- system.time({
-m <- universalmclapply(X=x, FUN=funx, forking=TRUE)
-})
+# Note that parallel computing is not always the best solution !
+(tp <- system.time({
+   m <- lapply(X=x, FUN=funx)
+}))
+(tp <- system.time({
+   m <- universalmclapply(X=x, FUN=funx, forking=FALSE)
+}))
+(tp <- system.time({
+   m <- universalmclapply(X=x, FUN=funx, forking=TRUE)
+}))
 
 ### An example using clusterExport
 # Here no error is generated because environment was exported

@@ -88,7 +88,7 @@
 #' @export
 
 
-IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object is required")  , 
+IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object is required")     , 
                                 threshold=NULL                                                   , 
                                 use = c("pairwise.complete.obs", "everything", 
                                         "all.obs", "complete.obs", "na.or.complete")             , 
@@ -175,6 +175,7 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
     method <- match.arg(method, choices = c("pearson", "kendall", "spearman"))
     use <- match.arg(use, choices = c("pairwise.complete.obs", "everything", 
                                       "all.obs", "complete.obs", "na.or.complete"))
+    # Là j'ai la matrice des corrélations
     cor_mat <- cor(data, method=method, use=use)
     
     if (use == "pairwise.complete.obs") {
@@ -200,6 +201,7 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
     
     ppp <- p.adjust(ppp, method = correction.multiple.comparisons, 
              n=length(ppp))
+    
     
     for (x in 1:nrow(daf)) {
       p_cor_mat[daf[x, 1], daf[x, 2]] <- ppp[x]
