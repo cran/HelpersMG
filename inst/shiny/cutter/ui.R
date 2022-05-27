@@ -11,7 +11,26 @@ if (!requireNamespace("shinyWidgets", quietly = TRUE)) {
 }
 
 package.HelpersMG <- require('HelpersMG')
-version <- "5.1 build 1166"
+version <- "5.4 build 1246"
+
+splitLayout <- function (..., cellWidths = NULL, cellArgs = list()) 
+{
+  children <- list2(...)
+  childIdx <- !nzchar(names(children) %||% character(length(children)))
+  attribs <- children[!childIdx]
+  children <- children[childIdx]
+  count <- length(children)
+  if (length(cellWidths) == 0 || any(is.na(cellWidths))) {
+    cellWidths <- sprintf("%.3f%%", 100/count)
+  }
+  cellWidths <- rep(cellWidths, length.out = count)
+  cellWidths <- sapply(cellWidths, validateCssUnit)
+  do.call(tags$div, c(list(class = "shiny-split-layout"), attribs, 
+                      mapply(children, cellWidths, FUN = function(x, w) {
+                        do.call(tags$div, c(list(style = sprintf("width: %s;", 
+                                                                 w)), cellArgs, list(x)))
+                      }, SIMPLIFY = FALSE)))
+}
 
 
 # Define UI for application that draws a histogram

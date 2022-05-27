@@ -1,6 +1,6 @@
 #' fitdistrquantiles returns the parameters of beta, normal or gamma distribution
 #' @title Parameters of beta, normal or gamma distribution based on quantiles. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Parameters of beta, normal or gamma distribution based on quantiles.
 #' @param quantiles Vector of quantiles.
 #' @param probs Numeric vector of probabilities with values in [0,1].

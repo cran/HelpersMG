@@ -1,6 +1,6 @@
 #' specify_decimals format a number with specified number of decimals
 #' @title Return a number as character with specified number of decimals
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A character
 #' @param x The numbers to be formated
 #' @param decimals Number of decimals to print

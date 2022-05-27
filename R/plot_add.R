@@ -1,6 +1,6 @@
 #' plot_add adds a plot to a previous one
 #' @title Add a plot to a previous one
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Nothing
 #' @param ... Parameters for plot()
 #' @family plot and barplot functions

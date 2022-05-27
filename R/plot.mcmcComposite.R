@@ -1,6 +1,6 @@
 #' plot.mcmcComposite plots the result of a MCMC search
 #' @title Plot the result of a mcmcComposite object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return None
 #' @param x A mcmcComposite object
 #' @param chain The chain to use

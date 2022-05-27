@@ -7,7 +7,7 @@
 #' 
 # #' @name ggamma
 #' @title Generalized gamma distribution. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @param x,q vector of quantiles.
 #' @param p vector of probabilities.
 #' @param n number of observations.

@@ -1,6 +1,6 @@
 #' tnirp reads an ASCII text representation of a named or not vector object
 #' @title Read an ASCII text representation of a named or not vector object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A vector
 #' @param x A string or a vector of strings with value and possibly names.
 #' @param named TRUE if names are included.

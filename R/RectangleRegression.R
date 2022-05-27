@@ -1,6 +1,6 @@
 #' RectangleRegression performs rectangle regression
 #' @title Return parameters of rectangle regression
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list with parameters of rectangle regression
 #' @param x1 The first series of data
 #' @param x2 The second series of data

@@ -1,6 +1,6 @@
 #' LD50_MHmcmc_p generates set of parameters to be used with LD50_MHmcmc()
 #' @title Generates set of parameters to be used with LD50_MHmcmc()
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A matrix with the parameters
 #' @param result An object obtained after a LD50 fit
 #' @param accept If TRUE, the script does not wait user information

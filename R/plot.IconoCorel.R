@@ -1,6 +1,6 @@
 #' plot.IconoCorel checks and corrects the dataframe to be used with IC_threshold_matrix
 #' @title Clean the dataframe before to be used with IC_threshold_matrix
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A igraph object
 #' @param x The correlation matrix to show
 #' @param show.legend.direction the position of the legend of direction; FALSE to not show it

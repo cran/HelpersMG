@@ -1,6 +1,6 @@
 #' as.mcmc Extract mcmc object from the result of phenology_MHmcmc to be used with coda package
 #' @title Extract mcmc object from a mcmcComposite object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A mcmc.list object
 #' @param x A mcmcComposite obtained as a result of \code{MHalgoGen()} function
 #' @param ... Not used

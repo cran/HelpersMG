@@ -1,6 +1,6 @@
 #' invlogit returns the inverse logit
 #' @title Return the inverse logit
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A value
 #' @param n The value to inverse to get the probability
 #' @description Return the inverse logit.

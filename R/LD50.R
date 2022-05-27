@@ -1,6 +1,6 @@
 #' LD50 estimates the parameters that best describe LD50
 #' @title Estimate the parameters that best describe LD50
-#' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list with the LD50, Transitional Range of Doses and their SE
 #' @param alive A vector with alive individuals at the end of experiment
 #' @param dead A vector with dead individuals at the end of experiment
@@ -80,7 +80,7 @@ LD50 <- function(df=NULL, alive=NULL, dead=NULL, N=NULL,
   range.CI.qnorm <- qnorm(1-((1-range.CI)/2))
   
   if (!is.null(df)) {
-    if (class(df)!="data.frame" & class(df)!="matrix") {
+    if ((!inherits(df, "data.frame")) & (!inherits(df, "matrix"))) {
       stop("df parameter must be a data.frame or a matrix")
     }
     
@@ -339,7 +339,8 @@ LD50 <- function(df=NULL, alive=NULL, dead=NULL, N=NULL,
     print(paste("The higher limit of transitional range of doses is", sprintf("%.3f",result$TRD_limits[2]), "SE", sprintf("%.3f",result$SE_TRD_limits[2])))
   }
   
-  class(result) <- "LD50"
+  result <- addS3Class(result, "LD50")
+  
   return(invisible(result))
 }
 

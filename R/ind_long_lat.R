@@ -1,6 +1,6 @@
 #' ind_long_lat is used to manage ncdf information
 #' @title Return or the index in ncdf object from lat/longitude or inverse
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Or the index in ncdf object from lat/longitude or inverse
 #' @param ncdf An object read from package ncdf4, ncdf or RNetCDF
 #' @param long Longitude in decimal format
@@ -44,7 +44,7 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied") ,
 {
   maxindicelt <- NULL
   maxindicelg <- NULL
-  # if (class(ncdf) == "ncdf4") {
+  # if (inherits(ncdf, "ncdf4")) {
   #   if (!requireNamespace("ncdf", quietly = TRUE)) {
   #     stop("ncdf package is necessary for this function")
   #   }
@@ -57,7 +57,7 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied") ,
   #   maxlg <- lg[maxindicelg]
   #   minlg <- lg[1]
   # }
-  if (any(class(ncdf) == "ncdf4")) {
+  if (inherits(ncdf, "ncdf4")) {
     if (!requireNamespace("ncdf4", quietly = TRUE)) {
       stop("ncdf4 package is necessary for this function")
     }
@@ -70,7 +70,7 @@ ind_long_lat <- function (ncdf = stop("The ncdf data must be supplied") ,
     maxlg <- lg[maxindicelg]
     minlg <- lg[1]
   }
-  if (any(class(ncdf) == "NetCDF")) {
+  if (inherits(ncdf, "NetCDF")) {
     if (!requireNamespace("RNetCDF", quietly = TRUE)) {
       stop("RNetCDF package is necessary for this function")
     }

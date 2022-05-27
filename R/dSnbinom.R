@@ -1,6 +1,6 @@
 #' dSnbinom returns the density for the sum of random variable with negative binomial distributions
 #' @title Density for the sum of random variable with negative binomial distributions. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @references Furman, E., 2007. On the convolution of the negative binomial random variables. Statistics & Probability Letters 77, 169-172.
 #' @return dSnbinom gives the density
 #' @param x vector of (non-negative integer) quantiles.

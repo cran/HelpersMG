@@ -1,6 +1,6 @@
 #' format_ncdf is used extract information from ncdf file
 #' @title Return an array with ncdf data
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list with two element: data is an array and time is the POSIX.lt time
 #' @param ncdf An object read from package ncdf4 or a file name of ncdf file
 #' @param label.latitude Label of latitude
@@ -47,11 +47,11 @@ format_ncdf <- function(ncdf                         ,
   if (
     (
       (
-        any(class(ncdf) == "ncdf4") 
+        inherits(ncdf, "ncdf4") 
       ) | 
       ( 
         (
-          any(class(ncdf) == "character")
+          inherits(ncdf, "character")
         ) & (
           package == "ncdf4"
         ) 
@@ -64,11 +64,11 @@ format_ncdf <- function(ncdf                         ,
   if (
     (
       (
-        any(class(ncdf) == "NetCDF") 
+        inherits(ncdf, "NetCDF") 
       ) | 
       ( 
         (
-          any(class(ncdf) == "character")
+          inherits(ncdf, "character")
         ) & (
           package == "RNetCDF"
         ) 
@@ -79,7 +79,7 @@ format_ncdf <- function(ncdf                         ,
   }
   
   # library("ncdf4")
-  if (any(class(ncdf) == "character")) {
+  if (inherits(ncdf, "character")) {
     if (package == "ncdf4") {
       ncdf <- getFromNamespace("nc_open", ns="ncdf4")(ncdf)
     } else {
@@ -87,7 +87,7 @@ format_ncdf <- function(ncdf                         ,
     }
   }
   
-  if (any(class(ncdf) == "ncdf4")) {
+  if (inherits(ncdf, "ncdf4")) {
     vr <- names(ncdf$var)
     dm <- names(ncdf$dim)
   } else {
@@ -136,7 +136,7 @@ format_ncdf <- function(ncdf                         ,
   } else {
     start_lg <- 1
     start_lt <- 1  
-    if (any(class(ncdf) == "ncdf4")) {
+    if (inherits(ncdf, "ncdf4")) {
       count_lg <- ncdf$dim[[label.longitude]]$len
       count_lt <- ncdf$dim[[label.latitude]]$len
     } else {
@@ -149,7 +149,7 @@ format_ncdf <- function(ncdf                         ,
   if ((!is.null(label.time)) | (!bathy)) {
     
     
-    if (any(class(ncdf) == "ncdf4")) {
+    if (inherits(ncdf, "ncdf4")) {
       
       start <- NULL
       count <- NULL
@@ -273,7 +273,7 @@ format_ncdf <- function(ncdf                         ,
     
     
     
-    if (any(class(ncdf) == "ncdf4")) {
+    if (inherits(ncdf, "ncdf4")) {
       
       carte2D <- getFromNamespace("ncvar_get", ns="ncdf4")(ncdf, varid=varid, 
                                                            start=c(start_lg, start_lt), 
@@ -321,7 +321,7 @@ format_ncdf <- function(ncdf                         ,
     
     dimnames(c2d) <- dnames
     
-    if (bathy) class(c2d) <- "bathy"
+    if (bathy) c2d <- addS3Class(c2d, "bathy")
     
     return(c2d)
   }

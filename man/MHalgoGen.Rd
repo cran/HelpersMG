@@ -19,7 +19,9 @@ MHalgoGen(
   progress.bar = NULL,
   adaptive = FALSE,
   adaptive.lag = 500,
-  adaptive.fun = function(x) {     ifelse(x > 0.234, 1.3, 0.7) },
+  adaptive.fun = function(x) {
+     ifelse(x > 0.234, 1.3, 0.7)
+ },
   intermediate = NULL,
   filename = "intermediate.Rdata",
   previous = NULL,
@@ -213,10 +215,12 @@ Other mcmcComposite functions:
 \code{\link{as.parameters}()},
 \code{\link{as.quantiles}()},
 \code{\link{merge.mcmcComposite}()},
+\code{\link{plot.PriorsmcmcComposite}()},
 \code{\link{plot.mcmcComposite}()},
+\code{\link{setPriors}()},
 \code{\link{summary.mcmcComposite}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{mcmcComposite functions}

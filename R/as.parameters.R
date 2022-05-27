@@ -1,5 +1,5 @@
 #' @title Extract parameters from mcmcComposite object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A vector with parameters at maximum likelihood or index position
 #' @param x A mcmcComposite obtained as a result of \code{MHalgoGen()} function
 #' @param index At which iteration the parameters must be taken, see description

@@ -59,6 +59,6 @@ Other Results Managment:
 \code{\link{RM_get}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Results Managment}

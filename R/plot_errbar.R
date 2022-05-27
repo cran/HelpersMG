@@ -1,7 +1,7 @@
 #' plot_errbar plot a xy graph with error bar on x and/or y
 #' @title Plot a xy graph with error bar on x and/or y
-#' @author Marc Girondot
-#' @return Nothing
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
+#' @return A list with x, y and names for points
 #' @param ... Parameters for plot() such as main= or ylim=
 #' @param errbar.x The length of error bars for x. Recycled if necessary.
 #' @param errbar.x.plus The length of positive error bars for x. Recycled if necessary.

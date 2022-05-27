@@ -87,6 +87,6 @@ Other logit:
 \code{\link{logit}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{logit}

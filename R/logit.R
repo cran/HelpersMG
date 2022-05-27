@@ -1,6 +1,6 @@
 #' logit returns the logit
 #' @title Return the logit
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A value
 #' @param p The probability
 #' @description Return the logit.

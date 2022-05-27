@@ -1,6 +1,6 @@
 #' sun.info estimate the time of sunrise and sunset according to longitude, latitude and date
 #' @title Estimate the time of sunrise and sunset according to longitude, latitude and date
-#' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A data.frame with information about daily sun
 #' @param latitude The latitude at which estimate the sun fates
 #' @param longitude The longitude at which estimate the sun fates

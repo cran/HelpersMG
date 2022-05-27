@@ -1,10 +1,10 @@
-#' inside.search Search a string within files of a folder
+#' inside Search a string within files of a folder
 #' @title Search a string within files of a folder
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Return an invisible vector with filenames in which the pattern occurs
+#' @param text Text to search in files
 #' @param path Path of the folder to search in
 #' @param pattern Pattern for file names to search in
-#' @param text Text to search in files
 #' @param showallfilenames logical. Show all the filenames search for in
 #' @param fixed logical. If TRUE, pattern is a string to be matched as is. Overrides all conflicting arguments (see gsub)
 #' @param ignore.case logical. if FALSE, the pattern matching for text is case sensitive and if TRUE, case is ignored during matching.
@@ -15,14 +15,15 @@
 #' \dontrun{
 #' library(HelpersMG)
 #' # Search for files in path with names based on pattern that have the string search inside.
-#' inside.search(path=".", pattern="*\\.R$", search="embryogrowth")
+#' inside("embryogrowth", path=".", pattern="*\\.R$")
 #' }
 #' @export
 
 
-inside.search <- function(path=".", pattern="*\\.R$", showallfilenames=FALSE, ..., 
-                          fixed=TRUE, ignore.case = FALSE, 
-                         text=stop("A text to be searched for is necessary")) {
+inside <- function(text=stop("A text to be searched for is necessary"), 
+                   path=".", pattern="*\\.R$", showallfilenames=FALSE, 
+                   ..., 
+                   fixed=TRUE, ignore.case = FALSE) {
   
   ls <- list.files(path=path, pattern=pattern)
   if (identical(ls, character(0))) {
@@ -33,7 +34,7 @@ inside.search <- function(path=".", pattern="*\\.R$", showallfilenames=FALSE, ..
   filesok <- NULL
   
   for (f in ls) {
- 
+    
     fc <- readLines(con = file.path(path, f), ...)
     x <- gsub(pattern=text, replacement="", x=fc, fixed=fixed, ignore.case = ignore.case)
     if (any(x != fc)) {

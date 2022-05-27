@@ -36,5 +36,5 @@ similar(A, B, test.names=TRUE)
 }
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

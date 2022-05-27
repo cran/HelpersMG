@@ -1,6 +1,6 @@
 #' minmax.periodic search for minimum and maximum indices (temperatures or levels) in periodic timeseries
 #' @title Search for minimum and maximum indices in periodic timeseries
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A data.frame with a column time, a column index and a column SD
 #' @param time.minmax.daily A named vector with Min and Max being the time in the day with minimum and maximum indices (temperature or level)
 #' @param time.minmax A named vector daily with time in the day at which minimum and maximum indices are observed

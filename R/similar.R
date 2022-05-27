@@ -1,5 +1,5 @@
 #' @title Test if two vectors contains the same elements independently of their order
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A logical TRUE or FALSE
 #' @param x A vector with numeric or character elements 
 #' @param y A vector with numeric or character elements

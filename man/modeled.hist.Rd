@@ -46,5 +46,5 @@ lines(s$x, s$y)
 }
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

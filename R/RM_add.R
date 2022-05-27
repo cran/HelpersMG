@@ -1,6 +1,6 @@
 #' RM_add adds a results managment or a value in results managment to an object
 #' @title Create a results managment or add a value in a results managment to an object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return The original object with a new value in a results managment object or a new results managment
 #' @param x The object to add a results managment or a result in a results managment
 #' @param RM The name of results managment stored

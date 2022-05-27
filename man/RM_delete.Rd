@@ -61,6 +61,6 @@ Other Results Managment:
 \code{\link{RM_list}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Results Managment}

@@ -1,6 +1,6 @@
 #' symbol.Female plot a female symbol in the plotting region
 #' @title Plot a female symbol in the plotting region
-#' @author  Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Nothing
 #' @param centerx The x position of the center of the circle
 #' @param centery The y position of the center of the circle

@@ -73,5 +73,5 @@ Edwards, A.W.F., 1971. Distances between populations on the basis of gene freque
 Shannon C.E. 1948 A mathematical theory of communication. Bell System Technical Journal 27(3), 379-423.\cr
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

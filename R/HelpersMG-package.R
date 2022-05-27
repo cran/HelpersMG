@@ -3,8 +3,8 @@
 #' \tabular{ll}{
 #'  Package: \tab HelpersMG\cr
 #'  Type: \tab Package\cr
-#'  Version: \tab 5.1 build 1166\cr
-#'  Date: \tab 2022-02-17\cr
+#'  Version: \tab 5.4 build 1246\cr
+#'  Date: \tab 2022-05-27\cr
 #'  License: \tab GPL (>= 2)\cr
 #'  LazyLoad: \tab yes\cr
 #'  }
@@ -28,7 +28,7 @@
 #' distributions, calculate distribution of unobserved values in censored or 
 #' truncated distributions.\cr
 #' The latest version of this package can always been installed using:\cr
-#' install.packages("http://max2.ese.u-psud.fr/epc/conservation/CRAN/HelpersMG.tar.gz", 
+#' install.packages("https://hebergement.universite-paris-saclay.fr/marcgirondot/CRAN/HelpersMG.tar.gz", 
 #' repos=NULL, type="source")
 #' \if{html}{\figure{TB.png}{options: alt="HelpersMG logo", align="right"}}
 #' \if{latex}{\figure{TB.png}}

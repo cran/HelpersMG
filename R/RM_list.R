@@ -1,6 +1,6 @@
 #' RM_list returns the list of results managment of an object
 #' @title Return the list of results managment of an object.
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list with the names of results stored in an object
 #' @param x The object to add a results managment
 #' @param RM The name of results managment stored

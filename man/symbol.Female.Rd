@@ -57,6 +57,6 @@ Other Symbol:
 \code{\link{symbol.Male}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Symbol}

@@ -1,6 +1,6 @@
 #' modeled.hist returns the theoretical value for the histogram bar based on a model of distribution.
 #' @title Return the theoretical value for the histogram bar
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list with x (the center of the bar) and y components
 #' @param breaks Vector with the breaks; it can be obtained directly from hist()
 #' @param FUN Function to be used to integrate the density, ex. pnorm

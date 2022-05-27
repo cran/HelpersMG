@@ -1,6 +1,6 @@
 #' RM_get gets a value in results managment to an object
 #' @title Get a value in a results managment to an object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Return a value in a results managment object
 #' @param x The object in which to get a result in a results managment
 #' @param RM The name of results managment stored

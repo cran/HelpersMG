@@ -1,6 +1,6 @@
 #' moon.info calculates the moon phase based on a date.
 #' @title Moon phase based on a date
-#' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Return a value describing the moon phase:\cr
 #' 0 and 100 are full moon, 50 is new moon, 25 last quarter and 75 first quater
 #' @param date A date in class Date. By default, it will use today date

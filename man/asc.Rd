@@ -24,7 +24,7 @@ asc("ABCD")
 }
 \seealso{
 Other Characters: 
-\code{\link{chr}()},
+\code{\link{char}()},
 \code{\link{d}()},
 \code{\link{tnirp}()}
 }

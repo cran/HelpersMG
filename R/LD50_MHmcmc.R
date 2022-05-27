@@ -1,6 +1,6 @@
 #' LD50_MHmcmc runs the Metropolis-Hastings algorithm for LD50 (Bayesian MCMC)
 #' @title Metropolis-Hastings algorithm for LD50
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list with resultMCMC being mcmc.list object, resultLnL being likelihoods and parametersMCMC being the parameters used
 #' @param n.iter Number of iterations for each step
 #' @param parametersMCMC A set of parameters used as initial point for searching with information on priors
@@ -118,11 +118,12 @@ LD50_MHmcmc <- function(result=stop("A result of LD50() fit must be provided"), 
     out <- c(out, BatchSE=list(coda::batchSE(out$resultMCMC, batchSize=batchSize)))
   }
   
-  class(out) <- "mcmcComposite"
+  # pas clair si c'est utile
+  out <- addS3Class(out, "mcmcComposite")
   
   fin <- try(summary(out), silent=TRUE)
   
-  if (class(fin)=="try-error") {
+  if (inherits(fin, "try-error")) {
     lp <- rep(NA, nrow(out$parametersMCMC$parameters))
     names(lp) <- rownames(out$parametersMCMC$parameters)
     out <- c(out, TimeSeriesSE=list(lp))
@@ -132,7 +133,7 @@ LD50_MHmcmc <- function(result=stop("A result of LD50() fit must be provided"), 
     out <- c(out, SD=list(fin$statistics[,"SD"]))
   }
   
-  class(out) <- "mcmcComposite"
+  out <- addS3Class(out, "mcmcComposite")
   
   return(out)
                         }

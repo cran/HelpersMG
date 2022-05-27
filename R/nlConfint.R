@@ -84,7 +84,7 @@
   for (i in 1L:r) {
     fli <- as.formula(paste("~", ltext[i]))
     z = try(deriv(as.formula(fli), namess), silent = T)
-    if (any(class(z) == "try-error")) {
+    if (inherits(z, "try-error")) {
       tei = as.character(i)
       tri2 = ", numerical derivatives were used in delta-method"
       wate = paste0("Note: For function ", i, tri2)

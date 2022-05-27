@@ -1,6 +1,6 @@
 #' rSnbinom returns random numbers for the sum of random variable with negative binomial distributions
 #' @title Random generation for the sum of random variable with negative binomial distributions. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return rSnbinom returns random number
 #' @param n number of observations.
 #' @param size target for number of successful trials, or dispersion parameter (the shape parameter of the gamma mixing distribution). Must be strictly positive, need not be integer.
@@ -49,7 +49,7 @@ rSnbinom <- function(n=1,
   
   rl <- apply(m, MARGIN=2, function(i) rnbinom(n, size=size[i], prob=prob[i]))
   
-  if (class(rl)=="integer") rl <- as.data.frame(matrix(rl, nrow=1))
+  if (inherits(rl, "integer")) rl <- as.data.frame(matrix(rl, nrow=1))
   
   return(apply(rl, MARGIN=1, sum))
 }

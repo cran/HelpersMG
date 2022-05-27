@@ -1,6 +1,6 @@
 #' DIx returns an index of quantitative asymmetry and complexity
 #' @title Return an index of quantitative asymmetry and complexity named Developmental Instability Index (DIx)
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A numeric value
 #' @param l1 Set of measures at one side of an organism
 #' @param l2 Set of measures at the other side of an organism

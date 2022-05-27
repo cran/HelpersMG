@@ -136,5 +136,5 @@ ellipse(binconf.x = data.frame(x=males, n=N), binconf.y = data.frame(x=males2, n
 
 }
 \author{
-marc.girondot@u-psud.fr
+Marc Girondot \email{marc.girondot@gmail.com}
 }

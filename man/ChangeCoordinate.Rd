@@ -30,5 +30,5 @@ ChangeCoordinate returns a value in a changed coordinate
 ChangeCoordinate(x=c(10, 20), initial=c(1, 100), transformed=c(0, 1))
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

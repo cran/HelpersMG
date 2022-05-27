@@ -1,6 +1,6 @@
 #' RandomFromHessianOrMCMC returns random numbers based on Hessian matrix or MCMC
 #' @title Random numbers based on Hessian matrix or MCMC
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Returns a list with three data.frames named random, fn, and quantiles
 #' @param Hessian An Hessian matrix
 #' @param se A named vector with SE of parameters
@@ -147,11 +147,11 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
     
     sigma  <- try(solve(Hessian), silent=TRUE)
     # Add all: 22/4/2020; any !
-    if (any(class(sigma) == "try-error")) {
+    if (inherits(sigma, "try-error")) {
       if (!silent) warning("Error in Hessian matrix inversion")
-      Hessianx <- try(as.matrix(nearPD(Hessian)$mat), silent=TRUE)
+      Hessianx <- try(as.matrix(getFromNamespace("nearPD", ns="Matrix")(Hessian)$mat), silent=TRUE)
       # 29/1/2021
-      if (any(class(Hessianx) == "try-error")) {
+      if (inherits(Hessianx, "try-error")) {
         if (!silent) warning("Error in estimation of the Nearest Positive Definite Matrix. Calculates the Moore-Penrose generalized inverse. Use result with caution.")
         sigma  <- try(ginv(Hessian), silent=TRUE)
       } else {
@@ -160,7 +160,7 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
       }
     } 
     
-    if (all(class(sigma) != "try-error")) {
+    if (!inherits(sigma, "try-error")) {
       if (!silent) cat("Estimation using variance-covariance matrix\n")
       df_random <- matrix(data=NA, nrow=1, ncol=nrow(Hessian))
       df_random <- as.data.frame(df_random[-1, ])

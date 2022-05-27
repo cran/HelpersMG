@@ -119,6 +119,6 @@ Other LD50 functions:
 \code{\link{predict.LD50}()}
 }
 \author{
-Marc Girondot \email{marc.girondot@u-psud.fr}
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{LD50 functions}

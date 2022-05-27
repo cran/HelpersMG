@@ -62,10 +62,12 @@ Other mcmcComposite functions:
 \code{\link{as.mcmc.mcmcComposite}()},
 \code{\link{as.parameters}()},
 \code{\link{merge.mcmcComposite}()},
+\code{\link{plot.PriorsmcmcComposite}()},
 \code{\link{plot.mcmcComposite}()},
+\code{\link{setPriors}()},
 \code{\link{summary.mcmcComposite}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{mcmcComposite functions}

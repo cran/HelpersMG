@@ -1,6 +1,6 @@
 #' MovingWindow returns a moving average of a vector.
 #' @title Return a moving average of a vector.
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A vector
 #' @param x The vector to analyze
 #' @param window The window size

@@ -1,6 +1,6 @@
 #' rnbinom_new returns random numbers for the negative binomial distribution
 #' @title Random numbers for the negative binomial distribution. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Random numbers for the negative binomial distribution
 #' @param n number of observations.
 #' @param size target for number of successful trials, or dispersion parameter (the shape parameter of the gamma mixing distribution). Must be strictly positive, need not be integer.
@@ -8,7 +8,7 @@
 #' @param mu alternative parametrization via mean.
 #' @param sd alternative parametrization via standard deviation.
 #' @param var alternative parametrization via variance.
-#' @description See \code{rbinom}.
+#' @description See \code{rnbinom}.
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")
@@ -60,7 +60,7 @@ rnbinom_new <- function(n, size=NULL, prob=NULL, mu=NULL, sd=NULL, var=NULL) {
   
   if (!is.null(sd) & !is.null(var)) if (var != sd^2) {
     warning("sd and var are incompatible.")
-    return(NA)
+    return(rep(NA, n))
   }
   # # prob = size/(size+mu)
   # if (is.null(size) & !is.null(prob) & !is.null(mu)) size <- (prob * mu) / (1- prob)
@@ -118,7 +118,7 @@ rnbinom_new <- function(n, size=NULL, prob=NULL, mu=NULL, sd=NULL, var=NULL) {
     delta <- B^2-4*A*C
     if (delta < 0) {
       warning("mu cannot be negative nor mu > var")
-      return(NA)
+      return(rep(NA, n))
     }
     m1 <- (-B+sqrt(delta))/(2*A)
     m2 <- (-B-sqrt(delta))/(2*A)
@@ -131,12 +131,12 @@ rnbinom_new <- function(n, size=NULL, prob=NULL, mu=NULL, sd=NULL, var=NULL) {
   
   if (is.null(size) | is.null(mu)) {
     warning("Not enough information were provided.")
-    return(NA)
+    return(rep(NA, n))
   }
 
   if (size < 0) {
     warning("size cannot be negative nor mu > var")
-    return(NA)
+    return(rep(NA, n))
   } else {
     return(rnbinom(n=n, size=size, mu=mu))
   }

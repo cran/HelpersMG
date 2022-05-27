@@ -66,6 +66,6 @@ Other AIC:
 \code{\link{compare_AIC}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{AIC}

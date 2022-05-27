@@ -1,6 +1,6 @@
 #' dbeta_new returns the density for the Beta distributions
 #' @title Density for the Beta distributions. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return dbeta_new gives the density for the Beta distributions
 #' @param x vector of quantiles.
 #' @param mu mean of the Beta distribution.

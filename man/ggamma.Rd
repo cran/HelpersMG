@@ -88,6 +88,6 @@ Other Distributions:
 \code{\link{rcutter}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Distributions}

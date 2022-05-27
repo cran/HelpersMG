@@ -1,6 +1,6 @@
 #' ellipse plots an ellipse
 #' @title Plot an ellipse
-#' @author marc.girondot@@u-psud.fr
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Nothing
 #' @param center.x Center of the ellipse on x axis
 #' @param center.y Center of the ellipse on y axis
@@ -108,7 +108,7 @@ ellipse <- function(center.x = 0, center.y = 0,
   p3p <- list(...)
   
   if (!is.null(binconf.x)) {
-    if ((class(binconf.x)=="binconf") | (ncol(binconf.x) == 3)) {
+    if ((inherits(binconf.x, "binconf")) | (ncol(binconf.x) == 3)) {
       bc.x <- binconf.x
     } else {
       control.binconf.x <- modifyList(c(control.binconf, list(x=binconf.x[, "x"]), 
@@ -123,7 +123,7 @@ ellipse <- function(center.x = 0, center.y = 0,
   }
   
   if (!is.null(binconf.y)) {
-    if ((class(binconf.y)=="binconf") | (ncol(binconf.y) == 3))  {
+    if ((inherits(binconf.y, "binconf")) | (ncol(binconf.y) == 3))  {
       bc.y <- binconf.y
     } else {
       control.binconf.y <- modifyList(c(control.binconf, list(x=binconf.y[, "x"]), 

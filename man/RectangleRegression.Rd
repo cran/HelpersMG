@@ -47,6 +47,6 @@ abline(a=rectreg$Intercept[3], b=rectreg$Slope[1], col="red")
 
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Rectangle Regression}

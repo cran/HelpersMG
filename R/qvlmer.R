@@ -1,6 +1,6 @@
 #' qvlmer is Quasi Variances for lmer Model Coefficients
 #' @title Quasi Variances for lmer Model Coefficients
-#' @author marc.girondot@@u-psud.fr
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list of class qv.
 #' @param object A object obtained using lmer from package lme4
 #' @param factorname Either NULL, or a character vector of length 1

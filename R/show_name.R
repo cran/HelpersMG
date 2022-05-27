@@ -1,6 +1,6 @@
 #' Show the name of a point
 #' @title Show the name of a point
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Name of the point
 #' @param points A list with x, y and names elements
 #' @param x The x coordinates

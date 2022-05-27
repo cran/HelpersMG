@@ -1,6 +1,6 @@
 #' qSnbinom returns the quantile function for the sum of random variable with negative binomial distributions
 #' @title Quantile function for the sum of random variable with negative binomial distributions. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return qSnbinom returns quantile function
 #' @param p vector of probabilities.
 #' @param size target for number of successful trials, or dispersion parameter (the shape parameter of the gamma mixing distribution). Must be strictly positive, need not be integer.

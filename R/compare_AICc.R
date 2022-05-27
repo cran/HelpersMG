@@ -1,6 +1,6 @@
 #' compare_AICc compares the AICc of several outputs obtained with the same data.
 #' @title Compares the AICc of several outputs
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list with DeltaAICc and Akaike weight for the models.
 #' @param ... Successive results to be compared as lists.
 #' @param factor.value The $value of the list object is multiplied by factor.value to calculate BIC.
@@ -74,8 +74,9 @@ compare_AICc <- function(..., factor.value=-1, silent=FALSE,
           if (!is.null(encours[[1]]$AICc)) {
             aicc <- c(aicc, encours[[1]]$AICc)
           } else {
-          
-          t <- (class(try(logLik(encours[[1]]), silent=TRUE))=="try-error")
+            
+            aaec <- try(logLik(encours[[1]]), silent=TRUE)
+           t <- (inherits(aaec, "try-error"))
           if (t) encours <- encours[[1]]
           
           sumL <- 0
@@ -84,7 +85,8 @@ compare_AICc <- function(..., factor.value=-1, silent=FALSE,
 
           for (j in 1:length(encours)) {
             encours2 <- encours[[j]]
-            t <- (class(try(logLik(encours2), silent=TRUE))=="try-error")
+            aaec <- try(logLik(encours2), silent=TRUE)
+            t <- (inherits(aaec, "try-error"))
             if (t) {
               stop(paste("Object", name[i], "has not the required format"))
             }

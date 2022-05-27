@@ -67,5 +67,5 @@ rd10000 <- rnorm(10000, mean = best["mean"], sd = best["sd"])
 quantile(rd10000, probs=c(0.025, 0.5, 0.975))
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

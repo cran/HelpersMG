@@ -1,6 +1,6 @@
 #' ScalePreviousPlot returns the scale of the previous plot
 #' @title Return the scale of the previous plot
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list with xlim and ylim
 #' @param x The position in x as relative position
 #' @param y The position in y as relative position

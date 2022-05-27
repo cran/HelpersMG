@@ -11,7 +11,7 @@ symmetricize(
 )
 }
 \arguments{
-\item{matrix}{The matrix to make symmatric}
+\item{matrix}{The matrix to make symmetric}
 
 \item{method}{The method to use to make the matrix symmetric. Default is to take the maximum. 
 \itemize{

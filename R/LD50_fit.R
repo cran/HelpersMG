@@ -12,7 +12,7 @@
 }
 
 .modelLD50 <- function(par, doses, equation="logistic") {
-#  if (class(par)=="data.frame") par <- na.omit(t(par))[,1]
+#  if (inherits(par, "data.frame")) par <- na.omit(t(par))[,1]
 #  names(parx) <- colnames(par)
 #  par <- parx
   # embryogrowth:::.modelTSD(par, doses, equation)

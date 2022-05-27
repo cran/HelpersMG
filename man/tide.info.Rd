@@ -9,7 +9,7 @@ tide.info(
   year = 2021,
   longitude = NULL,
   latitude = NULL,
-  tz = NULL
+  force.tide.height = TRUE
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ tide.info(
 
 \item{latitude}{Latitude to search for}
 
-\item{tz}{The time zone to format the local time}
+\item{force.tide.height}{If FALSE, can return a current speed rather than tide height}
 }
 \value{
 Return a data.frame with annual tide calendar.
@@ -41,7 +41,7 @@ tide.info gets the annual tide calendar for one particular location.
 library("HelpersMG")
 Location <- "Les Hattes"
 Year <- 2010
-tide <- tide.info(Location, Year, tz="America/Cayenne")
+tide <- tide.info(Location, Year)
 plot(tide[, "DateTime.local"], tide[, "Tide.meter"], 
      type="l", bty="n", las=1, 
      main=tide[1, "Location"], 
@@ -86,6 +86,20 @@ plot(tikei_tide[, "DateTime.local"], tikei_tide[, "Tide.meter"],
      type="l", bty="n", las=1, 
      main=tikei_tide[1, "Location"], 
      xlab=as.character(Year), ylab="Tide level in meter")
+## Another one
+tikei_lon <- (-75.56861111)
+tikei_lat <- 39.50083333
+Year <- 2012
+tikei_tide <- tide.info(year=Year, longitude=tikei_lon, latitude=tikei_lat)
+
+library(mapdata)
+map('worldHires', xlim=c(-77, -74), ylim=c(37, 40))
+points(x=tikei_lon, y=tikei_lat, pch=19, col="red", cex=1)
+points(x=tikei_tide$Longitude[1], y=tikei_tide$Latitude[2], 
+       pch=19, col="blue", cex=1)
+
+par(mar=c(4, 4, 2, 2))
+plot(tikei_tide$DateTime.local, tikei_tide$Tide.meter, type="l")
 }
 }
 \seealso{

@@ -1,6 +1,6 @@
 #' series.compare compares series of data using Akaike weight.
 #' @title Data series comparison using Akaike weight
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return The probability that a single proportion model is sufficient to explain the data
 #' @param ... Series of data (at least two or data are in a table with series in different rows)
 #' @param criterion Which criterion is used for model selection. can be AIC, AICc or BIC

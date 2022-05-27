@@ -39,7 +39,8 @@ universalmclapply(
 The results of the function FUN applied to X
 }
 \description{
-Return the results of the function FUN applied to X. It uses forking in unix system and not in windows system.
+Return the results of the function FUN applied to X. It uses forking in unix system and not in windows system.\cr
+By default, it will send all the content of environment.
 }
 \details{
 universalmclapply runs the function FUN on X using parallel computing
@@ -79,13 +80,21 @@ u <- universalmclapply(x, FUN=funx1, forking=TRUE)
 pp <- runif(100)
 x <- 1:100
 u <- universalmclapply(x, FUN=funx1, forking=FALSE)
+u <- universalmclapply(x, FUN=funx1, forking=FALSE, 
+                       clusterExport=list())
 
 # here no error is generated because the variable pp is exported
 pp <- runif(100)
 x <- 1:100
 u <- universalmclapply(x, FUN=funx1, forking=FALSE, 
                        clusterExport=list(varlist=c("pp"), envir=environment()))
-                       
+
+# here no error is generated because all the environment is exported
+pp <- runif(100)
+x <- 1:100
+u <- universalmclapply(x, FUN=funx1, forking=FALSE, 
+                       clusterExport=list(varlist=c(ls()), envir=environment()))
+
 ### An example using clusterEvalQ
 asc("a") # asc() is a function from packages HelpersMG
 funx2 <- function(y) {asc("a")*10}
@@ -107,5 +116,5 @@ m <- universalmclapply(X=x, FUN=funx, forking=TRUE, progressbar=TRUE)
 }
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

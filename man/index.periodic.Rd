@@ -69,6 +69,6 @@ Other Periodic patterns of indices:
 \code{\link{tide.info}()}
 }
 \author{
-Marc Girondot \email{marc.girondot@u-psud.fr}
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Periodic patterns of indices}

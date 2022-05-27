@@ -29,5 +29,5 @@ convert.tz(d, tz="America/Guatemala")
 Function \code{with_tz()} from \code{lubridate} package does the same. I keep it here only for compatibility with old scripts.
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

@@ -68,6 +68,6 @@ Other ncdf:
 \code{\link{ind_long_lat}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{ncdf}

@@ -1,6 +1,6 @@
 #' cutter returns the fitted distribution without cut
 #' @title Distribution of the fitted distribution without cut. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return The parameters of distribution of values below or above the detection limit.
 #' @param observations The observations; see description
 #' @param observations.colname If observations is a data.frame, the name of column with observations
@@ -864,7 +864,7 @@ cutter <- function(observations=stop("Observations must be provided"),
   # Inverse the hessian matrix to get SE for each parameters
   mathessian <- result2$hessian
   inversemathessian <- try(solve(mathessian), silent = TRUE)
-  if (any(class(inversemathessian)=="try-error")) {
+  if (inherits(inversemathessian, "try-error")) {
     res <- rep(NA, length(lower))
     names(res) <- colnames(mathessian)
   } else {
@@ -1114,7 +1114,7 @@ cutter <- function(observations=stop("Observations must be provided"),
   
   if (progress.bar & is.null(session)) cat("\n")
   
-  class(result2) <- c("cutter", "CompareAIC")
+  result2 <- addS3Class(result2, class=c("cutter", "CompareAIC"))
   return(result2)
 }
 

@@ -1,6 +1,6 @@
 #' d Write an ASCII Representation of a vector object
 #' @title Write an ASCII Representation of a vector object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A string
 #' @param x A named vector object
 #' @param file either a character string naming a file or a connection. "" indicates output to the console.
@@ -26,7 +26,7 @@ d <- function(x, file = "",
   
   if ((any(names(attributes(x)) != "names") & !is.null(attributes(x))) | 
     (opts[3] == 0) | 
-       ((class(x) != "numeric") & (class(x) != "character") & (class(x) != "integer"))) {
+       ((!inherits(x, "numeric")) & (!inherits(x, "character")) & (!inherits(x, "integer")))) {
     dput(x, file=file, control=control)
   } else {
     if (is.null(names(x))) {

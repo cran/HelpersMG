@@ -1,6 +1,6 @@
 #' FormatCompareAIC formats data to be used with compare_AIC()
 #' @title Format data to be used with compare_AIC()
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return An object to be used with compare_AIC()
 #' @param logLik The log likelihood
 #' @param nobs Number of observations

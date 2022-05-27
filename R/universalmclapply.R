@@ -1,6 +1,6 @@
 #' universalmclapply runs the function FUN on X using parallel computing
 #' @title Run the function FUN on X using parallel computing
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return The results of the function FUN applied to X
 #' @param X A vector (atomic or list) or an expressions vector. Other objects (including classed objects) will be coerced by as.list.
 #' @param FUN The function to be applied to each element of X
@@ -11,7 +11,8 @@
 #' @param clusterEvalQ List of clusterEvalQ parameters as list
 #' @param forking If TRUE will use forking
 #' @param progressbar If pbapply package is installed, show a progressbar
-#' @description Return the results of the function FUN applied to X. It uses forking in unix system and not in windows system.
+#' @description Return the results of the function FUN applied to X. It uses forking in unix system and not in windows system.\cr
+#' By default, it will send all the content of environment.
 #' @examples
 #' \dontrun{
 #' library(HelpersMG)
@@ -47,13 +48,21 @@
 #' pp <- runif(100)
 #' x <- 1:100
 #' u <- universalmclapply(x, FUN=funx1, forking=FALSE)
+#' u <- universalmclapply(x, FUN=funx1, forking=FALSE, 
+#'                        clusterExport=list())
 #' 
 #' # here no error is generated because the variable pp is exported
 #' pp <- runif(100)
 #' x <- 1:100
 #' u <- universalmclapply(x, FUN=funx1, forking=FALSE, 
 #'                        clusterExport=list(varlist=c("pp"), envir=environment()))
-#'                        
+#'
+#' # here no error is generated because all the environment is exported
+#' pp <- runif(100)
+#' x <- 1:100
+#' u <- universalmclapply(x, FUN=funx1, forking=FALSE, 
+#'                        clusterExport=list(varlist=c(ls()), envir=environment()))
+#' 
 #' ### An example using clusterEvalQ
 #' asc("a") # asc() is a function from packages HelpersMG
 #' funx2 <- function(y) {asc("a")*10}
@@ -86,35 +95,45 @@ universalmclapply <- function(X, FUN, ...,
                               forking=ifelse(.Platform$OS.type=="windows", 
                                              FALSE, TRUE), 
                               progressbar=FALSE) {
-  m <- NULL
-
-if (forking) {
-  if (progressbar & ("pbapply" %in% rownames(installed.packages()))) {
-    m <- do.call(pbapply::pblapply, modifyList(list(...), list(X=X, FUN=FUN, cl=mc.cores)))
-  } else {
-    m <- do.call(parallel::mclapply, modifyList(list(...), list(X=X, FUN=FUN, 
-                                                                mc.cores=mc.cores, 
-                                        mc.preschedule = mc.preschedule)))
-  }
-} else {
   
-  cl <- parallel::makeCluster(mc.cores)
-  if (!identical(list(), clusterExport)) {
-  do.call(parallel::clusterExport, args = modifyList(clusterExport, list(cl=cl)))
+  if (FALSE) {
+    mc.cores=getOption("mc.cores", parallel::detectCores())
+    mc.preschedule = TRUE
+    clusterExport=list(varlist=c(ls()), envir=environment())
+    clusterEvalQ=list()
+    forking=ifelse(.Platform$OS.type=="windows", FALSE, TRUE)
+    progressbar=FALSE
   }
-  if (!identical(list(), clusterEvalQ)) {
-  do.call(parallel::clusterEvalQ, args=modifyList(clusterEvalQ, list(cl=cl)))
-  }
-  if (progressbar & ("pbapply" %in% rownames(installed.packages()))) {
-    tt <- try(expr = {
-    m <- do.call(pbapply::pblapply, args=modifyList(list(...), list(X=X, FUN=FUN, cl=cl)))
-    }, silent = FALSE)
+  m <- NULL
+  
+  if (forking) {
+    if (progressbar & ("pbapply" %in% rownames(installed.packages()))) {
+      m <- do.call(pbapply::pblapply, modifyList(list(...), list(X=X, FUN=FUN, cl=mc.cores)))
+    } else {
+      m <- do.call(parallel::mclapply, modifyList(list(...), list(X=X, FUN=FUN, 
+                                                                  mc.cores=mc.cores, 
+                                                                  mc.preschedule = mc.preschedule)))
+    }
   } else {
-    tt <- try(expr = {
-    m <- do.call(parallel::parLapplyLB, args=modifyList(list(...), list(X=X, fun=FUN, cl=cl)))
-    }, silent = FALSE)
+    
+    cl <- parallel::makeCluster(mc.cores)
+    if (!identical(list(), clusterExport)) {
+      do.call(parallel::clusterExport, args = modifyList(list(cl=cl), clusterExport))
+    }
+    if (!identical(list(), clusterEvalQ)) {
+      do.call(parallel::clusterEvalQ, args=modifyList(list(cl=cl), clusterEvalQ))
+    }
+    if (progressbar & ("pbapply" %in% rownames(installed.packages()))) {
+      tt <- try(expr = {
+        m <- do.call(pbapply::pblapply, args=modifyList(list(...), list(X=X, FUN=FUN, cl=cl)))
+      }, silent = FALSE)
+    } else {
+     
+      tt <- try(expr = {
+        m <- do.call(parallel::parLapplyLB, args=modifyList(list(...), list(X=X, fun=FUN, cl=cl)))
+      }, silent = FALSE)
+    }
+    parallel::stopCluster(cl)
   }
-  parallel::stopCluster(cl)
-}
-return(m)
+  return(m)
 }

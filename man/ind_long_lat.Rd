@@ -64,6 +64,6 @@ Other ncdf:
 \code{\link{format_ncdf}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{ncdf}

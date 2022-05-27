@@ -130,6 +130,6 @@ Other w-value functions:
 \code{\link{contingencyTable.compare}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{w-value functions}

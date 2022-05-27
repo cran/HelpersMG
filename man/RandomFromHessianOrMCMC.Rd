@@ -119,5 +119,5 @@ lines(1:100, df$quantiles["97.5\%", ], lty=2)
 }
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

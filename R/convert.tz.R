@@ -1,6 +1,6 @@
 #' convert.tz Convert one Date-Time from one timezone to another
 #' @title Convert one Date-Time from one timezone to another
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A POSIXlt or POSIXct date converted
 #' @param x The date-time in POSIXlt or POSIXct format
 #' @param tz The timezone
@@ -15,6 +15,6 @@
 
 convert.tz <- function(x, tz=Sys.timezone()) {
 d <- as.POSIXct(format(as.POSIXct(x), tz=tz, usetz=TRUE), tz=tz)
-if (any(class(c)=="POSIXlt")) d <- as.POSIXlt(d)
+if (inherits(c, "POSIXlt")) d <- as.POSIXlt(d)
 return(d)
 }

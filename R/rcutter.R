@@ -1,6 +1,6 @@
 #' rcutter returns random values based on fitted distribution with cut.
 #' @title Random values of unobserved values of cut distribution. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A vector with the random numbers.
 #' @param cutter The fitted model obtained with cutter()
 #' @param lower_detection_limit The lower detection limit

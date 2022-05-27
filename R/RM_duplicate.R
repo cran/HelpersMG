@@ -1,6 +1,6 @@
 #' RM_duplicate duplicates a results managment within an object
 #' @title Duplicate a results managment within an object.
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return The original object with a duplicated results managment.
 #' @param x The object to duplicate a results managment
 #' @param RM The name of results managment stored

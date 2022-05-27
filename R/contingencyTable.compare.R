@@ -1,6 +1,6 @@
 #' contingencyTable.compare compares contingency table using Akaike weight.
 #' @title Contingency table comparison using Akaike weight
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return The probability that a single proportion model is sufficient to explain the data
 #' @param table A matrix or a data.frame with series in rows and number of each category in column
 #' @param criterion Which criterion is used for model selection

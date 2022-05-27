@@ -58,5 +58,5 @@ correlation matrix for risk management and option pricing purposes”, Journal o
 Vol 2, No 2, 2000.
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

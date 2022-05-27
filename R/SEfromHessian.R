@@ -1,6 +1,6 @@
 #' SEfromHessian returns standard error of parameters based on Hessian matrix
 #' @title Standard error of parameters based on Hessian matrix
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return SEfromHessian returns a vector with standard errors
 #' @param a An Hessian matrix
 #' @param hessian If TRUE, return a list with the hessian and SE
@@ -48,11 +48,11 @@ SEfromHessian <- function(a, hessian=FALSE, silent=FALSE) {
   
   sigma  <- try(solve(mathessian), silent=TRUE)
   # Add all: 22/4/2020; any !
-  if (any(class(sigma) == "try-error")) {
+  if (inherits(sigma, "try-error")) {
     if (!silent) warning("Error in Hessian matrix inversion")
-    mathessianx <- try(as.matrix(nearPD(mathessian)$mat), silent=TRUE)
+    mathessianx <- try(as.matrix(getFromNamespace("nearPD", ns="Matrix")(mathessian)$mat), silent=TRUE)
     # 29/1/2021
-    if (any(class(mathessianx) == "try-error")) {
+    if (inherits(mathessianx, "try-error")) {
       if (!silent) warning("Error in estimation of the Nearest Positive Definite Matrix. Calculates the Moore-Penrose generalized inverse. Use result with caution.")
       sigma  <- try(ginv(mathessian), silent=TRUE)
     } else {
@@ -62,7 +62,7 @@ SEfromHessian <- function(a, hessian=FALSE, silent=FALSE) {
   } 
   
   # Add all: 22/4/2020
-  if (all(class(sigma) != "try-error")) {
+  if (!inherits(sigma, "try-error")) {
     
     if (all(diag(sigma)>=0)) {
       # méthode classique
@@ -76,7 +76,7 @@ SEfromHessian <- function(a, hessian=FALSE, silent=FALSE) {
       
       # Si j'ai des SE négatif... pas bon signe
       if (any(res<0)) {
-          d <- diag(as.matrix(nearPD(sigma)$mat))
+          d <- diag(as.matrix(getFromNamespace("nearPD", ns="Matrix")(sigma)$mat))
           names(d) <- colnames(mathessian)
           res <- ifelse(d<0, NA, sqrt(d))
         }
@@ -161,7 +161,7 @@ SEfromHessian <- function(a, hessian=FALSE, silent=FALSE) {
               
               # try chol again
               cholStatus <- try(u <- chol(newMat), silent = TRUE)
-              cholError <- ifelse(class(cholStatus) == "try-error", TRUE, FALSE)
+              cholError <- ifelse(inherits(cholStatus, "try-error"), TRUE, FALSE)
             }
             root <- cholStatus
             

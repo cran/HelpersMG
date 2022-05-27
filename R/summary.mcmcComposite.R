@@ -1,6 +1,6 @@
 #' summary.mcmcComposite get info on the result of a mcmcComposite object
 #' @title Summarize the result of a mcmcComposite object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A summary of the result
 #' @param object A mcmcComposite object
 #' @param ... Not used
@@ -67,7 +67,7 @@ if (!is.null(chain)) {mcmc <- mcmc[[chain]]}
 sm <- summary(mcmc)
 
 
-if (any(class(sm$statistics) == "numeric")) {
+if (inherits(sm$statistics, "numeric")) {
   sm$statistics <- t(as.matrix(sm$statistics))
   rownames(sm$statistics) <- rownames(resultMCMC$parametersMCMC$parameters)
   sm$quantiles <- t(as.matrix(sm$quantiles))

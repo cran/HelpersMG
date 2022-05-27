@@ -56,6 +56,6 @@ Other plot and barplot functions:
 \code{\link{show_name}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{plot and barplot functions}

@@ -46,5 +46,5 @@ NagelkerkeScaledR2(x=esoph$ncases, size = esoph$ncases+esoph$ncontrols,
                    prediction = res$fitted.values)
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

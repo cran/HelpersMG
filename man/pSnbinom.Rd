@@ -52,6 +52,6 @@ Other Distribution of sum of random variable with negative binomial distribution
 \code{\link{rSnbinom}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Distribution of sum of random variable with negative binomial distributions}

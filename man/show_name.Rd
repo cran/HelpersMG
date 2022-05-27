@@ -62,6 +62,6 @@ Other plot and barplot functions:
 \code{\link{plot_errbar}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{plot and barplot functions}

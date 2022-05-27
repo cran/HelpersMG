@@ -37,5 +37,5 @@ MovingWindow(1:10, window = 4, fill = TRUE, hole="end")
 MovingWindow(1:10, window = 4, fill = TRUE, hole="end", FUN=sd)
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

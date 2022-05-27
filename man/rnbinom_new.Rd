@@ -23,7 +23,7 @@ rnbinom_new(n, size = NULL, prob = NULL, mu = NULL, sd = NULL, var = NULL)
 Random numbers for the negative binomial distribution
 }
 \description{
-See \code{rbinom}.
+See \code{rnbinom}.
 }
 \details{
 rnbinom_new returns random numbers for the negative binomial distribution
@@ -63,5 +63,5 @@ x <- rnbinom_new(n=1000, mu=10, var=3^2)
 }
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

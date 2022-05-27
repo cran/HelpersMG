@@ -1,6 +1,6 @@
 #' IC_threshold_matrix calculates correlation matrix thresholed by partial correlation
 #' @title Calculate correlation matrix
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list
 #' @param data A dataframe or an IconoCorel object from a previous run of IC_threshold_matrix
 #' @param threshold threshold for partial and full correlations
@@ -103,8 +103,8 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
   
   
   
-  # print(class(data))
-  if (class(data) == "IconoCorel") {
+  
+  if (inherits(data, "IconoCorel")) {
     cor_mat <- data$correlation
     p_cor_mat <- data$correlation.pvalue
     cor_mat_threshold <- data$thresholded_correlation 
@@ -239,7 +239,7 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
         dfg <- na.omit(data[, c(e, f, g)])
         pc <- try(suppressWarnings(pcor(dfg, method=method)), 
                   silent=TRUE)
-        outg <- (class(pc)=="try-error")
+        outg <- (inherits(pc, "try-error"))
         if (!outg) outg <- any(!is.finite(pc$estimate))
         if (!outg) {
           return(c(1, pc$estimate[1, 2], pc$estimate[1, 3], pc$estimate[2, 3]))
@@ -330,7 +330,7 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
               use=use, 
               method=method, 
               threshold=threshold)
-  class(out) <- "IconoCorel"
+  out <- addS3Class(out, "IconoCorel")
   
   return(out)
 }

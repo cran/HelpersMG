@@ -59,5 +59,5 @@ Menezes, R. X. de (1999) More useful standard errors for group and factor effect
 Ridout, M.S. (1989). Summarizing the results of fitting generalized linear models to data from designed experiments. In: Statistical Modelling: Proceedings of GLIM89 and the 4th International Workshop on Statistical Modelling held in Trento, Italy, July 17–21, 1989 (A. Decarli et al., eds.), pp 262–269. New York: Springer.
 }
 \author{
-marc.girondot@u-psud.fr
+Marc Girondot \email{marc.girondot@gmail.com}
 }

@@ -1,7 +1,7 @@
 #' Make a matrix symmetric
 #' 
 #' Make the matrix symmetric by making all "mirrored" positions consistent. A variety of methods are provided to make the matrix symmetrical.
-#' @param matrix The matrix to make symmatric
+#' @param matrix The matrix to make symmetric
 #' @param method The method to use to make the matrix symmetric. Default is to take the maximum. 
 #' \itemize{
 #' 	\item{"max"} {For each position, \eqn{m_{i,j}}, use the maxiumum of \eqn{(m_{i,j}, m_{j,i})}}

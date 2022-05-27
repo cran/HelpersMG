@@ -1,6 +1,6 @@
 #' MHalgoGen is a function to use mcmc with Metropolis-Hastings algorithm
 #' @title Monte-Carlo Markov-chain with Metropolis-Hastings algorithm
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A mcmcComposite object with all characteristics of the model and mcmc run
 #' @param n.iter Number of iterations for each chain
 #' @param parameters A data.frame with priors; see description and examples
@@ -479,7 +479,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"),
                parametersMCMC=list(parameters=parameters, n.iter=n.iter, n.chains=n.chains, n.adapt=n.adapt, thin=thin, 
                                    SDProp.end=structure(sdg, .Names=rownames(parameters)), 
                                    control=datax)))
-  class(out) <- "mcmcComposite"
+  out <- addS3Class(out, "mcmcComposite")
   return(out)
   
 }

@@ -1,6 +1,6 @@
 #' index.periodic estimate indices in periodic timeseries based on anchored minimum and maximum
 #' @title Estimate indices in periodic timeseries based on anchored minimum and maximum
-#' @author Marc Girondot \email{marc.girondot@@u-psud.fr}
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A data.frame with a column time and a column index
 #' @param minmax A data.frame returned by minmax.periodic
 #' @param time	The time at which produced the estimate
@@ -48,7 +48,7 @@
 
 index.periodic <- function(minmax, time=NULL, 
                                  replicates=100, progressbar=FALSE) {
-  if (class(minmax) !="data.frame") {
+  if (!inherits(minmax, "data.frame")) {
     warning("minmax parameter must be a data.frame with at least the three columns: 'time', 'index' and 'SD'")
     return()
   }

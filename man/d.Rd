@@ -38,10 +38,10 @@ dput(c(A=10, B=20))
 \seealso{
 Other Characters: 
 \code{\link{asc}()},
-\code{\link{chr}()},
+\code{\link{char}()},
 \code{\link{tnirp}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Characters}

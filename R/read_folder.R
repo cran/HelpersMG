@@ -1,6 +1,6 @@
 #' read_folder reads all files present in a folder
 #' @title Read files present in a folder and creates a list with the content of these files
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Return a list with the data in the files of the folder (directory for windows users)
 #' @param folder Where to search for files; can be or a file path or a folder path
 #' @param wildcard Define which files are to be read (examples: "*.*", "*.xls", "essai*.txt"). It can be also a vector with all filenames.
@@ -30,7 +30,7 @@ read_folder <- function(folder=try(file.choose(), silent=TRUE),
                         file=NULL,
                         wildcard="*.*", read=read.delim, ...) {
   # wd <- getwd()
-	if (class(folder)!="try-error") {
+	if (!inherits(folder, "try-error")) {
     fi <- file.info(folder)
     if (is.na(fi$isdir)) {
       stop("Folder/directory does not exist")

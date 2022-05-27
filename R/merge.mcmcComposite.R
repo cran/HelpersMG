@@ -1,6 +1,6 @@
 #' merge.mcmcComposite Merge two mcmcComposite results
 #' @title Merge two mcmcComposite results
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A mcmcComposite result
 #' @param x A mcmcComposite obtained as a result of \code{MHalgoGen()} function
 #' @param y A mcmcComposite obtained as a result of \code{MHalgoGen()} function

@@ -1,6 +1,6 @@
 #' IC_clean_data checks and corrects the dataframe to be used with IC_threshold_matrix
 #' @title Clean the dataframe before to be used with IC_threshold_matrix
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A dataframe
 #' @param data The data.frame to be cleaned
 #' @param use an optional character string giving a method for computing covariances in the presence of missing values. This must be (an abbreviation of) one of the strings "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs".
@@ -139,6 +139,7 @@ IC_clean_data <- function(data=stop("A dataframe object is required"),
    if (debug) cat(paste0("The data have ", ncol(zc_y), " variables\n"))
   # J'enlève les colonnes qui ne sont pas numériques
   if (debug) cat("I remove the non-numeric columns\n")
+  # Là c'est plutôt un inherits
   zc_y <- zc_y[, (sapply(zc_y, class) == "numeric") | (sapply(zc_y, class) == "integer")]
    if (debug) cat(paste0("The data have ", ncol(zc_y), " variables\n"))
   # J'enlève les colonnes qui empêchent de calculer les corrélations
@@ -191,7 +192,7 @@ IC_clean_data <- function(data=stop("A dataframe object is required"),
     dfg <- na.omit(zc_y[, c(e, f, g)])
     pc <- try(suppressWarnings(pcor(dfg, method=method)), 
               silent=TRUE)
-    outg <- (class(pc)=="try-error")
+    outg <- (inherits(pc, "try-error"))
     if (!outg) outg <- any(!is.finite(pc$estimate))
     # if (outg==0) {
     #   outg <- c(outg, pc$estimate[1, 2], pc$estimate[1, 3], pc$estimate[2, 3])

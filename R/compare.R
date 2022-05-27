@@ -1,6 +1,6 @@
 #' compare runs a shiny application for basic functions of comparison
 #' @title Run a shiny application for basic functions of comparison
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Nothing
 #' @description Run a shiny application for basic functions of comparison.
 #' @references Girondot, M., Guillon, J.-M., 2018. The w-value: An alternative to t- and X2 tests. Journal of Biostatistics & Biometrics 1, 1-3.

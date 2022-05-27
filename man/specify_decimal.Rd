@@ -37,5 +37,5 @@ colnames(m) <- c("C", "D")
 specify_decimal(x=m, decimal.point=".")
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

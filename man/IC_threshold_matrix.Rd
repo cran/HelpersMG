@@ -127,6 +127,6 @@ Other Iconography of correlations:
 \code{\link{plot.IconoCorel}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Iconography of correlations}

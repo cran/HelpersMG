@@ -1,6 +1,6 @@
 #' RM_delete deletes a results managment or a result within a results managment from an object
 #' @title Delete a results managment or a result within a results managment from an object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return The original object with the deleted results managment
 #' @param x The object to delete a results managment
 #' @param RM The name of results managment stored

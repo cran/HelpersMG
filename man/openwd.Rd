@@ -2,7 +2,7 @@
 % Please edit documentation in R/openwd.R
 \name{openwd}
 \alias{openwd}
-\title{Open a finder window with current working directory in MacOS X}
+\title{Open a finder window with current working directory in MacOS X and windows}
 \usage{
 openwd(directory = getwd())
 }
@@ -14,7 +14,7 @@ A vector with the list of files.
 }
 \description{
 This function opens a finder window with directory files 
-in MacOS X. It has not been tested in Windows. In linux, it just returns the 
+in MacOS X. It has not been fully tested in Windows. In linux, it just returns the 
 list of files in directory.\cr
 By defaut, it uses the current working directory.
 }
@@ -27,5 +27,5 @@ openwd()
 }
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

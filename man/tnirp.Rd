@@ -54,10 +54,10 @@ tnirp("   27.89 289.99
 \seealso{
 Other Characters: 
 \code{\link{asc}()},
-\code{\link{chr}()},
+\code{\link{char}()},
 \code{\link{d}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{Characters}

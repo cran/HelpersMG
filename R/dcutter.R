@@ -1,6 +1,6 @@
 #' dcutter returns the density of the cutter function
 #' @title Distribution of the fitted distribution without cut. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return The density of the cutter function according to observations.
 #' @param par Values for parameters of distribution 
 #' @param observations The observations; see description.

@@ -1,6 +1,6 @@
 #' compare_AIC compares the AIC of several outputs obtained with the same data.
 #' @title Compares the AIC of several outputs
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list with DeltaAIC and Akaike weight for the models.
 #' @param ... Successive results to be compared as lists.
 #' @param factor.value The $value of the list object is multiplied by factor.value to calculate AIC.
@@ -59,7 +59,8 @@ if (!is.null(result)) {
 			for (i in 1:l) {
 
         encours <- result[i]
-        t <- (class(try(AIC(encours[[1]]), silent=TRUE))=="try-error")
+        aaec <- try(AIC(encours[[1]]), silent=TRUE)
+        t <- (inherits(aaec, "try-error"))
         if (t & is.null(encours[[1]]$aic) & is.null(encours[[1]]$AIC) & is.null(encours[[1]]$value))
           encours <- encours[[1]]
         
@@ -69,7 +70,8 @@ if (!is.null(result)) {
             AICencours <- NULL
             for (j in 1:length(encours)) {
               encours2 <- encours[[j]]
-              t <- (class(try(AIC(encours2), silent=TRUE))=="try-error")
+              aaec <- try(AIC(encours2), silent=TRUE)
+              t <- (inherits(aaec, "try-error"))
               if (!t) AICencours <- AIC(encours2)
               if (!is.null(encours2$AIC)) AICencours <- encours2$AIC
               if (!is.null(encours2$aic)) AICencours <- encours2$aic

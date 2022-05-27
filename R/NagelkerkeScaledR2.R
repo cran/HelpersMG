@@ -1,6 +1,6 @@
 #' NagelkerkeScaledR2 returns the scaled R2 defined by Nagelkerke (1991)
 #' @title Return the scaled R2 defined by Nagelkerke (1991)
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return The scaled R2 value
 #' @param x The number of observations
 #' @param size Number of trials
@@ -31,13 +31,25 @@
 
 
 NagelkerkeScaledR2 <- function(x, size, prediction, scaled=TRUE) {
-  if (!((length(x) == length(size)) & (length(size) == length(prediction)))) stop("Vectors x, size and prediction must be of same size")
-  if (any(prediction > 1) | any(prediction < 0)) stop("Predictions for a binomial distribution must be between 0 and 1.")
-  L0 <- sum(dbinom(x,size,rep(sum(x)/sum(size), length(prediction)), log=TRUE))
-  Lpar <- sum(dbinom(x, size, prediction, log=TRUE))
+  if (!((length(x) == length(size)) & (length(size) == length(prediction)))) 
+    stop("Vectors x, size and prediction must be of same size")
+  if (any(prediction > 1) | any(prediction < 0)) 
+    stop("Predictions for a binomial distribution must be between 0 and 1.")
+  L0 <- sum(dbinom(x, size, rep(sum(x)/sum(size), length(prediction)), 
+                   log = TRUE))
+  Lpar <- sum(dbinom(x, size, prediction, log = TRUE))
   n <- length(size)
-  r2 <- 1-(exp(L0-Lpar))^(2/n)
-  r2max <- 1-(exp(L0))^(2/n)
-  if (!scaled) r2max <- 1
+  # r2 <- 1 - (exp(L0 - Lpar))^(2/n)
+  # r2 <- 1 - exp(log((exp(L0 - Lpar))^(2/n)))
+  # r2 <- 1 - exp((2/n)*log((exp(L0 - Lpar))))
+  r2 <- 1 - exp((2/n)*(L0 - Lpar))
+  
+  # r2max <- 1 - (exp(L0))^(2/n)
+  # r2max <- 1 - exp(log((exp(L0))^(2/n)))
+  # r2max <- 1 - exp((2/n)*log((exp(L0))))
+  r2max <- 1 - exp((2/n)*L0)
+  
+  if (!scaled) 
+    r2max <- 1
   return(r2/r2max)
 }

@@ -49,5 +49,5 @@ contentaslist <- read_folder(folder=".", wildcard=files, read=read.csv2)
 }
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }

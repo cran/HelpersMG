@@ -1,6 +1,6 @@
 #' r2norm returns random numbers for Gaussian distributions different at left and right
 #' @title Random generation for Gaussian distributions different at left and right 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return r2norm returns random numbers
 #' @param n number of observations.
 #' @param mean vector of means

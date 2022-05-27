@@ -1,6 +1,6 @@
 #' pSnbinom returns the distribution function for the sum of random variable with negative binomial distributions
 #' @title Distribution function for the sum of random variable with negative binomial distributions. 
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return pSnbinom returns distribution function
 #' @param q vector of quantiles.
 #' @param size target for number of successful trials, or dispersion parameter (the shape parameter of the gamma mixing distribution). Must be strictly positive, need not be integer.

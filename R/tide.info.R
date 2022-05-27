@@ -6,7 +6,7 @@
 #' @param year Year to get the calendar
 #' @param longitude Longitude to search for
 #' @param latitude Latitude to search for
-#' @param tz The time zone to format the local time
+#' @param force.tide.height If FALSE, can return a current speed rather than tide height
 #' @family Periodic patterns of indices
 #' @description Annual tide information.\cr
 #' The columns are: Location, Longitude, Latitude, Phase, DateTime.local, DateTime.UTC, Tide.meter\cr
@@ -19,7 +19,7 @@
 #' library("HelpersMG")
 #' Location <- "Les Hattes"
 #' Year <- 2010
-#' tide <- tide.info(Location, Year, tz="America/Cayenne")
+#' tide <- tide.info(Location, Year)
 #' plot(tide[, "DateTime.local"], tide[, "Tide.meter"], 
 #'      type="l", bty="n", las=1, 
 #'      main=tide[1, "Location"], 
@@ -64,10 +64,27 @@
 #'      type="l", bty="n", las=1, 
 #'      main=tikei_tide[1, "Location"], 
 #'      xlab=as.character(Year), ylab="Tide level in meter")
+#' ## Another one
+#' tikei_lon <- (-75.56861111)
+#' tikei_lat <- 39.50083333
+#' Year <- 2012
+#' tikei_tide <- tide.info(year=Year, longitude=tikei_lon, latitude=tikei_lat)
+#' 
+#' library(mapdata)
+#' map('worldHires', xlim=c(-77, -74), ylim=c(37, 40))
+#' points(x=tikei_lon, y=tikei_lat, pch=19, col="red", cex=1)
+#' points(x=tikei_tide$Longitude[1], y=tikei_tide$Latitude[2], 
+#'        pch=19, col="blue", cex=1)
+#' 
+#' par(mar=c(4, 4, 2, 2))
+#' plot(tikei_tide$DateTime.local, tikei_tide$Tide.meter, type="l")
 #' }
 #' @export
 
-tide.info <- function(location=NULL, year=2021, longitude=NULL, latitude=NULL, tz=NULL) {
+tide.info <- function(location=NULL, 
+                      year=2021, 
+                      longitude=NULL, latitude=NULL, 
+                      force.tide.height=TRUE) {
   
   tide_location <- getFromNamespace(x="tide_location", ns="HelpersMG")
   
@@ -92,15 +109,36 @@ tide.info <- function(location=NULL, year=2021, longitude=NULL, latitude=NULL, t
         stop("More that one location are found; be more precise.")
       }
     }
+    dist <- NULL
     
   } else {
     indLl <- sqrt((tide_location$latitude-latitude)^2+(tide_location$longitude-longitude)^2)
-    pos <- which.min(abs(indLl))[1]
+    o_pos <- order(indLl)
+    pos <- 1
+    if (force.tide.height) {
+      while (grepl("urrent", tide_location$name[o_pos[pos]])) {
+        pos <- pos + 1
+      }
+    }
+    pos <- o_pos[pos]
+    toRad <- pi/180
+    p1 <- matrix(c(latitude=latitude, longitude=longitude), ncol = 2)* toRad
+    p2 <- as.matrix(tide_location[pos, c("latitude", "longitude")])* toRad
+    r <- 6378137
+      p = cbind(p1[, 1], p1[, 2], p2[, 1], p2[, 2], as.vector(r))
+      dLat <- p[, 4] - p[, 2]
+      dLon <- p[, 3] - p[, 1]
+      a <- (sin(dLat/2))^2 + cos(p[, 2]) * cos(p[, 4]) * (sin(dLon/2))^2
+      a <- pmin(a, 1)
+      dist <- as.vector(2 * atan2(sqrt(a), sqrt(1 - a)) * p[, 5])
   }
   
   location <- tide_location$name[pos]
   message(paste0("The location ", location, " has been chosen."))
+  if (!is.null(dist)) message(paste0("The distance between your setup and ", location, " is ", dist, " meters (Haversine distance)."))
   print(tide_location[pos, c("name", "longitude", "latitude", "timezone", "country")])
+  
+  # tz <- tide_location[pos, "timezone"]
   
   Begin <- paste0(as.character(year), "-01-01 00:00")
   End <- paste0(as.character(year), "-12-31 23:59")
@@ -110,7 +148,7 @@ tide.info <- function(location=NULL, year=2021, longitude=NULL, latitude=NULL, t
   com <- paste0('curl --silent -o ', file, ' --data-urlencode "location=', location,'" --data-urlencode "begin=', Begin,'" --data-urlencode "end=', End,'" "http://134.158.74.46:20000/tide"')
   out <- system(command = com, intern = FALSE)
   out <- readChar(file, nchars=file.info(file)$size)
-
+  
   out <- strsplit(out, split = "\",\"")[[1]]
   out <- gsub("\\[\"", "", out)
   out <- gsub("\"\\]", "", out)
@@ -133,19 +171,33 @@ tide.info <- function(location=NULL, year=2021, longitude=NULL, latitude=NULL, t
   out <- cbind(out, DateTime.local=strptime(out$DateTime, format = "%Y-%m-%d %I:%M %p", tz=tide_location$timezone[pos]))
   Sys.setlocale("LC_TIME", loc) 
   
-  if (!is.null(tz)) {
+  # if (is.null(tz)) {
     out <- cbind(out, DateTime.UTC=convert.tz(out$DateTime.local, tz="UTC"))
-  } else {
-    out <- cbind(out, DateTime.UTC=convert.tz(out$DateTime.local, tz=tz))
-  }
-  
+  # } else {
+  #   out <- cbind(out, DateTime.UTC=convert.tz(out$DateTime.local, tz=tz))
+  # }
   
   out <- cbind(out, Longitude=tide_location$longitude[pos])
   out <- cbind(out, Latitude=tide_location$latitude[pos])
   
+  unit <- NULL
+  td <- NULL
+  if (any(grepl("ft", out$Tide))) {
+    td <- as.numeric(gsub(" ft", "", out$Tide))*0.3084
+    unit <- "Tide.meter"
+  }
+  if (any(grepl("m", out$Tide[1]))) {
+    td <- as.numeric(gsub(" m", "", out$Tide))
+    unit <- "Tide.meter"
+  }
+  if (any(grepl("kt", out$Tide[1]))) {
+    td <- as.numeric(gsub(" kt", "", out$Tide))
+    unit <- "Tide.knot"
+  }
   
-  out <- cbind(out, Tide.meter=as.numeric(gsub(" ft", "", out$Tide))*0.3084)[, c("Location", "Longitude", "Latitude", 
-                                                                                 "Phase", "DateTime.local", "DateTime.UTC", "Tide.meter")]
+  td <- data.frame(td=td)
+  colnames(td) <- unit
+  out <- cbind(out, td)[, c("Location", "Longitude", "Latitude", "Phase", "DateTime.local", "DateTime.UTC", unit)]
   out <- na.omit(out)
   
   return(out)

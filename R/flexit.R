@@ -1,6 +1,6 @@
 #' Return the flexit value
 #' @title Return the flexit
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A vector with the probabilities
 #' @param x The values at which the flexit model must be calculated
 #' @param par The vector with P, S, K1, and K2 values

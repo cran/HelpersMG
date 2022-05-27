@@ -1,6 +1,6 @@
 #' ChangeCoordinate returns a value in a changed coordinate
 #' @title Return a value in a changed coordinate
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A value in the new system
 #' @param x value to convert
 #' @param initial Set of two values in the original system

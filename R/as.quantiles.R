@@ -1,5 +1,5 @@
 #' @title Extract quantile distribution from mcmcComposite object
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A data.frame with quantiles
 #' @param x A mcmcComposite obtained as a result of \code{MHalgoGen()} function
 #' @param chain The number of the chain in which to get parameters

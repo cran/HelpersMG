@@ -1,6 +1,6 @@
 #' IC_correlation_simplify simplifies the correlation matrix
 #' @title Simplify the correlation matrix
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A list
 #' @param matrix The correlation matrix to simplify
 #' @param variable a vector with the name of columns to keep
@@ -35,7 +35,7 @@
 
 
 IC_correlation_simplify <- function(matrix, variable=NULL) {
-  if (class(matrix) != "IconoCorel") {
+  if (!inherits(matrix, "IconoCorel")) {
     stop("Only an object obtained using IC_threshold_matrix() can be used.")
   }
   m <- matrix$thresholded_correlation

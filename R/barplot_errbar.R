@@ -1,6 +1,6 @@
 #' barplot_errbar plot a barplot with error bar on y
 #' @title Plot a barplot graph with error bar on y
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A numeric vector (or matrix, when beside = TRUE), say mp, giving the coordinates of all the bar midpoints drawn, useful for adding to the graph.\cr
 #' If beside is true, use colMeans(mp) for the midpoints of each group of bars, see example.
 #' @param ... Parameters for barplot() such as main= or ylim=

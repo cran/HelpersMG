@@ -1,6 +1,6 @@
 #' duplicated_packages lists the duplicated packages with their locations
 #' @title List the duplicated packages with their locations
-#' @author Marc Girondot
+#' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A data.frame with 4 elements for each duplicated packages:\cr
 #' - versions: the version of the packages\cr
 #' - libraries: the locations\cr

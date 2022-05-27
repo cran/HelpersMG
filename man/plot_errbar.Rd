@@ -66,7 +66,7 @@ plot_errbar(
 \item{add}{If true, add the graph to the previous one.}
 }
 \value{
-Nothing
+A list with x, y and names for points
 }
 \description{
 To plot data, just use it as a normal plot but add the errbar.x 
@@ -113,6 +113,6 @@ Other plot and barplot functions:
 \code{\link{show_name}()}
 }
 \author{
-Marc Girondot
+Marc Girondot \email{marc.girondot@gmail.com}
 }
 \concept{plot and barplot functions}
