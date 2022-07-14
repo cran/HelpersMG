@@ -100,8 +100,6 @@ Furman, E., 2007. On the convolution of the negative binomial random variables. 
 }
 \seealso{
 Other Distribution of sum of random variable with negative binomial distributions: 
-\code{\link{pSnbinom}()},
-\code{\link{qSnbinom}()},
 \code{\link{rSnbinom}()}
 }
 \author{

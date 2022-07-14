@@ -102,8 +102,13 @@ Other Distributions:
 \code{\link{dcutter}()},
 \code{\link{dggamma}()},
 \code{\link{logLik.cutter}()},
+\code{\link{pSnbinom}()},
 \code{\link{plot.cutter}()},
-\code{\link{print.cutter}()}
+\code{\link{print.cutter}()},
+\code{\link{qSnbinom}()},
+\code{\link{r2norm}()},
+\code{\link{rmnorm}()},
+\code{\link{rnbinom_new}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@gmail.com}

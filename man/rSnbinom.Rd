@@ -43,9 +43,7 @@ legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"),
 }
 \seealso{
 Other Distribution of sum of random variable with negative binomial distributions: 
-\code{\link{dSnbinom}()},
-\code{\link{pSnbinom}()},
-\code{\link{qSnbinom}()}
+\code{\link{dSnbinom}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@gmail.com}

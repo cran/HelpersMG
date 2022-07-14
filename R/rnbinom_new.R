@@ -9,6 +9,7 @@
 #' @param sd alternative parametrization via standard deviation.
 #' @param var alternative parametrization via variance.
 #' @description See \code{rnbinom}.
+#' @family Distributions
 #' @examples
 #' \dontrun{
 #' library("HelpersMG")

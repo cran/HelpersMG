@@ -10,7 +10,7 @@
 #' @param lower.tail logical; if TRUE (default), probabilities are P[X <= x], otherwise, P[X > x].
 #' @param tol Tolerance for recurrence
 #' @description Distribution function for the sum of random variable with negative binomial distributions.
-#' @family Distribution of sum of random variable with negative binomial distributions
+#' @family Distributions
 #' @examples
 #' \dontrun{
 #' alpha <- c(2.1, 2.05, 2)

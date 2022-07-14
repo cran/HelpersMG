@@ -11,7 +11,7 @@ if (!requireNamespace("shinyWidgets", quietly = TRUE)) {
 }
 
 package.HelpersMG <- require('HelpersMG')
-version <- "5.4 build 1246"
+version <- "5.5 build 1268"
 
 splitLayout <- function (..., cellWidths = NULL, cellArgs = list()) 
 {

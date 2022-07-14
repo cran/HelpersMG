@@ -6,7 +6,8 @@
 #' @param mean vector of means
 #' @param sd_low vector of standard deviations below the mean.
 #' @param sd_high vector of standard deviations above the mean.
-#' @description Random generation for Gaussian distributions different at left and right 
+#' @description Random generation for Gaussian distributions different at left and right
+#' @family Distributions
 #' @examples
 #' \dontrun{
 #' n <- r2norm(1000, mean=25, sd_low=2, sd_high=10)

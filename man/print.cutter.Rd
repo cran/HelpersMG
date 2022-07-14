@@ -187,8 +187,13 @@ Other Distributions:
 \code{\link{dcutter}()},
 \code{\link{dggamma}()},
 \code{\link{logLik.cutter}()},
+\code{\link{pSnbinom}()},
 \code{\link{plot.cutter}()},
-\code{\link{rcutter}()}
+\code{\link{qSnbinom}()},
+\code{\link{r2norm}()},
+\code{\link{rcutter}()},
+\code{\link{rmnorm}()},
+\code{\link{rnbinom_new}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@gmail.com}

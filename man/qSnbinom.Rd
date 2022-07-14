@@ -46,12 +46,21 @@ q <- qSnbinom(p=0.1, size=alpha, mu=mu, lower.tail = TRUE)
 }
 }
 \seealso{
-Other Distribution of sum of random variable with negative binomial distributions: 
-\code{\link{dSnbinom}()},
+Other Distributions: 
+\code{\link{cutter}()},
+\code{\link{dbeta_new}()},
+\code{\link{dcutter}()},
+\code{\link{dggamma}()},
+\code{\link{logLik.cutter}()},
 \code{\link{pSnbinom}()},
-\code{\link{rSnbinom}()}
+\code{\link{plot.cutter}()},
+\code{\link{print.cutter}()},
+\code{\link{r2norm}()},
+\code{\link{rcutter}()},
+\code{\link{rmnorm}()},
+\code{\link{rnbinom_new}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@gmail.com}
 }
-\concept{Distribution of sum of random variable with negative binomial distributions}
+\concept{Distributions}

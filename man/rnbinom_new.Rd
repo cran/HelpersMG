@@ -62,6 +62,22 @@ set.seed(1)
 x <- rnbinom_new(n=1000, mu=10, var=3^2)
 }
 }
+\seealso{
+Other Distributions: 
+\code{\link{cutter}()},
+\code{\link{dbeta_new}()},
+\code{\link{dcutter}()},
+\code{\link{dggamma}()},
+\code{\link{logLik.cutter}()},
+\code{\link{pSnbinom}()},
+\code{\link{plot.cutter}()},
+\code{\link{print.cutter}()},
+\code{\link{qSnbinom}()},
+\code{\link{r2norm}()},
+\code{\link{rcutter}()},
+\code{\link{rmnorm}()}
+}
 \author{
 Marc Girondot \email{marc.girondot@gmail.com}
 }
+\concept{Distributions}

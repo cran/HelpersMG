@@ -36,6 +36,8 @@
 qvlmer <- function (object, factorname = NULL, coef.indices = NULL, dispersion = NULL, 
           ...) {
   
+  fixef <- getFromNamespace("fixef", ns="lme4")
+  
   coef.indices.saved <- coef.indices
   if (is.null(factorname) && is.null(coef.indices)) {
     stop("arguments 'factorname' and 'coef.indices' are both NULL")

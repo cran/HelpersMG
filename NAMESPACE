@@ -87,6 +87,7 @@ export(rSnbinom)
 export(rcutter)
 export(read_folder)
 export(rggamma)
+export(rmnorm)
 export(rnbinom_new)
 export(series.compare)
 export(setPriors)
@@ -123,7 +124,7 @@ importFrom("utils", "combn", "download.file", "getFromNamespace",
              "installed.packages", "modifyList", "read.delim",
              "setTxtProgressBar", "tail", "txtProgressBar", 
              "compareVersion", "timestamp", "capture.output")
-importFrom("lme4", "fixef")
+importFrom("Matrix", "nearPD")
 importFrom("MASS", "ginv")
 importFrom("ggplot2", "ggplot", "geom_line", "aes")
 importFrom("rlang", ".data")

@@ -31,6 +31,22 @@ n <- r2norm(1000, mean=25, sd_low=2, sd_high=10)
 hist(n)
 }
 }
+\seealso{
+Other Distributions: 
+\code{\link{cutter}()},
+\code{\link{dbeta_new}()},
+\code{\link{dcutter}()},
+\code{\link{dggamma}()},
+\code{\link{logLik.cutter}()},
+\code{\link{pSnbinom}()},
+\code{\link{plot.cutter}()},
+\code{\link{print.cutter}()},
+\code{\link{qSnbinom}()},
+\code{\link{rcutter}()},
+\code{\link{rmnorm}()},
+\code{\link{rnbinom_new}()}
+}
 \author{
 Marc Girondot \email{marc.girondot@gmail.com}
 }
+\concept{Distributions}
