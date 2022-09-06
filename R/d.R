@@ -57,11 +57,12 @@ d <- function(x, file = "",
           )
           }
         ), 
-        collapse=collapse), ")", sep="", file = file)
+        collapse=collapse), ")\n", sep="", file = file)
       } else {
         cat("c(", paste0("'", gsub("'", "\\\\'", names(x)), "' = '", 
-                         x, "'", collapse=collapse), ")", sep="", file = file)
+                         x, "'", collapse=collapse), ")\n", sep="", file = file)
       }
     }
   }
+  return(invisible(x))
 }

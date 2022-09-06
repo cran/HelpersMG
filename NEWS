@@ -1,5 +1,14 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
+            CHANGES IN VERSION 5.6 (2022-09-06)
+            
+* New CRAN version - 5.6 (2022-09-06)
+
+            CHANGES IN VERSION 5.5-4 (2022-08-22)
+            
+* d() returns an invisible output - 5.5-1 (2022-08-22)
+* align parameter for html5 is removed - 5.5-1 (2022-08-22)
+
             CHANGES IN VERSION 5.5 (2022-07-14)
             
 * New CRAN version - 5.5 (2022-07-14)

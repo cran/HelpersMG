@@ -23,7 +23,7 @@ truncated distributions.\cr
 The latest version of this package can always been installed using:\cr
 install.packages("https://hebergement.universite-paris-saclay.fr/marcgirondot/CRAN/HelpersMG.tar.gz", 
 repos=NULL, type="source")
-\if{html}{\figure{TB.png}{options: alt="HelpersMG logo", align="right"}}
+\if{html}{\figure{TB.png}{options: alt="HelpersMG logo"}}
 \if{latex}{\figure{TB.png}}
 }
 \details{
@@ -32,8 +32,8 @@ Helpers functions for several packages
 \tabular{ll}{
  Package: \tab HelpersMG\cr
  Type: \tab Package\cr
- Version: \tab 5.5 build 1268\cr
- Date: \tab 2022-07-14\cr
+ Version: \tab 5.6 build 1272\cr
+ Date: \tab 2022-09-06\cr
  License: \tab GPL (>= 2)\cr
  LazyLoad: \tab yes\cr
  }

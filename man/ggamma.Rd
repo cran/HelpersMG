@@ -47,15 +47,15 @@ The code is modified from \url{https://rpubs.com/FJRubio/GG}.
 }
 \section{Functions}{
 \itemize{
-\item \code{dggamma}: Density of the generalized gamma.
+\item \code{dggamma()}: Density of the generalized gamma.
 
-\item \code{pggamma}: Distribution function of the generalized gamma.
+\item \code{pggamma()}: Distribution function of the generalized gamma.
 
-\item \code{qggamma}: Quantile of the generalized gamma.
+\item \code{qggamma()}: Quantile of the generalized gamma.
 
-\item \code{rggamma}: Random of the generalized gamma.
+\item \code{rggamma()}: Random of the generalized gamma.
+
 }}
-
 \section{More details here}{
 
 The generalized gamma is described here \url{https://en.wikipedia.org/wiki/Generalized_gamma_distribution}.\cr
