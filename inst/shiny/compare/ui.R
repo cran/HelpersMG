@@ -28,8 +28,8 @@ fluidPage(
           , target="_blank"))
     ), 
     fluidRow(p(HTML("The <em>w</em>-value methodology has been developped by 
-             <a href=\"https://max2.ese.u-psud.fr/epc/conservation/index.html\">Marc Girondot</a> and 
-             <a href=\"http://www.ese.u-psud.fr/article199.html\">Jean-Michel Guillon</a>."))
+             <a href=\"https://hebergement.universite-paris-saclay.fr/marcgirondot/\">Marc Girondot</a> and 
+             Jean-Michel Guillon."))
     ), 
     fluidRow(
       p("Ecologie, Systématique, Evolution - CNRS, AgroParisTech, Université Paris Saclay, France.")

@@ -20,9 +20,9 @@ calculate IC50 for ecotoxicological studies, \cr
 calculate the probability mass function of the sum of negative binomial \cr
 distributions, calculate distribution of unobserved values in censored or 
 truncated distributions.\cr
-The latest version of this package can always been installed using:\cr
+The latest version of this package can always be installed using:\cr
 install.packages("https://hebergement.universite-paris-saclay.fr/marcgirondot/CRAN/HelpersMG.tar.gz", 
-repos=NULL, type="source")
+repos=NULL, type="source")\cr
 \if{html}{\figure{TB.png}{options: alt="HelpersMG logo"}}
 \if{latex}{\figure{TB.png}}
 }
@@ -32,8 +32,8 @@ Helpers functions for several packages
 \tabular{ll}{
  Package: \tab HelpersMG\cr
  Type: \tab Package\cr
- Version: \tab 5.6 build 1272\cr
- Date: \tab 2022-09-06\cr
+ Version: \tab 5.7 build 1312\cr
+ Date: \tab 2022-10-19\cr
  License: \tab GPL (>= 2)\cr
  LazyLoad: \tab yes\cr
  }

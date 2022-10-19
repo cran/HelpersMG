@@ -11,7 +11,10 @@ dSnbinom(
   mu = NULL,
   log = FALSE,
   tol = 1e-06,
-  infinite = 1000
+  infinite = 1e+06,
+  method = "Furman",
+  n.random = 1e+06,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -25,16 +28,25 @@ dSnbinom(
 
 \item{log}{logical; if TRUE, probabilities p are given as log(p).}
 
-\item{tol}{Tolerance for recurrence}
+\item{tol}{Tolerance for recurrence for Furman (2007) method}
 
-\item{infinite}{Maximum level of recursion}
+\item{infinite}{Maximum level of recursion if tol is not reached for Furman (2007) method}
+
+\item{method}{Can be Furman (default), Vellaisamy&Upadhye, or approximate.RandomObservations}
+
+\item{n.random}{Number of random numbers used to estimate parameters of distribution for approximate methods}
+
+\item{verbose}{Give information on the method}
 }
 \value{
 dSnbinom gives the density
 }
 \description{
 Density for the sum of random variable with negative binomial distributions.\cr
-If all prob values are the same, infinite is automatically set to 0.
+If all prob values are the same, infinite is automatically set to 0.\cr
+Estimate using Vellaisamy&Upadhye method uses parallel computing depending on option mc.cores that can be 
+defined using options(mc.cores = c) with c being the number of cores to be used. By default it will 
+use all the available cores. Forking will be used in Unix system and no forking on Windows systems.
 }
 \details{
 dSnbinom returns the density for the sum of random variable with negative binomial distributions
@@ -55,7 +67,9 @@ dnbinom(20, size=1, mu=20)
 # If a parameter is supplied as only one value, it is supposed to be constant
 dSnbinom(20, size=1, mu=c(14, 15, 10))
 # The function is vectorized:
-plot(0:200, dSnbinom(0:200, size=alpha, prob=p), bty="n", type="h", xlab="x", ylab="Density")
+plot(0:200, dSnbinom(0:200, size=alpha, prob=p, method="furman"), bty="n", type="h", 
+     xlab="x", ylab="Density")
+     
 # Comparison with simulated distribution using rep replicates
 alpha <- c(2.1, 2.05, 2)
 mu <- c(10, 30, 20)
@@ -65,20 +79,106 @@ tabledistEmpirique <- rep(0, 301)
 names(tabledistEmpirique) <- as.character(0:300)
 tabledistEmpirique[names(table(distEmpirique))] <- table(distEmpirique)/rep
 
-plot(0:300, dSnbinom(0:300, size=alpha, mu=mu), type="h", bty="n", 
+plot(0:300, dSnbinom(0:300, size=alpha, mu=mu, method="furman"), type="h", bty="n", 
    xlab="x", ylab="Density", ylim=c(0,0.02))
 plot_add(0:300, tabledistEmpirique, type="l", col="red")
 legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
    text.col=c("red", "black"), bty="n")
 
-# Example with the approximation mu=mean(mu)
-plot(0:300, dSnbinom(0:300, size=alpha, mu=mu), type="h", bty="n", 
-   xlab="x", ylab="Density", ylim=c(0,0.02))
-plot_add(0:300, tabledistEmpirique, type="l", col="red")
-legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
-   text.col=c("red", "black"), bty="n")
-   
-# example to fit the distribution
+
+# Example from Vellaisamy, P. & Upadhye, N.S. (2009) - Table 1
+# Note that value for k = 7 is not estimated because it is too long
+k <- 2:6
+x <- c(3, 5, 8, 10, 15)
+table1_Vellaisamy <- matrix(NA, ncol=length(x), nrow=length(k))
+rownames(table1_Vellaisamy) <- paste0("n = ", as.character(k))
+colnames(table1_Vellaisamy) <- paste0("x = ", as.character(x))
+table1_approximateObservations <- table1_Vellaisamy
+table1_Furman <- table1_Vellaisamy
+
+st_Furman <- rep(NA, length(k))
+st_approximateObservations <- rep(NA, length(k))
+st_Vellaisamy <- rep(NA, length(k))
+
+for (n in k) {
+    print(n)
+    alpha <- 1:n
+    p <- (1:n)/10
+    st_Vellaisamy[which(n == k)] <- 
+        system.time({
+        table1_Vellaisamy[which(n == k), ] <- dSnbinom(x=x, prob=p, size=alpha, 
+                                     method="Vellaisamy&Upadhye", log=FALSE, verbose=TRUE)
+        })[1]
+    st_approximateObservations[which(n == k)] <- 
+        system.time({
+        table1_approximateObservations[which(n == k), ] <- dSnbinom(x=x, prob=p, size=alpha, 
+                                     method="approximate.RandomObservations", log=FALSE)
+        })[1]
+    st_Furman[which(n == k)] <- 
+        system.time({
+            table1_Furman[which(n == k), ] <- dSnbinom(x=x, prob=p, size=alpha, 
+                                     method="Furman", log=FALSE)
+        })[1]
+}
+
+cbind(table1_Vellaisamy, st_Vellaisamy)
+cbind(table1_Furman, st_Furman)
+cbind(table1_approximateObservations, st_approximateObservations)
+
+# Test of different methods
+n <- 7
+x <- 8
+alpha <- 1:n
+p <- (1:n)/10
+dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", log=FALSE, verbose=TRUE)
+dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE)
+dSnbinom(x=x, prob=p, size=alpha, method="approximate.RandomObservations", 
+         log=FALSE)
+
+# Test of different methods
+n <- 2
+x <- 15
+alpha <- 1:n
+p <- (1:n)/10
+dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", log=FALSE, verbose=TRUE)
+dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, verbose=TRUE)
+dSnbinom(x=x, prob=p, size=alpha, method="approximate.RandomObservations", 
+         log=FALSE, verbose=TRUE)
+
+
+# Test of different methods
+alpha <- c(2.05, 2)
+mu <- c(10, 30)
+test <- rSnbinom(n=100000, size=alpha, mu=mu)
+plot(0:200, table(test)[as.character(0:200)]/sum(table(test), na.rm=TRUE), 
+     bty="n", type="h", xlab="x", ylab="Density")
+lines(x=0:200, dSnbinom(0:200, size=alpha, mu=mu, log=FALSE, method="Furman"), col="blue")
+lines(x=0:200, y=dSnbinom(0:200, size=alpha, mu=mu, log=FALSE, 
+                          method="vellaisamy&upadhye"), col="red")
+lines(x=0:200, y=dSnbinom(0:200, size=alpha, mu=mu, log=FALSE, 
+                          method="approximate.randomobservations"), col="green")
+
+# Another example
+set.seed(2)
+mutest <- c(56, 6.75, 1)
+ktest <- c(50, 50, 50)
+nr <- 100000
+test <- rSnbinom(nr, size=ktest, mu=mutest)
+pr_vellaisamy <- dSnbinom(0:150, size=ktest, mu=mutest, method = "vellaisamy&upadhye")
+pr_furman <- dSnbinom(0:150, size=ktest, mu=mutest, method = "furman")
+pr_approximateObservations <- dSnbinom(0:150, size=ktest, mu=mutest, 
+                                       method = "approximate.randomobservations")
+
+plot(table(test), xlab="N", ylab="Density", las=1, bty="n", ylim=c(0, 4000), xlim=c(0, 150))
+lines(0:150, pr_vellaisamy*nr, col="red")
+lines(0:150, pr_furman*nr, col="blue")
+lines(0:150, pr_approximateObservations*nr, col="green")
+
+dSnbinom(42, size=ktest, mu=mutest, method = "vellaisamy&upadhye")
+dSnbinom(42, size=ktest, mu=mutest, method = "Furman")
+dSnbinom(42, size=ktest, mu=mutest, method = "approximate.randomobservations")
+
+# example to fit a distribution
 data <- rnbinom(1000, size=1, mu=10)
 hist(data)
 ag <- rep(1:100, 10)
@@ -97,6 +197,8 @@ fit_mu_size$par
 }
 \references{
 Furman, E., 2007. On the convolution of the negative binomial random variables. Statistics & Probability Letters 77, 169-172.
+
+Vellaisamy, P. & Upadhye, N.S. 2009. On the sums of compound negative binomial and gamma random variables. Journal of Applied Probability, 46, 272-283.
 }
 \seealso{
 Other Distribution of sum of random variable with negative binomial distributions: 

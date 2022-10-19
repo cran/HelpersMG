@@ -11,7 +11,7 @@ if (!requireNamespace("shinyWidgets", quietly = TRUE)) {
 }
 
 package.HelpersMG <- require('HelpersMG')
-version <- "5.6 build 1272"
+version <- "5.7 build 1312"
 
 splitLayout <- function (..., cellWidths = NULL, cellArgs = list()) 
 {
@@ -38,7 +38,7 @@ fluidPage(
   titlePanel(h1("Cutte",
                 img(src="Rlogo.png", height=40, width=40), align = "center"), 
              windowTitle = "CutteR"), 
-  p(HTML("<b><a href=\"https://max2.ese.u-psud.fr/epc/conservation/index.html\">Marc Girondot</a></b> - Laboratoire Ecologie, Systématique, Evolution"), align = "center"),
+  p(HTML("<b><a href=\"https://hebergement.universite-paris-saclay.fr/marcgirondot/\">Marc Girondot</a></b> - Laboratoire Ecologie, Systématique, Evolution"), align = "center"),
   p(HTML("Université Paris-Saclay, CNRS, AgroParisTech, France."), align = "center"), 
   
   wellPanel(

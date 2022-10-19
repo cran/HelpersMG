@@ -1,8 +1,18 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 5.6 (2022-09-06)
+            CHANGES IN VERSION 5.7 (2022-10-19)
+            
+* New CRAN version - 5.7 (2022-09-06)
+
+            CHANGES IN VERSION 5.6 (2022-10-19)
             
 * New CRAN version - 5.6 (2022-09-06)
+* 100 burn-in iterations are added in cutter() and uniform priors are used rather than normal one for default - 5.6.1 (2022-10-10)
+* dSnbinom can use an approximate method by default - 5.6.2 (2022-10-10)
+* Make dSnbinom more rapid using the approximate method - 5.6.3 (2022-10-17)
+* Solve a problem when dSnbinom return an error - 5.6.3 (2022-10-17)
+* New exact method for dSnbinom based on Vellaisamy and Upadhye (2009) - 5.6.4 (2022-10-18)
+* New parametrization for Furnam method in dSnbinom (thanks to Jon Barry) - 5.7 (2022-10-18)
 
             CHANGES IN VERSION 5.5-4 (2022-08-22)
             

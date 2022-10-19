@@ -593,6 +593,7 @@ cutter <- function(observations=stop("Observations must be provided"),
   
   # fitn(par, observations=observations, distribution=distribution, n.mixture=n.mixture, debug=2)
   
+  # first analysis by ML
   result2 <- optim(par, fitn, observations=observations, distribution=distribution, 
                    method="L-BFGS-B", 
                    limits.lower=lower, limits.upper=upper, 
@@ -694,9 +695,19 @@ cutter <- function(observations=stop("Observations must be provided"),
       }
     }
     
-    prior <- data.frame(Density=rep('dnorm', length(par)), 
-                        Prior1=par, 
-                        Prior2=abs(par/4), 
+    # prior <- data.frame(Density=rep('dnorm', length(par)), 
+    #                     Prior1=par, 
+    #                     Prior2=abs(par/4), 
+    #                     SDProp=abs(log(abs(par))), 
+    #                     Min=lower, 
+    #                     Max=upper, 
+    #                     Init=par, 
+    #                     stringsAsFactors = FALSE, 
+    #                     row.names=names(par))
+    
+    prior <- data.frame(Density=rep('dunif', length(par)), 
+                        Prior1=lower, 
+                        Prior2=upper, 
                         SDProp=abs(log(abs(par))), 
                         Min=lower, 
                         Max=upper, 
@@ -710,7 +721,7 @@ cutter <- function(observations=stop("Observations must be provided"),
                             distribution=distribution, 
                             parameters_name="par", adaptive = TRUE, 
                             n.mixture=n.mixture, debug=debug, 
-                            likelihood=fitn, n.chains=1, n.adapt=0, thin=1, trace=FALSE, 
+                            likelihood=fitn, n.chains=1, n.adapt=100, thin=1, trace=FALSE, 
                             progress.bar.ini=NULL, 
                             session=session, 
                             progress.bar=function(iter, session) {
@@ -731,7 +742,7 @@ cutter <- function(observations=stop("Observations must be provided"),
                               distribution=distribution, 
                               parameters_name="par", adaptive = TRUE, 
                               n.mixture=n.mixture, debug=debug, 
-                              likelihood=fitn, n.chains=1, n.adapt=0, thin=1, trace=FALSE, 
+                              likelihood=fitn, n.chains=1, n.adapt=100, thin=1, trace=FALSE, 
                               session=NULL, 
                               progress.bar.ini=NULL, 
                               progress.bar=function(iter, session=NULL) {setTxtProgressBar(get("pb", envir = parent.env(environment())), iter)})
@@ -741,7 +752,7 @@ cutter <- function(observations=stop("Observations must be provided"),
                               distribution=distribution, 
                               parameters_name="par", adaptive = TRUE, 
                               n.mixture=n.mixture, debug=debug, 
-                              likelihood=fitn, n.chains=1, n.adapt=0, thin=1, trace=FALSE)
+                              likelihood=fitn, n.chains=1, n.adapt=100, thin=1, trace=FALSE)
       }
     }
     par_mcmc <- as.quantiles(mcmc_run, namepar=names(par)[1], probs = c(0.025, 0.5, 0.975))

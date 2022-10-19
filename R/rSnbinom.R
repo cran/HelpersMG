@@ -28,7 +28,8 @@
 
 rSnbinom <- function(n=1, 
                      size=NULL, 
-                     prob=NULL, mu=NULL) {
+                     prob=NULL, 
+                     mu=NULL) {
   
   # prob=NULL; mu=NULL; log = FALSE; infinite=10
   
@@ -45,7 +46,7 @@ rSnbinom <- function(n=1,
 #  if (length(prob)<length(size)) prob <- rep(prob, length(size))[1:length(size)]
 #  if (length(size)<length(prob)) size <- rep(size, length(prob))[1:length(prob)]
   
-  m <- matrix(1:length(size), nrow=1)
+  m <- matrix(1:m, nrow=1)
   
   rl <- apply(m, MARGIN=2, function(i) rnbinom(n, size=size[i], prob=prob[i]))
   
