@@ -34,14 +34,13 @@ hist(n)
 \seealso{
 Other Distributions: 
 \code{\link{cutter}()},
+\code{\link{dSnbinom}()},
 \code{\link{dbeta_new}()},
 \code{\link{dcutter}()},
 \code{\link{dggamma}()},
 \code{\link{logLik.cutter}()},
-\code{\link{pSnbinom}()},
 \code{\link{plot.cutter}()},
 \code{\link{print.cutter}()},
-\code{\link{qSnbinom}()},
 \code{\link{rcutter}()},
 \code{\link{rmnorm}()},
 \code{\link{rnbinom_new}()}

@@ -388,14 +388,13 @@ compare_BIC(Separate=list(result1, result2),
 }
 \seealso{
 Other Distributions: 
+\code{\link{dSnbinom}()},
 \code{\link{dbeta_new}()},
 \code{\link{dcutter}()},
 \code{\link{dggamma}()},
 \code{\link{logLik.cutter}()},
-\code{\link{pSnbinom}()},
 \code{\link{plot.cutter}()},
 \code{\link{print.cutter}()},
-\code{\link{qSnbinom}()},
 \code{\link{r2norm}()},
 \code{\link{rcutter}()},
 \code{\link{rmnorm}()},
