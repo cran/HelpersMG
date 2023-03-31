@@ -6,9 +6,9 @@
 \usage{
 MHalgoGen(
   likelihood = stop("A likelihood function must be supplied"),
-  parameters_name = "x",
   parameters = stop("Priors  must be supplied"),
   ...,
+  parameters_name = "x",
   n.iter = 10000,
   n.chains = 1,
   n.adapt = 100,
@@ -31,11 +31,11 @@ MHalgoGen(
 \arguments{
 \item{likelihood}{The function that returns -ln likelihood using data and parameters}
 
-\item{parameters_name}{The name of the parameters in the likelihood function, default is "x"}
-
 \item{parameters}{A data.frame with priors; see description and examples}
 
 \item{...}{Parameters to be transmitted to likelihood function}
+
+\item{parameters_name}{The name of the parameters in the likelihood function, default is "x"}
 
 \item{n.iter}{Number of iterations for each chain}
 

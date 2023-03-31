@@ -58,7 +58,7 @@ Returns a list with three data.frames named random, fn, and quantiles
 }
 \description{
 If it is very long, use silent parameter to check if something goes wrong.\cr
-If replicates is null or is 0, or if method is NULL, parameters are just copied into data.frame.
+If replicates is NULL or is 0, or if method is NULL, parameters are just copied into data.frame.
 }
 \details{
 RandomFromHessianOrMCMC returns random numbers based on Hessian matrix or MCMC

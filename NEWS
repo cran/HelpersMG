@@ -1,10 +1,20 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
+            CHANGES IN VERSION 5.9 (2023-03-31)
+            
+* New CRAN version - 5.9 (2023-03-31)
+
             CHANGES IN VERSION 5.8 (2022-11-09)
             
 * New CRAN version - 5.8 (2022-11-09)
+* Minor change in dSnbinom to prevent overflow error in rare case - 5.8.1 (2022-12-26)
+* Solve a problem for Moore-Penrose generalized inverse matrix in SEfromHessian - 5.8.2 (2023-01-08)
+* New method saddlepoint approximation in dSnbinom - 5.8.3 & 5.8.4 (2023-03-24)
+* Better algoritm for Vellaisamy and Upadhye (2009) method in dSnbinom - 5.8.5 (2023-03-26)
+* Better tolerance management for Furman method in dSnbinom - 5.8.6 (2023-03-26)
+* Normalization is implemented for saddlepoint approximation - 5.8.7 (2023-03-30)
 
-            CHANGES IN VERSION 5.7.2 (2022-10-23)
+            CHANGES IN VERSION 5.7 (2022-10-23)
             
 * New CRAN version - 5.7 (2022-09-06)
 * Parameter infinite is no more necessary in dSnbinom - 5.7.1 (2022-10-21)

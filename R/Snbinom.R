@@ -1,6 +1,6 @@
 #' Distribution of the Sum of Negative Binomial.
 #' @title Distribution of the sum of random variable with negative binomial distributions. 
-#' @author Marc Girondot \email{marc.girondot@@gmail.com}
+#' @author Marc Girondot \email{marc.girondot@@gmail.com} and Jon Barry \email{jon.barry@@cefas.gov.uk}
 #' @references Furman, E., 2007. On the convolution of the negative binomial random variables. Statistics & Probability Letters 77, 169-172.
 #' @references Vellaisamy, P. & Upadhye, N.S. 2009. On the sums of compound negative binomial and gamma random variables. Journal of Applied Probability, 46, 272-283.
 #' @references Girondot M, Barry J. Submitted. On the computation of the distribution of the sum of independent negative binomial random variables.
@@ -14,8 +14,9 @@
 #' @param prob probability of success in each trial. 0 < prob <= 1.
 #' @param mu alternative parametrization via mean.
 #' @param log,log.p logical; if TRUE, probabilities \emph{p} are given as \emph{log(p)}.
-#' @param tol Tolerance for recurrence for Furman (2007) method.
-#' @param method Can be Furman (default), Vellaisamy&Upadhye, approximate.normal, approximate.negativebinomial or approximate.RandomObservations
+#' @param tol Tolerance for recurrence for Furman (2007) method. If NULL, will use a saddlepoint estimation.
+#' @param method Can be Furman (default) or convolution, Vellaisamy&Upadhye or exact, approximate.normal, approximate.negativebinomial, approximate.RandomObservations, or saddlepoint.
+#' @param normalize If TRUE (default) will normalize the saddlepoint approximation estimate.
 #' @param max.iter Number of maximum iterations for Furman method. Can be NULL.
 #' @param mean Mean of the distribution for approximate.normal method. If NULL, the theoretical mean will be used.
 #' @param sd Standard deviation of the distribution for approximate.normal method. If NULL, the theoretical sd will be used.
@@ -41,20 +42,55 @@
 #' library(HelpersMG)
 #' alpha <- c(1, 2, 5, 1, 2)
 #' p <- c(0.1, 0.12, 0.13, 0.14, 0.14)
-#' # By default, the Furman method with tol=1E-12 is used
+#' # By default, the Furman method with tol=1E-40 is used
 #' dSnbinom(20, size=alpha, prob=p)
 #' # Note the attribute is the dynamics of convergence of Pr(X=x)
 #' attributes(dSnbinom(20, size=alpha, prob=p, verbose=TRUE))$Pk[, 1]
 #' 
+#' mutest <- c(0.01, 0.02, 0.03)
+#' sizetest <- 2
+#' x <- 20
 #' # Exact probability
-#' dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), method="vellaisamy&upadhye")
-#' # By default, with Furman method and tol=1E-12, when probability 
+#' dSnbinom(x, size=sizetest, mu=mutest, method="vellaisamy&upadhye")
+#' dSnbinom(x, size=sizetest, mu=mutest, method="vellaisamy&upadhye", log=TRUE)
+#' # With Furman method and tol=1E-12, when probability 
 #' # is very low, it will be biased
-#' dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), method="Furman")
+#' dSnbinom(x, size=sizetest, mu=mutest, method="Furman", tol=1E-12)
 #' # The solution is to use a tolerance lower than the estimate
-#' dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), method="Furman", tol=1E-40)
-#' # Or a huge number of iterations
-#' dSnbinom(20, size=2, mu=c(0.01, 0.02, 0.03), method="Furman", max.iter=10000)
+#' dSnbinom(x, size=sizetest, mu=mutest, method="Furman", tol=1E-45)
+#' # Here the estimate used a first estimation by saddlepoint approximation
+#' dSnbinom(x, size=sizetest, mu=mutest, method="Furman", tol=NULL)
+#' # Or a huge number of iterations; but it is not the best solution
+#' dSnbinom(x, size=sizetest, mu=mutest, method="Furman", 
+#'          tol=1E-12, max.iter=10000)
+#' # With the saddle point approximation method
+#' dSnbinom(x, size=sizetest, mu=mutest, method="saddlepoint", log=FALSE)
+#' dSnbinom(x, size=sizetest, mu=mutest, method="saddlepoint", log=TRUE)
+#' 
+#' # Another example
+#' sizetest <- c(1, 1, 0.1)
+#' mutest <- c(2, 1, 10)
+#' x <- 5
+#' (exact <- dSnbinom(x=x, size=sizetest, mu=mutest, method="Vellaisamy&Upadhye"))
+#' (sp <- dSnbinom(x=x, size=sizetest, mu=mutest, method="saddlepoint"))
+#' paste0("Saddlepoint approximation: Error of ", specify_decimal(100*abs(sp-exact)/exact, 2), "%")
+#' (furman <- dSnbinom(x=x, size=sizetest, mu=mutest, method="Furman"))
+#' paste0("Convolution: Error of ", specify_decimal(100*abs(furman-exact)/exact, 2), "%")
+#' (na <- dSnbinom(x=x, size=sizetest, mu=mutest, method="approximate.normal")) 
+#' paste0("Gaussian approximation: Error of ", specify_decimal(100*abs(na-exact)/exact, 2), "%")
+#' (nb <- dSnbinom(x=x, size=sizetest, mu=mutest, method="approximate.negativebinomial"))
+#' paste0("NB approximation: Error of ", specify_decimal(100*abs(nb-exact)/exact, 2), "%")
+#' 
+#' plot(0:20, dSnbinom(0:20, size=sizetest, mu=mutest, method="furman"), bty="n", type="h", 
+#'      xlab="x", ylab="Density", ylim=c(0, 0.2), las=1)
+#' points(x=0:20, y=dSnbinom(0:20, size=sizetest, mu=mutest, 
+#'                            method="saddlepoint"), pch=1, col="blue")
+#' points(x=0:20, y=dSnbinom(0:20, size=sizetest, mu=mutest, 
+#'                            method="approximate.negativebinomial"), 
+#'                            col="red")
+#' points(x=0:20, y=dSnbinom(0:20, size=sizetest, mu=mutest, 
+#'                            method="approximate.normal"), 
+#'                            col="green")
 #' 
 #' # Test with a single distribution
 #' dSnbinom(20, size=1, mu=20)
@@ -63,10 +99,13 @@
 #' 
 #' # If a parameter is supplied as only one value, it is supposed to be constant
 #' dSnbinom(20, size=1, mu=c(14, 15, 10))
+#' dSnbinom(20, size=c(1, 1, 1), mu=c(14, 15, 10))
 #' 
 #' # The functions are vectorized:
 #' plot(0:200, dSnbinom(0:200, size=alpha, prob=p, method="furman"), bty="n", type="h", 
 #'      xlab="x", ylab="Density")
+#' points(0:200, dSnbinom(0:200, size=alpha, prob=p, method="saddlepoint"), 
+#'      col="red", pch=3)
 #'      
 #' # Comparison with simulated distribution using rep replicates
 #' alpha <- c(2.1, 2.05, 2)
@@ -79,13 +118,13 @@
 #' 
 #' plot(0:300, dSnbinom(0:300, size=alpha, mu=mu, method="furman"), type="h", bty="n", 
 #'    xlab="x", ylab="Density", ylim=c(0,0.02))
-#' plot_add(0:300, tabledistEmpirique, type="l", col="red")
+#' plot_add(0:(length(tabledistEmpirique)-1), tabledistEmpirique, type="l", col="red")
 #' legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
 #'    text.col=c("red", "black"), bty="n")
 #' 
 #' 
 #' # Example from Vellaisamy, P. & Upadhye, N.S. (2009) - Table 1
-#' # Note that value for k = 7 is very long
+#' # Note that computing time for k = 7 using exact method is very long
 #' k <- 2:7
 #' x <- c(3, 5, 8, 10, 15)
 #' table1_Vellaisamy <- matrix(NA, ncol=length(x), nrow=length(k))
@@ -96,17 +135,25 @@
 #' table1_Furman6 <- table1_Vellaisamy
 #' table1_Furman9 <- table1_Vellaisamy
 #' table1_Furman12 <- table1_Vellaisamy
+#' table1_Furman40 <- table1_Vellaisamy
+#' table1_Furman40 <- table1_Vellaisamy
+#' table1_FurmanAuto <- table1_Vellaisamy
+#' table1_FurmanAuto_iter <- table1_Vellaisamy
 #' table1_Vellaisamy_parallel <- table1_Vellaisamy
 #' table1_Approximate_Normal <- table1_Vellaisamy
+#' table1_saddlepoint <- table1_Vellaisamy
 #' 
 #' st_Furman3 <- rep(NA, length(k))
 #' st_Furman6 <- rep(NA, length(k))
 #' st_Furman9 <- rep(NA, length(k))
 #' st_Furman12 <- rep(NA, length(k))
+#' st_Furman40 <- rep(NA, length(k))
+#' st_FurmanAuto <- rep(NA, length(k))
 #' st_approximateObservations <- rep(NA, length(k))
 #' st_Vellaisamy <- rep(NA, length(k))
 #' st_Vellaisamy_parallel <- rep(NA, length(k))
 #' st_Approximate_Normal <- rep(NA, length(k))
+#' st_saddlepoint <- rep(NA, length(k))
 #' 
 #' for (n in k) {
 #'     print(n)
@@ -153,13 +200,37 @@
 #'                                      method="Furman", tol=1E-12, log=FALSE, 
 #'                                      verbose=FALSE)
 #'         })[1]
-#'         
+#'     st_Furman40[which(n == k)] <- 
+#'         system.time({
+#'             table1_Furman40[which(n == k), ] <- dSnbinom(x=x, prob=p, size=alpha, 
+#'                                      method="Furman", tol=1E-40, log=FALSE, 
+#'                                      verbose=FALSE)
+#'         })[1]
+#' 
+#'     st_FurmanAuto[which(n == k)] <- 
+#'         system.time({
+#'             table1_FurmanAuto[which(n == k), ] <- dSnbinom(x=x, prob=p, size=alpha, 
+#'                                      method="Furman", tol=NULL, log=FALSE, 
+#'                                      verbose=FALSE)
+#'         })[1]
+#'
 #'     st_Approximate_Normal[which(n == k)] <- 
 #'         system.time({
 #'             table1_Approximate_Normal[which(n == k), ] <- dSnbinom(x=x, prob=p, size=alpha, 
 #'                                      method="approximate.normal", tol=1E-12, log=FALSE, 
 #'                                      verbose=FALSE)
 #'         })[1]
+#'         st_saddlepoint[which(n == k)] <- 
+#'         system.time({
+#'             table1_saddlepoint[which(n == k), ] <- dSnbinom(x=x, prob=p, size=alpha, 
+#'                                      method="saddlepoint", tol=1E-12, log=FALSE, 
+#'                                      verbose=FALSE)
+#'         })[1]
+#'
+#' for (xc in x) {
+#'  essai <- dSnbinom(x=xc, prob=p, size=alpha, method="Furman", tol=NULL, log=FALSE, verbose=TRUE)
+#'  table1_FurmanAuto_iter[which(n == k), which(xc == x)] <- nrow(attributes(essai)[[1]])
+#' }
 #' }
 #' 
 #' cbind(table1_Vellaisamy, st_Vellaisamy)
@@ -168,10 +239,26 @@
 #' cbind(table1_Furman6, st_Furman6)
 #' cbind(table1_Furman9, st_Furman9)
 #' cbind(table1_Furman12, st_Furman12)
+#' cbind(table1_Furman40, st_Furman40)
+#' cbind(table1_FurmanAuto, st_FurmanAuto)
 #' cbind(table1_approximateObservations, st_approximateObservations)
 #' cbind(table1_Approximate_Normal, st_Approximate_Normal)
+#' cbind(table1_saddlepoint, st_saddlepoint)
 #' 
 #' 
+#' # Test of different methods
+#' n <- 9
+#' x <- 17
+#' alpha <- 1:n
+#' p <- (1:n)/10
+#' 
+#' # Parallel computing is not always performant
+#' # Here it is very performant
+#' system.time({print(dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", log=FALSE, 
+#'          verbose=TRUE, parallel=TRUE))})
+#' system.time({print(dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", log=FALSE, 
+#'          verbose=TRUE, parallel=FALSE))})
+#'          
 #' # Test of different methods
 #' n <- 7
 #' x <- 8
@@ -192,7 +279,7 @@
 #' p <- (1:n)/10
 #' 
 #' # Parallel computing is sometimes very performant
-#' # Here parallel computing is 7 times faster (with 8 cores computer) 
+#' # Here parallel computing is 7 times faster (with a 8 cores computer) 
 #' #             for vellaisamy&upadhye method
 #' system.time(dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", log=FALSE, 
 #'          verbose=TRUE, parallel=TRUE))
@@ -206,7 +293,7 @@
 #' p <- (1:n)/10
 #' 
 #' # Parallel computing is sometimes very performant
-#' # Here parallel computing is 7 times faster (with 8 cores computer) 
+#' # Here parallel computing is 7 times faster (with a 8 cores computer) 
 #' #             for vellaisamy&upadhye method
 #' system.time(dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", log=FALSE, 
 #'          verbose=TRUE, parallel=TRUE))
@@ -222,14 +309,15 @@
 #' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-3, verbose=TRUE))
 #' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-6, verbose=TRUE))
 #' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-9, verbose=TRUE))
-#' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-12, verbose=TRUE))
+#' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, verbose=TRUE))
+#' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Saddlepoint", log=FALSE, verbose=TRUE))
 #' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="approximate.RandomObservations", 
 #'          log=FALSE, verbose=TRUE))
 #' 
 #' # Test for criteria of convergence
 #' Pr_exact <- dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", 
 #'                    log=FALSE, verbose=TRUE)
-#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-12, 
+#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, 
 #'                  verbose=TRUE)
 #' Pr_exact;as.numeric(Pr_Furman)
 #' plot(1:length(attributes(Pr_Furman)$Pk), 
@@ -247,11 +335,12 @@
 #' p <- (1:n)/10
 #' Pr_exact <- dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", 
 #'                    log=FALSE, verbose=TRUE)
-#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-12, 
+#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, 
 #'                  verbose=TRUE)
+#' Pr_saddlepoint <- dSnbinom(x=x, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+#'                  verbose=TRUE)                  
 #'                  
-#'                  
-#' # pdf("figure 2.pdf", width=7, height=7, pointsize=14)                 
+#' # pdf("figure.pdf", width=7, height=7, pointsize=14)                 
 #' ylab <- as.expression(bquote(.("P(S=6) x 10")^"6"))
 #' layout(1:2)
 #' par(mar=c(3, 4, 1, 1))
@@ -322,7 +411,7 @@
 #' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-3, verbose=TRUE))
 #' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-6, verbose=TRUE))
 #' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-9, verbose=TRUE))
-#' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-12, verbose=TRUE))
+#' as.numeric(dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, verbose=TRUE))
 #' dSnbinom(x=x, prob=p, size=alpha, method="approximate.RandomObservations", 
 #'          log=FALSE, verbose=TRUE)
 #'
@@ -334,7 +423,7 @@
 #' # Produce an error
 #' Pr_exact <- dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", 
 #'                    log=FALSE, verbose=TRUE)
-#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-40, 
+#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, 
 #'                  verbose=FALSE)
 #' Pr_ApproximateNormal <- dSnbinom(x=x, prob=p, size=alpha, method="approximate.normal", 
 #'                         log=FALSE, 
@@ -350,8 +439,7 @@
 #' # Produce an error
 #' Pr_exact <- dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", 
 #'                    log=FALSE, verbose=TRUE)
-#' # Produce an error
-#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-40, 
+#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, 
 #'                  verbose=FALSE)
 #' Pr_ApproximateNormal <- dSnbinom(x=x, prob=p, size=alpha, method="approximate.normal", 
 #'                         log=FALSE, 
@@ -364,78 +452,154 @@
 #'                         method="approximate.RandomObservations", 
 #'                         log=FALSE, n.random=1E6, 
 #'                         verbose=TRUE)
-#'                
+#' Pr_ApproximateSaddlepoint <- dSnbinom(x=x, prob=p, size=alpha, 
+#'                         method="saddlepoint", 
+#'                         log=FALSE, 
+#'                         verbose=TRUE)
+#'              
+#'              
+#'              
+#' layout(matrix(1:4, ncol=2, byrow=TRUE))
+#' par(mar=c(3, 4.5, 1, 1))
+#' alpha <- seq(from=10, to=100, length.out=3)
+#' p <- seq(from=0.5, to=0.9, length.out=3)
+#' 
+#' p_nb <- dSnbinom(0:100, prob=p, size=alpha, method="vellaisamy&upadhye", verbose=TRUE)
+#' p_Furman <- dSnbinom(0:100, prob=p, size=alpha, method="Furman", verbose=FALSE)
+#' p_normal <- dSnbinom(0:100, prob=p, size=alpha, method="approximate.normal", verbose=TRUE)
+#' p_aNB <- dSnbinom(0:100, prob=p, size=alpha, method="approximate.negativebinomial", verbose=TRUE)
+#' p_SA <- dSnbinom(0:100, prob=p, size=alpha, method="saddlepoint", verbose=TRUE)
+#' 
+#' lab_PSnx <- bquote(italic("P(S"* "" [n] * "=x)"))
+#' 
+#' plot(1, 1, las=1, bty="n", col="grey", xlab="", 
+#'        xlim=c(10, 70), ylim=c(0, 0.05), 
+#'        ylab=lab_PSnx, type="n")
+#' par(xpd=FALSE)
+#' segments(x0=(0:100), x1=(0:100), 
+#'          y0=0, y1=as.numeric(p_nb), col="black")
+#'          
+#' plot(x=p_nb, y=p_normal, pch=4, cex=0.5, las=1, bty="n", 
+#'      xlab=bquote(italic("P" * "" [exact] * "(S"* "" [n] * "=x)")), 
+#'      ylab=bquote(italic("P" * "" [approximate] * "(S"* "" [n] * "=x)")),  
+#'      xlim=c(0, 0.05), ylim=c(0, 0.05))
+#' points(x=p_nb, y=p_aNB, pch=5, cex=0.5)
+#' points(x=p_nb, y=p_SA, pch=6, cex=0.5)
+#' points(x=p_Furman, y=p_SA, pch=19, cex=0.5)
+#' 
+#' n <- 2
+#' x <- 15
+#' alpha <- 1:n
+#' p <- (1:n)/10
+#' 
+#' p_nb <- dSnbinom(0:80, prob=p, size=alpha, method="vellaisamy&upadhye", verbose=TRUE)
+#' p_Furman <- dSnbinom(0:80, prob=p, size=alpha, method="Furman", verbose=FALSE)
+#' p_normal <- dSnbinom(0:80, prob=p, size=alpha, method="approximate.normal", verbose=TRUE)
+#' p_aNB <- dSnbinom(0:80, prob=p, size=alpha, method="approximate.negativebinomial", verbose=TRUE)
+#' p_SA <- dSnbinom(0:80, prob=p, size=alpha, method="saddlepoint", verbose=TRUE)
+#' 
+#' 
+#' par(mar=c(4, 4.5, 1, 1))
+#' plot(1, 1, las=1, bty="n", col="grey", xlab="x", 
+#'        xlim=c(0, 60), ylim=c(0, 0.05), 
+#'        ylab=lab_PSnx, type="n")
+#' par(xpd=FALSE)
+#' segments(x0=(0:80), x1=(0:80), 
+#'          y0=0, y1=as.numeric(p_nb), col="black")
+#'          
+#' plot(x=p_nb, y=p_normal, pch=4, cex=0.5, las=1, bty="n", 
+#'      xlab=bquote(italic("P" * "" [exact] * "(S"* "" [n] * "=x)")), 
+#'      ylab=bquote(italic("P" * "" [approximate] * "(S"* "" [n] * "=x)")), 
+#'      xlim=c(0, 0.05), ylim=c(0, 0.05))
+#' points(x=p_nb, y=p_aNB, pch=5, cex=0.5)
+#' points(x=p_nb, y=p_SA, pch=6, cex=0.5)
+#' points(x=p_Furman, y=p_SA, pch=19, cex=0.5)
 #'
 #' # pdf("figure 1.pdf", width=7, height=7, pointsize=14)    
 #' 
 #' layout(1:2)
 #' par(mar=c(3, 4, 1, 1))
-#' # Normal approximation
-#' alpha <- seq(from=10, to=100, length.out=10)
-#' p <- seq(from=0.5, to=0.9, length.out=10)
-#' test <- rSnbinom(100000, prob=p, size=alpha)
-#' c(mean(test), sum(alpha*(1-p)/p))
-#' c(var(test), sum(alpha*(1-p)/p^2))
-#' c(sd(test), sqrt(sum(alpha*(1-p)/p^2)))
-#' # plot(table(test)/length(test), las=1, bty="n", col="grey", xlab="x", 
-#' #       ylab="P(X=x)")
-#' plot(1, 1, las=1, bty="n", col="grey", xlab="", 
-#'        xlim=c(120, 240), ylim=c(0, 0.025), 
-#'        ylab="P(X=x)", type="n", yaxt="n")
-#' axis(2, at=c(0, 0.01, 0.02), las=1)
-#' p_nb <- dSnbinom(120:240, prob=p, size=alpha, method="Furman", verbose=TRUE)
-#' segments(x0=(120:240), x1=(120:240), 
-#'          y0=0, y1=as.numeric(p_nb), col="black")
-#' p_n <- dSnbinom(120:240, prob=p, size=alpha, method="approximate.normal", verbose=TRUE)
-#' points(120:240, p_n, col="black", pch=19, cex=0.5)
-#' p_nb <- dSnbinom(120:240, prob=p, size=alpha, method="approximate.negativebinomial", verbose=TRUE)
-#' points(120:240, p_nb, col="black", pch=4, cex=1)
-#' text(x=ScalePreviousPlot(x = 0.95, y = 0.95)$x, 
-#'      y=ScalePreviousPlot(x = 0.95, y = 0.95)$y, labels="A", cex=2)
-#'      
-#' text(x=ScalePreviousPlot(x = 0.0, y = 0.80)$x, 
-#'      y=ScalePreviousPlot(x = 0.0, y = 0.80)$y, labels="|", cex=1)
-#' text(x=ScalePreviousPlot(x = 0.05, y = 0.80)$x, 
-#'      y=ScalePreviousPlot(x = 0.05, y = 0.80)$y, labels="Exact probability", cex=1, pos=4)
-#'      
-#' points(x=ScalePreviousPlot(x = 0.0, y = 0.87)$x, 
-#'      y=ScalePreviousPlot(x = 0.0, y = 0.87)$y, pch=4, cex=1)
-#' text(x=ScalePreviousPlot(x = 0.05, y = 0.87)$x, 
-#'      y=ScalePreviousPlot(x = 0.05, y = 0.87)$y, labels="NB approximation", cex=1, pos=4)
+#' alpha <- seq(from=10, to=100, length.out=3)
+#' p <- seq(from=0.5, to=0.9, length.out=3)
 #' 
-#' points(x=ScalePreviousPlot(x = 0.0, y = 0.95)$x, 
-#'      y=ScalePreviousPlot(x = 0.0, y = 0.95)$y, pch=19, cex=0.8)
-#' text(x=ScalePreviousPlot(x = 0.05, y = 0.95)$x, 
-#'      y=ScalePreviousPlot(x = 0.05, y = 0.95)$y, labels="Normal approximation", cex=1, pos=4)
+#' p_nb <- dSnbinom(0:100, prob=p, size=alpha, method="vellaisamy&upadhye", verbose=TRUE)
+#' p_Furman <- dSnbinom(0:100, prob=p, size=alpha, method="Furman", verbose=FALSE)
+#' p_normal <- dSnbinom(0:100, prob=p, size=alpha, method="approximate.normal", verbose=TRUE)
+#' p_aNB <- dSnbinom(0:100, prob=p, size=alpha, method="approximate.negativebinomial", verbose=TRUE)
+#' p_SA <- dSnbinom(0:100, prob=p, size=alpha, method="saddlepoint", verbose=TRUE)
+#' 
+#' lab_PSnx <- bquote(italic("P(S"* "" [n] * "=x)"))
+#' 
+#' plot(1, 1, las=1, bty="n", col="grey", xlab="", 
+#'        xlim=c(10, 70), ylim=c(0, 0.09), 
+#'        ylab="", type="n", yaxt="n")
+#' axis(2, at=seq(from=0, to=0.05, by=0.01), las=1)
+#' mtext(lab_PSnx, side = 2, adj=0.3, line=3)
+#' par(xpd=FALSE)
+#' segments(x0=(0:100), x1=(0:100), 
+#'          y0=0, y1=as.numeric(p_nb), col="black")
+#' errr <- (abs((100*(p_Furman-p_nb)/p_nb)))/1000+0.055
+#' errr <- ifelse(is.infinite(errr), NA, errr)
+#' lines(x=(0:100), y=errr, lty=5, col="red", lwd=2)
+#' errr <- (abs((100*(p_normal-p_nb)/p_nb)))/1000+0.055
+#' lines(x=(0:100), y=errr, lty=2, col="blue", lwd=2)
+#' errr <- (abs((100*(p_aNB-p_nb)/p_nb)))/1000+0.055
+#' lines(x=(0:100), y=errr, lty=3, col="purple", lwd=2)
+#' errr <- (abs((100*(p_SA-p_nb)/p_nb)))/1000+0.055
+#' lines(x=(0:100), y=errr, lty=4, col="green", lwd=2)
+#' axis(2, at=seq(from=0, to=40, by=10)/1000+0.055, las=1, 
+#'      labels=as.character(seq(from=0, to=40, by=10)))
+#' mtext("|% error|", side = 2, adj=0.9, line=3)
+#' par(xpd=TRUE)
+#' legend(x=30, y=0.1, legend=c("Convolution", "Saddlepoint", "Normal", "Negative binomial"), 
+#'        lty=c(5, 4, 2, 3), bty="n", cex=0.8, col=c("red", "green", "blue", "purple"), lwd=2)
+#' legend(x=10, y=0.05, legend=c("Exact"), lty=c(1), bty="n", cex=0.8)
+#' par(xpd=TRUE)
+#' text(x=ScalePreviousPlot(x = 0.95, y = 0.1)$x, 
+#'      y=ScalePreviousPlot(x = 0.95, y = 0.1)$y, labels="A", cex=2)
 #'      
-#' # Normal approximation
+#'      
+#' # When normal approximation will fail
 #' n <- 2
 #' x <- 15
 #' alpha <- 1:n
 #' p <- (1:n)/10
-#' test <- rSnbinom(100000, prob=p, size=alpha)
-#' c(mean(test), sum(alpha*(1-p)/p))
-#' c(var(test), sum(alpha*(1-p)/p^2))
-#' c(sd(test), sqrt(sum(alpha*(1-p)/p^2)))
-#' # plot(table(test)/length(test), las=1, bty="n", col="grey", xlab="x", 
-#' #      ylab="P(X=x)", ylim=c(0, 0.05))
+#' 
+#' p_nb <- dSnbinom(0:80, prob=p, size=alpha, method="vellaisamy&upadhye", verbose=TRUE)
+#' p_Furman <- dSnbinom(0:80, prob=p, size=alpha, method="Furman", verbose=FALSE)
+#' p_normal <- dSnbinom(0:80, prob=p, size=alpha, method="approximate.normal", verbose=TRUE)
+#' p_aNB <- dSnbinom(0:80, prob=p, size=alpha, method="approximate.negativebinomial", verbose=TRUE)
+#' p_SA <- dSnbinom(0:80, prob=p, size=alpha, method="saddlepoint", verbose=TRUE)
+#' 
 #' par(mar=c(4, 4, 1, 1))
-#' plot(1, 1, las=1, bty="n", col="black", xlab="x", 
-#'        xlim=c(0, 80), ylim=c(0, 0.04), 
-#'        ylab="P(X=x)", type="n")
-#' p_nb <- as.numeric(dSnbinom(0:80, prob=p, size=alpha))
-#' par(xpd=TRUE)
-#' segments(x0=0:80, x1=0:80, 
+#' plot(1, 1, las=1, bty="n", col="grey", xlab="x", 
+#'        xlim=c(0, 60), ylim=c(0, 0.09), 
+#'        ylab="", type="n", yaxt="n")
+#' axis(2, at=seq(from=0, to=0.05, by=0.01), las=1)
+#' mtext(lab_PSnx, side = 2, adj=0.3, line=3)
+#' par(xpd=FALSE)
+#' segments(x0=(0:80), x1=(0:80), 
 #'          y0=0, y1=as.numeric(p_nb), col="black")
-#' p_n <- dSnbinom(x=0:80, prob=p, size=alpha, mu=NULL, method="approximate.normal", 
-#'                 verbose=TRUE)
-#' points(0:80, p_n, col="black", pch=19, cex=0.5)
-#' p_nb <- dSnbinom(x=0:80, prob=p, size=alpha, method="approximate.negativebinomial", 
-#'                  verbose=TRUE)
-#' points(x=0:80, p_nb, col="black", pch=4, cex=1)
-
-#' text(x=ScalePreviousPlot(x = 0.95, y = 0.95)$x, 
-#'         y=ScalePreviousPlot(x = 0.95, y = 0.95)$y, labels="B", cex=2)
+#' errr <- (abs((100*(p_Furman-p_nb)/p_nb)))/1000+0.055
+#' errr <- ifelse(is.infinite(errr), NA, errr)
+#' lines(x=(0:80), y=errr, lty=5, col="red", lwd=2)
+#' errr <- (abs((100*(p_normal-p_nb)/p_nb)))/1000+0.055
+#' lines(x=(0:80), y=errr, lty=2, col="blue", lwd=2)
+#' errr <- (abs((100*(p_aNB-p_nb)/p_nb)))/1000+0.055
+#' lines(x=(0:80), y=errr, lty=3, col="purple", lwd=2)
+#' errr <- (abs((100*(p_SA-p_nb)/p_nb)))/1000+0.055
+#' lines(x=(0:80), y=errr, lty=4, col="green", lwd=2)
+#' axis(2, at=seq(from=0, to=40, by=10)/1000+0.055, las=1, 
+#'      labels=as.character(seq(from=0, to=40, by=10)))
+#' mtext("|% error|", side = 2, adj=0.9, line=3)
+#' legend(x=30, y=0.055, 
+#'        legend=c("Exact", "Convolution", "Saddlepoint", "Normal", "Negative binomial"), 
+#'        lty=c(1, 5, 4, 2, 3), bty="n", cex=0.8, col=c("black", "red", "green", "blue", "purple"), 
+#'        lwd=c(1, 2, 2, 2, 2))
+#' par(xpd=TRUE)
+#' text(x=ScalePreviousPlot(x = 0.95, y = 0.1)$x, 
+#'      y=ScalePreviousPlot(x = 0.95, y = 0.1)$y, labels="B", cex=2)
+#'      
 #' 
 #' # dev.off()
 #' 
@@ -443,7 +607,7 @@
 #' # Test for criteria of convergence
 #' Pr_exact <- dSnbinom(x=x, prob=p, size=alpha, method="vellaisamy&upadhye", 
 #'                    log=FALSE, verbose=TRUE)
-#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, tol=1E-12, 
+#' Pr_Furman <- dSnbinom(x=x, prob=p, size=alpha, method="Furman", log=FALSE, 
 #'                  verbose=TRUE)
 #' Pr_exact;as.numeric(Pr_Furman)
 #' plot(1:length(attributes(Pr_Furman)$Pk), 
@@ -497,7 +661,7 @@
 #' system.time({pr_vellaisamy <- dSnbinom(x=0:150, size=ktest, mu=mutest, 
 #'                           method = "vellaisamy&upadhye", verbose=FALSE, parallel=TRUE)})
 #' system.time({pr_furman <- dSnbinom(x=0:150, size=ktest, mu=mutest, prob=NULL, 
-#'                       method = "furman", tol=1E-12, verbose=FALSE, log=FALSE)})
+#'                       method = "furman", verbose=FALSE, log=FALSE)})
 #' pr_approximateObservations <- dSnbinom(0:150, size=ktest, mu=mutest, 
 #'                                        method = "approximate.randomobservations")
 #' 
@@ -517,7 +681,7 @@
 #' # Test for criteria of convergence
 #' Pr_exact <- dSnbinom(x=x, size=ktest, mu=mutest, method="vellaisamy&upadhye", 
 #'                    log=FALSE, verbose=TRUE)
-#' Pr_Furman <- dSnbinom(x=x, size=ktest, mu=mutest, method="Furman", log=FALSE, tol=1E-12, 
+#' Pr_Furman <- dSnbinom(x=x, size=ktest, mu=mutest, method="Furman", log=FALSE, 
 #'                  verbose=TRUE)
 #' Pr_exact;as.numeric(Pr_Furman)
 #' plot(1:length(attributes(Pr_Furman)$Pk), 
@@ -567,6 +731,18 @@
 #' plot_add(0:300, tabledistEmpirique, type="l", col="red")
 #' legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"), 
 #'    text.col=c("red", "black"), bty="n")
+#'    
+#'    
+#' # Test if saddlepoint approximation must be normalized
+#' # Yes, it must be
+#' n <- 7
+#' x <- 6
+#' alpha <- 1:n
+#' p <- (1:n)/10
+#' dSnbinom(x=10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+#'                  verbose=TRUE)
+#' dSnbinom(x=10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+#'                  verbose=TRUE, normalize=FALSE)
 #' }
 #' @export
 
@@ -574,13 +750,14 @@
 # #' @section Another section after function section:
 
 
-dSnbinom <- function(x = stop("You must provide a x value")       , 
+dSnbinom <- function(x = stop("You must provide at least one x value")       , 
                      size = NULL                                  , 
                      prob = NULL                                  , 
                      mu = NULL                                    , 
                      log = FALSE                                  ,  
-                     tol = 1E-12                                  , 
+                     tol = NULL                                   , 
                      method="Furman"                              ,
+                     normalize=TRUE                               ,
                      max.iter=NULL                                ,
                      mean=NULL                                    ,
                      sd=NULL                                      ,
@@ -589,10 +766,15 @@ dSnbinom <- function(x = stop("You must provide a x value")       ,
                      verbose = FALSE                              ) {
   
   method <- tolower(method)
-  method <- match.arg(arg=method, choices = c("furman", "vellaisamy&upadhye", 
+  method <- match.arg(arg=method, choices = c("furman", "convolution", 
+                                              "vellaisamy&upadhye", "exact", 
                                               "approximate.randomobservations", 
                                               "approximate.normal", 
-                                              "approximate.negativebinomial"))
+                                              "approximate.negativebinomial", 
+                                              "saddlepoint"))
+  
+  if (method == "convolution") method <- "furman"
+  if (method == "exact") method <- "vellaisamy&upadhye"
   
   # prob=NULL; mu=NULL; log = FALSE
   if (is.null(mu) + is.null(size) + is.null(prob) != 1) stop("Two values exactly among mu, size and prob must be provided")
@@ -616,8 +798,120 @@ dSnbinom <- function(x = stop("You must provide a x value")       ,
     if (verbose) message("Exact method because all prob parameters are the same.")
     return(dnbinom(x, size=sum(size), prob=prob[1], log=log))
   }
+  
+  #SaddlePoint approximation####
+  
+  if (method == "saddlepoint") {
+    
+    K = function(t, phi, mu) {
+      core = phi*(log(phi) - log(phi+mu*(1-exp(t))))
+      Kt = sum(core)
+      Kt
+    }
+    
+    Kdash1 = function(t, phi, mu) {
+      ## 1st derivative
+      num = phi*mu*exp(t)
+      den = phi + mu*(1-exp(t))
+      core = num / den
+      Kdash1t = sum(core)
+      Kdash1t
+    }
+    
+    
+    Kdash2 = function(t, phi, mu) {
+      # 2nd derivative
+      num = phi*mu*(phi+mu)*exp(t)
+      den = (phi + mu*(1-exp(t)))^2
+      core = num / den
+      Kdash2t = sum(core)
+      Kdash2t
+    }
+    
+    saddlefun = function(t, phis, mus, x) {
+      ## Used by optimise
+      f = abs(Kdash1(t, phis, mus) - x)^2
+      f
+    }
+    
+    
+    dsaddle = function(x, size, mu, tol) {
+      ## Saddle point approximation to density
+      phi <- size
+      
+      if (x == 0) return(prod(dnbinom(x=0, size=size, mu=mu)))
+      
+      
+      upper.bound = min(log(phi/mu + 1))
+      lower.bound <- -100
+      repp <- 0
+      repeat {
+        ## I'm not sure how to set the lower bound in the general case
+        arse = optimise(saddlefun, phis=phi, mus=mu, x=x, 
+                        lower=lower.bound, upper=upper.bound, 
+                        tol=tol)
+        repp <- repp + 1
+        if ((arse$minimum == lower.bound) & repp < 10)
+          lowerbound <- lowerbound / 10
+        else break
+      }
+      
+      if (verbose & (repp == 10)) warning("The lower bound reached its minimum; use results with caution.")
+      
+      sx = arse$minimum
+      
+      ## Generate the density now that we have xs
+      numfx = exp(K(sx, phi, mu) - sx*x)
+      denfx = sqrt(2*pi*Kdash2(sx, phi, mu))
+      fx = numfx / denfx
+      fx
+    }
+    
+    if (verbose) message("Saddlepoint approximation method")
+    if (is.null(tol)) {
+      tol <- 1E-10
+    }
+    
+    if (normalize) {
+      if (verbose) message(paste0("Tolerance for normalization=", as.character(tol)))
+      # Prepare normalization
+      mean <- sum(size*(1-prob)/prob)
+      sd <- sqrt(sum(size*(1-prob)/prob^2))
+      Max <- max(c(floor(mean+10*sd), x))+1
+      dstot <- sapply(X = 0:Max, FUN=function(y) dsaddle(x = y, 
+                                                         size = size, 
+                                                         mu = mu, tol=tol))
+      Max <- Max + 1
+      repeat {
+        ds <- dsaddle(x = Max, size = size, mu = mu, tol=tol)
+        dstot <- c(dstot, ds)
+        if (ds < tol) break
+        Max <- Max + 1
+        if (verbose) message(paste0("Normalization: P(Sn=", as.character(Max), ")=", as.character(ds)))
+      }
+      
+      if (verbose) message(paste0("Sum for normalization = ", as.character(sum(dstot))))
+      ds <- dstot[x+1]/sum(dstot)
+      
+    } else {
+      ds <- sapply(X = x, FUN=function(y) dsaddle(x = y, 
+                                                  size = size, 
+                                                  mu = mu, tol=tol))
+      if (verbose) warning("Saddlepoint approximation was not normalized. Use this output with caution.")
+    }
+    if (!log) return(ds) else return(log(ds))
+  }
+  
+  #Furman - Convolution####
+  
   if (method == "furman") {
-    if (verbose) message("Furman (2007) method")
+    if (verbose) message("Furman (2007) method by convolution")
+    if (is.null(tol)) {
+      tol <- min(dSnbinom(x=x, size = size, mu=mu, log=FALSE, 
+                          normalize=FALSE, 
+                          tol=1E-10, method="saddlepoint"))*1E-10
+    }
+    
     alpha <- size
     p <- prob
     
@@ -625,7 +919,8 @@ dSnbinom <- function(x = stop("You must provide a x value")       ,
     p1 <- max(p)
     q1 <- 1-p1
     
-    R <- sum(log(((q*p1)/(q1*p))^(-alpha)))
+    # R <- sum(log(((q*p1)/(q1*p))^(-alpha)))
+    R <- sum((-alpha)*log(((q*p1)/(q1*p))))
     
     delta <- 1
     xi <- NULL
@@ -642,7 +937,19 @@ dSnbinom <- function(x = stop("You must provide a x value")       ,
     i <- 1
     repeat {
       # if (i == 545) stop()
-      xi <- c(xi, sum((alpha*(1-((q1*p)/(q*p1)))^i)/i))
+      # xi <- c(xi, sum((alpha*(1-((q1*p)/(q*p1)))^i)/i))
+      # xi <- c(xi, sum((alpha/i*((1-((q1*p)/(q*p1)))^i))/i))
+      # 
+      # (alpha*(1-((q1*p)/(q*p1)))^i)/i
+      # exp(log((alpha*(1-((q1*p)/(q*p1)))^i)/i))
+      # exp(log((alpha*(1-((q1*p)/(q*p1)))^i))-log(i))
+      # 
+      # exp((log(alpha)+i*log((1-((q1*p)/(q*p1)))))-log(i))
+      # exp((log(alpha)+i*log((q*p1-q1*p)/(q*p1)))-log(i))
+      # exp(log(alpha)+i*(log(q*p1-q1*p)-log(q*p1))-log(i))
+      # New expression to prevent the use of ^
+      xi <- c(xi, sum(exp(log(alpha)+i*(log(q*p1-q1*p)-log(q)-log(p1))-log(i))))
+      
       Ks <- 1:i
       newdelta <- (1/i)*sum(Ks*xi[Ks]*delta[i-Ks+1])
       delta <- c(delta, newdelta)
@@ -698,19 +1005,15 @@ dSnbinom <- function(x = stop("You must provide a x value")       ,
     return(Pr)
   } 
   
+  #approximate.randomobservations####
+  
   if (method == "approximate.randomobservations") {
     if (verbose) message("Approximate method with probabilities of observations.")
     test <- rSnbinom(n=n.random, size = size, mu=mu)
     return(sapply(X = x, FUN=function(y) sum(test==y)/n.random))
   }
   
-  # if (method == "approximate.randomdistribution") {
-  #   if (verbose) message("Approximate method with distribution modeled from observations.")
-  #   test <- rSnbinom(n=n.random, size = size, mu=mu)
-  #   mu <- mean(test)
-  #   size <- mu^2 / (var(test) - mu)
-  #   return(dnbinom(x=x, size = size, mu=mu, log = log))
-  # }
+  #approximate.negativebinomial####
   
   if (method == "approximate.negativebinomial") {
     if (verbose) message("Approximate method with negative binomial distribution.")
@@ -734,6 +1037,8 @@ dSnbinom <- function(x = stop("You must provide a x value")       ,
     return(p)
   }
   
+  #approximate.normal####
+  
   if (method == "approximate.normal") {
     if (verbose) message("Approximate method with normal distribution.")
     
@@ -755,51 +1060,35 @@ dSnbinom <- function(x = stop("You must provide a x value")       ,
     return(p)
   }
   
-  if (verbose) message("Vellaisamy & Upadhye (2009) method")
-  if ((m > 6) & verbose) message("The Vellaisamy method with more than 6 summed distributions can be very slow and produces out of memory error.")
+  #Exact####
+  
+  if (verbose) message("Exact Vellaisamy & Upadhye (2009) method")
+  if ((m > 7) & verbose) message("The Vellaisamy method with more than 7 summed distributions can be slow and produces out of memory error.")
+  
+  
   TS <- NULL
   
   for (xec in x) {
     
-    xx <- 0:xec
-    nx <- xec + 1
-    orep <- nx ^ m
-    rep.fac <- 1L
-    df <- matrix(data = NA, ncol=1, nrow = orep)
-    rownames(df) <- as.character(1:orep)
+    # créer df avec xec balls dans m boxes
     
-    x2 <- xx
-    orep <- orep/nx
-    df[, 1]  <- x2[rep.int(rep.int(seq_len(nx), rep.int(rep.fac, 
-                                                        nx)), orep)]
-    rep.fac <- rep.fac * nx
-    if (m != 1) {
-      for (i in 2:m) {
-        x2 <- xx
-        orep <- orep/nx
-        
-        x2 <- x2[rep.int(rep.int(seq_len(nx), rep.int(rep.fac, 
-                                                      nx)), orep)]
-        df <- cbind(df, matrix(data = NA, ncol=1, nrow = nrow(df)))
-        df[, i] <- x2[as.numeric(rownames(df))]
-        
-        if (dim(df)[1] == 1) {
-          dd <- (sum(df[1, 1:i]) <= xec)
-        } else {
-          dd <- (rowSums(df[, 1:i]) <= xec)
-        }
-        df <- df[dd, , drop = FALSE]
-        rep.fac <- rep.fac * nx
-      }
-    }
-    if (dim(df)[1] == 1) {
-      df <- df[sum(df[1, 1:i]) == xec, , drop = FALSE]
-    } else {
-      df <- df[rowSums(df) == xec, , drop = FALSE]
-    }
+    Nballs <- xec
+    # Number of boxes
+    Nboxes <- m
+    
+    # The number of different ways to distribute n indistinguishable balls into
+    # k distinguishable boxes is C(n+k-1,k-1).
+    # nb<-choose(N+nbjour-1,nbjour-1)=dim(tb)[1]
+    # divers<-matrix(rep(0, nbjour*nb), ncol=nbjour)
+    
+    # generate all possible positions of the boundaries
+    xx <- combn(Nballs+Nboxes-1, Nboxes-1)
+    # compute the number of balls in each box
+    a <- cbind(0, diag(Nboxes)) - cbind(diag(Nboxes), 0)
+    df <- t(a %*% rbind(0, xx, Nballs+Nboxes) - 1)
     
     if (verbose) {
-      message(paste0(as.character(nrow(df)), " combinations of ", as.character(m), " values produced a sum of ", as.character(xec), ". A total of ", as.character(nrow(df)*nx), " iterations will be necessary."))
+      message(paste0(as.character(nrow(df)), " combinations of ", as.character(xec), " objects in ", as.character(m), " categories. The number of required iterations will be ", as.character(nrow(df)*m), "."))
     }
     
     if (parallel) {
@@ -835,15 +1124,19 @@ dSnbinom <- function(x = stop("You must provide a x value")       ,
 
 pSnbinom <- function(q=stop("At least one quantile must be provided"), 
                      size=NULL, 
-                     prob=NULL, mu=NULL, lower.tail = TRUE, log.p = FALSE, tol=1E-12, 
+                     prob=NULL, mu=NULL, lower.tail = TRUE, log.p = FALSE, tol=NULL, 
                      method="Furman") {
   
   method <- tolower(method)
-  method <- match.arg(arg=method, choices = c("furman", "vellaisamy&upadhye", 
+  method <- match.arg(arg=method, choices = c("furman", "convolution", 
+                                              "vellaisamy&upadhye", "exact", 
                                               "approximate.randomobservations", 
                                               "approximate.normal", 
-                                              "approximate.negativebinomial"))
+                                              "approximate.negativebinomial", 
+                                              "saddlepoint"))
   
+  if (method == "convolution") method <- "furman"
+  if (method == "exact") method <- "vellaisamy&upadhye"
   
   # prob=NULL; mu=NULL; log = FALSE; infinite=10
   
@@ -881,16 +1174,20 @@ pSnbinom <- function(q=stop("At least one quantile must be provided"),
 qSnbinom <- function(p=stop("At least one probability must be provided"), 
                      size=stop("size parameter is mandatory"), 
                      prob=NULL, mu=NULL, lower.tail = TRUE, log.p = FALSE, 
-                     tol=1E-12, method="Furman") {
+                     tol=NULL, method="Furman") {
   
   # prob=NULL; mu=NULL; log = FALSE; infinite=10
   
   method <- tolower(method)
-  method <- match.arg(arg=method, choices = c("furman", "vellaisamy&upadhye", 
+  method <- match.arg(arg=method, choices = c("furman", "convolution", 
+                                              "vellaisamy&upadhye", "exact", 
                                               "approximate.randomobservations", 
                                               "approximate.normal", 
-                                              "approximate.negativebinomial"))
+                                              "approximate.negativebinomial", 
+                                              "saddlepoint"))
   
+  if (method == "convolution") method <- "furman"
+  if (method == "exact") method <- "vellaisamy&upadhye"
   
   if (is.null(mu) + is.null(size) + is.null(prob) != 1) stop("Two values among mu, size and prob must be provided")
   

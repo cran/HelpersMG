@@ -109,7 +109,7 @@ importFrom("graphics", "arrows", "axis", "barplot", "hist", "legend",
              "lines", "mtext", "par", "plot", "polygon", "segments", "points", 
              "xspline", "xyinch", "strheight", "text", "locator")
 importFrom("stats", "AIC", "aggregate", "as.formula", "binomial", 
-             "dgamma", "pgamma", "qgamma", "rgamma", 
+             "dgamma", "pgamma", "qgamma", "rgamma", "optimise", 
              "dlnorm", "qlnorm", "plnorm", "rlnorm", 
              "dnorm", "pnorm", "qnorm", "rnorm", 
              "coef", "cor", "dbeta", "dbinom", "deriv", "df.residual", 

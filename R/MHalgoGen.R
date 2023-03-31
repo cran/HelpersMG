@@ -160,17 +160,25 @@
 # Algo Metropolis-Hastings
 # ------------------------
 
-MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied"), 
-                    parameters_name="x",
-                    parameters=stop("Priors  must be supplied"), ..., 
-                    n.iter=10000, n.chains = 1, n.adapt = 100, thin=30, 
-                    trace=FALSE, traceML=FALSE, 
-                    progress.bar.ini=NULL, 
-                    progress.bar=NULL, 
-                    adaptive = FALSE, adaptive.lag = 500, 
-                    adaptive.fun = function(x) {ifelse(x>0.234, 1.3, 0.7)},
-                    intermediate=NULL, filename="intermediate.Rdata",
-                    previous=NULL, session=NULL)
+MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  , 
+                    parameters=stop("Priors  must be supplied")                , 
+                    ...                                                        , 
+                    parameters_name="x"                                        ,
+                    n.iter=10000                                               , 
+                    n.chains = 1                                               , 
+                    n.adapt = 100                                              , 
+                    thin=30                                                    , 
+                    trace=FALSE                                                , 
+                    traceML=FALSE                                              , 
+                    progress.bar.ini=NULL                                      , 
+                    progress.bar=NULL                                          , 
+                    adaptive = FALSE                                           , 
+                    adaptive.lag = 500                                         , 
+                    adaptive.fun = function(x) {ifelse(x>0.234, 1.3, 0.7)}     ,
+                    intermediate=NULL                                          , 
+                    filename="intermediate.Rdata"                              ,
+                    previous=NULL                                              , 
+                    session=NULL                                               )
   
 {
   

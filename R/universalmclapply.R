@@ -81,6 +81,9 @@
 #' ### If package pbapply is available, progress bar can be shown
 #' m <- universalmclapply(X=x, FUN=funx, forking=FALSE, progressbar=TRUE)
 #' m <- universalmclapply(X=x, FUN=funx, forking=TRUE, progressbar=TRUE)
+#' 
+#' ## You can manage the number of cores used using:
+#' options(mc.cores=1)
 #' }
 #' @export
 
