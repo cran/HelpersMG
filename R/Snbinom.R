@@ -1,9 +1,9 @@
-#' Distribution of the Sum of Negative Binomial.
-#' @title Distribution of the sum of random variable with negative binomial distributions. 
+#' Distribution of the Sum of Independent Negative Binomial Random Variables.
+#' @title Distribution of the sum independent negative binomial random variables. 
 #' @author Marc Girondot \email{marc.girondot@@gmail.com} and Jon Barry \email{jon.barry@@cefas.gov.uk}
 #' @references Furman, E., 2007. On the convolution of the negative binomial random variables. Statistics & Probability Letters 77, 169-172.
 #' @references Vellaisamy, P. & Upadhye, N.S. 2009. On the sums of compound negative binomial and gamma random variables. Journal of Applied Probability, 46, 272-283.
-#' @references Girondot M, Barry J. Submitted. On the computation of the distribution of the sum of independent negative binomial random variables.
+#' @references Girondot M, Barry J. 2023. Computation of the distribution of the sum of independent negative binomial random variables. Mathematical and Computational Applications 2023, 28, 63, doi:10.3390/mca28030063 
 #' @return \code{dSnbinom} gives the density, \code{pSnbinom} gives the distribution function, 
 #' \code{qSnbinom} gives the quantile function, and \code{rSnbinom} generates random deviates.
 #' @param x vector of (non-negative integer) quantiles.
@@ -15,7 +15,7 @@
 #' @param mu alternative parametrization via mean.
 #' @param log,log.p logical; if TRUE, probabilities \emph{p} are given as \emph{log(p)}.
 #' @param tol Tolerance for recurrence for Furman (2007) method. If NULL, will use a saddlepoint estimation.
-#' @param method Can be Furman (default) or convolution, Vellaisamy&Upadhye or exact, approximate.normal, approximate.negativebinomial, approximate.RandomObservations, or saddlepoint.
+#' @param method Can be Furman (default), Vellaisamy&Upadhye or exact, approximate.normal, approximate.negativebinomial, approximate.RandomObservations, or saddlepoint.
 #' @param normalize If TRUE (default) will normalize the saddlepoint approximation estimate.
 #' @param max.iter Number of maximum iterations for Furman method. Can be NULL.
 #' @param mean Mean of the distribution for approximate.normal method. If NULL, the theoretical mean will be used.
@@ -25,6 +25,8 @@
 #' @param parallel logical; if FALSE (default), parallel computing is not used for Vellaisamy&Upadhye methods.
 #' @param verbose Give more information on the method.
 #' @description Distribution of the sum of random variable with negative binomial distributions.\cr
+#' Technically the sum of random variable with negative binomial distributions is a convolution of negative 
+#' binomial random variables.\cr
 #' \code{dSnbinom} returns the density for the sum of random variable with negative binomial distributions.\cr
 #' \code{pSnbinom} returns the distribution function for the sum of random variable with negative binomial distributions.\cr
 #' \code{qSnbinom} returns the quantile function for the sum of random variable with negative binomial distributions.\cr
@@ -75,7 +77,7 @@
 #' (sp <- dSnbinom(x=x, size=sizetest, mu=mutest, method="saddlepoint"))
 #' paste0("Saddlepoint approximation: Error of ", specify_decimal(100*abs(sp-exact)/exact, 2), "%")
 #' (furman <- dSnbinom(x=x, size=sizetest, mu=mutest, method="Furman"))
-#' paste0("Convolution: Error of ", specify_decimal(100*abs(furman-exact)/exact, 2), "%")
+#' paste0("Inversion of mgf: Error of ", specify_decimal(100*abs(furman-exact)/exact, 2), "%")
 #' (na <- dSnbinom(x=x, size=sizetest, mu=mutest, method="approximate.normal")) 
 #' paste0("Gaussian approximation: Error of ", specify_decimal(100*abs(na-exact)/exact, 2), "%")
 #' (nb <- dSnbinom(x=x, size=sizetest, mu=mutest, method="approximate.negativebinomial"))
@@ -551,7 +553,7 @@
 #'      labels=as.character(seq(from=0, to=40, by=10)))
 #' mtext("|% error|", side = 2, adj=0.9, line=3)
 #' par(xpd=TRUE)
-#' legend(x=30, y=0.1, legend=c("Convolution", "Saddlepoint", "Normal", "Negative binomial"), 
+#' legend(x=30, y=0.1, legend=c("Inversion of mgf", "Saddlepoint", "Normal", "Negative binomial"), 
 #'        lty=c(5, 4, 2, 3), bty="n", cex=0.8, col=c("red", "green", "blue", "purple"), lwd=2)
 #' legend(x=10, y=0.05, legend=c("Exact"), lty=c(1), bty="n", cex=0.8)
 #' par(xpd=TRUE)
@@ -593,7 +595,7 @@
 #'      labels=as.character(seq(from=0, to=40, by=10)))
 #' mtext("|% error|", side = 2, adj=0.9, line=3)
 #' legend(x=30, y=0.055, 
-#'        legend=c("Exact", "Convolution", "Saddlepoint", "Normal", "Negative binomial"), 
+#'        legend=c("Exact", "Inversion of mgf", "Saddlepoint", "Normal", "Negative binomial"), 
 #'        lty=c(1, 5, 4, 2, 3), bty="n", cex=0.8, col=c("black", "red", "green", "blue", "purple"), 
 #'        lwd=c(1, 2, 2, 2, 2))
 #' par(xpd=TRUE)
@@ -736,13 +738,48 @@
 #' # Test if saddlepoint approximation must be normalized
 #' # Yes, it must be
 #' n <- 7
-#' x <- 6
 #' alpha <- 1:n
 #' p <- (1:n)/10
 #' dSnbinom(x=10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
 #'                  verbose=TRUE)
 #' dSnbinom(x=10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
 #'                  verbose=TRUE, normalize=FALSE)
+#'                  
+#' # Test for saddlepoint when x=0
+#' n <- 7
+#' alpha <- 1:n
+#' p <- (1:n)/10
+#' dSnbinom(x=0, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+#'                  verbose=TRUE)
+#' dSnbinom(x=1, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+#'                  verbose=TRUE)
+#' dSnbinom(x=c(0, 1), prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+#'                  verbose=TRUE)
+#' dSnbinom(x=c(0, 1), prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+#'                  verbose=FALSE)
+#'                  
+#' # Test when prob are all the same
+#' p <- rep(0.2, 7)
+#' n <- 7
+#' alpha <- 1:n
+#' dSnbinom(x=0:10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+#'                  verbose=TRUE)
+#' dSnbinom(x=0:10, prob=p, size=alpha, method="furman", log=FALSE,  
+#'                  verbose=TRUE)
+#' dSnbinom(x=0:10, prob=p, size=alpha, method="exact", log=FALSE,  
+#'                  verbose=TRUE)
+#'                  
+#' # Test when n=1
+#' p <- 0.2
+#' n <- 1
+#' alpha <- 1:n
+#' dSnbinom(x=0:10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+#'                  verbose=TRUE)
+#' dSnbinom(x=0:10, prob=p, size=alpha, method="furman", log=FALSE,  
+#'                  verbose=TRUE)
+#' dSnbinom(x=0:10, prob=p, size=alpha, method="exact", log=FALSE,  
+#'                  verbose=TRUE)
+#'                  
 #' }
 #' @export
 
@@ -766,14 +803,14 @@ dSnbinom <- function(x = stop("You must provide at least one x value")       ,
                      verbose = FALSE                              ) {
   
   method <- tolower(method)
-  method <- match.arg(arg=method, choices = c("furman", "convolution", 
+  method <- match.arg(arg=method, choices = c("furman", 
                                               "vellaisamy&upadhye", "exact", 
                                               "approximate.randomobservations", 
                                               "approximate.normal", 
                                               "approximate.negativebinomial", 
                                               "saddlepoint"))
   
-  if (method == "convolution") method <- "furman"
+  # if (method == "convolution") method <- "furman"
   if (method == "exact") method <- "vellaisamy&upadhye"
   
   # prob=NULL; mu=NULL; log = FALSE
@@ -792,11 +829,11 @@ dSnbinom <- function(x = stop("You must provide at least one x value")       ,
   if (is.null(size))  size  <- (prob * mu) / (1 - prob)
   
   if (all(prob == prob[1])) {
-    
-    #    if (length(prob)<length(size)) prob <- rep(prob, length(size))[1:length(size)]
-    #    if (length(size)<length(prob)) size <- rep(size, length(prob))[1:length(prob)]
-    if (verbose) message("Exact method because all prob parameters are the same.")
-    return(dnbinom(x, size=sum(size), prob=prob[1], log=log))
+    if (method == "vellaisamy&upadhye") {
+      return(dnbinom(x, size=sum(size), prob=prob[1], log=log))
+    } else {
+      if (verbose) message("Exact method could be used because all prob parameters are the same.")
+    }
   }
   
   #SaddlePoint approximation####
@@ -835,19 +872,21 @@ dSnbinom <- function(x = stop("You must provide at least one x value")       ,
     }
     
     
-    dsaddle = function(x, size, mu, tol) {
+    dsaddle = function(x, size, mu, tol, verbose=FALSE) {
       ## Saddle point approximation to density
-      phi <- size
+      if (x == 0) {
+        if (verbose) message("Exact method is used for x = 0.")
+        p <- sum(dnbinom(x=0, size=size, mu=mu, log=TRUE))
+        p <- exp(p)
+        return(p)
+      }
       
-      if (x == 0) return(prod(dnbinom(x=0, size=size, mu=mu)))
-      
-      
-      upper.bound = min(log(phi/mu + 1))
+      upper.bound = min(log(size/mu + 1))
       lower.bound <- -100
       repp <- 0
       repeat {
         ## I'm not sure how to set the lower bound in the general case
-        arse = optimise(saddlefun, phis=phi, mus=mu, x=x, 
+        arse = optimise(saddlefun, phis=size, mus=mu, x=x, 
                         lower=lower.bound, upper=upper.bound, 
                         tol=tol)
         repp <- repp + 1
@@ -861,8 +900,8 @@ dSnbinom <- function(x = stop("You must provide at least one x value")       ,
       sx = arse$minimum
       
       ## Generate the density now that we have xs
-      numfx = exp(K(sx, phi, mu) - sx*x)
-      denfx = sqrt(2*pi*Kdash2(sx, phi, mu))
+      numfx = exp(K(sx, size, mu) - sx*x)
+      denfx = sqrt(2*pi*Kdash2(sx, size, mu))
       fx = numfx / denfx
       fx
     }
@@ -872,18 +911,18 @@ dSnbinom <- function(x = stop("You must provide at least one x value")       ,
       tol <- 1E-10
     }
     
-    if (normalize) {
+    if (normalize & any(x != 0)) {
       if (verbose) message(paste0("Tolerance for normalization=", as.character(tol)))
       # Prepare normalization
       mean <- sum(size*(1-prob)/prob)
       sd <- sqrt(sum(size*(1-prob)/prob^2))
-      Max <- max(c(floor(mean+10*sd), x))+1
+      Max <- max(c(floor(mean+20*sd), x))+1
       dstot <- sapply(X = 0:Max, FUN=function(y) dsaddle(x = y, 
                                                          size = size, 
-                                                         mu = mu, tol=tol))
+                                                         mu = mu, tol=tol, verbose=FALSE))
       Max <- Max + 1
       repeat {
-        ds <- dsaddle(x = Max, size = size, mu = mu, tol=tol)
+        ds <- dsaddle(x = Max, size = size, mu = mu, tol=tol, verbose=FALSE)
         dstot <- c(dstot, ds)
         if (ds < tol) break
         Max <- Max + 1
@@ -896,8 +935,8 @@ dSnbinom <- function(x = stop("You must provide at least one x value")       ,
     } else {
       ds <- sapply(X = x, FUN=function(y) dsaddle(x = y, 
                                                   size = size, 
-                                                  mu = mu, tol=tol))
-      if (verbose) warning("Saddlepoint approximation was not normalized. Use this output with caution.")
+                                                  mu = mu, tol=tol, verbose=verbose))
+      if (verbose & any(x != 0)) warning("Saddlepoint approximation was not normalized. Use this output with caution.")
     }
     if (!log) return(ds) else return(log(ds))
   }
@@ -905,7 +944,7 @@ dSnbinom <- function(x = stop("You must provide at least one x value")       ,
   #Furman - Convolution####
   
   if (method == "furman") {
-    if (verbose) message("Furman (2007) method by convolution")
+    if (verbose) message("Furman (2007) method by inversion of moment generating function")
     if (is.null(tol)) {
       tol <- min(dSnbinom(x=x, size = size, mu=mu, log=FALSE, 
                           normalize=FALSE, 
@@ -1128,14 +1167,14 @@ pSnbinom <- function(q=stop("At least one quantile must be provided"),
                      method="Furman") {
   
   method <- tolower(method)
-  method <- match.arg(arg=method, choices = c("furman", "convolution", 
+  method <- match.arg(arg=method, choices = c("furman", 
                                               "vellaisamy&upadhye", "exact", 
                                               "approximate.randomobservations", 
                                               "approximate.normal", 
                                               "approximate.negativebinomial", 
                                               "saddlepoint"))
   
-  if (method == "convolution") method <- "furman"
+  # if (method == "convolution") method <- "furman"
   if (method == "exact") method <- "vellaisamy&upadhye"
   
   # prob=NULL; mu=NULL; log = FALSE; infinite=10
@@ -1179,14 +1218,14 @@ qSnbinom <- function(p=stop("At least one probability must be provided"),
   # prob=NULL; mu=NULL; log = FALSE; infinite=10
   
   method <- tolower(method)
-  method <- match.arg(arg=method, choices = c("furman", "convolution", 
+  method <- match.arg(arg=method, choices = c("furman", 
                                               "vellaisamy&upadhye", "exact", 
                                               "approximate.randomobservations", 
                                               "approximate.normal", 
                                               "approximate.negativebinomial", 
                                               "saddlepoint"))
   
-  if (method == "convolution") method <- "furman"
+ # if (method == "convolution") method <- "furman"
   if (method == "exact") method <- "vellaisamy&upadhye"
   
   if (is.null(mu) + is.null(size) + is.null(prob) != 1) stop("Two values among mu, size and prob must be provided")

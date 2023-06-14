@@ -14,7 +14,7 @@
 #' shape2 (and optional non-centrality parameter ncp).\cr
 #' The returned object has three attributes:\cr
 #' shape1, shape2, and ncp\cr
-#' Note that if x has attributes, they are preserved.
+#' Note that if x has other attributes, they are preserved.
 #' @details The Beta distribution with parameters shape1 = a and shape2 = b has density \cr
 #' gamma(a+b)/(gamma(a)gamma(b))x^(a-1)(1-x)^(b-1)\cr
 #' for a > 0, b > 0 and 0 <= x <= 1 where the boundary values at x=0 or x=1 are defined as by 

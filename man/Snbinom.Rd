@@ -5,7 +5,7 @@
 \alias{pSnbinom}
 \alias{qSnbinom}
 \alias{rSnbinom}
-\title{Distribution of the sum of random variable with negative binomial distributions.}
+\title{Distribution of the sum independent negative binomial random variables.}
 \usage{
 dSnbinom(
   x = stop("You must provide at least one x value"),
@@ -61,7 +61,7 @@ rSnbinom(n = 1, size = NULL, prob = NULL, mu = NULL)
 
 \item{tol}{Tolerance for recurrence for Furman (2007) method. If NULL, will use a saddlepoint estimation.}
 
-\item{method}{Can be Furman (default) or convolution, Vellaisamy&Upadhye or exact, approximate.normal, approximate.negativebinomial, approximate.RandomObservations, or saddlepoint.}
+\item{method}{Can be Furman (default), Vellaisamy&Upadhye or exact, approximate.normal, approximate.negativebinomial, approximate.RandomObservations, or saddlepoint.}
 
 \item{normalize}{If TRUE (default) will normalize the saddlepoint approximation estimate.}
 
@@ -91,6 +91,8 @@ rSnbinom(n = 1, size = NULL, prob = NULL, mu = NULL)
 }
 \description{
 Distribution of the sum of random variable with negative binomial distributions.\cr
+Technically the sum of random variable with negative binomial distributions is a convolution of negative 
+binomial random variables.\cr
 \code{dSnbinom} returns the density for the sum of random variable with negative binomial distributions.\cr
 \code{pSnbinom} returns the distribution function for the sum of random variable with negative binomial distributions.\cr
 \code{qSnbinom} returns the quantile function for the sum of random variable with negative binomial distributions.\cr
@@ -104,7 +106,7 @@ When \code{Furman} method is in use, it will return the progress of Pr(S = x) du
 in an attribute if verbose is TRUE (see examples).
 }
 \details{
-Distribution of the Sum of Negative Binomial.
+Distribution of the Sum of Independent Negative Binomial Random Variables.
 }
 \section{Functions}{
 \itemize{
@@ -155,7 +157,7 @@ x <- 5
 (sp <- dSnbinom(x=x, size=sizetest, mu=mutest, method="saddlepoint"))
 paste0("Saddlepoint approximation: Error of ", specify_decimal(100*abs(sp-exact)/exact, 2), "\%")
 (furman <- dSnbinom(x=x, size=sizetest, mu=mutest, method="Furman"))
-paste0("Convolution: Error of ", specify_decimal(100*abs(furman-exact)/exact, 2), "\%")
+paste0("Inversion of mgf: Error of ", specify_decimal(100*abs(furman-exact)/exact, 2), "\%")
 (na <- dSnbinom(x=x, size=sizetest, mu=mutest, method="approximate.normal")) 
 paste0("Gaussian approximation: Error of ", specify_decimal(100*abs(na-exact)/exact, 2), "\%")
 (nb <- dSnbinom(x=x, size=sizetest, mu=mutest, method="approximate.negativebinomial"))
@@ -631,7 +633,7 @@ axis(2, at=seq(from=0, to=40, by=10)/1000+0.055, las=1,
      labels=as.character(seq(from=0, to=40, by=10)))
 mtext("|\% error|", side = 2, adj=0.9, line=3)
 par(xpd=TRUE)
-legend(x=30, y=0.1, legend=c("Convolution", "Saddlepoint", "Normal", "Negative binomial"), 
+legend(x=30, y=0.1, legend=c("Inversion of mgf", "Saddlepoint", "Normal", "Negative binomial"), 
        lty=c(5, 4, 2, 3), bty="n", cex=0.8, col=c("red", "green", "blue", "purple"), lwd=2)
 legend(x=10, y=0.05, legend=c("Exact"), lty=c(1), bty="n", cex=0.8)
 par(xpd=TRUE)
@@ -673,7 +675,7 @@ axis(2, at=seq(from=0, to=40, by=10)/1000+0.055, las=1,
      labels=as.character(seq(from=0, to=40, by=10)))
 mtext("|\% error|", side = 2, adj=0.9, line=3)
 legend(x=30, y=0.055, 
-       legend=c("Exact", "Convolution", "Saddlepoint", "Normal", "Negative binomial"), 
+       legend=c("Exact", "Inversion of mgf", "Saddlepoint", "Normal", "Negative binomial"), 
        lty=c(1, 5, 4, 2, 3), bty="n", cex=0.8, col=c("black", "red", "green", "blue", "purple"), 
        lwd=c(1, 2, 2, 2, 2))
 par(xpd=TRUE)
@@ -816,13 +818,48 @@ legend(x=200, y=0.02, legend=c("Empirical", "Theoretical"),
 # Test if saddlepoint approximation must be normalized
 # Yes, it must be
 n <- 7
-x <- 6
 alpha <- 1:n
 p <- (1:n)/10
 dSnbinom(x=10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
                  verbose=TRUE)
 dSnbinom(x=10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
                  verbose=TRUE, normalize=FALSE)
+                 
+# Test for saddlepoint when x=0
+n <- 7
+alpha <- 1:n
+p <- (1:n)/10
+dSnbinom(x=0, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+                 verbose=TRUE)
+dSnbinom(x=1, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+                 verbose=TRUE)
+dSnbinom(x=c(0, 1), prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+                 verbose=TRUE)
+dSnbinom(x=c(0, 1), prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+                 verbose=FALSE)
+                 
+# Test when prob are all the same
+p <- rep(0.2, 7)
+n <- 7
+alpha <- 1:n
+dSnbinom(x=0:10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+                 verbose=TRUE)
+dSnbinom(x=0:10, prob=p, size=alpha, method="furman", log=FALSE,  
+                 verbose=TRUE)
+dSnbinom(x=0:10, prob=p, size=alpha, method="exact", log=FALSE,  
+                 verbose=TRUE)
+                 
+# Test when n=1
+p <- 0.2
+n <- 1
+alpha <- 1:n
+dSnbinom(x=0:10, prob=p, size=alpha, method="saddlepoint", log=FALSE,  
+                 verbose=TRUE)
+dSnbinom(x=0:10, prob=p, size=alpha, method="furman", log=FALSE,  
+                 verbose=TRUE)
+dSnbinom(x=0:10, prob=p, size=alpha, method="exact", log=FALSE,  
+                 verbose=TRUE)
+                 
 }
 }
 \references{
@@ -830,7 +867,7 @@ Furman, E., 2007. On the convolution of the negative binomial random variables. 
 
 Vellaisamy, P. & Upadhye, N.S. 2009. On the sums of compound negative binomial and gamma random variables. Journal of Applied Probability, 46, 272-283.
 
-Girondot M, Barry J. Submitted. On the computation of the distribution of the sum of independent negative binomial random variables.
+Girondot M, Barry J. 2023. Computation of the distribution of the sum of independent negative binomial random variables. Mathematical and Computational Applications 2023, 28, 63, doi:10.3390/mca28030063
 }
 \seealso{
 Other Distributions: 

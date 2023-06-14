@@ -40,7 +40,7 @@ Density for the Beta distribution with parameters mu and v or shape1 and
 shape2 (and optional non-centrality parameter ncp).\cr
 The returned object has three attributes:\cr
 shape1, shape2, and ncp\cr
-Note that if x has attributes, they are preserved.
+Note that if x has other attributes, they are preserved.
 }
 \details{
 dbeta_new returns the density for the Beta distributions

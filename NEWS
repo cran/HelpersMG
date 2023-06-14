@@ -1,8 +1,14 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 5.9 (2023-03-31)
+            CHANGES IN VERSION 6.0 (2023-06-14)
+            
+* New CRAN version - 6.0 (2023-06-14)
+
+            CHANGES IN VERSION 5.9.1 (2023-04-17)
             
 * New CRAN version - 5.9 (2023-03-31)
+* dSnbinom do not use exact method when probs are all the same - 5.9.1 (2023-04-17)
+* Change in description of dSnbinom - 5.9.2 (2023-06-14)
 
             CHANGES IN VERSION 5.8 (2022-11-09)
             
