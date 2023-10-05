@@ -130,11 +130,26 @@ plot_errbar <- function(...,
     # Je fais un nouveau graphique
     # Là il n'y a pas de xlim, ylim; je le laisse calculer
     pp <- par.plot
-    pp <- modifyList(pp, list(x=c(min(x-ifelse(is.null(errbar.x.minus), 0, errbar.x.minus)), 
-                                  max(x+ifelse(is.null(errbar.x.plus), 0, errbar.x.plus)))
+    ebxm <- errbar.x.minus
+    if (is.null(ebxm)) ebxm <- 0
+    ebxm <- ifelse(is.na(ebxm), 0, ebxm)
+    ebxp <- errbar.x.plus
+    if (is.null(ebxp)) ebxp <- 0
+    ebxp <- ifelse(is.na(ebxp), 0, ebxp)
+    
+    pp <- modifyList(pp, list(x=c(min(x-ebxm, na.rm = TRUE), 
+                                  max(x+ebxp, na.rm = TRUE))
     ))
-    pp <- modifyList(pp, list(y=c(min(y-ifelse(is.null(errbar.y.minus), 0, errbar.y.minus)), 
-                                  max(y+ifelse(is.null(errbar.y.plus), 0, errbar.y.plus)))
+    
+    ebym <- errbar.y.minus
+    if (is.null(ebym)) ebym <- 0
+    ebym <- ifelse(is.na(ebym), 0, ebym)
+    ebyp <- errbar.y.plus
+    if (is.null(ebyp)) ebyp <- 0
+    ebyp <- ifelse(is.na(ebyp), 0, ebyp)
+    
+    pp <- modifyList(pp, list(y=c(min(y-ebym, na.rm = TRUE), 
+                                  max(y+ebyp, na.rm = TRUE))
     ))
     
     do.call(plot, modifyList(pp, list(type="n")))

@@ -1164,7 +1164,7 @@ dSnbinom <- function(x = stop("You must provide at least one x value")       ,
 pSnbinom <- function(q=stop("At least one quantile must be provided"), 
                      size=NULL, 
                      prob=NULL, mu=NULL, lower.tail = TRUE, log.p = FALSE, tol=NULL, 
-                     method="Furman") {
+                     method="Furman", normalize=TRUE) {
   
   method <- tolower(method)
   method <- match.arg(arg=method, choices = c("furman", 
@@ -1196,7 +1196,7 @@ pSnbinom <- function(q=stop("At least one quantile must be provided"),
   pp <- vapply(q, FUN=function(qq) {
     
     l <- dSnbinom(0:qq, prob=prob, size=size, mu=NULL, log=FALSE, 
-                  tol=tol, method = method)
+                  tol=tol, method = method, normalize=normalize)
     p <- sum(l)
     if (!lower.tail) p <- 1-p
     if (log.p) p <- log(p)

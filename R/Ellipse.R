@@ -16,10 +16,11 @@
 #' @param control.binconf A list with options for binomial confidence
 #' @param length Number of points to draw the ellipse
 #' @param ... Graphical parameters
-#' @description Plot a ellipse dined by the center and the radius. The options for 
-#' binomial confidence are:\cr
-#' - alpha is 1 - confidence interval\cr
-#' - method  must be one of these "wilson", "exact", "asymptotic"\cr
+#' @description Plot a ellipse defined by the center and the radius. The options for 
+#' binomial confidence parameters are:\cr
+#' - conf.level\cr
+#' - method  must be one of these "wald", "wilson", "wilsoncc", "agresti-coull", "jeffreys", "modified wilson", "modified jeffreys", "clopper-pearson", "arcsine", "logit", "witting", "pratt", "midp", "lik" and "blaker". Defaults to "wilson". Abbreviation of method is accepted. See details.\cr
+#' Default is wilsoncc (Wilson with continuity correction)
 #' col parameter can be a list of colors. See examples
 #' @examples
 #' plot(0:1, 0:1, xlim=c(0, 1), ylim=c(0,1), lty=2, type="l", las=1, bty="n", 
@@ -96,14 +97,14 @@
 
 
 ellipse <- function(center.x = 0, center.y = 0, 
-                        radius.x = 1, radius.y = 1, 
-                        radius.x.lower=NULL, radius.x.upper=NULL, 
-                        radius.y.lower=NULL, radius.y.upper=NULL, 
+                    radius.x = 1, radius.y = 1, 
+                    radius.x.lower=NULL, radius.x.upper=NULL, 
+                    radius.y.lower=NULL, radius.y.upper=NULL, 
                     alpha = 0, 
                     binconf.x=NULL, 
                     binconf.y=NULL, 
-                    control.binconf=list(alpha = 0.05, method = "wilson"), 
-                        length=100, ...) {
+                    control.binconf=list(conf.level = 0.95, method = "wilsoncc"), 
+                    length=100, ...) {
   
   p3p <- list(...)
   
@@ -111,9 +112,8 @@ ellipse <- function(center.x = 0, center.y = 0,
     if ((inherits(binconf.x, "binconf")) | (ncol(binconf.x) == 3)) {
       bc.x <- binconf.x
     } else {
-      control.binconf.x <- modifyList(c(control.binconf, list(x=binconf.x[, "x"]), 
-                                        list(n=binconf.x[, "n"])), 
-                                      list(include.x = FALSE, include.n = FALSE, return.df = FALSE))
+      control.binconf.x <- modifyList(control.binconf, c(list(x=binconf.x[, "x"]), 
+                                        list(n=binconf.x[, "n"])))
       bc.x <- do.call(getFromNamespace(".BinomialConfidence", ns="HelpersMG"), control.binconf.x) 
     }
     
@@ -126,9 +126,8 @@ ellipse <- function(center.x = 0, center.y = 0,
     if ((inherits(binconf.y, "binconf")) | (ncol(binconf.y) == 3))  {
       bc.y <- binconf.y
     } else {
-      control.binconf.y <- modifyList(c(control.binconf, list(x=binconf.y[, "x"]), 
-                                        list(n=binconf.y[, "n"])), 
-                                      list(include.x = FALSE, include.n = FALSE, return.df = FALSE))
+      control.binconf.y <- modifyList(control.binconf, c(list(x=binconf.y[, "x"]), 
+                                        list(n=binconf.y[, "n"])))
       bc.y <- do.call(getFromNamespace(".BinomialConfidence", ns="HelpersMG"), control.binconf.y) 
     }
     
@@ -144,8 +143,8 @@ ellipse <- function(center.x = 0, center.y = 0,
   
   ncol <- 1
   if (!is.null(p3p$col)) {
-      ncol <- length(p3p$col)
-      p3p$col <- rev(p3p$col)
+    ncol <- length(p3p$col)
+    p3p$col <- rev(p3p$col)
   }
   
   
@@ -153,32 +152,32 @@ ellipse <- function(center.x = 0, center.y = 0,
     
     cptcol <- 1
     for (nc in seq(from=1, to=1/ncol, length.out = ncol)) {
- 
-  theta <- seq(0, pi / 2, length=length/4)
-  x <- center.x[k] + radius.x.upper[k] * nc * cos(theta) * cos(alpha) - radius.y.upper[k] * nc * sin(theta) * sin(alpha)
-  y <- center.y[k] + radius.x.upper[k] * nc * cos(theta) * sin(alpha) + radius.y.upper[k] * nc * sin(theta) * cos(alpha)
-  
-  theta <- seq(pi / 2, pi, length=length/4)
-  x <- c(x, center.x[k] + radius.x.lower[k] * nc * cos(theta) * cos(alpha) - radius.y.upper[k] * nc * sin(theta) * sin(alpha))
-  y <- c(y, center.y[k] + radius.x.lower[k] * nc * cos(theta) * sin(alpha) + radius.y.upper[k] * nc * sin(theta) * cos(alpha))
-  
-  theta <- seq(pi, 3/2*pi, length=length/4)
-  x <- c(x, center.x[k] + radius.x.lower[k] * nc * cos(theta) * cos(alpha) - radius.y.lower[k] * nc * sin(theta) * sin(alpha))
-  y <- c(y, center.y[k] + radius.x.lower[k] * nc * cos(theta) * sin(alpha) + radius.y.lower[k] * nc * sin(theta) * cos(alpha))
-  
-  theta <- seq(3/2*pi, 2 * pi, length=length/4)
-  x <- c(x, center.x[k] + radius.x.upper[k] * nc * cos(theta) * cos(alpha) - radius.y.lower[k] * nc * sin(theta) * sin(alpha))
-  y <- c(y, center.y[k] + radius.x.upper[k] * nc * cos(theta) * sin(alpha) + radius.y.lower[k] * nc * sin(theta) * cos(alpha))
-  
-  if ((ncol == 1)) {
-    do.call(polygon, modifyList(p3p, list(x=x, y=y)))
-  } else {
-    p3p_ec <- modifyList(p3p, list(col=p3p$col[cptcol]))
-    do.call(polygon, modifyList(p3p_ec, list(x=x, y=y)))
-  }
-  cptcol <- cptcol + 1
+      
+      theta <- seq(0, pi / 2, length=length/4)
+      x <- center.x[k] + radius.x.upper[k] * nc * cos(theta) * cos(alpha) - radius.y.upper[k] * nc * sin(theta) * sin(alpha)
+      y <- center.y[k] + radius.x.upper[k] * nc * cos(theta) * sin(alpha) + radius.y.upper[k] * nc * sin(theta) * cos(alpha)
+      
+      theta <- seq(pi / 2, pi, length=length/4)
+      x <- c(x, center.x[k] + radius.x.lower[k] * nc * cos(theta) * cos(alpha) - radius.y.upper[k] * nc * sin(theta) * sin(alpha))
+      y <- c(y, center.y[k] + radius.x.lower[k] * nc * cos(theta) * sin(alpha) + radius.y.upper[k] * nc * sin(theta) * cos(alpha))
+      
+      theta <- seq(pi, 3/2*pi, length=length/4)
+      x <- c(x, center.x[k] + radius.x.lower[k] * nc * cos(theta) * cos(alpha) - radius.y.lower[k] * nc * sin(theta) * sin(alpha))
+      y <- c(y, center.y[k] + radius.x.lower[k] * nc * cos(theta) * sin(alpha) + radius.y.lower[k] * nc * sin(theta) * cos(alpha))
+      
+      theta <- seq(3/2*pi, 2 * pi, length=length/4)
+      x <- c(x, center.x[k] + radius.x.upper[k] * nc * cos(theta) * cos(alpha) - radius.y.lower[k] * nc * sin(theta) * sin(alpha))
+      y <- c(y, center.y[k] + radius.x.upper[k] * nc * cos(theta) * sin(alpha) + radius.y.lower[k] * nc * sin(theta) * cos(alpha))
+      
+      if ((ncol == 1)) {
+        do.call(polygon, modifyList(p3p, list(x=x, y=y)))
+      } else {
+        p3p_ec <- modifyList(p3p, list(col=p3p$col[cptcol]))
+        do.call(polygon, modifyList(p3p_ec, list(x=x, y=y)))
+      }
+      cptcol <- cptcol + 1
     }
- 
+    
   }
 }
 

@@ -3,8 +3,8 @@
 #' \tabular{ll}{
 #'  Package: \tab HelpersMG\cr
 #'  Type: \tab Package\cr
-#'  Version: \tab 6.0 build 1476\cr
-#'  Date: \tab 2023-06-14\cr
+#'  Version: \tab 6.0.3 build 1495\cr
+#'  Date: \tab 2023-10-05\cr
 #'  License: \tab GPL (>= 2)\cr
 #'  LazyLoad: \tab yes\cr
 #'  }

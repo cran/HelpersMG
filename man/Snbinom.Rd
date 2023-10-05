@@ -32,7 +32,8 @@ pSnbinom(
   lower.tail = TRUE,
   log.p = FALSE,
   tol = NULL,
-  method = "Furman"
+  method = "Furman",
+  normalize = TRUE
 )
 
 qSnbinom(

@@ -1,91 +1,315 @@
 .BinomialConfidence <- 
-function (x, n, alpha = 0.05, method = c("wilson", "exact", "asymptotic", 
-    "all"), include.x = FALSE, include.n = FALSE, return.df = FALSE) 
-{
-  
-  # @title Confidence Intervals for Binomial Probabilities
-  # @author Rollin Brant, Modified by Frank Harrell and Brad Biggerstaff 
-  # @return a matrix or data.frame containing the computed intervals and, optionally, x and n.
-  # @param x Vector containing the number of "successes" for binomial variates
-  # @param n Vector containing the numbers of corresponding observations
-  # @param alpha Probability of a type I error, so confidence coefficient = 1-alpha
-  # @param method Character string specifing which method to use. The "all" method only works when x and n are length 1. The "exact" method uses the F distribution to compute exact (based on the binomial cdf) intervals; the "wilson" interval is score-test-based; and the "asymptotic" is the text-book, asymptotic normal interval. Following Agresti and Coull, the Wilson interval is to be preferred and so is the default.
-  # @param include.x Logical flag to indicate whether x should be included in the returned matrix or data frame
-  # @param include.n Logical flag to indicate whether n should be included in the returned matrix or data frame
-  # @param return.df Logical flag to indicate that a data frame rather than a matrix be returned
-  # @description Produces 1-alpha confidence intervals for binomial probabilities.\cr
-  # @examples
-  # \dontrun{
-  # HelpersMG:::.BinomialConfidence(0:10,10,include.x=TRUE,include.n=TRUE)
-  # HelpersMG:::.BinomialConfidence(46,50,method="all")
-  # }
-  # @export
-  
-    method <- match.arg(method)
-    bc <- function(x, n, alpha, method) {
-        nu1 <- 2 * (n - x + 1)
-        nu2 <- 2 * x
-        ll <- if (x > 0) 
-            x/(x + qf(1 - alpha/2, nu1, nu2) * (n - x + 1))
-        else 0
-        nu1p <- nu2 + 2
-        nu2p <- nu1 - 2
-        pp <- if (x < n) 
-            qf(1 - alpha/2, nu1p, nu2p)
-        else 1
-        ul <- ((x + 1) * pp)/(n - x + (x + 1) * pp)
-        zcrit <- -qnorm(alpha/2)
-        z2 <- zcrit * zcrit
-        p <- x/n
-        cl <- (p + z2/2/n + c(-1, 1) * zcrit * sqrt((p * (1 - 
-            p) + z2/4/n)/n))/(1 + z2/n)
-        if (x == 1) 
-            cl[1] <- -log(1 - alpha)/n
-        if (x == (n - 1)) 
-            cl[2] <- 1 + log(1 - alpha)/n
-        asymp.lcl <- x/n - qnorm(1 - alpha/2) * sqrt(((x/n) * 
-            (1 - x/n))/n)
-        asymp.ucl <- x/n + qnorm(1 - alpha/2) * sqrt(((x/n) * 
-            (1 - x/n))/n)
-        res <- rbind(c(ll, ul), cl, c(asymp.lcl, asymp.ucl))
-        res <- cbind(rep(x/n, 3), res)
-        switch(method, wilson = res[2, ], exact = res[1, ], asymptotic = res[3, 
-            ], all = res, res)
+function (x, n, conf.level = 0.95, sides = c("two.sided", "left", "right"),
+          method = c("wilson", "wald", "waldcc", "agresti-coull", "jeffreys",
+                     "modified wilson", "wilsoncc","modified jeffreys",
+                     "clopper-pearson", "arcsine", "logit", "witting", "pratt", 
+                     "midp", "lik", "blaker"),
+          rand = 123, tol = 1e-05, std_est = TRUE, silent=TRUE)
+#   Arguments
+# x	number of successes.
+# n	number of trials.
+# conf.level  confidence level, defaults to 0.95.
+# sides	 a character string specifying the side of the confidence interval, must be one of "two.sided" (default), "left" or "right". You can specify just the initial letter. "left" would be analogue to a hypothesis of "greater" in a t.test.
+# method	character string specifing which method to use; this can be one out of: "wald", "wilson", "wilsoncc", "agresti-coull", "jeffreys", "modified wilson", "modified jeffreys", "clopper-pearson", "arcsine", "logit", "witting", "pratt", "midp", "lik" and "blaker". Defaults to "wilson". Abbreviation of method is accepted. See details.
+# rand	seed for random number generator; see details.
+# tol	tolerance for method "blaker".
+# std_est	logical, specifying if the standard point estimator for the proportion value x/n should be returned (TRUE, default) or the method-specific internally used alternative point estimate (FALSE).
+
+  {
+    if (missing(method)) 
+      method <- "wilsoncc"
+    if (!silent) message(paste0("Method ", method))
+    if (missing(sides)) 
+      sides <- "two.sided"
+    Recycle <- function (...) 
+    {
+      lst <- list(...)
+      maxdim <- max(lengths(lst))
+      res <- lapply(lst, rep, length.out = maxdim)
+      attr(res, "maxdim") <- maxdim
+      return(res)
     }
-    if ((length(x) != length(n)) & length(x) == 1) 
-        x <- rep(x, length(n))
-    if ((length(x) != length(n)) & length(n) == 1) 
-        n <- rep(n, length(x))
-    if ((length(x) > 1 | length(n) > 1) & method == "all") {
-        method <- "wilson"
-        warning("method=all will not work with vectors...setting method to wilson")
+    
+    iBinomCI <- function(x, n, conf.level = 0.95, sides = c("two.sided", 
+                                                            "left", "right"), method = c("wilson", "wilsoncc", "wald", 
+                                                                                         "waldcc", "agresti-coull", "jeffreys", "modified wilson", 
+                                                                                         "modified jeffreys", "clopper-pearson", "arcsine", "logit", 
+                                                                                         "witting", "pratt", "midp", "lik", "blaker"), rand = 123, 
+                         tol = 1e-05, std_est = TRUE) {
+      if (length(x) != 1) 
+        stop("'x' has to be of length 1 (number of successes)")
+      if (length(n) != 1) 
+        stop("'n' has to be of length 1 (number of trials)")
+      if (length(conf.level) != 1) 
+        stop("'conf.level' has to be of length 1 (confidence level)")
+      if (conf.level < 0.5 | conf.level > 1) 
+        stop("'conf.level' has to be in [0.5, 1]")
+      method <- match.arg(arg = method, choices = c("wilson", 
+                                                    "wald", "waldcc", "wilsoncc", "agresti-coull", "jeffreys", 
+                                                    "modified wilson", "modified jeffreys", "clopper-pearson", 
+                                                    "arcsine", "logit", "witting", "pratt", "midp", "lik", 
+                                                    "blaker"))
+      sides <- match.arg(sides, choices = c("two.sided", "left", 
+                                            "right"), several.ok = FALSE)
+      if (sides != "two.sided") 
+        conf.level <- 1 - 2 * (1 - conf.level)
+      alpha <- 1 - conf.level
+      kappa <- qnorm(1 - alpha/2)
+      p.hat <- x/n
+      q.hat <- 1 - p.hat
+      est <- p.hat
+      switch(method, wald = {
+        term2 <- kappa * sqrt(p.hat * q.hat)/sqrt(n)
+        CI.lower <- max(0, p.hat - term2)
+        CI.upper <- min(1, p.hat + term2)
+      }, waldcc = {
+        term2 <- kappa * sqrt(p.hat * q.hat)/sqrt(n)
+        term2 <- term2 + 1/(2 * n)
+        CI.lower <- max(0, p.hat - term2)
+        CI.upper <- min(1, p.hat + term2)
+      }, wilson = {
+        if (!std_est) {
+          x.tilde <- x + kappa^2/2
+          n.tilde <- n + kappa^2
+          p.tilde <- x.tilde/n.tilde
+          est <- p.tilde
+        }
+        term1 <- (x + kappa^2/2)/(n + kappa^2)
+        term2 <- kappa * sqrt(n)/(n + kappa^2) * sqrt(p.hat * 
+                                                        q.hat + kappa^2/(4 * n))
+        CI.lower <- max(0, term1 - term2)
+        CI.upper <- min(1, term1 + term2)
+      }, wilsoncc = {
+        if (!std_est) {
+          x.tilde <- x + kappa^2/2
+          n.tilde <- n + kappa^2
+          p.tilde <- x.tilde/n.tilde
+          est <- p.tilde
+        }
+        lci <- (2 * x + kappa^2 - 1 - kappa * sqrt(kappa^2 - 
+                                                     2 - 1/n + 4 * p.hat * (n * q.hat + 1)))/(2 * 
+                                                                                                (n + kappa^2))
+        uci <- (2 * x + kappa^2 + 1 + kappa * sqrt(kappa^2 + 
+                                                     2 - 1/n + 4 * p.hat * (n * q.hat - 1)))/(2 * 
+                                                                                                (n + kappa^2))
+        CI.lower <- max(0, ifelse(p.hat == 0, 0, lci))
+        CI.upper <- min(1, ifelse(p.hat == 1, 1, uci))
+      }, `agresti-coull` = {
+        x.tilde <- x + kappa^2/2
+        n.tilde <- n + kappa^2
+        p.tilde <- x.tilde/n.tilde
+        q.tilde <- 1 - p.tilde
+        if (!std_est) est <- p.tilde
+        term2 <- kappa * sqrt(p.tilde * q.tilde)/sqrt(n.tilde)
+        CI.lower <- max(0, p.tilde - term2)
+        CI.upper <- min(1, p.tilde + term2)
+      }, jeffreys = {
+        if (x == 0) CI.lower <- 0 else CI.lower <- qbeta(alpha/2, 
+                                                         x + 0.5, n - x + 0.5)
+        if (x == n) CI.upper <- 1 else CI.upper <- qbeta(1 - 
+                                                           alpha/2, x + 0.5, n - x + 0.5)
+      }, `modified wilson` = {
+        if (!std_est) {
+          x.tilde <- x + kappa^2/2
+          n.tilde <- n + kappa^2
+          p.tilde <- x.tilde/n.tilde
+          est <- p.tilde
+        }
+        term1 <- (x + kappa^2/2)/(n + kappa^2)
+        term2 <- kappa * sqrt(n)/(n + kappa^2) * sqrt(p.hat * 
+                                                        q.hat + kappa^2/(4 * n))
+        if ((n <= 50 & x %in% c(1, 2)) | (n >= 51 & x %in% 
+                                          c(1:3))) CI.lower <- 0.5 * qchisq(alpha, 2 * 
+                                                                              x)/n else CI.lower <- max(0, term1 - term2)
+        if ((n <= 50 & x %in% c(n - 1, n - 2)) | (n >= 51 & 
+                                                  x %in% c(n - (1:3)))) CI.upper <- 1 - 0.5 * qchisq(alpha, 
+                                                                                                     2 * (n - x))/n else CI.upper <- min(1, term1 + 
+                                                                                                                                           term2)
+      }, `modified jeffreys` = {
+        if (x == n) CI.lower <- (alpha/2)^(1/n) else {
+          if (x <= 1) CI.lower <- 0 else CI.lower <- qbeta(alpha/2, 
+                                                           x + 0.5, n - x + 0.5)
+        }
+        if (x == 0) CI.upper <- 1 - (alpha/2)^(1/n) else {
+          if (x >= n - 1) CI.upper <- 1 else CI.upper <- qbeta(1 - 
+                                                                 alpha/2, x + 0.5, n - x + 0.5)
+        }
+      }, `clopper-pearson` = {
+        CI.lower <- qbeta(alpha/2, x, n - x + 1)
+        CI.upper <- qbeta(1 - alpha/2, x + 1, n - x)
+      }, arcsine = {
+        p.tilde <- (x + 0.375)/(n + 0.75)
+        if (!std_est) est <- p.tilde
+        CI.lower <- sin(asin(sqrt(p.tilde)) - 0.5 * kappa/sqrt(n))^2
+        CI.upper <- sin(asin(sqrt(p.tilde)) + 0.5 * kappa/sqrt(n))^2
+      }, logit = {
+        lambda.hat <- log(x/(n - x))
+        V.hat <- n/(x * (n - x))
+        lambda.lower <- lambda.hat - kappa * sqrt(V.hat)
+        lambda.upper <- lambda.hat + kappa * sqrt(V.hat)
+        CI.lower <- exp(lambda.lower)/(1 + exp(lambda.lower))
+        CI.upper <- exp(lambda.upper)/(1 + exp(lambda.upper))
+      }, witting = {
+        set.seed(rand)
+        x.tilde <- x + runif(1, min = 0, max = 1)
+        pbinom.abscont <- function(q, size, prob) {
+          v <- trunc(q)
+          term1 <- pbinom(v - 1, size = size, prob = prob)
+          term2 <- (q - v) * dbinom(v, size = size, prob = prob)
+          return(term1 + term2)
+        }
+        qbinom.abscont <- function(p, size, x) {
+          fun <- function(prob, size, x, p) {
+            pbinom.abscont(x, size, prob) - p
+          }
+          uniroot(fun, interval = c(0, 1), size = size, 
+                  x = x, p = p)$root
+        }
+        CI.lower <- qbinom.abscont(1 - alpha, size = n, x = x.tilde)
+        CI.upper <- qbinom.abscont(alpha, size = n, x = x.tilde)
+      }, pratt = {
+        if (x == 0) {
+          CI.lower <- 0
+          CI.upper <- 1 - alpha^(1/n)
+        } else if (x == 1) {
+          CI.lower <- 1 - (1 - alpha/2)^(1/n)
+          CI.upper <- 1 - (alpha/2)^(1/n)
+        } else if (x == (n - 1)) {
+          CI.lower <- (alpha/2)^(1/n)
+          CI.upper <- (1 - alpha/2)^(1/n)
+        } else if (x == n) {
+          CI.lower <- alpha^(1/n)
+          CI.upper <- 1
+        } else {
+          z <- qnorm(1 - alpha/2)
+          A <- ((x + 1)/(n - x))^2
+          B <- 81 * (x + 1) * (n - x) - 9 * n - 8
+          C <- (0 - 3) * z * sqrt(9 * (x + 1) * (n - x) * 
+                                    (9 * n + 5 - z^2) + n + 1)
+          D <- 81 * (x + 1)^2 - 9 * (x + 1) * (2 + z^2) + 
+            1
+          E <- 1 + A * ((B + C)/D)^3
+          CI.upper <- 1/E
+          A <- (x/(n - x - 1))^2
+          B <- 81 * x * (n - x - 1) - 9 * n - 8
+          C <- 3 * z * sqrt(9 * x * (n - x - 1) * (9 * 
+                                                     n + 5 - z^2) + n + 1)
+          D <- 81 * x^2 - 9 * x * (2 + z^2) + 1
+          E <- 1 + A * ((B + C)/D)^3
+          CI.lower <- 1/E
+        }
+      }, midp = {
+        f.low <- function(pi, x, n) {
+          1/2 * dbinom(x, size = n, prob = pi) + pbinom(x, 
+                                                        size = n, prob = pi, lower.tail = FALSE) - 
+            (1 - conf.level)/2
+        }
+        f.up <- function(pi, x, n) {
+          1/2 * dbinom(x, size = n, prob = pi) + pbinom(x - 
+                                                          1, size = n, prob = pi) - (1 - conf.level)/2
+        }
+        CI.lower <- 0
+        CI.upper <- 1
+        if (x != 0) {
+          CI.lower <- uniroot(f.low, interval = c(0, p.hat), 
+                              x = x, n = n)$root
+        }
+        if (x != n) {
+          CI.upper <- uniroot(f.up, interval = c(p.hat, 
+                                                 1), x = x, n = n)$root
+        }
+      }, lik = {
+        CI.lower <- 0
+        CI.upper <- 1
+        z <- qnorm(1 - alpha * 0.5)
+        tol = .Machine$double.eps^0.5
+        BinDev <- function(y, x, mu, wt, bound = 0, tol = .Machine$double.eps^0.5, 
+                           ...) {
+          ll.y <- ifelse(y %in% c(0, 1), 0, dbinom(x, wt, 
+                                                   y, log = TRUE))
+          ll.mu <- ifelse(mu %in% c(0, 1), 0, dbinom(x, 
+                                                     wt, mu, log = TRUE))
+          res <- ifelse(abs(y - mu) < tol, 0, sign(y - 
+                                                     mu) * sqrt(-2 * (ll.y - ll.mu)))
+          return(res - bound)
+        }
+        if (x != 0 && tol < p.hat) {
+          CI.lower <- if (BinDev(tol, x, p.hat, n, -z, 
+                                 tol) <= 0) {
+            uniroot(f = BinDev, interval = c(tol, if (p.hat < 
+                                                      tol || p.hat == 1) 1 - tol else p.hat), bound = -z, 
+                    x = x, mu = p.hat, wt = n)$root
+          }
+        }
+        if (x != n && p.hat < (1 - tol)) {
+          CI.upper <- if (BinDev(y = 1 - tol, x = x, mu = ifelse(p.hat > 
+                                                                 1 - tol, tol, p.hat), wt = n, bound = z, tol = tol) < 
+                          0) {
+            CI.lower <- if (BinDev(tol, x, if (p.hat < 
+                                               tol || p.hat == 1) 1 - tol else p.hat, n, 
+                                   -z, tol) <= 0) {
+              uniroot(f = BinDev, interval = c(tol, p.hat), 
+                      bound = -z, x = x, mu = p.hat, wt = n)$root
+            }
+          } else {
+            uniroot(f = BinDev, interval = c(if (p.hat > 
+                                                 1 - tol) tol else p.hat, 1 - tol), bound = z, 
+                    x = x, mu = p.hat, wt = n)$root
+          }
+        }
+      }, blaker = {
+        acceptbin <- function(x, n, p) {
+          p1 <- 1 - pbinom(x - 1, n, p)
+          p2 <- pbinom(x, n, p)
+          a1 <- p1 + pbinom(qbinom(p1, n, p) - 1, n, p)
+          a2 <- p2 + 1 - pbinom(qbinom(1 - p2, n, p), n, 
+                                p)
+          return(min(a1, a2))
+        }
+        CI.lower <- 0
+        CI.upper <- 1
+        if (x != 0) {
+          CI.lower <- qbeta((1 - conf.level)/2, x, n - 
+                              x + 1)
+          while (acceptbin(x, n, CI.lower + tol) < (1 - 
+                                                    conf.level)) CI.lower = CI.lower + tol
+        }
+        if (x != n) {
+          CI.upper <- qbeta(1 - (1 - conf.level)/2, x + 
+                              1, n - x)
+          while (acceptbin(x, n, CI.upper - tol) < (1 - 
+                                                    conf.level)) CI.upper <- CI.upper - tol
+        }
+      })
+      ci <- c(est = est, lwr.ci = max(0, CI.lower), upr.ci = min(1, 
+                                                                 CI.upper))
+      if (sides == "left") 
+        ci[3] <- 1
+      else if (sides == "right") 
+        ci[2] <- 0
+      return(ci)
     }
-    if (method == "all" & length(x) == 1 & length(n) == 1) {
-        mat <- bc(x, n, alpha, method)
-        dimnames(mat) <- list(c("Exact", "Wilson", "Asymptotic"), 
-            c("PointEst", "Lower", "Upper"))
-        if (include.n) 
-            mat <- cbind(N = n, mat)
-        if (include.x) 
-            mat <- cbind(X = x, mat)
-        if (return.df) 
-            mat <- as.data.frame(mat)
-        return(mat)
-    }
-    mat <- matrix(ncol = 3, nrow = length(x))
-    for (i in 1:length(x)) mat[i, ] <- bc(x[i], n[i], alpha = alpha, 
-        method = method)
-    dimnames(mat) <- list(rep("", dim(mat)[1]), c("PointEst", 
-        "Lower", "Upper"))
-    if (include.n) 
-        mat <- cbind(N = n, mat)
-    if (include.x) 
-        mat <- cbind(X = x, mat)
-    if (return.df) 
-        mat <- as.data.frame(mat, row.names = NULL)
-    # class(mat) <- "binconf"
-    mat
-}
+    lst <- list(x = x, n = n, conf.level = conf.level, sides = sides, 
+                method = method, rand = rand, std_est = std_est)
+    maxdim <- max(unlist(lapply(lst, length)))
+    lgp <- lapply(lst, rep, length.out = maxdim)
+    lgn <- Recycle(x = if (is.null(names(x))) 
+      paste("x", seq_along(x), sep = ".")
+      else names(x), n = if (is.null(names(n))) 
+        paste("n", seq_along(n), sep = ".")
+      else names(n), conf.level = conf.level, sides = sides, method = method, 
+      std_est = std_est)
+    xn <- apply(as.data.frame(lgn[sapply(lgn, function(x) length(unique(x)) != 
+                                           1)]), 1, paste, collapse = ":")
+    res <- t(sapply(1:maxdim, function(i) iBinomCI(x = lgp$x[i], 
+                                                   n = lgp$n[i], conf.level = lgp$conf.level[i], sides = lgp$sides[i], 
+                                                   method = lgp$method[i], rand = lgp$rand[i], std_est = lgp$std_est[i])))
+    # colnames(res)[1] <- c("est")
+    rownames(res) <- rep("", nrow(res))
+    colnames(res) <- c("PointEst", "Lower", "Upper")
+    return(res)
+  }
+
 
 .Arrows <- function (x0, y0, x1, y1, code = 2, arr.length = 0.4, arr.width = arr.length/2, 
     arr.adj = 1, arr.type = "curved", segment = TRUE, col = "black", 
