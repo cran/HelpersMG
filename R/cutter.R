@@ -13,6 +13,7 @@
 #' @param cut_method Value for cut method, being "censored" or "truncated"
 #' @param distribution Can be gamma, normal, weibull, lognormal, or generalized.gamma
 #' @param n.iter Number of iteration for Bayesian MCMC and to estimate the goodness-of-fit
+#' @param n.adapt Number of burn-in iterations Bayesian MCMC
 #' @param n.mixture Number of distributions
 #' @param debug If TRUE, show some information
 #' @param progress.bar If TRUE, show a progress bar for MCMC
@@ -355,7 +356,7 @@ cutter <- function(observations=stop("Observations must be provided"),
                    cut_method="censored", 
                    distribution="gamma", 
                    n.mixture=1, 
-                   n.iter=5000, debug=FALSE, progress.bar=TRUE, 
+                   n.iter=5000, n.adapt=100, debug=FALSE, progress.bar=TRUE, 
                    session=NULL) {
   
   # observations=NULL 
@@ -373,6 +374,7 @@ cutter <- function(observations=stop("Observations must be provided"),
   # debug <- FALSE
   # progress.bar=TRUE
   # n.iter=5000
+  # n.adapt=100
   # debug=FALSE
   # progress.bar=TRUE
   # session=NULL
@@ -721,7 +723,7 @@ cutter <- function(observations=stop("Observations must be provided"),
                             distribution=distribution, 
                             parameters_name="par", adaptive = TRUE, 
                             n.mixture=n.mixture, debug=debug, 
-                            likelihood=fitn, n.chains=1, n.adapt=100, thin=1, trace=FALSE, 
+                            likelihood=fitn, n.chains=1, n.adapt=n.adapt, thin=1, trace=FALSE, 
                             progress.bar.ini=NULL, 
                             session=session, 
                             progress.bar=function(iter, session) {
@@ -742,7 +744,7 @@ cutter <- function(observations=stop("Observations must be provided"),
                               distribution=distribution, 
                               parameters_name="par", adaptive = TRUE, 
                               n.mixture=n.mixture, debug=debug, 
-                              likelihood=fitn, n.chains=1, n.adapt=100, thin=1, trace=FALSE, 
+                              likelihood=fitn, n.chains=1, n.adapt=n.adapt, thin=1, trace=FALSE, 
                               session=NULL, 
                               progress.bar.ini=NULL, 
                               progress.bar=function(iter, session=NULL) {setTxtProgressBar(get("pb", envir = parent.env(environment())), iter)})
@@ -752,7 +754,7 @@ cutter <- function(observations=stop("Observations must be provided"),
                               distribution=distribution, 
                               parameters_name="par", adaptive = TRUE, 
                               n.mixture=n.mixture, debug=debug, 
-                              likelihood=fitn, n.chains=1, n.adapt=100, thin=1, trace=FALSE)
+                              likelihood=fitn, n.chains=1, n.adapt=n.adapt, thin=1, trace=FALSE)
       }
     }
     par_mcmc <- as.quantiles(mcmc_run, namepar=names(par)[1], probs = c(0.025, 0.5, 0.975))

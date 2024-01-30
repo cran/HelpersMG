@@ -20,7 +20,7 @@ A data.frame with a column time and a column index
 }
 \description{
 Estimate indices in periodic timeseries based on anchored minimum and maximum.\cr
-The data.frame minmax can be generated manually. It should have three columns (time, index, SD), 
+The data.frame minmax can be generated manually. It should have three columns (time, index, SD),
 with all the successive minimum and maximum indices.\cr
 It can be used with sun.info() to get the time of minimum and maximum air temperature or
 with getTide() to reconstruct the sea level.

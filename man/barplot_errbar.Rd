@@ -46,10 +46,10 @@ A numeric vector (or matrix, when beside = TRUE), say mp, giving the coordinates
 If beside is true, use colMeans(mp) for the midpoints of each group of bars, see example.
 }
 \description{
-To plot data, just use it as a normal barplot but add the errbar.y 
-values or errbar.y.minus, errbar.y.plus if bars for y axis are 
+To plot data, just use it as a normal barplot but add the errbar.y
+values or errbar.y.minus, errbar.y.plus if bars for y axis are
 asymetric. Use y.plus and y.minus to set absolut limits for
-error bars. Note that y.plus and y.minus have priority over errbar.y, 
+error bars. Note that y.plus and y.minus have priority over errbar.y,
 errbar.y.minus and errbar.y.plus.
 }
 \details{

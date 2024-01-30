@@ -21,10 +21,10 @@ A numeric value
 \description{
 Return an index of quantitative asymmetry and complexity.\cr
 Higher is the value, higher is the complexity (number of objects) and diversity (difference between them).\cr
-The indice is based on the product of the average angular distance of 
-Edwards (1971) for all permutations of measures for both sides with the 
+The indice is based on the product of the average angular distance of
+Edwards (1971) for all permutations of measures for both sides with the
 geometric mean of the inverse of Shannon entropy H for both sides.
-Let p1 and p2 two vectors of relative measures of objects with sum(p1) = 1 and sum(p2)=1 
+Let p1 and p2 two vectors of relative measures of objects with sum(p1) = 1 and sum(p2)=1
 and n1 being the number of objects in p1 and n2 being the number of objects in p2.\cr
 Edwards distance for all permutations of p1 and p2 objects are computed and the average value E is calculated.\cr
 The maximun possible Shannon index for identical n1 is max1 = sum((1/n1) * log(1/n1)).\cr

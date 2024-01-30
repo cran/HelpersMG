@@ -54,12 +54,14 @@ ellipse(
 Nothing
 }
 \description{
-Plot a ellipse defined by the center and the radius. The options for 
+Plot a ellipse defined by the center and the radius. The options for
 binomial confidence parameters are:\cr
-- conf.level\cr
-- method  must be one of these "wald", "wilson", "wilsoncc", "agresti-coull", "jeffreys", "modified wilson", "modified jeffreys", "clopper-pearson", "arcsine", "logit", "witting", "pratt", "midp", "lik" and "blaker". Defaults to "wilson". Abbreviation of method is accepted. See details.\cr
+\itemize{
+\item conf.level\cr
+\item method  must be one of these "wald", "wilson", "wilsoncc", "agresti-coull", "jeffreys", "modified wilson", "modified jeffreys", "clopper-pearson", "arcsine", "logit", "witting", "pratt", "midp", "lik" and "blaker". Defaults to "wilson". Abbreviation of method is accepted. See details.\cr
 Default is wilsoncc (Wilson with continuity correction)
 col parameter can be a list of colors. See examples
+}
 }
 \details{
 ellipse plots an ellipse

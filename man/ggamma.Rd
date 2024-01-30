@@ -33,14 +33,14 @@ rggamma(n, theta, kappa, delta)
 \item{n}{number of observations.}
 }
 \value{
-\code{dggamma} gives the density, \code{pggamma} gives the distribution function, 
+\code{dggamma} gives the density, \code{pggamma} gives the distribution function,
 \code{qggamma} gives the quantile function, and \code{rggamma} generates random deviates.
 }
 \description{
 Generalized gamma distribution
 }
 \details{
-\code{pggamma}, \code{qggamma}, \code{dggamma}, and \code{rggamma} are used to model the 
+\code{pggamma}, \code{qggamma}, \code{dggamma}, and \code{rggamma} are used to model the
 generalized gamma distribution.
 
 The code is modified from \url{https://rpubs.com/FJRubio/GG}.
@@ -76,6 +76,16 @@ legend("topright", legend=c("a=2, d=0.5, p=0.5", "a=1, d=1, p=0.5",
                             "a=2, d=1, p=2", "a=5, d=1, p=5", "a=7, d=1, p=7"), 
                             col=c("blue", "green", "red", "yellow", "grey"), 
                             lty=1, lwd=2, bty="n")
+par <- c(theta=2, kappa=0.5, delta=0.5)
+# Mean, var and sd
+mean.ggamma <- function(theta, kappa, delta) 
+       return(theta*(gamma((kappa+1)/delta))/gamma(kappa/delta))
+var.ggamma <- function(theta, kappa, delta) 
+       return(theta^2* ( ( (gamma((kappa+2)/delta))/gamma(kappa/delta) ) - 
+                ( (gamma((kappa+1)/delta))/gamma(kappa/delta) )^2 ) )
+sd.ggamma <- function(theta, kappa, delta) 
+       return(sqrt(theta^2* ( ( (gamma((kappa+2)/delta))/gamma(kappa/delta) ) - 
+                ( (gamma((kappa+1)/delta))/gamma(kappa/delta) )^2 ) ))
 }
 \seealso{
 Other Distributions: 

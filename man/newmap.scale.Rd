@@ -48,5 +48,5 @@ newmap.scale(col.line = "red", col="blue")
 }
 }
 \author{
-See map.scale {maps}
+See \code{\link[maps:map.scale]{maps::map.scale()}}.
 }

@@ -19,14 +19,14 @@ SEfromHessian returns a vector with standard errors
 \description{
 Standard error of parameters based on Hessian matrix.\cr
 The strategy is as follow:\cr
-First it tries to inverse the Hessian matrix. If it fails, it uses the near 
+First it tries to inverse the Hessian matrix. If it fails, it uses the near
 positive definite matrix of the Hessian.\cr
 So now the inverse of the Hessian matrix can be computed.\cr
-The diagonal of the inverse of the Hessian matrix is calculated. If all values are positive, 
+The diagonal of the inverse of the Hessian matrix is calculated. If all values are positive,
 the SEs are the square root of the inverse of the Hessian.\cr
-If not all values are positive, it will estimate the pseudo-variance 
+If not all values are positive, it will estimate the pseudo-variance
 matrix based on Gill & King (2004). It necessitates a Cholesky matrix.\cr
-If from some reason it fails (for example all SE are 0 in output), then the strategy of 
+If from some reason it fails (for example all SE are 0 in output), then the strategy of
 Rebonato and Jackel (2000) will be used to generate the Cholesky matrix.
 }
 \details{
@@ -49,12 +49,12 @@ fitdistr(val, densfun = "normal")
 }
 }
 \references{
-Gill J. and G. King 2004. What to do when your Hessian is not invertible: 
-Alternatives to model respecification in nonlinear estimation. Sociological Methods 
+Gill J. and G. King 2004. What to do when your Hessian is not invertible:
+Alternatives to model respecification in nonlinear estimation. Sociological Methods
 & Research 33: 54-87.
 
-Rebonato and Jackel, “The most general methodology for creating a valid 
-correlation matrix for risk management and option pricing purposes”, Journal of Risk, 
+Rebonato and Jackel, “The most general methodology for creating a valid
+correlation matrix for risk management and option pricing purposes”, Journal of Risk,
 Vol 2, No 2, 2000.
 }
 \author{

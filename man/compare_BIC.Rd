@@ -62,8 +62,8 @@ compare_BIC(separate=list(m1, m1_2), grouped=m1_grouped, factor.value=-1)
 Other AIC: 
 \code{\link{ExtractAIC.glm}()},
 \code{\link{FormatCompareAIC}()},
-\code{\link{compare_AICc}()},
-\code{\link{compare_AIC}()}
+\code{\link{compare_AIC}()},
+\code{\link{compare_AICc}()}
 }
 \author{
 Marc Girondot \email{marc.girondot@gmail.com}

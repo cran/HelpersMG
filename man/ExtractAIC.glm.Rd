@@ -45,8 +45,8 @@ extractAIC(g)
 \seealso{
 Other AIC: 
 \code{\link{FormatCompareAIC}()},
-\code{\link{compare_AICc}()},
 \code{\link{compare_AIC}()},
+\code{\link{compare_AICc}()},
 \code{\link{compare_BIC}()}
 }
 \author{

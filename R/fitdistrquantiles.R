@@ -3,7 +3,7 @@
 #' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return Parameters of beta, normal or gamma distribution based on quantiles.
 #' @param quantiles Vector of quantiles.
-#' @param probs Numeric vector of probabilities with values in [0,1].
+#' @param probs Numeric vector of probabilities with values in \[0,1\].
 #' @param scaled Used scaled least-square.
 #' @param distribution Distribution to be fitted: beta, normal, or gamma.
 #' @description Return the parameters of beta or gamm that fits the best the

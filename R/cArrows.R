@@ -34,18 +34,18 @@
 
 
 cArrows <- function (x1, y1, x2, y2, code = 2, size = 1, width = 1.2/4/cin, 
-                     open = TRUE, sh.adj = 0.1, sh.lwd = 1, sh.col = if (is.R()) par("fg") else 1, 
+                     open = TRUE, sh.adj = 0.1, sh.lwd = 1, sh.col = par("fg"), 
                      sh.lty = 1, h.col = sh.col, h.col.bo = sh.col, h.lwd = sh.lwd, 
                      h.lty = sh.lty, curved = FALSE, beautiful.arrow=2/3) 
 {
   
   # plot(c(1, 10), c(1, 10))  
-  #  x1=1; y1=1; x2=5; y2=5; code=2; size=1; width=1.2/4/0.2; open=TRUE; sh.adj = 0.1; sh.lwd = 1; sh.col = if (is.R()) par("fg") else 1; sh.lty = 1; h.col = sh.col; h.col.bo = sh.col; h.lwd = sh.lwd; h.lty = sh.lty; curved = FALSE
+  #  x1=1; y1=1; x2=5; y2=5; code=2; size=1; width=1.2/4/0.2; open=TRUE; sh.adj = 0.1; sh.lwd = 1; sh.col = par("fg"); sh.lty = 1; h.col = sh.col; h.col.bo = sh.col; h.lwd = sh.lwd; h.lty = sh.lty; curved = FALSE
   
   
   cin <- size * par("cin")[2]
   width <- width * (1.2/4/cin)
-  uin <- if (is.R())  1/xyinch() else par("uin")
+  uin <- 1/xyinch()
   x <- sqrt(seq(0, cin^2, length = floor(35 * cin) + 2))
   delta <- sqrt(h.lwd) * par("cin")[2] * 0.005
   x.arr <- c(-rev(x), -x)

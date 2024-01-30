@@ -25,7 +25,7 @@ Parameters of beta, normal or gamma distribution based on quantiles.
 }
 \description{
 Return the parameters of beta or gamm that fits the best the
-quantiles. The vector of probabilities can be obtained from names of 
+quantiles. The vector of probabilities can be obtained from names of
 quantiles.
 }
 \details{

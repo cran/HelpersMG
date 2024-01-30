@@ -35,8 +35,8 @@ compare_BIC(L=L, ED=ED)
 \seealso{
 Other AIC: 
 \code{\link{ExtractAIC.glm}()},
-\code{\link{compare_AICc}()},
 \code{\link{compare_AIC}()},
+\code{\link{compare_AICc}()},
 \code{\link{compare_BIC}()}
 }
 \author{

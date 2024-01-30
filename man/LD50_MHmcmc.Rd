@@ -121,8 +121,8 @@ heidel.diag(as.mcmc(result_mcmc_LD50))
 }
 \seealso{
 Other LD50 functions: 
-\code{\link{LD50_MHmcmc_p}()},
 \code{\link{LD50}()},
+\code{\link{LD50_MHmcmc_p}()},
 \code{\link{logLik.LD50}()},
 \code{\link{plot.LD50}()},
 \code{\link{predict.LD50}()}

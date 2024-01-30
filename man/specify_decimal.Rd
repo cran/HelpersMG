@@ -17,7 +17,7 @@ specify_decimal(x, decimals = NULL, decimal.point = ".")
 A character
 }
 \description{
-Return a number as character with specified number of decimals. 
+Return a number as character with specified number of decimals.
 If a is a matrix, it will return a matrix of the same size and the same attributes.
 }
 \details{

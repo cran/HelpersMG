@@ -13,8 +13,8 @@ openwd(directory = getwd())
 A vector with the list of files.
 }
 \description{
-This function opens a finder window with directory files 
-in MacOS X. It has not been fully tested in Windows. In linux, it just returns the 
+This function opens a finder window with directory files
+in MacOS X. It has not been fully tested in Windows. In linux, it just returns the
 list of files in directory.\cr
 By defaut, it uses the current working directory.
 }

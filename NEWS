@@ -1,11 +1,19 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 6.0.3 (2023-10-05)
+            CHANGES IN VERSION 6.1 (2024-01-30)
+            
+* New CRAN version - 6.1 (2023-06-30)
+
+            CHANGES IN VERSION 6.0.6 (2024-01-14)
             
 * New CRAN version - 6.0 (2023-06-14)
 * normalize parameter is used also for pSnbinom() - 6.0.1 (2023-07-31)
 * NA in x ou y are allowed in plot_errbar() - 6.0.2 (2023-08-17)
 * .BinomialConfidence uses Wilson method with continuity correction by default - 6.0.3 (2023-10-02)
+* Can plot a cutter plot with different UDL or LDL - 6.0.4 (2024-01-13)
+* n.adat can be changed in cutter() - 6.0.5 (2024-01-14)
+* Precision in ggamma description - 6.0.6 (2024-01-14)
+* Minor change in cArrows() to be compatible with R 4.4.0- 6.0.7 (2024-01-29)
 
             CHANGES IN VERSION 5.9.1 (2023-04-17)
             

@@ -87,23 +87,23 @@ rSnbinom(n = 1, size = NULL, prob = NULL, mu = NULL)
 \item{n}{number of observations.}
 }
 \value{
-\code{dSnbinom} gives the density, \code{pSnbinom} gives the distribution function, 
+\code{dSnbinom} gives the density, \code{pSnbinom} gives the distribution function,
 \code{qSnbinom} gives the quantile function, and \code{rSnbinom} generates random deviates.
 }
 \description{
 Distribution of the sum of random variable with negative binomial distributions.\cr
-Technically the sum of random variable with negative binomial distributions is a convolution of negative 
+Technically the sum of random variable with negative binomial distributions is a convolution of negative
 binomial random variables.\cr
 \code{dSnbinom} returns the density for the sum of random variable with negative binomial distributions.\cr
 \code{pSnbinom} returns the distribution function for the sum of random variable with negative binomial distributions.\cr
 \code{qSnbinom} returns the quantile function for the sum of random variable with negative binomial distributions.\cr
 \code{rSnbinom} returns random numbers for the sum of random variable with negative binomial distributions.\cr
 If all prob values are the same, exact probabilities are estimated.\cr
-Estimate using \code{Vellaisamy&Upadhye} method uses parallel computing 
-depending on value of \code{parallel}. The number of cores in usage can be 
-defined using \code{options(mc.cores = c)} with \code{c} being the number of cores to be used. By default it will 
+Estimate using \code{Vellaisamy&Upadhye} method uses parallel computing
+depending on value of \code{parallel}. The number of cores in usage can be
+defined using \code{options(mc.cores = c)} with \code{c} being the number of cores to be used. By default it will
 use all the available cores. Forking will be used in Unix system and no forking on Windows systems.\cr
-When \code{Furman} method is in use, it will return the progress of Pr(S = x) during recursion 
+When \code{Furman} method is in use, it will return the progress of Pr(S = x) during recursion
 in an attribute if verbose is TRUE (see examples).
 }
 \details{

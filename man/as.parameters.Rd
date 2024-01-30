@@ -26,7 +26,7 @@ If \code{index="median"}, the function will return the median value of the param
 if \code{index="quantile"}, the function will return the \code{probs} defined by quantiles parameter.\cr
 If \code{index="mode"}, the function will return the mode value of the parameter based on Asselin de Beauville (1978) method.\cr
 \code{index} can also be a numeric value.\cr
-This function uses the complete iterations available except the adaptation part, 
+This function uses the complete iterations available except the adaptation part,
 even if thin parameter is not equal to 1.
 }
 \examples{
@@ -91,7 +91,7 @@ as.parameters(mcmc_run3, index="quantile", probs=c(0.025, 0.975))
 }
 }
 \references{
-Asselin de Beauville J.-P. (1978). Estimation non paramétrique de la densité et du mode, 
+Asselin de Beauville J.-P. (1978). Estimation non paramétrique de la densité et du mode,
 exemple de la distribution Gamma. Revue de Statistique Appliquée, 26(3):47-70.
 }
 \seealso{

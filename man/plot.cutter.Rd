@@ -12,6 +12,9 @@
   col.unobserved = "green",
   col.mcmc = rgb(red = 0.6, green = 0, blue = 0, alpha = 0.01),
   legend = TRUE,
+  show.DL = TRUE,
+  show.plot = TRUE,
+  set = NULL,
   ...
 )
 }
@@ -30,10 +33,16 @@
 
 \item{legend}{If TRUE, a legend is shown}
 
+\item{show.DL}{If TRUE, the limits of DL are shown}
+
+\item{show.plot}{If FALSE, no plot is shown}
+
+\item{set}{In case of mixture, will show and return only this set}
+
 \item{...}{Parameters for plot}
 }
 \value{
-Nothing
+The matrix of all the mcmc curves with invisible state.
 }
 \description{
 Plot the estimates of cut distribution.

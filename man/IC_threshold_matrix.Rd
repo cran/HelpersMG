@@ -44,7 +44,7 @@ This function calculates the matrix of correlations thresholded using partial co
 If the threshold is not given, the object that is produced can be used later for thresholding.\cr
 For model OAT: The link between A and B is “remarkable” if and only if the total correlation between them is higher than a given threshold and if the partial correlation between A and B in respect to any other variable C is also higher in absolute values than this threshold and with the same sign as the total correlation.
 For model AAT: A correlation is retained if it is higher than the threshold and the partial correlation is lower than the threshold. In this case, no missing value is accepted.\cr
-The use and method parameters are used by cor() function. The function uses by default a parallel computing in Unix or MacOSX systems. 
+The use and method parameters are used by cor() function. The function uses by default a parallel computing in Unix or MacOSX systems.
 If progress is TRUE and the package pbmcapply is present, a progress bar is displayed. If debug is TRUE, some informations are shown during the process but parallel computing is not used.\cr
 \code{https://fr.wikipedia.org/wiki/Iconographie_des_corrélations}
 }

@@ -18,7 +18,7 @@ LD50_MHmcmc_p(
 A matrix with the parameters
 }
 \description{
-Interactive script used to generate set of parameters to be 
+Interactive script used to generate set of parameters to be
 used with LD50_MHmcmc().
 }
 \details{
@@ -36,8 +36,8 @@ pmcmc <- LD50_MHmcmc_p(LD50_logistic, accept=TRUE)
 }
 \seealso{
 Other LD50 functions: 
-\code{\link{LD50_MHmcmc}()},
 \code{\link{LD50}()},
+\code{\link{LD50_MHmcmc}()},
 \code{\link{logLik.LD50}()},
 \code{\link{plot.LD50}()},
 \code{\link{predict.LD50}()}

@@ -17,7 +17,7 @@ read_folder(
 
 \item{file}{list of files}
 
-\item{wildcard}{Define which files are to be read (examples: "*.*", "*.xls", "essai*.txt"). It can be also a vector with all filenames.}
+\item{wildcard}{Define which files are to be read (examples: "\emph{.}", "\emph{.xls", "essai}.txt"). It can be also a vector with all filenames.}
 
 \item{read}{Function used to read file. Ex: read.delim or read.xls from gdata package}
 

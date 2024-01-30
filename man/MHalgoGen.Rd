@@ -73,18 +73,18 @@ A mcmcComposite object with all characteristics of the model and mcmc run
 \description{
 The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
 \itemize{
-  \item Density. The density function name, example \code{dnorm}, \code{dlnorm}, \code{dunif}, \code{dbeta}
-  \item Prior1. The first parameter to send to the \code{Density} function
-  \item Prior2. The second parameter to send to the \code{Density} function
-  \item SDProp. The standard error from new proposition value of this parameter
-  \item Min. The minimum value for this parameter
-  \item Max. The maximum value for this parameter
-  \item Init. The initial value for this parameter
+\item Density. The density function name, example \code{dnorm}, \code{dlnorm}, \code{dunif}, \code{dbeta}
+\item Prior1. The first parameter to send to the \code{Density} function
+\item Prior2. The second parameter to send to the \code{Density} function
+\item SDProp. The standard error from new proposition value of this parameter
+\item Min. The minimum value for this parameter
+\item Max. The maximum value for this parameter
+\item Init. The initial value for this parameter
 }
 This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).\cr
 The likelihood function must use a parameter named parameters_name for the nammed parameters.\cr
 For adaptive mcmc, see:\cr
-Rosenthal, J. S. 2011. Optimal Proposal Distributions and Adaptive MCMC. Pages 93-112 in S. Brooks, A. Gelman, 
+Rosenthal, J. S. 2011. Optimal Proposal Distributions and Adaptive MCMC. Pages 93-112 in S. Brooks, A. Gelman,
 G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.
 }
 \details{

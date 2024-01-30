@@ -15,7 +15,7 @@ cArrows(
   open = TRUE,
   sh.adj = 0.1,
   sh.lwd = 1,
-  sh.col = if (is.R()) par("fg") else 1,
+  sh.col = par("fg"),
   sh.lty = 1,
   h.col = sh.col,
   h.col.bo = sh.col,

@@ -34,8 +34,8 @@ none
 }
 \description{
 Displays a basic compass rose, usually to orient a map.\cr
-newcompassRose displays a conventional compass rose at the position requested.\cr 
-The size of the compass rose is determined by the character expansion, 
+newcompassRose displays a conventional compass rose at the position requested.\cr
+The size of the compass rose is determined by the character expansion,
 as the central "rose" is calculated relative to the character size.\cr
 Rotation is in degrees counterclockwise.
 }
@@ -51,5 +51,5 @@ newcompassRose(x=110, y=35, col.arrows.light="grey")
 }
 }
 \author{
-modified from Jim Lemon; See compassRose {sp}
+modified from Jim Lemon; See \code{\link[sp:compassRose]{sp::compassRose()}}
 }

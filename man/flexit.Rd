@@ -41,14 +41,14 @@ A vector with the probabilities
 \description{
 Return a vector with the probabilities.
 The flexit equation is published in:\cr
-Abreu-Grobois, F.A., Morales-Mérida, B.A., Hart, C.E., Guillon, J.-M., Godfrey, M.H., 
-Navarro, E. & Girondot, M. (2020) Recent advances on the estimation of the thermal 
+Abreu-Grobois, F.A., Morales-Mérida, B.A., Hart, C.E., Guillon, J.-M., Godfrey, M.H.,
+Navarro, E. & Girondot, M. (2020) Recent advances on the estimation of the thermal
 reaction norm for sex ratios. PeerJ, 8, e8451.\cr
 If dose < P then \eqn{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}\cr
 If dose > P then \eqn{1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}{1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}\cr
 with:\cr
-     \deqn{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}
-     \deqn{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}
+\deqn{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}
+\deqn{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}
 \cr
 New in version 4.7-3 and larger:\cr
 \cr
@@ -64,10 +64,10 @@ When \eqn{K1}{K1} is very large, \eqn{2^K1 - 1 = 2^K1}{2^K1 - 1 = 2^K1} then
 \deqn{S1 = S * K1 / 2}{S1 = S * K1 / 2}
 If \eqn{2^K2}{2^K2} is too large to be estimated, the approximation \eqn{S2 = S*K2/2}{S2 = S*K2/2} is used.\cr
 
-If \eqn{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)} is not finite, 
+If \eqn{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)} is not finite,
 the following approximation is used:\cr
 \deqn{exp((-1/K1)*(K1*log(2)+(4*S1*(P-x))))}{exp((-1/K1)*(K1*log(2)+(4*S1*(P-x))))}
-If \eqn{1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}{1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)} is not finite, 
+If \eqn{1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}{1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)} is not finite,
 the following approximation is used:\cr
 \deqn{1 - exp((-1/K2)*(K2*log(2)+(4*S2*(x - P))))}{1 - exp((-1/K2)*(K2*log(2)+(4*S2*(x - P))))}
 }

@@ -13,7 +13,7 @@ plot_add(...)
 Nothing
 }
 \description{
-To plot data, just add use it as a normal plot. It will plot 
+To plot data, just add use it as a normal plot. It will plot
 the new data without axes, or labels for axes.\cr
 This function is complementary to matlines() and matpoints() from package graphics.
 }

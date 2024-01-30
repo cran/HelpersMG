@@ -17,6 +17,7 @@ cutter(
   distribution = "gamma",
   n.mixture = 1,
   n.iter = 5000,
+  n.adapt = 100,
   debug = FALSE,
   progress.bar = TRUE,
   session = NULL
@@ -47,6 +48,8 @@ cutter(
 
 \item{n.iter}{Number of iteration for Bayesian MCMC and to estimate the goodness-of-fit}
 
+\item{n.adapt}{Number of burn-in iterations Bayesian MCMC}
+
 \item{debug}{If TRUE, show some information}
 
 \item{progress.bar}{If TRUE, show a progress bar for MCMC}
@@ -62,18 +65,18 @@ A column for the measurements;\cr
 A column for the lower detection limit;\cr
 A column for the upper detection limit;\cr
 A column for the truncated of censored nature of the data.\cr
-The names of the different columns are in the observations.colname, lower_detection_limit.colname, 
+The names of the different columns are in the observations.colname, lower_detection_limit.colname,
 upper_detection_limit.colname and cut_method.colname.\cr
-If lower_detection_limit.colname is NULL or if the column does not exist, 
-the data are supposed to not be left-cut 
-and if upper_detection_limit.colname is NULL or if the column does not exist, 
+If lower_detection_limit.colname is NULL or if the column does not exist,
+the data are supposed to not be left-cut
+and if upper_detection_limit.colname is NULL or if the column does not exist,
 the data are supposed to not be right-cut.\cr
-If observations is a vector, then the parameters lower_detection_limit and/or upper_detection_limit 
+If observations is a vector, then the parameters lower_detection_limit and/or upper_detection_limit
 must be given. Then cut_method must be also provided.\cr
-In abservations, -Inf must be used to indicate a value below the lower detection limit and +Inf must be used 
+In abservations, -Inf must be used to indicate a value below the lower detection limit and +Inf must be used
 for a value above the upper detection limit.\cr
 Be careful: NA is used to represent a missing data and not a value below of above the detection limit.\cr
-If lower_detection_limit, upper_detection_limit or cut_method are only one value, they are supposed to 
+If lower_detection_limit, upper_detection_limit or cut_method are only one value, they are supposed to
 be used for all the observations.\cr
 Definitions for censored or truncated distribution vary, and the two terms are sometimes used interchangeably. Let the following data set:\cr
 1 1.25 2 4 5\cr

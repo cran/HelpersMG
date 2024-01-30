@@ -18,7 +18,7 @@ A mcmcComposite result
 }
 \description{
 Merge two mcmcComposite results and produced a new one mcmcComposite object.\cr
-Note that the initial value 
+Note that the initial value
 for the second run must use the last value of the first one as shown in example.
 }
 \details{

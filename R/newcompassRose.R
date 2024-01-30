@@ -1,6 +1,6 @@
 #' newcompassRose Display a compass rose
 #' @title Display a compass rose
-#' @author modified from Jim Lemon; See compassRose {sp}
+#' @author modified from Jim Lemon; See [sp::compassRose()]
 #' @return none
 #' @param x The position of the center of the compass rose in user units.
 #' @param y The position of the center of the compass rose in user units.

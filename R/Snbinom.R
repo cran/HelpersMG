@@ -21,7 +21,7 @@
 #' @param mean Mean of the distribution for approximate.normal method. If NULL, the theoretical mean will be used.
 #' @param sd Standard deviation of the distribution for approximate.normal method. If NULL, the theoretical sd will be used.
 #' @param n.random Number of random numbers used to estimate parameters of distribution for approximate.RandomObservations method.
-#' @param lower.tail logical; if TRUE (default), probabilities are P[X <= x], otherwise, P[X > x].
+#' @param lower.tail logical; if TRUE (default), probabilities are P\[X <= x\], otherwise, P\[X > x\].
 #' @param parallel logical; if FALSE (default), parallel computing is not used for Vellaisamy&Upadhye methods.
 #' @param verbose Give more information on the method.
 #' @description Distribution of the sum of random variable with negative binomial distributions.\cr

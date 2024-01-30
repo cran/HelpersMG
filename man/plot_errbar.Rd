@@ -69,9 +69,9 @@ plot_errbar(
 A list with x, y and names for points
 }
 \description{
-To plot data, just use it as a normal plot but add the errbar.x 
-and errbar.y values or errbar.x.minus, errbar.x.plus if bars for x axis are 
-asymetric and errbar.y.minus, errbar.y.plus if bars for y axis are 
+To plot data, just use it as a normal plot but add the errbar.x
+and errbar.y values or errbar.x.minus, errbar.x.plus if bars for x axis are
+asymetric and errbar.y.minus, errbar.y.plus if bars for y axis are
 asymetric. Use x.plus, x.minus, y.plus and y.minus to set absolut limits for
 error bars. Note that x.plus and x.minus have priority over errbar.x, errbar.x.minus and
 errbar.x.plus and that y.plus and y.minus have priority over errbar.y, errbar.y.minus and

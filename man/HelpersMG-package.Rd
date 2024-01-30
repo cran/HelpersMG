@@ -2,6 +2,7 @@
 % Please edit documentation in R/HelpersMG-package.R
 \docType{package}
 \name{HelpersMG-package}
+\alias{HelpersMG}
 \alias{HelpersMG-package}
 \title{Tools for Environmental Analyses, Ecotoxicology and Various R Functions}
 \description{
@@ -11,17 +12,17 @@ get tide levels on any point of the globe, \cr
 get moon phase and time for sun rise and fall, \cr
 analyse and reconstruct daily time series of temperature \cr
 with irregular sinusoidal pattern, \cr
-show scales and wind rose in plot with change of color of text, \cr 
+show scales and wind rose in plot with change of color of text, \cr
 Metropolis-Hastings algorithm for Bayesian MCMC analysis, \cr
 plot graphs or boxplot with error bars, \cr
 search files in disk by there names or their content, \cr
 read the contents of all files from a folder at one time, \cr
 calculate IC50 for ecotoxicological studies, \cr
 calculate the probability mass function of the sum of negative binomial \cr
-distributions, calculate distribution of unobserved values in censored or 
+distributions, calculate distribution of unobserved values in censored or
 truncated distributions.\cr
 The latest version of this package can always be installed using:\cr
-install.packages("https://hebergement.universite-paris-saclay.fr/marcgirondot/CRAN/HelpersMG.tar.gz", 
+install.packages("https://hebergement.universite-paris-saclay.fr/marcgirondot/CRAN/HelpersMG.tar.gz",
 repos=NULL, type="source")\cr
 \if{html}{\figure{TB.png}{options: alt="HelpersMG logo"}}
 \if{latex}{\figure{TB.png}}
@@ -30,13 +31,13 @@ repos=NULL, type="source")\cr
 Helpers functions for several packages
 
 \tabular{ll}{
- Package: \tab HelpersMG\cr
- Type: \tab Package\cr
- Version: \tab 6.0.3 build 1495\cr
- Date: \tab 2023-10-05\cr
- License: \tab GPL (>= 2)\cr
- LazyLoad: \tab yes\cr
- }
+Package: \tab HelpersMG\cr
+Type: \tab Package\cr
+Version: \tab 6.1 build 1527\cr
+Date: \tab 2024-01-30\cr
+License: \tab GPL (>= 2)\cr
+LazyLoad: \tab yes\cr
+}
 }
 \examples{
 \dontrun{

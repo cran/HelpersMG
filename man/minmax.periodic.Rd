@@ -40,8 +40,8 @@ A data.frame with a column time, a column index and a column SD
 }
 \description{
 Search for minimum and maximum for periodic timeseries when only intermediate values are known.\cr
-For each couple of value with an increasing or decreasing segment of 
-the sinusoid function, it is possible to estimate a minimum and maximum 
+For each couple of value with an increasing or decreasing segment of
+the sinusoid function, it is possible to estimate a minimum and maximum
 values using analytical algebra.\cr
 Then the average and standard deviations of all minima and maxima are evaluated.\cr
 It should be noted that any extremum can be estimated at least twice, one by

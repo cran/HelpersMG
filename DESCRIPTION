@@ -2,8 +2,8 @@ Package: HelpersMG
 Type: Package
 Title: Tools for Environmental Analyses, Ecotoxicology and Various R
         Functions
-Version: 6.0.3
-Date: 2023-10-05
+Version: 6.1
+Date: 2024-01-30
 Author: Marc Girondot
 Maintainer: Marc Girondot <marc.girondot@gmail.com>
 Depends: R (>= 4.1), MASS, ggplot2, rlang, coda, Matrix
@@ -13,8 +13,8 @@ Description: Contains miscellaneous functions useful for managing 'NetCDF' files
 License: GPL-2
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 NeedsCompilation: no
-Packaged: 2023-10-05 12:02:52 UTC; marcgirondot
+Packaged: 2024-01-30 13:16:45 UTC; marcgirondot
 Repository: CRAN
-Date/Publication: 2023-10-05 15:20:02 UTC
+Date/Publication: 2024-01-30 15:30:09 UTC

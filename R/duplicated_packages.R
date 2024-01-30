@@ -5,17 +5,16 @@
 #' - versions: the version of the packages\cr
 #' - libraries: the locations\cr
 #' @description A data.frame with the duplicated packages and their locations and version.\cr
-#' The columns Lib1 and Version1 should have the oldest version of the packages. Then 
-#' you can try:\cr
-#' li <- duplicated_packages()\cr
-#' if (nrow(li) != 0) {\cr
-#'     for (i in 1:nrow(li))\cr
-#'         remove.packages(rownames(li)[i], lib=li[i, "Lib1"])\cr
-#' }
+#' The columns Lib1 and Version1 should have the oldest version of the packages.
 #' @examples
 #' \dontrun{
 #' library(HelpersMG)
 #' duplicated_packages()
+#' # To remove the oldest versions of the installed packages, use
+#' li <- duplicated_packages()
+#' if (nrow(li) != 0)
+#'     for (i in 1:nrow(li))
+#'         remove.packages(rownames(li)[i], lib=li[i, "Lib1"])
 #' }
 #' @export
 

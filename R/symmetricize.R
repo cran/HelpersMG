@@ -2,19 +2,19 @@
 #' 
 #' Make the matrix symmetric by making all "mirrored" positions consistent. A variety of methods are provided to make the matrix symmetrical.
 #' @param matrix The matrix to make symmetric
-#' @param method The method to use to make the matrix symmetric. Default is to take the maximum. 
-#' \itemize{
-#' 	\item{"max"} {For each position, \eqn{m_{i,j}}, use the maxiumum of \eqn{(m_{i,j}, m_{j,i})}}
-#' 	\item{"min"} {For each position, \eqn{m_{i,j}}, use the minimum of \eqn{(m_{i,j}, m_{j,i})}}
-#' 	\item{"avg"} {For each position, \eqn{m_{i,j}}, use the mean: \eqn{(m_{i,j} + m_{j,i})/2}}
-#' 	\item{"ld"} {Copy the lower triangular portion of the matrix to the upper triangular portion.}
-#' 	\item{"ud"} {Copy the upper triangular portion of the matrix to the lower triangular portion.}
+#' @param method The method to use to make the matrix symmetric. Default is to take the maximum.
+#' \describe{
+#' 	\item{"max"}{For each position, \eqn{m_{i,j}}, use the maxiumum of \eqn{(m_{i,j}, m_{j,i})}}
+#' 	\item{"min"}{For each position, \eqn{m_{i,j}}, use the minimum of \eqn{(m_{i,j}, m_{j,i})}}
+#' 	\item{"avg"}{For each position, \eqn{m_{i,j}}, use the mean: \eqn{(m_{i,j} + m_{j,i})/2}}
+#' 	\item{"ld"}{Copy the lower triangular portion of the matrix to the upper triangular portion.}
+#' 	\item{"ud"}{Copy the upper triangular portion of the matrix to the lower triangular portion.}
 #' }
 #' @param adjacencyList Logical. If false, returns the symmetric matrix (the same format as the input). If true, returns an adjacency list representing the upper triangular portion of the adjacency matrix with addressing based on the row.names of the matrix provided.
 #' @return The symmetric matrix
 #' @description This function was part of the package ENA. This package is no more available
 #' and it cannot be installed from archive because some dependencies are no more
-#' available.
+#' available.\cr
 #' @export
 #' @author Jeffrey D. Allen \email{Jeffrey.Allen@@UTSouthwestern.edu}
 #' @examples

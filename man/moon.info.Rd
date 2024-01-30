@@ -20,7 +20,7 @@ The script gives an index (base 100) that represents moon phase.\cr
 If the return value (from 0 to 100) is between:\cr
 0 and 1.6931595 or 98.3068405 and 100, it is full moon,\cr
 23.3068405 and 26.6931595, last quarter,\cr
-48.3068405 and 51.6931595, new moon,\cr	
+48.3068405 and 51.6931595, new moon,\cr
 73.3068405 and 76.6931595, first quarter\cr
 When phase is set to TRUE, a character representing the moon phase is returned.
 }

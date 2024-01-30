@@ -29,7 +29,7 @@ Return a data.frame with annual tide calendar.
 \description{
 Annual tide information.\cr
 The columns are: Location, Longitude, Latitude, Phase, DateTime.local, DateTime.UTC, Tide.meter\cr
-This function uses an API linking xtide software 
+This function uses an API linking xtide software
 (https://flaterco.com/xtide/) with tide.info() function.\cr
 You must have a working internet connection for this function.
 }

@@ -16,7 +16,7 @@ A list
 }
 \description{
 This function can be used to simplify the network of correlations.\cr
-If no vector of variables is given, the variables not linked to any other variable are removed. 
+If no vector of variables is given, the variables not linked to any other variable are removed.
 If a vector of variables is given, only link to these variables are retained.
 \code{https://fr.wikipedia.org/wiki/Iconographie_des_corrélations}
 }

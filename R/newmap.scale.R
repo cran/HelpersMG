@@ -1,6 +1,6 @@
 #' newmap.scale Add Scale to Existing Unprojected Map
 #' @title Add Scale to Existing Unprojected Map
-#' @author See map.scale {maps}
+#' @author See [maps::map.scale()].
 #' @return The exact calculated scale is returned.
 #' @param x Location of left end of distance gauge.
 #' @param y Location of left end of distance gauge.

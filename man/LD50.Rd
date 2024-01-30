@@ -62,8 +62,8 @@ A list with the LD50, Transitional Range of Doses and their SE
 \description{
 Estimate the parameters that best describe LD50\cr
 Logistic and logit models are the same but with different parametrization:\cr
-logistic = 1/(1+exp((1/S)*(P-d)))\cr
-logit = 1/(1+exp(P+d*S))\cr
+logistic = 1/(1+exp((1/S)\emph{(P-d)))\cr
+logit = 1/(1+exp(P+d}S))\cr
 See these publications for the description of equations:\cr
 Girondot, M. 1999. Statistical description of temperature-dependent sex determination using maximum likelihood. Evolutionary Ecology Research, 1, 479-486.\cr
 Godfrey, M.H., Delmas, V., Girondot, M., 2003. Assessment of patterns of temperature-dependent sex determination using maximum likelihood model selection. Ecoscience 10, 265-272.\cr
@@ -72,8 +72,8 @@ The flexit equation is not still published :
 \deqn{if dose < P then (1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}{if dose < P then (1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}
 \deqn{if dose > P then 1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}{if dose > P then 1-((1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))^(-1/K2)}
 with:\cr
-     \deqn{S1 = S/((4/K1)*(2^(-K1))^(1/K1+1)*(2^K1-1))}{S1 = S/((4/K1)*(2^(-K1))^(1/K1+1)*(2^K1-1))}
-     \deqn{S2 = S/((4/K2)*(2^(-K2))^(1/K2+1)*(2^K2-1))}{S2 = S/((4/K2)*(2^(-K2))^(1/K2+1)*(2^K2-1))}
+\deqn{S1 = S/((4/K1)*(2^(-K1))^(1/K1+1)*(2^K1-1))}{S1 = S/((4/K1)*(2^(-K1))^(1/K1+1)*(2^K1-1))}
+\deqn{S2 = S/((4/K2)*(2^(-K2))^(1/K2+1)*(2^K2-1))}{S2 = S/((4/K2)*(2^(-K2))^(1/K2+1)*(2^K2-1))}
 }
 \details{
 LD50 estimates the parameters that best describe LD50
@@ -112,8 +112,8 @@ plot(LD50_flexit)
 }
 \seealso{
 Other LD50 functions: 
-\code{\link{LD50_MHmcmc_p}()},
 \code{\link{LD50_MHmcmc}()},
+\code{\link{LD50_MHmcmc_p}()},
 \code{\link{logLik.LD50}()},
 \code{\link{plot.LD50}()},
 \code{\link{predict.LD50}()}

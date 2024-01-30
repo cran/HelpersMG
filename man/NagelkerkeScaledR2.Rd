@@ -20,7 +20,7 @@ The scaled R2 value
 }
 \description{
 Return the scaled R2 of a binomial model based on:\cr
-Nagelkerke NJD (1991) A note on a general definition of the coefficient 
+Nagelkerke NJD (1991) A note on a general definition of the coefficient
 of determination. Biometrika 78:691-192.\cr
 This definition of scaled R2 by Nagelkerke (1991) has the following properties:\cr
 (i) It is consistent with classical R2, that is the general definition applied to e.g. linear regression yields the classical R2.\cr

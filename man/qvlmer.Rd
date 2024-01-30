@@ -21,11 +21,11 @@ qvlmer(object, factorname = NULL, coef.indices = NULL, dispersion = NULL, ...)
 A list of class qv.
 }
 \description{
-Computes a set of quasi variances (and corresponding quasi standard errors) 
-for estimated model coefficients relating to the levels of a categorical (i.e., factor) 
-explanatory variable. For details of the method see Firth (2000), Firth (2003) or Firth 
-and de Menezes (2004). Quasi variances generalize and improve the accuracy of “floating 
-absolute risk” (Easton et al., 1991). This device for economical model summary was first 
+Computes a set of quasi variances (and corresponding quasi standard errors)
+for estimated model coefficients relating to the levels of a categorical (i.e., factor)
+explanatory variable. For details of the method see Firth (2000), Firth (2003) or Firth
+and de Menezes (2004). Quasi variances generalize and improve the accuracy of “floating
+absolute risk” (Easton et al., 1991). This device for economical model summary was first
 suggested by Ridout (1989).\cr
 Modified from qvcalc.lm() of packages qvcalc by David Firth, d.firth@warwick.ac.uk
 }

@@ -36,7 +36,7 @@ dbeta_new(
 dbeta_new gives the density for the Beta distributions
 }
 \description{
-Density for the Beta distribution with parameters mu and v or shape1 and 
+Density for the Beta distribution with parameters mu and v or shape1 and
 shape2 (and optional non-centrality parameter ncp).\cr
 The returned object has three attributes:\cr
 shape1, shape2, and ncp\cr
@@ -47,9 +47,9 @@ dbeta_new returns the density for the Beta distributions
 
 The Beta distribution with parameters shape1 = a and shape2 = b has density \cr
 gamma(a+b)/(gamma(a)gamma(b))x^(a-1)(1-x)^(b-1)\cr
-for a > 0, b > 0 and 0 <= x <= 1 where the boundary values at x=0 or x=1 are defined as by 
+for a > 0, b > 0 and 0 <= x <= 1 where the boundary values at x=0 or x=1 are defined as by
 continuity (as limits).\cr
-The mean is a/(a+b) and the variance is ab/((a+b)^2 (a+b+1)). These moments and all 
+The mean is a/(a+b) and the variance is ab/((a+b)^2 (a+b+1)). These moments and all
 distributional properties can be defined as limits.
 }
 \examples{

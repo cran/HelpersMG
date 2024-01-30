@@ -35,10 +35,10 @@ A dataframe
 }
 \description{
 This function must be used if missing values are present in the dataset.\cr
-It ensures that all correlations and partial correlations can be calculated. 
-The columns of the dataframe are removed one per one until all can be calculated without error. 
-It is possible to say that one or more columns must be retained because they are of particular importance in the analysis. 
-The use and method parameters are used by cor() function. The function uses by default a parallel computing in Unix or MacOSX systems. 
+It ensures that all correlations and partial correlations can be calculated.
+The columns of the dataframe are removed one per one until all can be calculated without error.
+It is possible to say that one or more columns must be retained because they are of particular importance in the analysis.
+The use and method parameters are used by cor() function. The function uses by default a parallel computing in Unix or MacOSX systems.
 If progress is TRUE and the package pbmcapply is present, a progress bar is displayed. If debug is TRUE, some informations are shown during the process.
 \code{https://fr.wikipedia.org/wiki/Iconographie_des_corrélations}
 }
