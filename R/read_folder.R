@@ -22,6 +22,8 @@
 #' # Read two files from the current folder/directory
 #' files <- c("filename1.csv", "filename2.csv")
 #' contentaslist <- read_folder(folder=".", wildcard=files, read=read.csv2)
+#' # To concvert the list into a single dataframe:
+#' mydf <- do.call("rbind", contentaslist)
 #' }
 #' @export
 

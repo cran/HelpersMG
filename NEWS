@@ -1,8 +1,15 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 6.1 (2024-01-30)
+            CHANGES IN VERSION 6.2 (2024-08-23)
             
-* New CRAN version - 6.1 (2023-06-30)
+* New CRAN version - 6.2 (2024-01-30)
+
+            CHANGES IN VERSION 6.1.3 (2024-08-23)
+            
+* New CRAN version - 6.1 (2024-01-30)
+* Set threshold to 0 when significance level is set up in IC_threshold_matrix - 6.1.1 (2024-04-03)
+* RM_get returns list if no RMname or valuename are set - 6.1.2 (2024-07-20)
+* Remove the test for new version at startup - 6.1.3 (2024-08-23)
 
             CHANGES IN VERSION 6.0.6 (2024-01-14)
             

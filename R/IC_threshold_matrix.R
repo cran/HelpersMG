@@ -50,8 +50,8 @@
 #' 
 #' # Using significance level
 #' 
-#' cor_threshold <- IC_threshold_matrix(data=df_clean, threshold = 0.3, 
-#'                                      significance.level=0.05)
+#' cor_threshold <- IC_threshold_matrix(data=df_clean, 
+#'                                      significance.level=0.05, debug=TRUE)
 #' plot(cor_threshold, show.legend.strength=FALSE, show.legend.direction = FALSE)
 #' cor_threshold_Note <- IC_correlation_simplify(matrix=cor_threshold, variable="Note")
 #' plot(cor_threshold_Note)
@@ -102,7 +102,10 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
   
   
   
-  
+  if ((is.null(threshold)) & (!identical(significance.level, FALSE))) {
+    if (debug) message("Threshold is fixed to 0 because significance.level is set up.")
+    threshold <- 0
+  }
   
   if (inherits(data, "IconoCorel")) {
     cor_mat <- data$correlation
@@ -307,7 +310,7 @@ IC_threshold_matrix <- function(data=stop("A dataframe or an IconoCorel object i
     cor_mat_threshold <- cor_mat * as.numeric(cor_seuil_binary)
     if (!identical(significance.level, FALSE)) {
       if (is.null(p_cor_mat)) {
-        message("Threshold by significance is not available for this use parameter.")
+        message("Threshold by significance level is not available for this 'use' parameter.")
       } else {
       cor_seuil_binary_plevel <- (p_cor_mat <= significance.level)
       cor_seuil_binary <- cor_seuil_binary & cor_seuil_binary_plevel

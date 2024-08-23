@@ -26,10 +26,22 @@
 
 RM_get <- function(x=stop("An object with results managment must be provided"), 
                    RM="RM", 
-                   RMname=stop("A results managment name must be provided"), 
+                   RMname=NULL, 
                    valuename=NULL) {
   xa <- attributes(x)
   # dans rx j'ai le RM
-  rx <- xa[[RM]][[RMname]][[valuename]]
+  if ((!is.null(valuename)) & (!is.null(RMname)) & (!is.null(RM))) {
+    rx <- xa[[RM]][[RMname]][[valuename]]
+  } else {
+    if ((!is.null(RMname)) & (!is.null(RM))) {
+      rx <- xa[[RM]][[RMname]]
+    } else {
+      if ((!is.null(RM))) {
+        rx <- xa[[RM]]
+      } else {
+        rx <- NULL
+      }
+    }
+  }
   return(rx)
 }

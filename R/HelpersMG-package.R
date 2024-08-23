@@ -3,14 +3,13 @@
 #' \tabular{ll}{
 #'  Package: \tab HelpersMG\cr
 #'  Type: \tab Package\cr
-#'  Version: \tab 6.1 build 1527\cr
-#'  Date: \tab 2024-01-30\cr
+#'  Version: \tab 6.2 build 1538\cr
+#'  Date: \tab 2024-08-23\cr
 #'  License: \tab GPL (>= 2)\cr
 #'  LazyLoad: \tab yes\cr
 #'  }
 #' @title Tools for Environmental Analyses, Ecotoxicology and Various R Functions
 #' @author Marc Girondot \email{marc.girondot@@gmail.com}
-#' @docType package
 #' @name HelpersMG-package
 #' @description Contains miscellaneous functions useful for managing \cr
 #' 'NetCDF' files (see http://en.wikipedia.org/wiki/NetCDF), \cr

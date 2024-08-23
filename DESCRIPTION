@@ -2,10 +2,13 @@ Package: HelpersMG
 Type: Package
 Title: Tools for Environmental Analyses, Ecotoxicology and Various R
         Functions
-Version: 6.1
-Date: 2024-01-30
-Author: Marc Girondot
-Maintainer: Marc Girondot <marc.girondot@gmail.com>
+Version: 6.2
+Date: 2024-08-23
+Authors@R: person(given = "Marc",
+                    family = "Girondot",
+                    role = c("aut", "cre"),
+                    email = "marc.girondot@gmail.com", 
+                    comment = c(ORCID = "0000-0001-6645-8530"))
 Depends: R (>= 4.1), MASS, ggplot2, rlang, coda, Matrix
 Suggests: lme4, RNetCDF, ncdf4, maps, fields, shiny, ppcor, pbmcapply,
         pbapply, parallel, visNetwork, igraph, shinyWidgets, cranlogs
@@ -13,8 +16,10 @@ Description: Contains miscellaneous functions useful for managing 'NetCDF' files
 License: GPL-2
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2024-01-30 13:16:45 UTC; marcgirondot
+Packaged: 2024-08-23 06:26:04 UTC; marcgirondot
+Author: Marc Girondot [aut, cre] (<https://orcid.org/0000-0001-6645-8530>)
+Maintainer: Marc Girondot <marc.girondot@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-01-30 15:30:09 UTC
+Date/Publication: 2024-08-23 07:10:03 UTC

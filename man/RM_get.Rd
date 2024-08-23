@@ -7,7 +7,7 @@
 RM_get(
   x = stop("An object with results managment must be provided"),
   RM = "RM",
-  RMname = stop("A results managment name must be provided"),
+  RMname = NULL,
   valuename = NULL
 )
 }

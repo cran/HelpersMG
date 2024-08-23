@@ -81,8 +81,8 @@ show.legend.strength = FALSE, xlim=c(-2, 2), ylim=c(-2, 2))
 
 # Using significance level
 
-cor_threshold <- IC_threshold_matrix(data=df_clean, threshold = 0.3, 
-                                     significance.level=0.05)
+cor_threshold <- IC_threshold_matrix(data=df_clean, 
+                                     significance.level=0.05, debug=TRUE)
 plot(cor_threshold, show.legend.strength=FALSE, show.legend.direction = FALSE)
 cor_threshold_Note <- IC_correlation_simplify(matrix=cor_threshold, variable="Note")
 plot(cor_threshold_Note)
