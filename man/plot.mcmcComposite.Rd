@@ -7,18 +7,20 @@
 \method{plot}{mcmcComposite}(
   x,
   ...,
-  chain = 1,
+  chains = "all",
   parameters = 1,
   transform = NULL,
   scale.prior = TRUE,
   legend = "topright",
   ylab = "Posterior density",
   las = 1,
+  bty = "n",
   show.prior = TRUE,
   col.prior = "red",
   lty.prior = 1,
   lwd.prior = 1,
-  col.posterior = "white",
+  what = "Posterior",
+  col.posterior = colorRampPalette(c("blue", "grey"), alpha = 0.001),
   lty.posterior = 1,
   lwd.posterior = 1,
   ylab.prior = "Prior density"
@@ -29,7 +31,7 @@
 
 \item{...}{Graphical parameters to be sent to hist()}
 
-\item{chain}{The chain to use}
+\item{chains}{The chains to use}
 
 \item{parameters}{Name of parameters or "all"}
 
@@ -43,6 +45,8 @@
 
 \item{las}{las parameter (orientation of y-axis graduation)}
 
+\item{bty}{Design of box for Markov Chain plot}
+
 \item{show.prior}{whould the prior be shown?}
 
 \item{col.prior}{Color for prior curve}
@@ -50,6 +54,8 @@
 \item{lty.prior}{Type of line for prior curve}
 
 \item{lwd.prior}{Width of line for prior curve}
+
+\item{what}{can be Posterior, MarkovChain or LnL}
 
 \item{col.posterior}{Color for posterior histogram}
 
@@ -81,16 +87,29 @@ dnormx <- function(data, x) {
  return(-sum(dnorm(data, mean=x['mean'], sd=x['sd'], log=TRUE)))
 }
 parameters_mcmc <- data.frame(Density=c('dnorm', 'dlnorm'), 
-Prior1=c(10, 0.5), Prior2=c(2, 0.5), SDProp=c(1, 1), 
-Min=c(-3, 0), Max=c(100, 10), Init=c(10, 2), stringsAsFactors = FALSE, 
-row.names=c('mean', 'sd'))
+                              Prior1=c(10, 0.5), Prior2=c(2, 0.5), 
+                              SDProp=c(1, 1), 
+                              Min=c(-3, 0), Max=c(100, 10), 
+                              Init=c(10, 2), stringsAsFactors = FALSE, 
+                              row.names=c('mean', 'sd'))
+                              
 mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, data=x, 
-adaptive = TRUE,
-likelihood=dnormx, n.chains=1, n.adapt=100, thin=1, trace=1)
-plot(mcmc_run, xlim=c(0, 20))
+                      adaptive = TRUE,
+                      likelihood=dnormx, n.chains=4, 
+                      n.adapt=100, thin=1, trace=1)
+plot(mcmc_run, xlim=c(0, 20), parameters="mean")
 plot(mcmc_run, xlim=c(0, 10), parameters="sd")
+plot(x=mcmc_run, what="MarkovChain", ylim=c(0, 15), parameters="mean", 
+     col.posterior = colorRampPalette(c("blue", "grey"), alpha = 0.001)
+                     (mcmc_run$parametersMCMC$n.chains))
+plot(mcmc_run, what="MarkovChain", ylim=c(0, 10), parameters="sd", 
+     col.posterior = colorRampPalette(c("blue", "grey"), alpha = 0.001)
+                     (mcmc_run$parametersMCMC$n.chains))
+plot(mcmc_run, what="LnL", 
+     col.posterior = colorRampPalette(c("blue", "grey"), alpha = 0.001)
+                     (mcmc_run$parametersMCMC$n.chains))
 mcmcforcoda <- as.mcmc(mcmc_run)
-#' heidel.diag(mcmcforcoda)
+heidel.diag(mcmcforcoda)
 raftery.diag(mcmcforcoda)
 autocorr.diag(mcmcforcoda)
 acf(mcmcforcoda[[1]][,"mean"], lag.max=20, bty="n", las=1)
@@ -175,11 +194,15 @@ mcmc_run <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, val=X,
                       likelihood=Lnormlnorm, n.chains=1, 
                       n.adapt=100, thin=1, trace=100)
 plot(mcmc_run, parameters="m1", breaks=seq(from=0, to =10, by=0.1), 
-     legend=c(x=6, y=0.10))
+     legend=c(x=6, y=3.10))
 plot(mcmc_run, parameters="p", transform=invlogit, xlim=c(0,1), 
-     breaks=seq(from=0, to=1, by=0.01), legend=c(x=0.6, y=0.10))
+     breaks=seq(from=0, to=1, by=0.01), legend=c(x=0.6, y=10))
 plot(mcmc_run, parameters="p", xlim=c(-3,3), 
-     breaks=seq(from=-3, to =3, by=0.05), legend=c(x=1, y= 0.10))
+     breaks=seq(from=-3, to =3, by=0.05), legend=c(x=1, y= 3.10))
+plot(mcmc_run, parameters="p", what="MarkovChain")
+plot(mcmc_run, parameters="p", transform=invlogit, what="MarkovChain", 
+     ylim=c(0, 1))
+plot(mcmc_run, what="lnl", col.posterior = "black")
      
 parameters_mcmc <- data.frame(Density=c('dunif', 'dunif', 'dunif', 'dunif', 'dnorm'), 
                                         Prior1=c(0, 0.001, 0, 0.001, 0.5), 
@@ -263,9 +286,9 @@ mcmc_run_pbeta <- MHalgoGen(n.iter=50000, parameters=parameters_mcmc, val=X,
                       likelihood=Lnormlnorm, n.chains=1, 
                       n.adapt=100, thin=1, trace=100)
 plot(mcmc_run_pbeta, parameters="m1", breaks=seq(from=0, to =10, by=0.1), 
-     legend=c(x=6, y=0.10))
+     legend=c(x=6, y=2.10))
 plot(mcmc_run_pbeta, parameters="p", xlim=c(0,1), 
-     breaks=seq(from=0, to=1, by=0.01), legend=c(x=0.6, y=2))
+     breaks=seq(from=0, to=1, by=0.01), legend=c(x=0.6, y=6))
 
 
 }

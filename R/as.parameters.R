@@ -200,7 +200,8 @@ as.parameters <- function(x, index="best", chain=1, probs=0.025) {
         
         if (index=="best") {
           pos <- which.max(L)
-          message(paste("The best likelihood has been observed at iteration", pos))
+          
+          message(paste("The best likelihood has been observed at iteration", pos, ": Ln L=", specify_decimal(max(L), decimals = 2)))
         }
         
         if (index=="last") {

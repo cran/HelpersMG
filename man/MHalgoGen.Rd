@@ -14,6 +14,7 @@ MHalgoGen(
   n.adapt = 100,
   thin = 30,
   trace = FALSE,
+  scaleL = 1,
   traceML = FALSE,
   progress.bar.ini = NULL,
   progress.bar = NULL,
@@ -46,6 +47,8 @@ MHalgoGen(
 \item{thin}{Interval for thinning likelihoods}
 
 \item{trace}{Or FALSE or period to show progress}
+
+\item{scaleL}{The Log ratio is multiplied by the value (see description)}
 
 \item{traceML}{TRUE or FALSE to show ML}
 
@@ -85,7 +88,9 @@ This script has been deeply modified from a MCMC script provided by Olivier Mart
 The likelihood function must use a parameter named parameters_name for the nammed parameters.\cr
 For adaptive mcmc, see:\cr
 Rosenthal, J. S. 2011. Optimal Proposal Distributions and Adaptive MCMC. Pages 93-112 in S. Brooks, A. Gelman,
-G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.
+G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.\cr
+If the expected value is obtained using a stochastic model, the algorithm can ba stucked to
+exceptional value. To prevent this to occur, it is possible to adjust the scaleL parameter (experimental).
 }
 \details{
 MHalgoGen is a function to use mcmc with Metropolis-Hastings algorithm

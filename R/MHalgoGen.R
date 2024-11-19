@@ -10,6 +10,7 @@
 #' @param thin Interval for thinning likelihoods
 #' @param trace Or FALSE or period to show progress
 #' @param traceML TRUE or FALSE to show ML
+#' @param scaleL The Log ratio is multiplied by the value (see description)
 #' @param progress.bar.ini The command to initialize progress bar
 #' @param progress.bar The command to run the progress bar
 #' @param intermediate Or NULL of period to save intermediate result
@@ -35,7 +36,9 @@
 #' The likelihood function must use a parameter named parameters_name for the nammed parameters.\cr
 #' For adaptive mcmc, see:\cr
 #' Rosenthal, J. S. 2011. Optimal Proposal Distributions and Adaptive MCMC. Pages 93-112 in S. Brooks, A. Gelman, 
-#' G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.
+#' G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.\cr
+#' If the expected value is obtained using a stochastic model, the algorithm can ba stucked to 
+#' exceptional value. To prevent this to occur, it is possible to adjust the scaleL parameter (experimental).
 #' @family mcmcComposite functions
 #' @examples
 #' \dontrun{
@@ -169,6 +172,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
                     n.adapt = 100                                              , 
                     thin=30                                                    , 
                     trace=FALSE                                                , 
+                    scaleL=1                                                   , 
                     traceML=FALSE                                              , 
                     progress.bar.ini=NULL                                      , 
                     progress.bar=NULL                                          , 
@@ -376,13 +380,14 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
         if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) {
           param <- list(propvarp)
           names(param) <- parameters_name
-          Lprevious2 <- -do.call(likelihood, modifyList(datax, param))
+          Lprevious2 <- - do.call(likelihood, modifyList(datax, param))
           logratio <- get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=TRUE) + Lprevious2 -
             (get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=TRUE)+LpreviousT)
-          alpha<-min(c(1,exp(logratio)))
+          alpha <- min(c(1, exp(logratio)))
+          # print(c(alpha, propvarp[j], newvarp[j]))
           # 15/2/2015 Pour éviter des erreurs
           if (!is.finite(alpha)) alpha <- -1
-          if (runif(1, min=0, max=1)<=alpha) {
+          if (runif(1, min=0, max=1) <= alpha * scaleL) {
             newvarp <- propvarp
             LpreviousT <- Lprevious2
           } 

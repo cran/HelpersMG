@@ -1,8 +1,17 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 6.2 (2024-08-23)
+            CHANGES IN VERSION 6.3 (2024-11-19)
             
-* New CRAN version - 6.2 (2024-01-30)
+* New CRAN version - 6.3 (2024-11-19)
+
+            CHANGES IN VERSION 6.2.2 (2024-11-19)
+            
+* New CRAN version - 6.2 (2024-08-23)
+* New parameter scaleL in MHalgoGen() - 6.2.1 (2024-11-14)
+* New plot of Markov Chain for plot.mcmccomposite() - 6.2.1 (2024-11-14)
+* New plot of Ln L for plot.mcmccomposite() - 6.2.2 (2024-11-17)
+* Better managnment in chain parameter of plot.mcmccomposite() - 6.2.2 (2024-11-17)
+* The as.parameters() function with best index returns the likelihood  - 6.2.2 (2024-11-17)
 
             CHANGES IN VERSION 6.1.3 (2024-08-23)
             
