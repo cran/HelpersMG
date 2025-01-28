@@ -108,7 +108,7 @@ importFrom("grDevices", "rgb",  "colorRampPalette")
 importFrom("graphics", "arrows", "axis", "barplot", "hist", "legend",
              "lines", "mtext", "par", "plot", "polygon", "segments", "points", 
              "xspline", "xyinch", "strheight", "text", "locator")
-importFrom("stats", "AIC", "aggregate", "as.formula", "binomial", 
+importFrom("stats", "AIC", "aggregate", "as.formula", "binomial", "density", 
              "dgamma", "pgamma", "qgamma", "rgamma", "optimise", 
              "dlnorm", "qlnorm", "plnorm", "rlnorm", 
              "dnorm", "pnorm", "qnorm", "rnorm", 

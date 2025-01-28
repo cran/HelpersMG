@@ -10,7 +10,6 @@
 #' @param thin Interval for thinning likelihoods
 #' @param trace Or FALSE or period to show progress
 #' @param traceML TRUE or FALSE to show ML
-#' @param scaleL The Log ratio is multiplied by the value (see description)
 #' @param progress.bar.ini The command to initialize progress bar
 #' @param progress.bar The command to run the progress bar
 #' @param intermediate Or NULL of period to save intermediate result
@@ -21,6 +20,7 @@
 #' @param previous The content of the file in which intermediate results are saved
 #' @param session The shiny session
 #' @param parameters_name The name of the parameters in the likelihood function, default is "x"
+#' @param warn If TRUE, show information for debug
 #' @param ... Parameters to be transmitted to likelihood function
 #' @description The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
 #' \itemize{
@@ -37,8 +37,6 @@
 #' For adaptive mcmc, see:\cr
 #' Rosenthal, J. S. 2011. Optimal Proposal Distributions and Adaptive MCMC. Pages 93-112 in S. Brooks, A. Gelman, 
 #' G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.\cr
-#' If the expected value is obtained using a stochastic model, the algorithm can ba stucked to 
-#' exceptional value. To prevent this to occur, it is possible to adjust the scaleL parameter (experimental).
 #' @family mcmcComposite functions
 #' @examples
 #' \dontrun{
@@ -172,7 +170,6 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
                     n.adapt = 100                                              , 
                     thin=30                                                    , 
                     trace=FALSE                                                , 
-                    scaleL=1                                                   , 
                     traceML=FALSE                                              , 
                     progress.bar.ini=NULL                                      , 
                     progress.bar=NULL                                          , 
@@ -182,7 +179,8 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
                     intermediate=NULL                                          , 
                     filename="intermediate.Rdata"                              ,
                     previous=NULL                                              , 
-                    session=NULL                                               )
+                    session=NULL                                               , 
+                    warn=FALSE)
   
 {
   
@@ -383,11 +381,13 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
           Lprevious2 <- - do.call(likelihood, modifyList(datax, param))
           logratio <- get(dfun[j])(propvarp[j],Prior[j,1],Prior[j,2],log=TRUE) + Lprevious2 -
             (get(dfun[j])(newvarp[j],Prior[j,1],Prior[j,2],log=TRUE)+LpreviousT)
+          
           alpha <- min(c(1, exp(logratio)))
+          if (warn) print(paste(as.character(c(logratio, exp(logratio), alpha))))
           # print(c(alpha, propvarp[j], newvarp[j]))
           # 15/2/2015 Pour éviter des erreurs
-          if (!is.finite(alpha)) alpha <- -1
-          if (runif(1, min=0, max=1) <= alpha * scaleL) {
+          if (!is.finite(alpha)) alpha <- 1
+          if (runif(1, min=0, max=1) <= alpha) {
             newvarp <- propvarp
             LpreviousT <- Lprevious2
           } 

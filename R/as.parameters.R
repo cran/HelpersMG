@@ -3,8 +3,9 @@
 #' @return A vector with parameters at maximum likelihood or index position
 #' @param x A mcmcComposite obtained as a result of \code{MHalgoGen()} function
 #' @param index At which iteration the parameters must be taken, see description
-#' @param probs Quantiles to be returned, see description
-#' @param chain The number of the chain in which to get parameters
+#' @param probs Quantiles to be returned, see description.
+#' @param chain The number of the chain in which to get parameters.
+#' @param silent If TRUE, does not print any information.
 #' @description Take a mcmcComposite object and create a vector object with parameter value at specified iteration.\cr
 #' If \code{index="best"}, the function will return the parameters for the highest likelihood. It also indicates at which iteration the maximum lihelihood has been observed.\cr
 #' If \code{index="last"}, the function will return the parameters for the last likelihood.\cr
@@ -80,7 +81,7 @@
 #' @export
 
 
-as.parameters <- function(x, index="best", chain=1, probs=0.025) {
+as.parameters <- function(x, index="best", chain=1, probs=0.025, silent=FALSE) {
   
   p <- x$resultMCMC.total[[chain]]
   if (is.null(p)) p <- x$resultMCMC[[chain]]
@@ -201,7 +202,7 @@ as.parameters <- function(x, index="best", chain=1, probs=0.025) {
         if (index=="best") {
           pos <- which.max(L)
           
-          message(paste("The best likelihood has been observed at iteration", pos, ": Ln L=", specify_decimal(max(L), decimals = 2)))
+          if (!silent) message(paste("The best likelihood has been observed at iteration", pos, ": Ln L=", specify_decimal(max(L), decimals = 2)))
         }
         
         if (index=="last") {

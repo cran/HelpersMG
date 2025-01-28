@@ -7,7 +7,8 @@
 #' @param parameters Name of parameters or "all"
 #' @param transform Function to be used to transform the variable
 #' @param legend If FALSE, the legend is not shown; see description
-#' @param show.prior whould the prior be shown?
+#' @param show.prior Should the prior be shown?
+#' @param show.posterior.density Should the posterior density be shown?
 #' @param scale.prior If TRUE, the prior is scaled at the same size as posterior
 #' @param bty Design of box for Markov Chain plot
 #' @param col.prior Color for prior curve 
@@ -18,8 +19,9 @@
 #' @param lwd.posterior Width of line for posterior histogram
 #' @param ylab y-label for posterior
 #' @param ylab.prior y-label for prior
+#' @param show.yaxis.prior Should the y-axis for prior be shown
 #' @param las las parameter (orientation of y-axis graduation)
-#' @param ... Graphical parameters to be sent to hist()
+#' @param ... Graphical parameters to be sent to hist() or plot()
 #' @param what can be Posterior, MarkovChain or LnL
 #' @family mcmcComposite functions
 #' @description Plot the results within a mcmcComposite object.\cr
@@ -255,6 +257,7 @@ plot.mcmcComposite <- function(x,
                                las = 1                                                           ,
                                bty = "n"                                                         ,
                                show.prior=TRUE                                                   , 
+                               show.posterior.density=TRUE                                       ,
                                col.prior = "red"                                                 , 
                                lty.prior = 1                                                     , 
                                lwd.prior = 1                                                     , 
@@ -262,6 +265,7 @@ plot.mcmcComposite <- function(x,
                                col.posterior = colorRampPalette(c("blue", "grey"), alpha=0.001)  , 
                                lty.posterior = 1                                                 , 
                                lwd.posterior = 1                                                 ,
+                               show.yaxis.prior=TRUE                                              ,
                                ylab.prior="Prior density"                                        ) {
   
   # x<-NULL;transform=NULL;chains="all";parameters=1;scale.prior=TRUE;legend=TRUE;ylab="Posterior density";las=1;show.prior=TRUE;col.prior="red";lty.prior=1;lwd.prior=1;col.posterior="white";lty.posterior=1;lwd.posterior=1;ylab.prior="Prior density"; what="posterior"
@@ -306,12 +310,12 @@ plot.mcmcComposite <- function(x,
     if (is.function(col.posterior)) col.posterior <- col.posterior(length(chains))
     
     L <- modifyList(modifyList(list(xlab="Iterations", 
-                         ylab="Ln L", 
-                         las=las, main="", 
-                         col=col.posterior[1],
-                         lty=lty.posterior[1], 
-                         lwd=lwd.posterior[1]), modifyList(list(x=1:length(x$resultLnL[[1]]), y=x$resultLnL[[1]], 
-                                                                bty=bty, type="l"), tpt)), list(type="n"))
+                                    ylab="Ln L", 
+                                    las=las, main="", 
+                                    col=col.posterior[1],
+                                    lty=lty.posterior[1], 
+                                    lwd=lwd.posterior[1]), modifyList(list(x=1:length(x$resultLnL[[1]]), y=x$resultLnL[[1]], 
+                                                                           bty=bty, type="l"), tpt)), list(type="n"))
     do.call(plot, L)
     
     col.posterior <- rep(col.posterior, length(chains))[1:length(chains)]
@@ -412,15 +416,17 @@ plot.mcmcComposite <- function(x,
           
           sequence <- transformx(sequence)
           
+          
           if (Parameters[variable, "Density"] != "dunif") {
             
             
             if (scale.prior) {
               lines(x=sequence, y=(y/max(y[is.finite(y)]))*scl$ylim["end"], 
                     col=col.prior, lty=lty.prior, lwd=lwd.prior)
-              
-              axis(side = 4, las=las)
-              mtext(text=ylab.prior, side=4, line = 4)
+              if (show.yaxis.prior) {
+                axis(side = 4, las=las)
+                mtext(text=ylab.prior, side=4, line = 4)
+              }
             } else {
               lines(x=sequence, y=y, 
                     col=col.prior, lty=lty.prior, lwd=lwd.prior)
@@ -436,8 +442,10 @@ plot.mcmcComposite <- function(x,
               segments(x0=transformx(p1), x1=transformx(p2), y0=scl$ylim[2], y1=scl$ylim[2], col=col.prior, lty=lty.prior, lwd=lwd.prior)
               segments(x0=transformx(p2), x1=transformx(p2), y0=scl$ylim[2], y1=0, col=col.prior, lty=lty.prior, lwd=lwd.prior)
               segments(x0=transformx(p2), x1=scl$xlim[2], y0=0, y1=0, col=col.prior, lty=lty.prior, lwd=lwd.prior)
-              axis(side = 4, las=las)
-              mtext(text=ylab.prior, side=4, line = 4)
+              if (show.yaxis.prior) {
+                axis(side = 4, las=las)
+                mtext(text=ylab.prior, side=4, line = 4)
+              }
               
             } else {
               segments(x0=scl$xlim[1], x1=transformx(p1), y0=0, y1=0, col=col.prior, lty=lty.prior, lwd=lwd.prior)
@@ -500,8 +508,10 @@ plot.mcmcComposite <- function(x,
                                       ylim=xl, 
                                       col=col.posterior[1],
                                       lty=lty.posterior[1], 
-                                      lwd=lwd.posterior[1]), modifyList(list(x=1:length(vals), y=rep(0, length(vals)), 
-                                                                             xlim=c(1, maxx), bty=bty), tpt)) , list(type="n"))
+                                      lwd=lwd.posterior[1]), modifyList(list(ylab=ylab, x=1:length(vals), y=rep(0, length(vals)), 
+                                                                             xlim=c(1, maxx), bty=bty), tpt)), list(type="n"))
+      L <- modifyList(L, tpt)
+      
       do.call(plot, L)
       
       col.posterior <- rep(col.posterior, length(chains))[1:length(chains)]
@@ -511,6 +521,18 @@ plot.mcmcComposite <- function(x,
         if (NbTS == 1) vals <- x[["resultMCMC"]][[chain]] else vals <- x[["resultMCMC"]][[chain]][ ,variable]
         vals <- transformx(vals)
         lines(x=1:length(vals), y=vals, col=col.posterior[chain], lty=lty.posterior[chain], lwd=lwd.posterior[chain])
+      }
+      
+      if (show.posterior.density) {
+        segments(x0=length(vals), x1=length(vals), y0=ScalePreviousPlot()$ylim["begin"], 
+                 y1=ScalePreviousPlot()$ylim["end"], col="black")
+        for (chain in chains) {
+          if (NbTS == 1) valsd <- x[["resultMCMC"]][[chain]] else valsd <- x[["resultMCMC"]][[chain]][ ,variable]
+          valsd <- transformx(valsd)
+        y <- density(valsd)
+        lines(x=length(vals) + (y$y/max(y$y) * length(vals) *0.1) , y=y$x, 
+              col=col.posterior[chain], lty=lty.posterior[chain], lwd=lwd.posterior[chain])
+        }
       }
       
       if (show.prior) {

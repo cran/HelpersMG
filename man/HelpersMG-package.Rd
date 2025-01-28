@@ -31,8 +31,8 @@ Helpers functions for several packages
 \tabular{ll}{
 Package: \tab HelpersMG\cr
 Type: \tab Package\cr
-Version: \tab 6.3 build 1569\cr
-Date: \tab 2024-11-19\cr
+Version: \tab 6.4 build 1596\cr
+Date: \tab 2025-01-29\cr
 License: \tab GPL (>= 2)\cr
 LazyLoad: \tab yes\cr
 }

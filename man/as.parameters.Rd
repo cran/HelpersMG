@@ -4,16 +4,18 @@
 \alias{as.parameters}
 \title{Extract parameters from mcmcComposite object}
 \usage{
-as.parameters(x, index = "best", chain = 1, probs = 0.025)
+as.parameters(x, index = "best", chain = 1, probs = 0.025, silent = FALSE)
 }
 \arguments{
 \item{x}{A mcmcComposite obtained as a result of \code{MHalgoGen()} function}
 
 \item{index}{At which iteration the parameters must be taken, see description}
 
-\item{chain}{The number of the chain in which to get parameters}
+\item{chain}{The number of the chain in which to get parameters.}
 
-\item{probs}{Quantiles to be returned, see description}
+\item{probs}{Quantiles to be returned, see description.}
+
+\item{silent}{If TRUE, does not print any information.}
 }
 \value{
 A vector with parameters at maximum likelihood or index position

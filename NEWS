@@ -1,8 +1,19 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 6.3 (2024-11-19)
+            CHANGES IN VERSION 6.4 (2025-01-29)
+            
+* New CRAN version - 6.4 (2025-01-28)
+
+            CHANGES IN VERSION 6.3.6 (2025-01-03)
             
 * New CRAN version - 6.3 (2024-11-19)
+* scaleL parameter for stochastic model using MHalgogen (experimental) - 6.3.1 (2024-12-04)
+* show.ylab.prior in plot.mcmccomposite() - 6.3.2 (2024-12-05)
+* Scaled flexit model using Min and Max parameters and vectorization of flexit - 6.3.3 (2024-12-23)
+* as.parameters() can be muted with the parameter silent - 6.3.4 (2024-12-24)
+* scaleL parameter for stochastic model using MHalgogen can use the sd attribute of the likelihood - 6.3.5 (2024-12-30)
+* Acceleration of flexit - 6.3.6 (2025-01-03)
+* Remove the experimental scaleL parameter - 6.3.7 (2025-01-28)
 
             CHANGES IN VERSION 6.2.2 (2024-11-19)
             

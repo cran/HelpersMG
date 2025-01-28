@@ -11,6 +11,8 @@ flexit(
   S = NULL,
   K1 = NULL,
   K2 = NULL,
+  Min = 0,
+  Max = 1,
   zero = 1e-09,
   error0 = 0,
   error1 = 1
@@ -28,6 +30,10 @@ flexit(
 \item{K1}{K1 value}
 
 \item{K2}{K2 value}
+
+\item{Min}{Min value for scaled flexit model}
+
+\item{Max}{Max value for scaled flexit model}
 
 \item{zero}{Value to replace zero}
 
@@ -50,8 +56,6 @@ with:\cr
 \deqn{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}
 \deqn{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}
 \cr
-New in version 4.7-3 and larger:\cr
-\cr
 If \eqn{2^K1}{2^K1} is too large to be estimated, the approximation \eqn{S1 = S*K1/2}{S1 = S*K1/2} is used.\cr
 Demonstration:\cr
 \deqn{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}
@@ -63,7 +67,6 @@ When \eqn{K1}{K1} is very large, \eqn{2^K1 - 1 = 2^K1}{2^K1 - 1 = 2^K1} then
 \deqn{S1 = exp(log(S * K1)- log(2))}{S1 = exp(log(S * K1)- log(2))}
 \deqn{S1 = S * K1 / 2}{S1 = S * K1 / 2}
 If \eqn{2^K2}{2^K2} is too large to be estimated, the approximation \eqn{S2 = S*K2/2}{S2 = S*K2/2} is used.\cr
-
 If \eqn{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)} is not finite,
 the following approximation is used:\cr
 \deqn{exp((-1/K1)*(K1*log(2)+(4*S1*(P-x))))}{exp((-1/K1)*(K1*log(2)+(4*S1*(P-x))))}

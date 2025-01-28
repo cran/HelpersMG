@@ -16,6 +16,7 @@
   las = 1,
   bty = "n",
   show.prior = TRUE,
+  show.posterior.density = TRUE,
   col.prior = "red",
   lty.prior = 1,
   lwd.prior = 1,
@@ -23,13 +24,14 @@
   col.posterior = colorRampPalette(c("blue", "grey"), alpha = 0.001),
   lty.posterior = 1,
   lwd.posterior = 1,
+  show.yaxis.prior = TRUE,
   ylab.prior = "Prior density"
 )
 }
 \arguments{
 \item{x}{A mcmcComposite object}
 
-\item{...}{Graphical parameters to be sent to hist()}
+\item{...}{Graphical parameters to be sent to hist() or plot()}
 
 \item{chains}{The chains to use}
 
@@ -47,7 +49,9 @@
 
 \item{bty}{Design of box for Markov Chain plot}
 
-\item{show.prior}{whould the prior be shown?}
+\item{show.prior}{Should the prior be shown?}
+
+\item{show.posterior.density}{Should the posterior density be shown?}
 
 \item{col.prior}{Color for prior curve}
 
@@ -62,6 +66,8 @@
 \item{lty.posterior}{Type of line for posterior histogram}
 
 \item{lwd.posterior}{Width of line for posterior histogram}
+
+\item{show.yaxis.prior}{Should the y-axis for prior be shown}
 
 \item{ylab.prior}{y-label for prior}
 }

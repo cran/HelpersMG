@@ -8,6 +8,8 @@
 #' @param S S value
 #' @param K1 K1 value
 #' @param K2 K2 value
+#' @param Min Min value for scaled flexit model
+#' @param Max Max value for scaled flexit model
 #' @param zero Value to replace zero
 #' @param error0 Value to return if an error is observed toward 0
 #' @param error1 Value to return if an error is observed toward 1
@@ -22,8 +24,6 @@
 #'      \deqn{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}
 #'      \deqn{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}{S2 = (2^(K2 - 1) * S * K2)/(2^K2 - 1)}
 #' \cr
-#' New in version 4.7-3 and larger:\cr
-#' \cr
 #' If \eqn{2^K1}{2^K1} is too large to be estimated, the approximation \eqn{S1 = S*K1/2}{S1 = S*K1/2} is used.\cr
 #' Demonstration:\cr
 #' \deqn{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}{S1 = (2^(K1 - 1) * S * K1)/(2^K1 - 1)}
@@ -35,7 +35,6 @@
 #' \deqn{S1 = exp(log(S * K1)- log(2))}{S1 = exp(log(S * K1)- log(2))}
 #' \deqn{S1 = S * K1 / 2}{S1 = S * K1 / 2}
 #' If \eqn{2^K2}{2^K2} is too large to be estimated, the approximation \eqn{S2 = S*K2/2}{S2 = S*K2/2} is used.\cr
-#' 
 #' If \eqn{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)}{(1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))^(-1/K1)} is not finite, 
 #' the following approximation is used:\cr
 #' \deqn{exp((-1/K1)*(K1*log(2)+(4*S1*(P-x))))}{exp((-1/K1)*(K1*log(2)+(4*S1*(P-x))))}
@@ -51,8 +50,9 @@
 #' flexit(1:100, P=50, S=0.01, K1=1, K2=1)
 #' @export
 
-flexit <- function(x, par=NULL, P=NULL, S=NULL, K1=NULL, K2=NULL, zero=1E-9, error0 = 0, error1 = 1) {
+flexit <- function(x, par=NULL, P=NULL, S=NULL, K1=NULL, K2=NULL, Min=0, Max=1, zero=1E-9, error0 = 0, error1 = 1) {
 
+  # par=NULL; P=NULL; S=NULL; K1=NULL; K2=NULL; Min=0; Max=1; zero=1E-9; error0 = 0; error1 = 1
   
 #             par <- c('P' = 0.66325432700364861, 
 #               'S' = 6.68963311308306, 
@@ -67,34 +67,66 @@ flexit <- function(x, par=NULL, P=NULL, S=NULL, K1=NULL, K2=NULL, zero=1E-9, err
   if (!is.null(par)) {
     if (is.na(par["K1"])) par <- c(par, K1=1)
     if (is.na(par["K2"])) par <- c(par, K2=1)
+    if (is.na(par["Min"])) par <- c(par, Min=0)
+    if (is.na(par["Max"])) par <- c(par, Max=1)
     K1 <- ifelse(par["K1"] == 0, zero, par["K1"])
     K2 <- ifelse(par["K2"] == 0, zero, par["K2"])
+    Min <- par["Min"]
+    Max <- par["Max"]
     S <- par["S"]
     P <- par["P"]
   }
   
-  if (is.null(K1)) K1 <- 1
-  if (is.null(K2)) K2 <- 1
+  lg <- max(c(length(x), length(K1), length(K2), length(P), length(S), length(Min), length(Max)))
+  
+  if (is.null(Min)) {
+    Min <- rep(zero, lg)
+  } else {
+    if (length(Min) != lg) Min <- rep(Min, lg)[1:lg]
+  }
+  if (is.null(Max)) {
+    Max <- rep(1-zero, lg)
+  } else {
+    if (length(Max) != lg) Max <- rep(Max, lg)[1:lg]
+  }
+  if (is.null(K1)) {
+    K1 <- rep(1, lg)
+  } else {
+    if (length(K1) != lg) K1 <- rep(K1, lg)[1:lg]
+  }
+  if (is.null(K2)) {
+    K2 <- rep(1, lg)
+  } else {
+    if (length(K2) != lg) K2 <- rep(K2, lg)[1:lg]
+  }
   K1 <- ifelse(K1 == 0, zero, K1)
   K2 <- ifelse(K2 == 0, zero, K2)
   
-  if (is.infinite(2^(K1))) {
-    S1 <- K1*S/2
-  } else {
-    S1 <- (2^(K1 - 1)*K1*S)/(2^(K1) - 1)
-  }
+  # Je les mets tous à la même taille
+  if (length(P) != lg) P <- rep(P, lg)[1:lg]
+  if (length(S) != lg) S <- rep(S, lg)[1:lg]
+  if (length(x) != lg) x <- rep(x, lg)[1:lg]
+  
+  S1 <- ifelse(is.infinite(2^(K1)), K1*S/2, (2^(K1 - 1)*K1*S)/(2^(K1) - 1))
+  
+  # if (is.infinite(2^(K1))) {
+  #   S1 <- K1*S/2
+  # } else {
+  #   S1 <- (2^(K1 - 1)*K1*S)/(2^(K1) - 1)
+  # }
   
   Test1 <- (1 + (2^K1 - 1) *  exp(4 * S1 * (P - x)))
   Test1_p <- ifelse(!is.infinite(Test1), 
                     Test1^(-1/K1), 
                     exp((-1/K1)*(K1*log(2)+(4*S1*(P-x)))))
   
+  S2 <- ifelse(is.infinite(2^(K2)), K2*S/2, (2^(K2 - 1)*K2*S)/(2^(K2) - 1))
   
-  if (is.infinite(2^(K2))) {
-    S2 <- K2*S/2
-  } else {
-    S2 <- (2^(K2 - 1)*K2*S)/(2^(K2) - 1)
-  }
+  # if (is.infinite(2^(K2))) {
+  #   S2 <- K2*S/2
+  # } else {
+  #   S2 <- (2^(K2 - 1)*K2*S)/(2^(K2) - 1)
+  # }
   
   Test2 <- (1 + (2^K2 - 1) * exp(4 * S2 * (x - P)))
   Test2_p <- ifelse(!is.infinite(Test2), 
@@ -111,5 +143,7 @@ flexit <- function(x, par=NULL, P=NULL, S=NULL, K1=NULL, K2=NULL, zero=1E-9, err
                      Test2_p)
   )
   
-  return(p)
+  p <- (Max - Min) * p + Min
+  
+  return(unname(p))
 }
