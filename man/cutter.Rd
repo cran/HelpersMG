@@ -20,6 +20,8 @@ cutter(
   n.adapt = 100,
   debug = FALSE,
   progress.bar = TRUE,
+  priors = NULL,
+  adaptive = TRUE,
   session = NULL
 )
 }
@@ -53,6 +55,10 @@ cutter(
 \item{debug}{If TRUE, show some information}
 
 \item{progress.bar}{If TRUE, show a progress bar for MCMC}
+
+\item{priors}{A dataframe with priors.}
+
+\item{adaptive}{Should the adaptive methodologie for SDprop be used}
 
 \item{session}{The session of a shiny process}
 }

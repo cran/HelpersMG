@@ -4,14 +4,23 @@
 \alias{as.parameters}
 \title{Extract parameters from mcmcComposite object}
 \usage{
-as.parameters(x, index = "best", chain = 1, probs = 0.025, silent = FALSE)
+as.parameters(
+  x = stop("A result obtained after a MCMC analysis must be given."),
+  total = TRUE,
+  index = "best",
+  chain = "all",
+  probs = c(0.025, 0.5, 0.975),
+  silent = FALSE
+)
 }
 \arguments{
 \item{x}{A mcmcComposite obtained as a result of \code{MHalgoGen()} function}
 
-\item{index}{At which iteration the parameters must be taken, see description}
+\item{total}{If TRUE, does not use the thinned results.}
 
-\item{chain}{The number of the chain in which to get parameters.}
+\item{index}{At which iteration the parameters must be taken, see description.}
+
+\item{chain}{The chain in which to get parameters; "all" is for all chains.}
 
 \item{probs}{Quantiles to be returned, see description.}
 
@@ -27,9 +36,8 @@ If \code{index="last"}, the function will return the parameters for the last lik
 If \code{index="median"}, the function will return the median value of the parameter.\cr
 if \code{index="quantile"}, the function will return the \code{probs} defined by quantiles parameter.\cr
 If \code{index="mode"}, the function will return the mode value of the parameter based on Asselin de Beauville (1978) method.\cr
-\code{index} can also be a numeric value.\cr
-This function uses the complete iterations available except the adaptation part,
-even if thin parameter is not equal to 1.
+\code{index} can also be a numeric value. It uses all the chains being concatanated.\cr
+This function uses the complete iterations available if total is TRUE. Is adaptation part is never used.
 }
 \examples{
 \dontrun{

@@ -148,9 +148,9 @@ dcutter <- function(par, observations=NULL, distribution="gamma",
     
     parX_mixture <- getparcutter(parX, set=1)
     
-    L <- sum(do.call(ddistr, args = modifyList(list(x=obsX, log = TRUE), parX_mixture)))
-    L <- L-sum(log(1 - ifelse(!is.na(LDLX), do.call(pdistr, args = modifyList(list(q=LDLX, lower.tail = TRUE, log.p = FALSE), parX_mixture)), 0) 
-                   -ifelse(!is.na(UDLX), do.call(pdistr, args = modifyList(list(q=UDLX, lower.tail = FALSE, log.p = FALSE), parX_mixture)), 0)))
+    L <- sum(do.call("ddistr", args = modifyList(list(x=obsX, log = TRUE), parX_mixture)))
+    L <- L - sum(log(1 - ifelse(!is.na(LDLX), do.call("pdistr", args = modifyList(list(q=LDLX, lower.tail = TRUE, log.p = FALSE), parX_mixture)), 0) 
+                   -ifelse(!is.na(UDLX), do.call("pdistr", args = modifyList(list(q=UDLX, lower.tail = FALSE, log.p = FALSE), parX_mixture)), 0)))
     
     if (debug >= 1) {
       cat(paste0("The log likelihood of quantifiable data is ", specify_decimal(L), "\n"))
@@ -243,6 +243,7 @@ dcutter <- function(par, observations=NULL, distribution="gamma",
     for (p in 1:np)
       parX_mixture <- c(parX_mixture, list(getparcutter(parX, set=p)))
     
+    if (length(obsX) > 0) {
     L <- sapply(1:length(obsX), FUN = function(n) {
       L_set <- sapply(1:np, FUN = function(p) {
         pr <- do.call(ddistr, args = modifyList(list(x=obsX[n], log = FALSE), parX_mixture[[p]]))
@@ -258,6 +259,9 @@ dcutter <- function(par, observations=NULL, distribution="gamma",
     })
     # Dans L j'ai log L
     L <- sum(L)
+    } else {
+      L <- 0
+    }
     
     if (debug >= 1) {
       cat(paste0("The log likelihood of quantifiable data is ", specify_decimal(L), "\n"))
@@ -286,7 +290,7 @@ dcutter <- function(par, observations=NULL, distribution="gamma",
             right <- d1[i, "Observations"]
             pright <- NULL
             for (p in 1:np) 
-              pright <- c(pright, do.call(pdistr, modifyList(list(q=as.numeric(as.character(d1[i, "Group.1"])), lower.tail = FALSE, log.p = FALSE), parX_mixture[[p]] )))
+              pright <- c(pright, do.call("pdistr", modifyList(list(q=as.numeric(as.character(d1[i, "Group.1"])), lower.tail = FALSE, log.p = FALSE), parX_mixture[[p]] )))
             pright <- sum(pright * pparX)
             
             left <- dmoins[i, "Observations"]
@@ -304,7 +308,7 @@ dcutter <- function(par, observations=NULL, distribution="gamma",
               
               pleft <- NULL
               for (p in 1:np) 
-                pleft <- c(pleft, do.call(pdistr, modifyList(list(q=as.numeric(as.character(d1[i, "Group.2"])), lower.tail = TRUE, log.p = FALSE), parX_mixture[[p]] )))
+                pleft <- c(pleft, do.call("pdistr", modifyList(list(q=as.numeric(as.character(d1[i, "Group.2"])), lower.tail = TRUE, log.p = FALSE), parX_mixture[[p]] )))
               pleft <- sum(pleft * pparX)
               
               
@@ -320,14 +324,14 @@ dcutter <- function(par, observations=NULL, distribution="gamma",
               
               pright <- NULL
               for (p in 1:np) 
-                pright <- c(pright, do.call(pdistr, modifyList(list(q=as.numeric(as.character(d1[i, "Group.2"])), lower.tail = FALSE, log.p = FALSE), parX_mixture[[p]] )))
+                pright <- c(pright, do.call("pdistr", modifyList(list(q=as.numeric(as.character(d1[i, "Group.2"])), lower.tail = FALSE, log.p = FALSE), parX_mixture[[p]] )))
               pright <- sum(pright * pparX)
               if (pright <= 0) pright <- 1E-6
               if (pright >= 1) pright <- 1-1E-6
               
               pleft <- NULL
               for (p in 1:np) 
-                pleft <- c(pleft, do.call(pdistr, modifyList(list(q=as.numeric(as.character(d1[i, "Group.1"])), lower.tail = TRUE, log.p = FALSE), parX_mixture[[p]] )))
+                pleft <- c(pleft, do.call("pdistr", modifyList(list(q=as.numeric(as.character(d1[i, "Group.1"])), lower.tail = TRUE, log.p = FALSE), parX_mixture[[p]] )))
               pleft <- sum(pleft * pparX)
               
               if (pleft <= 0) pleft <- 1E-6

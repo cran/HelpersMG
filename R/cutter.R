@@ -15,6 +15,8 @@
 #' @param n.iter Number of iteration for Bayesian MCMC and to estimate the goodness-of-fit
 #' @param n.adapt Number of burn-in iterations Bayesian MCMC
 #' @param n.mixture Number of distributions
+#' @param priors A dataframe with priors. 
+#' @param adaptive Should the adaptive methodologie for SDprop be used
 #' @param debug If TRUE, show some information
 #' @param progress.bar If TRUE, show a progress bar for MCMC
 #' @param session The session of a shiny process
@@ -357,6 +359,8 @@ cutter <- function(observations=stop("Observations must be provided"),
                    distribution="gamma", 
                    n.mixture=1, 
                    n.iter=5000, n.adapt=100, debug=FALSE, progress.bar=TRUE, 
+                   priors=NULL, 
+                   adaptive=TRUE, 
                    session=NULL) {
   
   # observations=NULL 
@@ -697,7 +701,7 @@ cutter <- function(observations=stop("Observations must be provided"),
       }
     }
     
-    # prior <- data.frame(Density=rep('dnorm', length(par)), 
+    # priors <- data.frame(Density=rep('dnorm', length(par)), 
     #                     Prior1=par, 
     #                     Prior2=abs(par/4), 
     #                     SDProp=abs(log(abs(par))), 
@@ -707,7 +711,8 @@ cutter <- function(observations=stop("Observations must be provided"),
     #                     stringsAsFactors = FALSE, 
     #                     row.names=names(par))
     
-    prior <- data.frame(Density=rep('dunif', length(par)), 
+    if (is.null(priors))
+    priors <- data.frame(Density=rep('dunif', length(par)), 
                         Prior1=lower, 
                         Prior2=upper, 
                         SDProp=abs(log(abs(par))), 
@@ -719,9 +724,9 @@ cutter <- function(observations=stop("Observations must be provided"),
     
     if (!is.null(session)) {
       # Je suis en shiny
-      mcmc_run <- MHalgoGen(n.iter=n.iter, parameters=prior, observations=observations, 
+      mcmc_run <- MHalgoGen(n.iter=n.iter, parameters=priors, observations=observations, 
                             distribution=distribution, 
-                            parameters_name="par", adaptive = TRUE, 
+                            parameters_name="par", adaptive = adaptive, 
                             n.mixture=n.mixture, debug=debug, 
                             likelihood=fitn, n.chains=1, n.adapt=n.adapt, thin=1, trace=FALSE, 
                             progress.bar.ini=NULL, 
@@ -740,9 +745,9 @@ cutter <- function(observations=stop("Observations must be provided"),
       if (progress.bar) {
         
         pb <- txtProgressBar(min=0, max=n.iter*2, style=3)
-        mcmc_run <- MHalgoGen(n.iter=n.iter, parameters=prior, observations=observations, 
+        mcmc_run <- MHalgoGen(n.iter=n.iter, parameters=priors, observations=observations, 
                               distribution=distribution, 
-                              parameters_name="par", adaptive = TRUE, 
+                              parameters_name="par", adaptive = adaptive, 
                               n.mixture=n.mixture, debug=debug, 
                               likelihood=fitn, n.chains=1, n.adapt=n.adapt, thin=1, trace=FALSE, 
                               session=NULL, 
@@ -750,9 +755,9 @@ cutter <- function(observations=stop("Observations must be provided"),
                               progress.bar=function(iter, session=NULL) {setTxtProgressBar(get("pb", envir = parent.env(environment())), iter)})
         
       } else {
-        mcmc_run <- MHalgoGen(n.iter=n.iter, parameters=prior, observations=observations, 
+        mcmc_run <- MHalgoGen(n.iter=n.iter, parameters=priors, observations=observations, 
                               distribution=distribution, 
-                              parameters_name="par", adaptive = TRUE, 
+                              parameters_name="par", adaptive = adaptive, 
                               n.mixture=n.mixture, debug=debug, 
                               likelihood=fitn, n.chains=1, n.adapt=n.adapt, thin=1, trace=FALSE)
       }

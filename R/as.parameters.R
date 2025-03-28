@@ -2,9 +2,10 @@
 #' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A vector with parameters at maximum likelihood or index position
 #' @param x A mcmcComposite obtained as a result of \code{MHalgoGen()} function
-#' @param index At which iteration the parameters must be taken, see description
+#' @param total If TRUE, does not use the thinned results.
+#' @param index At which iteration the parameters must be taken, see description.
 #' @param probs Quantiles to be returned, see description.
-#' @param chain The number of the chain in which to get parameters.
+#' @param chain The chain in which to get parameters; "all" is for all chains.
 #' @param silent If TRUE, does not print any information.
 #' @description Take a mcmcComposite object and create a vector object with parameter value at specified iteration.\cr
 #' If \code{index="best"}, the function will return the parameters for the highest likelihood. It also indicates at which iteration the maximum lihelihood has been observed.\cr
@@ -12,9 +13,8 @@
 #' If \code{index="median"}, the function will return the median value of the parameter.\cr
 #' if \code{index="quantile"}, the function will return the \code{probs} defined by quantiles parameter.\cr
 #' If \code{index="mode"}, the function will return the mode value of the parameter based on Asselin de Beauville (1978) method.\cr
-#' \code{index} can also be a numeric value.\cr
-#' This function uses the complete iterations available except the adaptation part, 
-#' even if thin parameter is not equal to 1.
+#' \code{index} can also be a numeric value. It uses all the chains being concatanated.\cr
+#' This function uses the complete iterations available if total is TRUE. Is adaptation part is never used.
 #' @references Asselin de Beauville J.-P. (1978). Estimation non paramétrique de la densité et du mode, 
 #' exemple de la distribution Gamma. Revue de Statistique Appliquée, 26(3):47-70.
 #' @family mcmcComposite functions
@@ -81,18 +81,32 @@
 #' @export
 
 
-as.parameters <- function(x, index="best", chain=1, probs=0.025, silent=FALSE) {
+as.parameters <- function(x=stop("A result obtained after a MCMC analysis must be given.") , 
+                          total = TRUE                                                     ,
+                          index="best"                                                     , 
+                          chain="all"                                                      , 
+                          probs=c(0.025, 0.5, 0.975)                                       , 
+                          silent=FALSE                                                     ) {
   
-  p <- x$resultMCMC.total[[chain]]
-  if (is.null(p)) p <- x$resultMCMC[[chain]]
+  if (chain[1] == "all") if (total) chain <- seq_along(x$resultMCMC.total) else chain <- seq_along(x$resultMCMC)
+  
+  if (total) p <- x$resultMCMC.total[[chain[1]]] else p <- x$resultMCMC[[chain[1]]]
+  
+  if (length(chain) > 1) {
+    for (i in chain[-1]) {
+      if (total) p <- rbind(p, x$resultMCMC.total[[i]]) else p <- rbind(p, x$resultMCMC[[i]])
+    }
+  }
+  
+  if (is.null(p)) stop("No data are available.")
   
   if (index == "median") {
     pml <- apply(p, MARGIN=2, FUN = median)
-    names(pml) <- colnames(p)
+    # names(pml) <- colnames(p)
   } else {
     if (index=="quantile") {
       pml <- apply(p, MARGIN=2, FUN = quantile, probs=probs)
-      names(pml) <- colnames(p)
+      # names(pml) <- colnames(p)
   } else {
     
     if (index == "mode") {
@@ -185,13 +199,19 @@ as.parameters <- function(x, index="best", chain=1, probs=0.025, silent=FALSE) {
       }
       
       pml <- apply(p, MARGIN=2, FUN = asselin)
-      names(pml) <- colnames(p)
+      # names(pml) <- colnames(p)
       
     } else {
       
       
-      L <- x$resultLnL.total[[chain]]
-      if (is.null(L)) L <- x$resultLnL[[chain]]
+      if (total) L <- x$resultLnL.total[[chain[1]]] else L <- x$resultLnL[[chain[1]]]
+      
+      if (length(chain) > 1) {
+        for (i in chain[-1]) {
+          if (total) L <- c(L, x$resultLnL.total[[i]]) else L <- c(L, x$resultLnL[[i]])
+        }
+      }
+      
       
       pos <- NULL
       
@@ -214,8 +234,8 @@ as.parameters <- function(x, index="best", chain=1, probs=0.025, silent=FALSE) {
         stop("index is not recognized")
       }
       
-      pml <- as.numeric(p[pos,])
-      names(pml) <- names(p[pos,])
+      pml <- p[pos,]
+      # names(pml) <- names(p[pos,])
     }
   }
 }

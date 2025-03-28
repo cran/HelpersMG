@@ -19,8 +19,10 @@
 #' @param adaptive.fun Function used to change the SDProp
 #' @param previous The content of the file in which intermediate results are saved
 #' @param session The shiny session
-#' @param parameters_name The name of the parameters in the likelihood function, default is "x"
-#' @param warn If TRUE, show information for debug
+#' @param parameters_name The name of the parameters in the likelihood function, default is "x".
+#' @param warn If TRUE, show information for debug.
+#' @param WAIC.out If TRUE matrix or array are stored to be used with loo or waic.
+#' @param n.datapoints Number of datapoints when WAIC.out is TRUE.
 #' @param ... Parameters to be transmitted to likelihood function
 #' @description The parameters must be stored in a data.frame with named rows for each parameter with the following columns:\cr
 #' \itemize{
@@ -180,13 +182,15 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
                     filename="intermediate.Rdata"                              ,
                     previous=NULL                                              , 
                     session=NULL                                               , 
-                    warn=FALSE)
-  
-{
+                    warn=FALSE                                                 , 
+                    WAIC.out=FALSE                                             , 
+                    n.datapoints=NULL                                          ) {
   
   if (!requireNamespace("coda", quietly = TRUE)) {
     stop("coda package is necessary for this function")
   }
+  
+
   
   previousML <- -Inf
   
@@ -216,6 +220,15 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
     # datax <- list(temperatures=result$data, derivate=result$derivate, test=result$test, M0=result$M0, fixed.parameters=result$fixed.parameters, weight=result$weight, out="Likelihood",  progress=FALSE, warnings=FALSE, likelihood=getFromNamespace("info.nests", ns = "embryogrowth"))
     # datax <- list(data)
     datax <- list(...)
+    if (WAIC.out) {
+      if (is.null(n.datapoints)) {
+        stop("n.datapoints must be setup when WAIC.out is TRUE.")
+      } else {
+        WAIC.array <- array(NA, dim = c(n.iter+n.adapt, n.chains, n.datapoints))
+      }
+    } else {
+      WAIC.array <- NULL
+    }
   } else {
     n.iter <- previous$n.iter
     parameters <- previous$parameters
@@ -247,6 +260,7 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
     adaptive <- previous$adaptive
     adaptive.lag <- previous$adaptive.lag
     adaptive.fun <- previous$adaptive.fun
+    WAIC.array <- previous$WAIC.array
   }
   
   if (!is.null(progress.bar.ini)) {
@@ -282,8 +296,11 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
       
       # ll <- c(datax, param)
       # names(ll) <- c("data", parameters_name)
-      
-      varp[1, "Ln L"] <- -do.call(likelihood, modifyList(datax, param))
+      LnLx <- -do.call(likelihood, modifyList(datax, param))
+      varp[1, "Ln L"] <- LnLx
+      if (WAIC.out) {
+        WAIC.array[1, kk, ] <- attributes(LnLx)$WAIC
+      }
       # likelihood(par=param$par, fixed.parameters = datax$fixed.parameters, res_1=datax$res_1, res_2=datax$res_2)
       cpt <- 1
       varp2[cpt, 1:nbvar] <- varp[1, 1:nbvar]
@@ -360,7 +377,8 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
                       sdg=sdg, MaxL=MaxL, 
                       adaptive=adaptive,
                       adaptive.lag=adaptive.lag,
-                      adaptive.fun=adaptive.fun)
+                      adaptive.fun=adaptive.fun, 
+                      WAIC.array=WAIC.array)
           save(itr, file=filename)
         }
       
@@ -368,12 +386,16 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
       ###### Pas clair si previous
       deb_i <- 2
       Lprevious <- LpreviousT <- varp[i-1, "Ln L"]
+      if (WAIC.out) {
+        previousWAIC <- WAIC.array[i-1, kk, ]
+      }
+       
       newvarp <- varp[i-1, 1:nbvar]
       
       for (j in 1:nbvar) {	
         # Nouveau paramètre
         propvarp <- newvarp
-        propvarp[j] <- propvarp[j]+rnorm(1, mean=0, sd=sdg[j])
+        propvarp[j] <- propvarp[j] + rnorm(1, mean=0, sd=sdg[j])
         
         if (propvarp[j]<=Limites[j,2] && propvarp[j]>=Limites[j,1]) {
           param <- list(propvarp)
@@ -390,11 +412,15 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
           if (runif(1, min=0, max=1) <= alpha) {
             newvarp <- propvarp
             LpreviousT <- Lprevious2
+            if (WAIC.out) {
+              previousWAIC <- attributes(Lprevious2)$WAIC
+            }
           } 
         }
-      }		
+      }
       varp[i, 1:nbvar] <- newvarp
       varp[i, "Ln L"] <- LpreviousT
+      if (WAIC.out) WAIC.array[i, kk, ] <- previousWAIC
       
       if (MaxL["Ln L"] < varp[i, "Ln L"]) {
         MaxL <- varp[i, ]
@@ -485,10 +511,18 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
     }
   }
   
+  if (WAIC.out) {
+    WAIC.array.thined <- WAIC.array[seq(from=n.adapt+1, to=n.adapt+n.iter, by=thin), , , drop=FALSE]
+  } else {
+    WAIC.array.thined <- NULL
+  }
+  
   out <- (list(resultMCMC=res, 
                resultMCMC.total=restot, 
                resultLnL=resL, 
                resultLnL.total=resLtot, 
+               WAIC.total=WAIC.array, 
+               WAIC=WAIC.array.thined,
                parametersMCMC=list(parameters=parameters, n.iter=n.iter, n.chains=n.chains, n.adapt=n.adapt, thin=thin, 
                                    SDProp.end=structure(sdg, .Names=rownames(parameters)), 
                                    control=datax)))

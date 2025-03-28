@@ -26,7 +26,9 @@ MHalgoGen(
   filename = "intermediate.Rdata",
   previous = NULL,
   session = NULL,
-  warn = FALSE
+  warn = FALSE,
+  WAIC.out = FALSE,
+  n.datapoints = NULL
 )
 }
 \arguments{
@@ -36,7 +38,7 @@ MHalgoGen(
 
 \item{...}{Parameters to be transmitted to likelihood function}
 
-\item{parameters_name}{The name of the parameters in the likelihood function, default is "x"}
+\item{parameters_name}{The name of the parameters in the likelihood function, default is "x".}
 
 \item{n.iter}{Number of iterations for each chain}
 
@@ -68,7 +70,11 @@ MHalgoGen(
 
 \item{session}{The shiny session}
 
-\item{warn}{If TRUE, show information for debug}
+\item{warn}{If TRUE, show information for debug.}
+
+\item{WAIC.out}{If TRUE matrix or array are stored to be used with loo or waic.}
+
+\item{n.datapoints}{Number of datapoints when WAIC.out is TRUE.}
 }
 \value{
 A mcmcComposite object with all characteristics of the model and mcmc run
