@@ -145,7 +145,7 @@ tide.info <- function(location=NULL,
   
   file <- tempfile(pattern = "file", tmpdir = tempdir(), fileext = ".txt")
   
-  com <- paste0('curl --silent -o ', file, ' --data-urlencode "location=', location,'" --data-urlencode "begin=', Begin,'" --data-urlencode "end=', End,'" "http://134.158.74.46:20000/tide"')
+  com <- paste0('curl --silent -o ', file, ' --data-urlencode "location=', location,'" --data-urlencode "begin=', Begin,'" --data-urlencode "end=', End,'" "http://157.136.255.42:20000/tide"')
   out <- system(command = com, intern = FALSE)
   out <- readChar(file, nchars=file.info(file)$size)
   

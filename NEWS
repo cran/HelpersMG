@@ -1,12 +1,17 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 6.4.5 (2025-03-28)
+            CHANGES IN VERSION 6.5 (2025-05-09)
+            
+* New CRAN version - 6.5 (2025-05-0)
+
+            CHANGES IN VERSION 6.4.6 (2025-05-09)
             
 * New CRAN version - 6.4 (2025-02-27)
 * New parameter for cutter - 6.4.2 (2025-02-27)
 * Preparation for loo and waic for MHAlgoGen() - 6.4.3 (2025-03-06)
 * Solve a problem with n.adapt and WAIC in MHAlgoGen() - 6.4.4 (2025-03-08)
 * Amelioration of as.parameter() - 6.4.5 (2025-03-28)
+* as.parameter() can use index = "all" and index as a range - 6.4.6 (2025-05-09)
 
             CHANGES IN VERSION 6.3.6 (2025-01-03)
             

@@ -82,7 +82,7 @@
 
 
 as.parameters <- function(x=stop("A result obtained after a MCMC analysis must be given.") , 
-                          total = TRUE                                                     ,
+                          total = FALSE                                                     ,
                           index="best"                                                     , 
                           chain="all"                                                      , 
                           probs=c(0.025, 0.5, 0.975)                                       , 
@@ -100,16 +100,16 @@ as.parameters <- function(x=stop("A result obtained after a MCMC analysis must b
   
   if (is.null(p)) stop("No data are available.")
   
-  if (index == "median") {
+  if (index[1] == "median") {
     pml <- apply(p, MARGIN=2, FUN = median)
     # names(pml) <- colnames(p)
   } else {
-    if (index=="quantile") {
+    if (index[1] == "quantile") {
       pml <- apply(p, MARGIN=2, FUN = quantile, probs=probs)
       # names(pml) <- colnames(p)
   } else {
     
-    if (index == "mode") {
+    if (index[1] == "mode") {
       asselin <- function (x, bw = NULL, ...) {
         if (is.null(bw)) 
           bw <- 1
@@ -215,17 +215,21 @@ as.parameters <- function(x=stop("A result obtained after a MCMC analysis must b
       
       pos <- NULL
       
-      if (is.numeric(index)) {
+      if (any(is.numeric(index))) {
         pos <- index
       } else {
         
-        if (index=="best") {
+        if (index[1] == "all") {
+          pos <- seq_along(L)
+        }
+        
+        if (index[1] =="best") {
           pos <- which.max(L)
           
           if (!silent) message(paste("The best likelihood has been observed at iteration", pos, ": Ln L=", specify_decimal(max(L), decimals = 2)))
         }
         
-        if (index=="last") {
+        if (index[1] == "last") {
           pos <- length(L)
         }
       }

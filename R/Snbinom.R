@@ -788,19 +788,19 @@
 
 
 dSnbinom <- function(x = stop("You must provide at least one x value")       , 
-                     size = NULL                                  , 
-                     prob = NULL                                  , 
-                     mu = NULL                                    , 
-                     log = FALSE                                  ,  
-                     tol = NULL                                   , 
-                     method="Furman"                              ,
-                     normalize=TRUE                               ,
-                     max.iter=NULL                                ,
-                     mean=NULL                                    ,
-                     sd=NULL                                      ,
-                     n.random = 1E6                               , 
-                     parallel = FALSE                             ,
-                     verbose = FALSE                              ) {
+                     size = NULL                                             , 
+                     prob = NULL                                             , 
+                     mu = NULL                                               , 
+                     log = FALSE                                             ,  
+                     tol = NULL                                              , 
+                     method="Furman"                                         ,
+                     normalize=TRUE                                          ,
+                     max.iter=NULL                                           ,
+                     mean=NULL                                               ,
+                     sd=NULL                                                 ,
+                     n.random = 1E6                                          , 
+                     parallel = FALSE                                        ,
+                     verbose = FALSE                                         ) {
   
   method <- tolower(method)
   method <- match.arg(arg=method, choices = c("furman", 

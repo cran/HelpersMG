@@ -6,7 +6,7 @@
 \usage{
 as.parameters(
   x = stop("A result obtained after a MCMC analysis must be given."),
-  total = TRUE,
+  total = FALSE,
   index = "best",
   chain = "all",
   probs = c(0.025, 0.5, 0.975),
