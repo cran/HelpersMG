@@ -1,8 +1,9 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 6.5 (2025-05-09)
+            CHANGES IN VERSION 6.6 (2025-06-16)
             
-* New CRAN version - 6.5 (2025-05-0)
+* New CRAN version - 6.5 (2025-05-10)
+* Use GEV distribution rather than Gaussian distribution for extrema - 6.6 (2025-05-19)
 
             CHANGES IN VERSION 6.4.6 (2025-05-09)
             

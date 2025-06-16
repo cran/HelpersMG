@@ -35,7 +35,7 @@
 #'   \item Init. The initial value for this parameter
 #' }
 #' This script has been deeply modified from a MCMC script provided by Olivier Martin (INRA, Paris-Grignon).\cr
-#' The likelihood function must use a parameter named parameters_name for the nammed parameters.\cr
+#' The likelihood function must use a parameter named parameters_name for the named parameters.\cr
 #' For adaptive mcmc, see:\cr
 #' Rosenthal, J. S. 2011. Optimal Proposal Distributions and Adaptive MCMC. Pages 93-112 in S. Brooks, A. Gelman, 
 #' G. Jones, and X.-L. Meng, editors. MCMC Handbook. Chapman and Hall/CRC.\cr

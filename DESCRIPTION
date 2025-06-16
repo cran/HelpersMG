@@ -2,8 +2,8 @@ Package: HelpersMG
 Type: Package
 Title: Tools for Environmental Analyses, Ecotoxicology and Various R
         Functions
-Version: 6.5
-Date: 2025-05-09
+Version: 6.6
+Date: 2025-06-16
 Authors@R: person(given = "Marc",
                     family = "Girondot",
                     role = c("aut", "cre"),
@@ -18,9 +18,9 @@ LazyLoad: yes
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2025-05-09 09:57:31 UTC; marcgirondot
+Packaged: 2025-06-16 12:11:10 UTC; marcgirondot
 Author: Marc Girondot [aut, cre] (ORCID:
     <https://orcid.org/0000-0001-6645-8530>)
 Maintainer: Marc Girondot <marc.girondot@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-05-09 11:00:02 UTC
+Date/Publication: 2025-06-16 13:10:16 UTC
