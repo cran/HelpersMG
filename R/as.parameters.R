@@ -82,7 +82,7 @@
 
 
 as.parameters <- function(x=stop("A result obtained after a MCMC analysis must be given.") , 
-                          total = FALSE                                                     ,
+                          total = FALSE                                                    ,
                           index="best"                                                     , 
                           chain="all"                                                      , 
                           probs=c(0.025, 0.5, 0.975)                                       , 
@@ -90,10 +90,12 @@ as.parameters <- function(x=stop("A result obtained after a MCMC analysis must b
   
   if (chain[1] == "all") if (total) chain <- seq_along(x$resultMCMC.total) else chain <- seq_along(x$resultMCMC)
   
-  if (total) p <- x$resultMCMC.total[[chain[1]]] else p <- x$resultMCMC[[chain[1]]]
+  # if (total) p <- x$resultMCMC.total[[chain[1]]] else p <- x$resultMCMC[[chain[1]]]
   
-  if (length(chain) > 1) {
-    for (i in chain[-1]) {
+  p <- NULL
+  
+  if (length(chain) >= 1) {
+    for (i in chain) {
       if (total) p <- rbind(p, x$resultMCMC.total[[i]]) else p <- rbind(p, x$resultMCMC[[i]])
     }
   }
@@ -204,10 +206,11 @@ as.parameters <- function(x=stop("A result obtained after a MCMC analysis must b
     } else {
       
       
-      if (total) L <- x$resultLnL.total[[chain[1]]] else L <- x$resultLnL[[chain[1]]]
+      # if (total) L <- x$resultLnL.total[[chain[1]]] else L <- x$resultLnL[[chain[1]]]
+      L <- NULL
       
-      if (length(chain) > 1) {
-        for (i in chain[-1]) {
+      if (length(chain) >= 1) {
+        for (i in chain[]) {
           if (total) L <- c(L, x$resultLnL.total[[i]]) else L <- c(L, x$resultLnL[[i]])
         }
       }

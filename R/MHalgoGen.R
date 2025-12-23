@@ -190,8 +190,6 @@ MHalgoGen<-function(likelihood=stop("A likelihood function must be supplied")  ,
     stop("coda package is necessary for this function")
   }
   
-
-  
   previousML <- -Inf
   
   # likelihood=NULL; parameters_name="x"; parameters=NULL; n.iter=10000; n.chains = 1

@@ -1,9 +1,8 @@
 Package: HelpersMG
 Type: Package
-Title: Tools for Environmental Analyses, Ecotoxicology and Various R
-        Functions
-Version: 6.6
-Date: 2025-06-16
+Title: Tools for Various R Functions Helpers
+Version: 2025.12.22
+Date: 2025-12-22
 Authors@R: person(given = "Marc",
                     family = "Girondot",
                     role = c("aut", "cre"),
@@ -16,11 +15,11 @@ Description: Contains miscellaneous functions useful for managing 'NetCDF' files
 License: GPL-2
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 NeedsCompilation: no
-Packaged: 2025-06-16 12:11:10 UTC; marcgirondot
+Packaged: 2025-12-22 21:52:21 UTC; marcgirondot
 Author: Marc Girondot [aut, cre] (ORCID:
     <https://orcid.org/0000-0001-6645-8530>)
 Maintainer: Marc Girondot <marc.girondot@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-06-16 13:10:16 UTC
+Date/Publication: 2025-12-23 06:10:38 UTC

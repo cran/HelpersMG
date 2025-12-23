@@ -1,9 +1,14 @@
 THIS IS THE CHANGELOG OF THE "HelpersMG" PACKAGE
 
-            CHANGES IN VERSION 6.6 (2025-06-16)
+            CHANGES IN VERSION 2025.12.22 (2025-12-22)
             
 * New CRAN version - 6.5 (2025-05-10)
 * Use GEV distribution rather than Gaussian distribution for extrema - 6.6 (2025-05-19)
+* RandomFromHessianOrMCMC() can use a specific mcmc random number - 6.6.1 (2025-08-29)
+* chain can always be setup to "all" - 6.6.2 (2025-09-17)
+* New numerotation of package version using date - 2029.09.18 (2025-09-18)
+* Correction of from_min_max() when mean or median are given - 2029.10.10 (2025-10-10)
+* Correction of from_min_max() when meanlog or sdlog are given - 2029.12.22 (2025-12-22)
 
             CHANGES IN VERSION 6.4.6 (2025-05-09)
             

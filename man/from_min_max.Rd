@@ -11,6 +11,7 @@ from_min_max(
   observed.Maximum,
   observed.Median = NULL,
   observed.Mean = NULL,
+  observed.Quantiles = NULL,
   priors = "dnorm",
   fixed.parameters = NULL,
   D = "norm**",
@@ -36,6 +37,8 @@ from_min_max(
 \item{observed.Median}{The observed median (can be omitted)}
 
 \item{observed.Mean}{The observed mean (can be omitted)}
+
+\item{observed.Quantiles}{Observed quantiles with names being the values of quantiles with Q being first letter (can be omitted; see description)}
 
 \item{priors}{The priors (see MHAlgogen()) or character "dnorm" or "dunif"}
 
@@ -68,7 +71,8 @@ If D="norm**" or "lnorm**", it will use the approximation of Gumbel based on D.\
 If D="norm*" or "lnorm*", it will generate D distribution using replicates number of random numbers,
 and estimate Gumbel parameters from the simulated D distribution. \cr
 Otherwise it will estimate parameters of Gumbel distribution based on maximum likelihood.\cr
-For D="pois*", "beta*" or "chisq*" only second and third solutions are available.
+For D="pois", "beta" or "chisq" only second (D="pois*", "beta*" or "chisq*") and third solutions are available.\cr
+The observed.Quantiles parameter must be a named value, for example observed.Quantiles = c(Q0.025=17, Q0.975=26)\cr
 }
 \details{
 from_min_max returns standard deviation and/or mean from minimum and maximum

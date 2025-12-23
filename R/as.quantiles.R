@@ -2,7 +2,7 @@
 #' @author Marc Girondot \email{marc.girondot@@gmail.com}
 #' @return A data.frame with quantiles
 #' @param x A mcmcComposite obtained as a result of \code{MHalgoGen()} function
-#' @param chain The number of the chain in which to get parameters
+#' @param chain The number of the chain in which to get parameters or "all"
 #' @param fun The function to apply the parameters
 #' @param probs The probability to get quantiles
 #' @param xlim The values to apply in fun
@@ -33,13 +33,26 @@
 #' @export
 
 
-as.quantiles <- function(x, chain=1, fun=function(...) return(as.numeric(list(...))), 
+as.quantiles <- function(x, chain="all", fun=function(...) return(as.numeric(list(...))), 
                             probs=c(0.025, 0.975), xlim=NULL, 
                             nameparxlim=NULL, namepar=NULL) {
   
   # chain=1; fun=function(x) {x}; probs=c(0.025, 0.975); xlim=NULL; nameparxlim=NULL; namepar=NULL
-
-	p <- x$resultMCMC[[chain]]
+  if (chain[1] == "all") chain <- seq_along(x$resultMCMC)
+  
+  # if (total) p <- x$resultMCMC.total[[chain[1]]] else p <- x$resultMCMC[[chain[1]]]
+  
+  p <- NULL
+  
+  if (length(chain) >= 1) {
+    for (i in chain) {
+      p <- rbind(p, x$resultMCMC[[i]])
+    }
+  }
+  
+  if (is.null(p)) stop("No data are available.")
+  
+	# p <- x$resultMCMC[[chain]]
 	df <- matrix(NA, ncol=max(1, length(xlim)))
 	df <- df[-1, ]
 	

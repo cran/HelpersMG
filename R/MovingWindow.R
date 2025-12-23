@@ -7,8 +7,8 @@
 #' @param fill TRUE or FALSE, should the vector return NA
 #' @param hole Should the returned vector have the same length than x
 #' @param FUN Function to apply to the window
-#' @description Return a moving average of a vector./cr
-#' hole parameter can be none, bothL, bothR, both, begin, end.
+#' @description Return a moving average of a vector.\cr
+#' hole parameter can be "none", "bothL", "bothR", "both", "begin", or "end".
 #' @examples
 #' MovingWindow(1:10, window = 4, fill = TRUE, hole="bothL")
 #' MovingWindow(1:10, window = 4, fill = TRUE, hole="bothR")

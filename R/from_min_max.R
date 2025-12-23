@@ -6,6 +6,7 @@
 #' @param observed.Maximum The observed maximum
 #' @param observed.Mean The observed mean (can be omitted)
 #' @param observed.Median The observed median (can be omitted)
+#' @param observed.Quantiles Observed quantiles with names being the values of quantiles with Q being first letter (can be omitted; see description)
 #' @param priors The priors (see MHAlgogen()) or character "dnorm" or "dunif"
 #' @param n Number of observations
 #' @param fitted.parameters The initial value to fit
@@ -24,7 +25,8 @@
 #' If D="norm*" or "lnorm*", it will generate D distribution using replicates number of random numbers, 
 #' and estimate Gumbel parameters from the simulated D distribution. \cr
 #' Otherwise it will estimate parameters of Gumbel distribution based on maximum likelihood.\cr
-#' For D="pois*", "beta*" or "chisq*" only second and third solutions are available.
+#' For D="pois", "beta" or "chisq" only second (D="pois*", "beta*" or "chisq*") and third solutions are available.\cr
+#' The observed.Quantiles parameter must be a named value, for example observed.Quantiles = c(Q0.025=17, Q0.975=26)\cr
 #' @examples
 #' \dontrun{
 #' minobs <- 5
@@ -414,6 +416,7 @@ from_min_max <- function(n = stop("n must be known.")                           
                          observed.Maximum                                                         , 
                          observed.Median=NULL                                                     ,
                          observed.Mean=NULL                                                       , 
+                         observed.Quantiles=NULL                                                  , 
                          priors="dnorm"                                                           , 
                          fixed.parameters=NULL                                                    ,
                          D="norm**"                                                               ,
@@ -427,16 +430,25 @@ from_min_max <- function(n = stop("n must be known.")                           
                          silent = FALSE                                                           ) {
   
   
-  # x ca sont les paramètres
-  L_min_max <- function(x=NULL               , 
-                        fixed.parameters=NULL, 
-                        n=NULL               , 
-                        D="norm"             ,
-                        meanobs=NULL         , 
-                        medianobs=NULL       ,
-                        minobs=NULL          , 
-                        maxobs=NULL          , 
-                        rep=10000            ) {
+  # x sont les paramètres
+  L_min_max <- function(x=NULL                               , 
+                        fixed.parameters=NULL                , 
+                        n=NULL                               , 
+                        D="norm"                             ,
+                        meanobs=NULL                         , 
+                        medianobs=NULL                       ,
+                        minobs=NULL                          , 
+                        maxobs=NULL                          , 
+                        quantilesobs=NULL                    ,
+                        rep=10000                            ) {
+    
+    # J'envoie les paramètres de D (* ou **)
+    # ainsi que les valeurs observées meanobs, medianobs, minobs, maxobs, quantilesobs
+    # Et je retourne la vraisemblance
+    
+    # x = c(mean=100, sd=10); fixed.parameters=NULL; n=10; D="norm**"; meanobs=100; medianobs=100; minobs=90; maxobs=110; quantilesobs=c(Q0.95=106); rep=10000      
+    
+    
     # par <- c(mean=50, sd=3)
     # n <- 4; minobs <- 43; maxobs <- 57
     # print(fixed.parameters)
@@ -447,7 +459,6 @@ from_min_max <- function(n = stop("n must be known.")                           
     #   meanobs <- (minobs + maxobs) / 2
     # }
     
-    
     D_ec <- D
     if (D_ec == "norm**") D <- "norm"
     if (D_ec == "norm*") D <- "norm"
@@ -457,8 +468,9 @@ from_min_max <- function(n = stop("n must be known.")                           
     Lmin <- Lmax <- NULL
     kkk <- NULL
     
+    # Si norm** et lnorm**, je calcule Lmin et Lmax sur l'approximation
+    
     if (D_ec == "norm**") {
-      
       # x <- c(mean=50, sd=2)
       # hist(rnorm(1000, mean=x["mean"], sd=x["sd"]))
       # n <- 10
@@ -466,18 +478,17 @@ from_min_max <- function(n = stop("n must be known.")                           
       # maxobs <- 56
       # D <- "norm"; rep <- 10000
       
-      
       mean <- - x["mean"]
       sd <- x["sd"]
       scale <- sd/sqrt(2*log(n))
       location <- mean + sd*sqrt(2*log(n)) - ((log(log(n))+log(4*pi))*sd/(2*sqrt(2*log(n))))
-      Lmin <- - getFromNamespace(".dGEV", ns="HelpersMG")(x=- minobs, location=location, scale=scale, shape=0, log=TRUE, sum=TRUE)
+      Lmin <- - getFromNamespace(".dGEV", ns="HelpersMG")(x = - minobs, location= location, scale= scale, shape=0, log=TRUE, sum=TRUE)
       
       mean <- x["mean"]
-      sd <- x["sd"]
-      scale <- sd/sqrt(2*log(n))
+      # sd <- x["sd"] # J'ai le même SD
+      # scale <- sd/sqrt(2*log(n)) # J'ai le même scale
       location <- mean + sd*sqrt(2*log(n)) - ((log(log(n))+log(4*pi))*sd/(2*sqrt(2*log(n))))
-      Lmax <- - getFromNamespace(".dGEV", ns="HelpersMG")(x=maxobs, location=location, scale=scale, shape=0, log=TRUE, sum=TRUE)
+      Lmax <- - getFromNamespace(".dGEV", ns="HelpersMG")(x = maxobs, location= location, scale= scale, shape=0, log=TRUE, sum=TRUE)
     }
     
     if (D_ec == "lnorm**") {
@@ -489,16 +500,13 @@ from_min_max <- function(n = stop("n must be known.")                           
       # maxobs <- 54
       # D_ec <- "lnorm**"; D <- "lnorm"; rep <- 100000
       
-      
-      
       mean <- x["meanlog"]
       sd <- x["sdlog"]
       location <- mean - sd * sqrt(2*log(n))
       scale <- sd/sqrt(2*log(n))
-
+      
       Lmin <- - getFromNamespace(".dGEV", ns="HelpersMG")(x= minobs, location=location, scale=scale, shape=0, log=TRUE, sum=TRUE)
-
-
+      
       mean <- x["meanlog"]
       sd <- x["sdlog"]
       location <- mean + sd * sqrt(2*log(n))
@@ -516,6 +524,9 @@ from_min_max <- function(n = stop("n must be known.")                           
       kkk <- apply(kk, MARGIN = 2, FUN=function(x) return(c(sd(x), median(x)))) # mean(x), 
       # colnames(kkk) <- c("min", "max")
       # rownames(kkk) <- c("sd", "median")
+      
+      # Je dois aussi sortir les quantiles si nécessaire
+      
       
       # v <- kkk[2, 1]^2
       s <- kkk[1, 1] # sd de min
@@ -646,33 +657,131 @@ from_min_max <- function(n = stop("n must be known.")                           
     
     Lmean <- NULL
     Lmedian <- NULL
+    Lquantiles <- NULL
+    
     if (D_ec == "norm**") {
+      # Je suis avec norm** 
+      
       mean <- x["mean"]
       sd <- x["sd"]
+      
       if (!is.null(meanobs)) {
-        Lmean <- dnorm(x=meanobs, mean = mean, sd = sd, log = TRUE)
+        Lmean <- dnorm(x=meanobs, mean = mean, sd = sd/sqrt(n), log = TRUE)
       } else {
         Lmean <- 0
       }
+      
+      # Si median et norm
       if (!is.null(medianobs)) {
-        Lmedian <- dnorm(x=medianobs, mean = mean, sd = sd, log = TRUE)
+        
+        likelihood_median_exact <- function(M, n, mean, sd) {
+          if (n %% 2 == 0) {
+            # --- Approximate likelihood (normal approximation) ---
+            sd_median <- sd * sqrt(pi / (2 * n))
+            logL <- dnorm(M, mean, sd_median, log = TRUE)
+          } else {
+            # --- Exact likelihood for odd n ---
+            k <- (n - 1) / 2
+            logf <- dnorm(M, mean, sd, log=TRUE)
+            F <- pnorm(M, mean, sd)
+            logcoef <- log(factorial(n)) - 2*log(factorial(k))
+            logL <- logcoef + k*log(F) + k*log(1 - F) + logf
+          }
+          return(logL)
+        }
+        
+        Lmedian <- likelihood_median_exact(M=medianobs, n, mean, sd)
       } else {
         Lmedian <- 0
       }
+      
+      if (!is.null(quantilesobs)) {
+        
+        likelihood_quantile <- function(Q, n, p = 0.5, mean = 0, sd = 1) {
+          # choose k using the "floor((n+1)p)" convention
+          k <- floor((n + 1) * p)
+          k <- ifelse(k>1, 1, k)
+          k <- ifelse(k>n, n, k)
+          
+          # Normal pdf and cdf at M
+          logfM <- dnorm(Q, mean = mean, sd = sd, log = TRUE)
+          FM <- pnorm(Q, mean = mean, sd = sd)
+          
+          # Exact PDF of the k-th order statistic
+          logcoef <- lchoose(n - 1, k - 1)
+          logL_exact <- logcoef +  (k - 1)*log(FM) + (n - k)*log((1 - FM)) + logfM
+          
+          # Asymptotic approx (large n): variance = p(1-p) / (n * f(q_p)^2)
+          if (FALSE) {
+            zp <- qnorm(p)
+            q_p <- mean + sd * zp
+            f_qp <- dnorm(q_p, mean = mean, sd = sd)
+            var_qp <- (p * (1 - p)) / (n * (f_qp^2))
+            sd_qp <- sqrt(var_qp)
+            L_approx <- dnorm(Q, mean = q_p, sd = sd_qp)
+          }
+          return(logL_exact)
+        }
+        
+        Lquantiles <- 0
+        vp <- as.numeric(substr(names(quantilesobs), 2, nchar(names(quantilesobs))))
+        vQ <- unname(quantilesobs)
+        Lquantiles <- Lquantiles + sum(likelihood_quantile(Q=vQ, n, p = vp, mean = mean, sd = sd))
+        
+        
+      } else {
+        Lquantiles <- 0
+      }
+      
     }
+    
     if (D_ec == "lnorm**") {
+      
       meanlog <- x["meanlog"]
       sdlog <- x["sdlog"]
+      
       if (!is.null(meanobs)) {
-        Lmean <- dnorm(x=meanobs, mean = exp(meanlog+sdlog^2/2), sd = sqrt((exp(sdlog^2)-1)*exp(2*meanlog+sdlog^2)), log = TRUE)
+        Lmean <- dnorm(x=meanobs, mean = exp(meanlog+sdlog^2/2), sd = sqrt((exp(sdlog^2)-1)*exp(2*meanlog+sdlog^2)) / sqrt(n), log = TRUE)
       } else {
         Lmean <- 0
       }
+      
+      if (!is.null(medianobs) | !is.null(quantilesobs)) {
+        lognormal_quantile_likelihood <- function(Q, n, p=0.5, meanlog, sdlog) {
+          # Determine the order statistic index for the p-th quantile
+          r <- ceiling(p * n)   # or floor(p * n) depending on convention
+          
+          # PDF and CDF of lognormal
+          f_Q <- dlnorm(Q, meanlog = meanlog, sdlog = sdlog)
+          F_Q <- plnorm(Q, meanlog = meanlog, sdlog = sdlog)
+          # Numerical safety: avoid log(0)
+          F_Q <- pmin(pmax(F_Q, 1e-12), 1 - 1e-12)
+          # Order statistic likelihood
+          logL <- lchoose(n - 1, r - 1) +
+            log(f_Q) +
+            (r - 1) * log(F_Q) +
+            (n - r) * log(1 - F_Q)
+          
+          return(logL)
+        }
+      }
+      
       if (!is.null(medianobs)) {
-        Lmedian <- dnorm(x=medianobs, mean = exp(meanlog), sd = sqrt((exp(sdlog^2)-1)*exp(2*meanlog+sdlog^2)), log = TRUE)
+        Lmedian <- lognormal_quantile_likelihood(Q=medianobs, n, p=0.5, meanlog, sdlog)
       } else {
         Lmedian <- 0
       }
+      
+      if (!is.null(quantilesobs)) {
+        Lquantiles <- 0
+        vp <- as.numeric(substr(names(quantilesobs), 2, nchar(names(quantilesobs))))
+        vQ <- unname(quantilesobs)
+        Lquantiles <- Lquantiles + lognormal_quantile_likelihood(Q=vQ, n, p = vp, meanlog, sdlog)
+
+      } else {
+        Lquantiles <- 0
+      }
+      
     }
     
     if (is.null(Lmean) | is.null(Lmedian)) {
@@ -684,18 +793,19 @@ from_min_max <- function(n = stop("n must be known.")                           
       }
       
       if (!is.null(meanobs)) {
-        Lmean <- dnorm(x=meanobs, mean = kkk[1, 2], sd = kkk[2, 2], log = TRUE)
+        Lmean <- dnorm(x=meanobs, mean = kkk[1, 2], sd = kkk[2, 2]/ sqrt(n), log = TRUE)
       } else {
         Lmean <- 0
       }
       if (!is.null(medianobs)) {
-        Lmedian <- dnorm(x=medianobs, mean = kkk[1, 3], sd = kkk[2, 3], log = TRUE)
+        Lmedian <- dnorm(x=medianobs, mean = kkk[1, 3], sd = kkk[2, 3]/ sqrt(n), log = TRUE)
       } else {
         Lmedian <- 0
       }
     }
     
-    L <- - ( Lmin + Lmax + Lmean + Lmedian)
+    L <- - ( Lmin + Lmax + Lmean + Lmedian + Lquantiles)
+    
     if (is.infinite(L)) {
       stop("Problem during likelihood estimation")
       print(d(x))
@@ -714,10 +824,10 @@ from_min_max <- function(n = stop("n must be known.")                           
   
   if (!silent) cat(paste0("The data are supposed to be generated from a ", gsub("\\*", "", D), " distribution.\n"))
   
-  if (D == "lnorm**") {
-    warning("The lnorm** model is not available; it has been changed to lnorm*.")
-    D <- "lnorm*"
-  }
+  # if (D == "lnorm**") {
+  #   warning("The lnorm** model is not available; it has been changed to lnorm*.")
+  #   D <- "lnorm*"
+  # }
   
   if (is.null(priors) | is.character(priors)) {
     if ((D == "norm") | (D == "norm*") | (D == "norm**")) {
@@ -808,6 +918,7 @@ from_min_max <- function(n = stop("n must be known.")                           
   #                  maxobs=observed.Maximum              , 
   #                  medianobs=observed.Median            , 
   #                  meanobs=observed.Mean                , 
+  #                  quantiles=observed.Quantiles         ,
   #                  rep=replicates                       , 
   #                  D=D                                  )
   
@@ -819,6 +930,7 @@ from_min_max <- function(n = stop("n must be known.")                           
                         medianobs=observed.Median                                 ,
                         minobs=observed.Minimum                                   , 
                         maxobs=observed.Maximum                                   ,
+                        quantiles=observed.Quantiles                              ,
                         D=D                                                       ,
                         n.iter=n.iter                                             , 
                         n.chains = n.chains                                       , 
@@ -834,8 +946,7 @@ from_min_max <- function(n = stop("n must be known.")                           
   
 }
 
-.dGEV <- function (x, par = NULL, location = 0, scale = 1, shape = 0, log=FALSE, sum=FALSE, silent=TRUE) 
-{
+.dGEV <- function (x, par = NULL, location = 0, scale = 1, shape = 0, log=FALSE, sum=FALSE, silent=TRUE){
   if (!is.null(par)) {
     if (!is.na(par["location"])) location <- par["location"]
     if (!is.na(par["scale"])) scale <- par["scale"]

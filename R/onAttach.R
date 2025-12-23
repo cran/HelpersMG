@@ -3,7 +3,7 @@
   
   packageStartupMessage(paste("Welcome in package", pkgname, "version", actual))
   
-  # conn <- url("https://hebergement.universite-paris-saclay.fr/marcgirondot/CRAN/HelpersMG/version.txt")
+  # conn <- url("http://marc.girondot.free.fr/CRAN/HelpersMG/version.txt")
   # 
   # version_get <- try(suppressWarnings(
   #   readLines(con=conn)), silent = TRUE
@@ -11,7 +11,7 @@
   # close(con=conn)
   # if (!(is.null(version_get)) & (!inherits(version_get, "try-error"))) {
   #   if (package_version(actual, strict = TRUE) < package_version(version_get, strict = TRUE)) {
-  #     packageStartupMessage('An update is available; use:\ninstall.packages("https://hebergement.universite-paris-saclay.fr/marcgirondot/CRAN/HelpersMG.tar.gz", repos=NULL, type="source")')
+  #     packageStartupMessage('An update is available; use:\ninstall.packages("http://marc.girondot.free.fr/CRAN/HelpersMG.tar.gz", repos=NULL, type="source")')
   #   } else {
   #     packageStartupMessage("No update is available")
   #   }

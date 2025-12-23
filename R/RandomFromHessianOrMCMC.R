@@ -5,8 +5,8 @@
 #' @param Hessian An Hessian matrix
 #' @param se A named vector with SE of parameters
 #' @param mcmc A result from MHalgogen()
-#' @param chain MCMC chain to be used
-#' @param regularThin If TRUE, use regular thin for MCMC
+#' @param chain MCMC chain to be used or "all"
+#' @param regularThin If TRUE, use regular thin for MCMC or use a number
 #' @param MinMax A data.frame with at least two columns: Min and Max and rownames being the variable names
 #' @param fitted.parameters The fitted parameters
 #' @param fixed.parameters The fixed parameters
@@ -18,7 +18,14 @@
 #' @param ParTofn Name of the parameter to send random values to fn
 #' @param ... Parameters send to fn function
 #' @description If it is very long, use silent parameter to check if something goes wrong.\cr
-#' If replicates is NULL or is 0, or if method is NULL, parameters are just copied into data.frame.
+#' If replicates is NULL or is 0, or if method is NULL, parameters are just copied into data.frame.\cr
+#' If method is NULL, replicate.CI is set to 0.\cr
+#' If method is hessian, it will generate replicate.CI random numbers using 
+#' Hessian matrix with covariance.\cr
+#' If method is se, it will generate replicate.CI random numbers using 
+#' SE values then without covariance.\cr
+#' If method is mcmc, it will generate replicate.CI random numbers using 
+#' random samples of the MCMC or the regularThin number if it is a number.\cr
 #' @examples
 #' \dontrun{
 #' library(HelpersMG)
@@ -55,6 +62,10 @@
 #' hist(df[, 2], main="sd")
 #' plot(df[, 1], df[, 2], xlab="mean", ylab="sd", las=1, bty="n")
 #' 
+#' # Return the two first elements of the MCMC
+#' df <- RandomFromHessianOrMCMC(mcmc=mcmc_run, fitted.parameters=NULL, 
+#'                method="MCMC", replicates = 2, regularThin = c(1, 2))$random
+#' 
 #' # Using a function fn
 #' fitnorm <- function(par, data, x) { 
 #'   y=par["a"]*(x)+par["b"]
@@ -78,7 +89,7 @@
 RandomFromHessianOrMCMC <- function(se=NULL                          , 
                                     Hessian=NULL                     , 
                                     mcmc=NULL                        , 
-                                    chain=1                          , 
+                                    chain="all"                      , 
                                     regularThin=TRUE                 , 
                                     MinMax=NULL                      , 
                                     fitted.parameters=NULL           , 
@@ -110,7 +121,7 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
   
   if (method == "null" | replicates == 0)  {
     if (!is.null(fitted.parameters)) {
-      # Je retourne un dataframe avec simplement des réplicats
+      # Je retourne un dataframe avec simplement des recopies
       df_random <- as.data.frame(matrix(data = rep(fitted.parameters, ifelse(replicates==0, 1, replicates)), 
                                         nrow = ifelse(replicates==0, 1, replicates), 
                                         byrow = TRUE))
@@ -122,17 +133,37 @@ RandomFromHessianOrMCMC <- function(se=NULL                          ,
   if (!is.null(se) & (method == "se") & (is.null(fitted.parameters))) stop("Fitted.parameters or se cannot be NULL with se method.")
   
   if (method == "mcmc") {
-    if (regularThin) {
-      if (replicates <= nrow(mcmc$resultMCMC[[chain]])) {
-        df_random <- mcmc$resultMCMC[[chain]][seq(from=1, to=nrow(mcmc$resultMCMC[[chain]]), length.out=replicates), , drop=FALSE]
+    
+    if (chain[1] == "all") chain <- seq_along(mcmc$resultMCMC)
+    df_random <- NULL
+    if (length(chain) >= 1) {
+      for (i in chain) {
+        df_random <- rbind(df_random, mcmc$resultMCMC[[i]])
+      }
+    } else {
+      stop("No data have been selected.")
+    }
+    
+    if (isTRUE(regularThin)) {
+      if (replicates <= nrow(df_random)) {
+        df_random <- df_random[seq(from=1, to=nrow(df_random), length.out=replicates), , drop=FALSE]
       } else {
         stop("When regularThin is TRUE, replicates must be lower or equal to number of MCMC iterations.")
       }
     } else {
-      if (replicates < nrow(mcmc$resultMCMC[[chain]])) {
-        df_random <- mcmc$resultMCMC[[chain]][sample(x=1:nrow(mcmc$resultMCMC[[chain]]), size=replicates), , drop=FALSE]
+      if (isFALSE(regularThin)) {
+      if (replicates < nrow(df_random)) {
+        df_random <- df_random[sample(x=1:nrow(df_random), size=replicates), , drop=FALSE]
       } else {
-        df_random <- mcmc$resultMCMC[[chain]][sample(x=1:nrow(mcmc$resultMCMC[[chain]]), size=replicates, replace = TRUE), , drop=FALSE]
+        df_random <- df_random[sample(x=1:nrow(df_random), size=replicates, replace = TRUE), , drop=FALSE]
+      }
+      } else {
+        if (is.numeric(regularThin)) {
+          regularThin <- rep(regularThin, replicates)[1:replicates]
+          df_random <- df_random[regularThin, , drop=FALSE]
+        } else {
+          stop("I don't understand the format of regularThin.")
+        }
       }
     }
   }

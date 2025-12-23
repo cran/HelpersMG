@@ -8,7 +8,7 @@ RandomFromHessianOrMCMC(
   se = NULL,
   Hessian = NULL,
   mcmc = NULL,
-  chain = 1,
+  chain = "all",
   regularThin = TRUE,
   MinMax = NULL,
   fitted.parameters = NULL,
@@ -29,9 +29,9 @@ RandomFromHessianOrMCMC(
 
 \item{mcmc}{A result from MHalgogen()}
 
-\item{chain}{MCMC chain to be used}
+\item{chain}{MCMC chain to be used or "all"}
 
-\item{regularThin}{If TRUE, use regular thin for MCMC}
+\item{regularThin}{If TRUE, use regular thin for MCMC or use a number}
 
 \item{MinMax}{A data.frame with at least two columns: Min and Max and rownames being the variable names}
 
@@ -58,7 +58,14 @@ Returns a list with three data.frames named random, fn, and quantiles
 }
 \description{
 If it is very long, use silent parameter to check if something goes wrong.\cr
-If replicates is NULL or is 0, or if method is NULL, parameters are just copied into data.frame.
+If replicates is NULL or is 0, or if method is NULL, parameters are just copied into data.frame.\cr
+If method is NULL, replicate.CI is set to 0.\cr
+If method is hessian, it will generate replicate.CI random numbers using
+Hessian matrix with covariance.\cr
+If method is se, it will generate replicate.CI random numbers using
+SE values then without covariance.\cr
+If method is mcmc, it will generate replicate.CI random numbers using
+random samples of the MCMC or the regularThin number if it is a number.\cr
 }
 \details{
 RandomFromHessianOrMCMC returns random numbers based on Hessian matrix or MCMC
@@ -98,6 +105,10 @@ df <- RandomFromHessianOrMCMC(mcmc=mcmc_run, fitted.parameters=NULL,
 hist(df[, 1], main="mean")
 hist(df[, 2], main="sd")
 plot(df[, 1], df[, 2], xlab="mean", ylab="sd", las=1, bty="n")
+
+# Return the two first elements of the MCMC
+df <- RandomFromHessianOrMCMC(mcmc=mcmc_run, fitted.parameters=NULL, 
+               method="MCMC", replicates = 2, regularThin = c(1, 2))$random
 
 # Using a function fn
 fitnorm <- function(par, data, x) { 

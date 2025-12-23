@@ -21,8 +21,8 @@ MovingWindow(x, window, hole = "begin", fill = TRUE, FUN = mean)
 A vector
 }
 \description{
-Return a moving average of a vector./cr
-hole parameter can be none, bothL, bothR, both, begin, end.
+Return a moving average of a vector.\cr
+hole parameter can be "none", "bothL", "bothR", "both", "begin", or "end".
 }
 \details{
 MovingWindow returns a moving average of a vector.

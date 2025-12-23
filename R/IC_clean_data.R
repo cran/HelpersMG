@@ -47,14 +47,15 @@
 #' @export
 
 
-IC_clean_data <- function(data=stop("A dataframe object is required"), 
-                       use = c("pairwise.complete.obs", "everything", 
-                                     "all.obs", "complete.obs", "na.or.complete"), 
-                       method=c("pearson", "kendall", "spearman"), 
-                       variable.retain=NULL,
-                       test.partial.correlation=TRUE, 
-                       progress=TRUE, debug=FALSE) {
-  
+IC_clean_data <- function(data=stop("A dataframe object is required")               , 
+                          use = c("pairwise.complete.obs", "everything", 
+                                        "all.obs", "complete.obs", "na.or.complete"), 
+                          method=c("pearson", "kendall", "spearman")                , 
+                          variable.retain=NULL                                      ,
+                          test.partial.correlation=TRUE                             , 
+                          progress=TRUE                                             , 
+                          debug=FALSE                                               ) {
+     
   # data=NULL
   # use="pairwise.complete.obs"
   # method="pearson"

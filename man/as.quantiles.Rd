@@ -6,7 +6,7 @@
 \usage{
 as.quantiles(
   x,
-  chain = 1,
+  chain = "all",
   fun = function(...) return(as.numeric(list(...))),
   probs = c(0.025, 0.975),
   xlim = NULL,
@@ -17,7 +17,7 @@ as.quantiles(
 \arguments{
 \item{x}{A mcmcComposite obtained as a result of \code{MHalgoGen()} function}
 
-\item{chain}{The number of the chain in which to get parameters}
+\item{chain}{The number of the chain in which to get parameters or "all"}
 
 \item{fun}{The function to apply the parameters}
 
